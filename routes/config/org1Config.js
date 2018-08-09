@@ -1,6 +1,6 @@
-var ip = require('./ipConfig');
-var certDir = '/root/cics-blockchain/sample-network/';
-var config = {
+let ip = require('./ipConfig');
+let certDir = '/root/cics-blockchain/sample-network/';
+let config = {
   user_id: 'Admin@org1.example.com',
   msp_id: 'Org1MSP',
   channel_id: 'mychannel',

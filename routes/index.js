@@ -1,10 +1,9 @@
 let express = require('express');
 let router = express.Router();
 let query = require('./query');
-var log4js = require('log4js');
+let invoke = require('./invoke');
+let log4js = require('log4js');
 let logger = log4js.getLogger('cicsBlockchain');
-
-require('./config/config.js');
 
 function getErrorMessage(field) {
   return {
@@ -13,47 +12,34 @@ function getErrorMessage(field) {
   };
 }
 
+testQuery = async function () {
+  logger.debug('==================== QUERY BY CHAINCODE ==================');
+  let request = {
+    chaincodeId: 'mycc',
+    fcn: 'query',
+    args: ['testAccount']
+  };
+  return await query.queryChaincode(request);
+};
+
+testInvoke = async function () {
+  logger.debug('==================== INVOKE ON CHAINCODE ==================');
+  let request = {
+    chaincodeId: "mycc",
+    fcn: "invoke",
+    args: ["testAccount", "1200", "sdk"],
+    chainId: "mychannel"
+  };
+  return await invoke.invokeChaincode(request);
+};
+
 /* GET home page. */
-router.get('/', async function(req, res) {
-    logger.debug('==================== QUERY BY CHAINCODE ==================');
-    let channelName = 'mychannel';
-    let chaincodeName = 'mycc';
-    let args = '["testAccount"]';
-    let fcn = 'query';
-    let peer = 'peer0.org1.example.com';
-
-    logger.debug('channelName : ' + channelName);
-    logger.debug('chaincodeName : ' + chaincodeName);
-    logger.debug('fcn : ' + fcn);
-    logger.debug('args : ' + args);
-
-    if (!chaincodeName) {
-      res.json(getErrorMessage('\'chaincodeName\''));
-      return;
-    }
-    if (!channelName) {
-      res.json(getErrorMessage('\'channelName\''));
-      return;
-    }
-    if (!fcn) {
-      res.json(getErrorMessage('\'fcn\''));
-      return;
-    }
-    if (!args) {
-      res.json(getErrorMessage('\'args\''));
-      return;
-    }
-    args = args.replace(/'/g, '"');
-    args = JSON.parse(args);
-    logger.debug(args);
-
-    let request = {
-      chaincodeId: 'mycc',
-      fcn: 'query',
-      args: ['testAccount']
-    };
-    let message = await query.queryChaincode(request);
-    res.send(message);
+router.get('/', async function (req, res) {
+  let invoke = await testInvoke();
+  console.log(invoke);
+  let query = await testQuery();
+  console.log(query);
+  res.send("200");
 });
 
 router.post('/', function (req, res) {
