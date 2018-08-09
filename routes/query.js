@@ -5,6 +5,7 @@ let logger = log4js.getLogger('Query');
 logger.level = 'DEBUG';
 
 let options = require('./config/org1Config');
+let util = require('util');
 let hfc = require('fabric-client');
 let path = require('path');
 let fs = require('fs');
@@ -49,18 +50,16 @@ let queryChaincode = async function (request) {
     peer.setName('peer0');
     channel.addPeer(peer);
     console.log("Make query");
-    let query_responses = await channel.queryByChaincode(request);
-    console.log("returned from query");
-    if (!query_responses.length) {
-      console.log("No payloads were returned from query");
+    let response_payloads = await channel.queryByChaincode(request);
+    if (response_payloads) {
+      let queryResult = response_payloads[0].toString();
+      logger.info('Successfully queried the chaincode \'%s\' to the channel \'%s\', query result: %s',
+        options.chaincode_id, options.channel_id, queryResult);
+      return queryResult;
     } else {
-      console.log("Query result count = ", query_responses.length)
+      logger.error('response_payloads is null');
+      return 'response_payloads is null';
     }
-    if (query_responses[0] instanceof Error) {
-      console.error("error from query = ", query_responses[0]);
-    }
-    console.log("Response from blockchain is ", query_responses[0].toString());//打印返回的结果
-    return query_responses[0].toString();
   } catch (error) {
     logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
     return error.toString();

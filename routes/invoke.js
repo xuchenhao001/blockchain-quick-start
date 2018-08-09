@@ -179,9 +179,8 @@ let invokeChaincode = async function (request) {
   }
 
   if (!error_message) {
-    logger.info('Successfully invoked the chaincode %s to the channel \'%s\' for transaction ID: %s',
-      options.msp_id, options.channel_id, tx_id_string);
-
+    logger.info('Successfully invoked the chaincode \'%s\' to the channel \'%s\' for transaction ID: %s',
+      options.chaincode_id, options.channel_id, tx_id_string);
     return tx_id_string;
   } else {
     let message = util.format('Failed to invoke chaincode. cause:%s', error_message);

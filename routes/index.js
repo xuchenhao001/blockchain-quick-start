@@ -35,8 +35,8 @@ testInvoke = async function () {
 
 /* GET home page. */
 router.get('/', async function (req, res) {
-  let invoke = await testInvoke();
-  console.log(invoke);
+  // let invoke = await testInvoke();
+  // console.log(invoke);
   let query = await testQuery();
   console.log(query);
   res.send("200");
