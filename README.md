@@ -67,7 +67,7 @@ POST  `http://<your-host-ip>:3000/query`
 
 ```json
 {
-	"args": ["testAccount"]
+    "args": ["testAccount"]
 }
 ```
 
@@ -76,7 +76,7 @@ Successful reply:
 ```json
 {
     "status": "200",
-	"result": 120
+    "result": 120
 }
 ```
 
