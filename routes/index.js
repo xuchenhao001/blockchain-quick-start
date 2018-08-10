@@ -5,29 +5,23 @@ let invoke = require('./invoke');
 let log4js = require('log4js');
 let logger = log4js.getLogger('cicsBlockchain');
 
-function getErrorMessage(field) {
-  return {
-    success: false,
-    message: field + ' field is missing or Invalid in the request'
-  };
-}
 
-testQuery = async function () {
+chaincodeQuery = async function (args) {
   logger.debug('==================== QUERY BY CHAINCODE ==================');
   let request = {
     chaincodeId: 'mycc',
     fcn: 'query',
-    args: ['testAccount']
+    args: args
   };
   return await query.queryChaincode(request);
 };
 
-testInvoke = async function () {
+chaincodeInvoke = async function (args) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
   let request = {
     chaincodeId: "mycc",
     fcn: "invoke",
-    args: ["testAccount", "1200", "sdk"],
+    args: args,
     chainId: "mychannel"
   };
   return await invoke.invokeChaincode(request);
@@ -35,15 +29,45 @@ testInvoke = async function () {
 
 /* GET home page. */
 router.get('/', async function (req, res) {
-  // let invoke = await testInvoke();
-  // console.log(invoke);
-  let query = await testQuery();
-  console.log(query);
   res.send("200");
 });
 
-router.post('/', function (req, res) {
-  res.send("200")
+router.post('/query', async function (req, res) {
+  let queryArgs = req.body.args;
+  if (queryArgs) {
+    logger.debug("Get query args: \"" + queryArgs + "\"");
+    let queryResut = await chaincodeQuery(queryArgs);
+    let resJson;
+    if (parseFloat(queryResut).toString() === "NaN") {
+      logger.error("Chaincode query failed: " + queryResut);
+      resJson = {"status": "500", "result": queryResut};
+    } else {
+      resJson = {"status": "200", "result": parseFloat(queryResut)};
+    }
+    res.send(resJson);
+  } else {
+    logger.error("Request Error: " + req.body);
+    res.send("400");
+  }
+});
+
+router.post('/invoke', async function (req, res) {
+  let invokeArgs = req.body.args;
+  if (invokeArgs) {
+    logger.debug("Get query args: \"" + invokeArgs + "\"");
+    let invokeResut = await chaincodeInvoke(invokeArgs);
+    console.log(invokeResut);
+    let resJson;
+    if (invokeResut[0]==='yes') {
+      resJson = {"status": "200", "result": invokeResut[1]};
+    } else {
+      resJson = {"status": "500", "result": invokeResut[1]};
+    }
+    res.send(resJson);
+  } else {
+    logger.error("Request Error: " + req.body);
+    res.send("400");
+  }
 });
 
 module.exports = router;

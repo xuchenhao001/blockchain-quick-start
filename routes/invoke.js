@@ -88,7 +88,8 @@ let invokeChaincode = async function (request) {
         one_good = true;
         logger.info('invoke chaincode proposal was good');
       } else {
-        logger.error('invoke chaincode proposal was bad');
+        error_message = 'invoke chaincode proposal was bad';
+        logger.error(error_message);
       }
       all_good = all_good && one_good;
     }
@@ -117,7 +118,8 @@ let invokeChaincode = async function (request) {
               clearTimeout(event_timeout);
 
               if (code !== 'VALID') {
-                logger.error('The invoke chaincode transaction was invalid, code:%s', code);
+                error_message = util.format('The invoke chaincode transaction was invalid, code:%s', code);
+                logger.error(error_message);
                 reject(new Error(message));
               } else {
                 let message = 'The invoke chaincode transaction was valid.';
@@ -155,7 +157,8 @@ let invokeChaincode = async function (request) {
       if (response.status === 'SUCCESS') {
         logger.info('Successfully sent transaction to the orderer.');
       } else {
-        logger.debug('Failed to order the transaction. Error code: %s', response.status);
+        error_message = util.format('Failed to order the transaction. Error code: %s', response.status);
+        logger.debug(error_message);
       }
 
       // now see what each of the event hubs reported
@@ -174,18 +177,18 @@ let invokeChaincode = async function (request) {
       logger.debug('Failed to send Proposal and receive all good ProposalResponse');
     }
   } catch (error) {
-    logger.error('Failed to invoke due to error: ' + error.stack ? error.stack : error);
-    error_message = error.toString();
+    error_message = util.format('Failed to invoke due to error: ' + error.stack ? error.stack : error);
+    logger.error(error_message);
   }
 
   if (!error_message) {
     logger.info('Successfully invoked the chaincode \'%s\' to the channel \'%s\' for transaction ID: %s',
       options.chaincode_id, options.channel_id, tx_id_string);
-    return tx_id_string;
+    return ['yes', tx_id_string];
   } else {
     let message = util.format('Failed to invoke chaincode. cause:%s', error_message);
     logger.error(message);
-    throw new Error(message);
+    return ['no', message];
   }
 };
 
