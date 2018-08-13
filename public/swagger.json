@@ -132,7 +132,7 @@
               "$ref": "#/definitions/QueryBalanceResponseS"
             }
           },
-          "400": {
+          "500": {
             "description": "Failed",
             "schema": {
               "$ref": "#/definitions/QueryBalanceResponseF"
