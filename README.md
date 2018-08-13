@@ -59,3 +59,63 @@ Make sure you have sucessfully installed Node.js dependences, and run this in pr
 npm start
 ```
 
+## REST API
+
+### Query
+
+POST  `http://<your-host-ip>:3000/query`
+
+```json
+{
+    "args": ["testAccount"]
+}
+```
+
+Successful reply:
+
+```json
+{
+    "status": "200",
+    "result": 120
+}
+```
+
+Failed reply:
+
+```json
+{
+    "status": "500",
+    "result": "Error: Incorrect number of arguments. Expecting account of the person to query"
+}
+```
+
+### Invoke
+
+POST `http://<your-host-ip>:3000/invoke`
+
+```json
+{
+    "args": ["testAccount", "414", "details"]
+}
+```
+
+Successful reply:
+
+```json
+{
+    "status": "200",
+    "result": "f9294e6a5783b72060ab54074db024aacd14fe6eab702f1021eedc2fb59851c2"
+}
+```
+
+Failed reply:
+
+```json
+{
+    "status": "500",
+    "result": "Failed to invoke chaincode. cause:invoke chaincode proposal was bad"
+}
+```
+
+
+
