@@ -91,7 +91,7 @@
               "$ref": "#/definitions/AddPointsResponseS"
             }
           },
-          "400": {
+          "500": {
             "description": "Failed",
             "schema": {
               "$ref": "#/definitions/AddPointsResponseF"
@@ -156,28 +156,12 @@
       }
     },
     "InitResponseS": {
-      "type": "object",
-      "required": [
-        "account"
-      ],
-      "properties": {
-        "account": {
-          "type": "string",
-          "example": "testAccount"
-        }
-      }
+      "type": "string",
+      "example": "9151d3f48f8793ebdb082378e68b0fb7bf0e0f7ed1a93be361e7ee67a2b336e6"
     },
     "InitResponseF": {
-      "type": "object",
-      "required": [
-        "account"
-      ],
-      "properties": {
-        "account": {
-          "type": "string",
-          "example": "testAccount"
-        }
-      }
+      "type": "string",
+      "example": "Request Error, parameter \"account\" doesn't exist"
     },
     "AddPoints": {
       "type": "object",
@@ -191,47 +175,18 @@
           "example": "testAccount"
         },
         "points": {
-          "type": "integer",
-          "format": "int32",
-          "example": 5
+          "type": "string",
+          "example": "5"
         }
       }
     },
     "AddPointsResponseS": {
-      "type": "object",
-      "required": [
-        "account",
-        "points"
-      ],
-      "properties": {
-        "account": {
-          "type": "string",
-          "example": "testAccount"
-        },
-        "points": {
-          "type": "integer",
-          "format": "int32",
-          "example": 5
-        }
-      }
+      "type": "string",
+      "example": "b284d2c9a4e724440af3111c773b0bf52f0fff79b1a1555dea5fee7f8695712d"
     },
     "AddPointsResponseF": {
-      "type": "object",
-      "required": [
-        "account",
-        "points"
-      ],
-      "properties": {
-        "account": {
-          "type": "string",
-          "example": "testAccount"
-        },
-        "points": {
-          "type": "integer",
-          "format": "int32",
-          "example": 5
-        }
-      }
+      "type": "string",
+      "example": "Failed to invoke chaincode. cause:invoke chaincode proposal was bad"
     },
     "QueryBalance": {
       "type": "object",
@@ -246,40 +201,12 @@
       }
     },
     "QueryBalanceResponseS": {
-      "type": "object",
-      "required": [
-        "account",
-        "points"
-      ],
-      "properties": {
-        "account": {
-          "type": "string",
-          "example": "testAccount"
-        },
-        "points": {
-          "type": "integer",
-          "format": "int32",
-          "example": 5
-        }
-      }
+      "type": "string",
+      "example": "5"
     },
     "QueryBalanceResponseF": {
-      "type": "object",
-      "required": [
-        "account",
-        "points"
-      ],
-      "properties": {
-        "account": {
-          "type": "string",
-          "example": "testAccount"
-        },
-        "points": {
-          "type": "integer",
-          "format": "int32",
-          "example": 5
-        }
-      }
+      "type": "string",
+      "example": "Error: Incorrect number of arguments. Expecting account of the person to query"
     }
   }
 }
