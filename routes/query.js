@@ -5,7 +5,6 @@ let logger = log4js.getLogger('Query');
 logger.level = 'DEBUG';
 
 let options = require('./config/org1Config');
-let util = require('util');
 let hfc = require('fabric-client');
 let path = require('path');
 let fs = require('fs');

@@ -3,7 +3,6 @@ package main
 
 import (
 	"fmt"
-	"encoding/json"
 	"strconv"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -13,85 +12,96 @@ import (
 type SimpleChaincode struct {
 }
 
-type DBValue struct {
-	Balance int
-	Details string
-}
-
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
-	var err error
-
-	account := "testAccount"
-	value := DBValue{Balance: 1000, Details: "test details"}
-	// Write the state to the ledger
-	valueMarshal, err := json.Marshal(value)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-	err = stub.PutState(account, valueMarshal)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-
-	jsonResp := "{\"Account\":\"" + account + "\"," +
-	    "\"Balance\":1000,\"Detail\":\"test details\"}"
-	fmt.Printf("Init Success: %s\n", jsonResp)
 	return shim.Success(nil)
 }
 
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	function, args := stub.GetFunctionAndParameters()
-	if function == "invoke" {
-		return t.invoke(stub, args)
-	} else if function == "query" {
-		return t.query(stub, args)
+	if function == "initAccount" {
+		return t.initAccount(stub, args)
+	} else if function == "addPoints" {
+		return t.addPoints(stub, args)
+	} else if function == "balanceQuery" {
+		return t.balanceQuery(stub, args)
 	}
 
 	return shim.Error("Invalid invoke function name. " + 
 		"Expecting \"invoke\" \"query\"")
 }
 
-// Create/Update an account
-// this function needs 3 parameters: account, balance, details.
-// "Args":["invoke","testAccount","1010","ICBC"]
-func (t *SimpleChaincode) invoke(stub shim.ChaincodeStubInterface, 
+// Init an account
+// this function needs 1 parameter: account
+// "Args":["initAccount","testAccount"]
+func (t *SimpleChaincode) initAccount(stub shim.ChaincodeStubInterface, 
 	args []string) pb.Response {
 	var err error
 
-	if len(args) != 3 {
+	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments: " + 
-			strconv.Itoa(len(args)) + "Expecting 3")
+			strconv.Itoa(len(args)) + "Expecting 1")
 	}
 
 	account := args[0]
-	balanceStr := args[1]
-	balance, err := strconv.Atoi(balanceStr)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-	details := args[2]
+	balanceStr := "0"
 
-	// Update the state to the ledger
-	value := DBValue{Balance: balance, Details: details}
-	valueMarshal, err := json.Marshal(value)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-	err = stub.PutState(account, valueMarshal)
+	err = stub.PutState(account, []byte(balanceStr))
 	if err != nil {
 		return shim.Error(err.Error())
 	}
 	jsonResp := "{\"Account\":\"" + account + "\"," +
-	    "\"Balance\":" + balanceStr + ",\"Detail\":\"" + details + "\"}"
-	fmt.Printf("Invoke Success: %s\n", jsonResp)
+	    "\"Balance\":" + balanceStr + "}"
+	fmt.Printf("Account init success: %s\n", jsonResp)
+	return shim.Success(nil)
+}
+
+// Update an account
+// this function needs 2 parameters: account, points.
+// "Args":["addPoints","testAccount","5"]
+func (t *SimpleChaincode) addPoints(stub shim.ChaincodeStubInterface, 
+	args []string) pb.Response {
+	var err error
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments: " + 
+			strconv.Itoa(len(args)) + "Expecting 2")
+	}
+
+	account := args[0]
+	points, err := strconv.Atoi(args[1])
+	if err != nil {
+		return shim.Error("Invalid points amount, expecting a integer value")
+	}
+
+	// Get the old balance
+	oldValueByte, err := stub.GetState(account)
+	if err != nil {
+		return shim.Error("Failed to get state")
+	}
+	if oldValueByte == nil {
+		return shim.Error("Entity not found")
+	}
+	oldValue, _ := strconv.Atoi(string(oldValueByte))
+	
+	// Perform the execution
+	newValue := oldValue + points
+	newValueStr := strconv.Itoa(newValue)
+
+	err = stub.PutState(account, []byte(newValueStr))
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	jsonResp := "{\"Account\":\"" + account + "\"," +
+	    "\"Balance\":" + newValueStr + "}"
+	fmt.Printf("Add points success: %s\n", jsonResp)
 	return shim.Success(nil)
 }
 
 
 // Check an account
 // this function needs 1 parameter: account
-// "Args":["query","testAccount"]
-func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, 
+// "Args":["balanceQuery","testAccount"]
+func (t *SimpleChaincode) balanceQuery(stub shim.ChaincodeStubInterface, 
 	args []string) pb.Response {
 	var err error
 
@@ -103,19 +113,21 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface,
 	account := args[0]
 
 	// Get the state from the ledger
-	valueByte, err := stub.GetState(account)
+	balanceByte, err := stub.GetState(account)
 	if err != nil {
 		jsonResp := "{\"Error\":\"Failed to get state for " + account + "\"}"
 		return shim.Error(jsonResp)
 	}
 
-	value := DBValue{}
-	err = json.Unmarshal(valueByte, &value)
+	if balanceByte == nil {
+		jsonResp := "{\"Error\":\"Nil amount for " + account + "\"}"
+		return shim.Error(jsonResp)
+	}
+
 	jsonResp := "{\"Account\":\"" + account + "\",\"Balance\":" + 
-		strconv.Itoa(value.Balance) + ",\"Detail\":\"" + 
-		value.Details + "\"}"
+		string(balanceByte) + "}"
 	fmt.Printf("Query Success: %s\n", jsonResp)
-	return shim.Success([]byte(strconv.Itoa(value.Balance)))
+	return shim.Success(balanceByte)
 }
 
 func main() {

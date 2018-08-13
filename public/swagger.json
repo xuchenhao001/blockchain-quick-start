@@ -1,0 +1,285 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Customer Workshop"
+  },
+  "tags": [
+    {
+      "name": "Invoke",
+      "description": "Invoke on blockchain network"
+    },
+    {
+      "name": "Query",
+      "description": "Query on blockchain network"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/invoke/init": {
+      "post": {
+        "tags": [
+          "Invoke"
+        ],
+        "summary": "init an account",
+        "description": "",
+        "operationId": "invokeInit",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "init an account with balance '0'",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Init"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/InitResponseS"
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/InitResponseF"
+            }
+          }
+        }
+      }
+    },
+    "/invoke/addPoints": {
+      "post": {
+        "tags": [
+          "Invoke"
+        ],
+        "summary": "add points",
+        "description": "",
+        "operationId": "addPoints",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "add points to an account",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddPoints"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AddPointsResponseS"
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/AddPointsResponseF"
+            }
+          }
+        }
+      }
+    },
+    "/query/balance": {
+      "post": {
+        "tags": [
+          "Query"
+        ],
+        "summary": "query balance",
+        "description": "",
+        "operationId": "queryBalance",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "query the balance of an account",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryBalance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/QueryBalanceResponseS"
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/QueryBalanceResponseF"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Init": {
+      "type": "object",
+      "required": [
+        "account"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        }
+      }
+    },
+    "InitResponseS": {
+      "type": "object",
+      "required": [
+        "account"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        }
+      }
+    },
+    "InitResponseF": {
+      "type": "object",
+      "required": [
+        "account"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        }
+      }
+    },
+    "AddPoints": {
+      "type": "object",
+      "required": [
+        "account",
+        "points"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        },
+        "points": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5
+        }
+      }
+    },
+    "AddPointsResponseS": {
+      "type": "object",
+      "required": [
+        "account",
+        "points"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        },
+        "points": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5
+        }
+      }
+    },
+    "AddPointsResponseF": {
+      "type": "object",
+      "required": [
+        "account",
+        "points"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        },
+        "points": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5
+        }
+      }
+    },
+    "QueryBalance": {
+      "type": "object",
+      "required": [
+        "account"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        }
+      }
+    },
+    "QueryBalanceResponseS": {
+      "type": "object",
+      "required": [
+        "account",
+        "points"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        },
+        "points": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5
+        }
+      }
+    },
+    "QueryBalanceResponseF": {
+      "type": "object",
+      "required": [
+        "account",
+        "points"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "testAccount"
+        },
+        "points": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5
+        }
+      }
+    }
+  }
+}

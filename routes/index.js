@@ -6,68 +6,104 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('cicsBlockchain');
 
 
-chaincodeQuery = async function (args) {
-  logger.debug('==================== QUERY BY CHAINCODE ==================');
-  let request = {
-    chaincodeId: 'mycc',
-    fcn: 'query',
-    args: args
-  };
-  return await query.queryChaincode(request);
-};
+/* GET home page. */
+router.get('/', express.static('public'));
 
-chaincodeInvoke = async function (args) {
+
+initInvoke = async function (args) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
   let request = {
     chaincodeId: "mycc",
-    fcn: "invoke",
+    fcn: "initAccount",
     args: args,
     chainId: "mychannel"
   };
   return await invoke.invokeChaincode(request);
 };
 
-/* GET home page. */
-router.get('/', async function (req, res) {
-  res.send("200");
-});
+addPointsInvoke = async function (args) {
+  logger.debug('==================== INVOKE ON CHAINCODE ==================');
+  let request = {
+    chaincodeId: "mycc",
+    fcn: "addPoints",
+    args: args,
+    chainId: "mychannel"
+  };
+  return await invoke.invokeChaincode(request);
+};
 
-router.post('/query', async function (req, res) {
-  let queryArgs = req.body.args;
-  if (queryArgs) {
-    logger.debug("Get query args: \"" + queryArgs + "\"");
-    let queryResut = await chaincodeQuery(queryArgs);
-    let resJson;
-    if (parseFloat(queryResut).toString() === "NaN") {
-      logger.error("Chaincode query failed: " + queryResut);
-      resJson = {"status": "500", "result": queryResut};
+balanceQuery = async function (args) {
+  logger.debug('==================== QUERY BY CHAINCODE ==================');
+  let request = {
+    chaincodeId: 'mycc',
+    fcn: 'balanceQuery',
+    args: args
+  };
+  return await query.queryChaincode(request);
+};
+
+router.post('/invoke/init', async function (req, res) {
+  let initAccount = req.body.account;
+  if (initAccount) {
+    logger.debug("Get init account: \"" + initAccount + "\"");
+    let initResut = await initInvoke([initAccount]);
+    console.log(initResut);
+    if (initResut[0]==='yes') {
+      res.status(200).send(initResut[1]);
     } else {
-      resJson = {"status": "200", "result": parseFloat(queryResut)};
+      res.status(500).send(initResut[1]);
     }
-    res.send(resJson);
   } else {
-    logger.error("Request Error: " + req.body);
-    res.send("400");
+    let errMessage = "Request Error, parameter \"account\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).send(errMessage);
   }
 });
 
-router.post('/invoke', async function (req, res) {
-  let invokeArgs = req.body.args;
-  if (invokeArgs) {
-    logger.debug("Get query args: \"" + invokeArgs + "\"");
-    let invokeResut = await chaincodeInvoke(invokeArgs);
+router.post('/invoke/addPoints', async function (req, res) {
+  let addAccount = req.body.account;
+  let addPoints = req.body.points;
+  if (addAccount && addPoints) {
+    logger.debug("Add " + addPoints + " points to account: \"" + addAccount + "\"");
+    let invokeResut = await addPointsInvoke([addAccount, addPoints]);
     console.log(invokeResut);
-    let resJson;
     if (invokeResut[0]==='yes') {
-      resJson = {"status": "200", "result": invokeResut[1]};
+      res.status(200).send(invokeResut[1]);
     } else {
-      resJson = {"status": "500", "result": invokeResut[1]};
+      res.status(500).send(invokeResut[1]);
     }
-    res.send(resJson);
   } else {
-    logger.error("Request Error: " + req.body);
-    res.send("400");
+    let errMessage;
+    if (!addAccount) {
+      errMessage = "Request Error, parameter \"account\" doesn't exist";
+      logger.error(errMessage);
+      res.status(400).send(errMessage)
+    }
+    if (!addPoints) {
+      errMessage = "Request Error, parameter \"points\" doesn't exist";
+      logger.error(errMessage);
+      res.status(400).send(errMessage)
+    }
   }
 });
+
+router.post('/query/balance', async function (req, res) {
+  let queryAccount = req.body.account;
+  if (queryAccount) {
+    logger.debug("Get query account: \"" + queryAccount + "\"");
+    let queryResult = await balanceQuery([queryAccount]);
+    if (parseFloat(queryResult).toString() === "NaN") {
+      logger.error("Chaincode query failed: " + queryResult);
+      res.status(500).send(queryResult);
+    } else {
+      res.status(200).send(parseFloat(queryResult).toString());
+    }
+  } else {
+    let errMessage = "Request Error, parameter \"account\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).send(errMessage)
+  }
+});
+
 
 module.exports = router;
