@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:10
+    restart: always
+    network_mode: host
+    volumes:
+        - ./initDB:/docker-entrypoint-initdb.d
+
+  app:
+    container_name: blockchain-explorer
+    image: blockchain-explorer:v0.3.4
+    restart: always
+    network_mode: host
+    ports:
+      - 8080:8080
+    volumes:
+      - ../sample-network/crypto-config:/var/crypto-config
+      - ./config:/docker-entrypoint-initdb.d
+    depends_on:
+      - db
+
