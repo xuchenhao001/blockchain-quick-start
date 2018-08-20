@@ -21,24 +21,12 @@ wget https://github.com/docker/compose/releases/download/1.22.0/docker-compose-L
 mv docker-compose-Linux-x86_64 /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 docker-compose version
-# Install Node.js
-wget https://nodejs.org/dist/v8.11.3/node-v8.11.3-linux-x64.tar.xz
-tar -xf node-v8.11.3-linux-x64.tar.xz
-mv node-v8.11.3-linux-x64 /usr/local/node
-echo 'export PATH=/usr/local/node/bin:$PATH' >> /etc/profile
-source /etc/profile
-node --version
-npm --version
 ```
 
-## Clone this repo
-
-Clone this repo and install Node.js dependences:
+Clone this repo:
 
 ```bash
 git clone https://github.com/xuchenhao001/cics-blockchain.git
-cd cics-blockchain
-npm install --unsafe-perm
 ```
 
 ## Start blockchain network
@@ -46,6 +34,7 @@ npm install --unsafe-perm
 Go to the dir `sample-network`, and start the Fabric network by doing this:
 
 ```bash
+cd cics-blockchain/sample-network/
 ./byfn.sh up
 ```
 
@@ -53,13 +42,34 @@ Then Press `Enter` and wait for the Fabric network successfully running.
 
 ## Start REST server
 
-Make sure you have sucessfully installed Node.js dependences, and run this in project directory:
+Build docker image:
 
 ```bash
-npm start
+cd cics-blockchain/
+./build-docker-image.sh
 ```
 
-## REST API
+Start server:
 
-When the server is up, open `http://<your-host-ip>:3000/` with your browser, you can see `swagger` page is there with all of the REST API descriptions.
+```bash
+docker-compose up -d
+```
 
+When the server is up, open `http://<your-host-ip>:3414/` with your browser, you can see `swagger` page there with all of the REST API descriptions.
+
+## Start blockchain explorer
+
+Build docker image:
+
+```bash
+cd cics-blockchain/blockchain-explorer
+./build-docker-image.sh
+```
+
+Start server:
+
+```bash
+docker-compose up -d
+```
+
+When the server is up, open `http://<your-host-ip>:8080/` with your browser, you can see the `blockchian-explorer` page running normally.
