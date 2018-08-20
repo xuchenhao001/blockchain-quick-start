@@ -1,0 +1,17 @@
+version: '2'
+
+networks:
+  byfn:
+
+services:
+  cics-blockchain:
+    container_name: cics-blockchain
+    image: cics-blockchain:1.0.0
+    restart: always
+    networks:
+      - byfn
+    ports:
+      - 3414:3414
+    volumes:
+      - ./sample-network/crypto-config/:/var/crypto-config/
+

@@ -1,5 +1,5 @@
 let ip = require('./ipConfig');
-let certDir = '/root/cics-blockchain/sample-network/';
+let certDir = '/var/';
 let config = {
   user_id: 'Admin@org2.example.com',
   msp_id: 'Org2MSP',
