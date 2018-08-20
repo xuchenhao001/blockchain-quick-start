@@ -1,6 +1,6 @@
 {
 	"pg": {
-		"host": "localhost",
+		"host": "database",
 		"port": "5432",
 		"database": "fabricexplorer",
 		"username": "hppoc",
