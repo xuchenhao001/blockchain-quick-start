@@ -4,9 +4,9 @@ networks:
   byfn:
 
 services:
-  cics-blockchain:
-    container_name: cics-blockchain
-    image: cics-blockchain:1.0.0
+  blockchain-rest-server:
+    container_name: blockchain-rest-server
+    image: blockchain-rest-server:1.0.0
     restart: always
     networks:
       - byfn

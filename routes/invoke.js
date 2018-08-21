@@ -4,7 +4,7 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Invoke');
 logger.level = 'DEBUG';
 
-let options = require('./config/org1Config');
+let options = require('./config/certConfig');
 let util = require('util');
 let hfc = require('fabric-client');
 let path = require('path');
@@ -34,13 +34,14 @@ let invokeChaincode = async function (request) {
   try {
     let fcn_request = request;
     console.log("Load privateKey and signedCert");
+    // org1
     client = new hfc();
     let createUserOpt = {
-      username: options.user_id,
-      mspid: options.msp_id,
+      username: options.org1_user_id,
+      mspid: options.org1_msp_id,
       cryptoContent: {
-        privateKey: getKeyFilesInDir(options.privateKeyFolder)[0],
-        signedCert: options.signedCert
+        privateKey: getKeyFilesInDir(options.org1_privateKeyFolder)[0],
+        signedCert: options.org1_signedCert
       }
     };
     let store = await hfc.newDefaultKeyValueStore({
@@ -49,22 +50,33 @@ let invokeChaincode = async function (request) {
     await client.setStateStore(store);
     await client.createUser(createUserOpt);
     channel = client.newChannel(options.channel_id);
-    let data = fs.readFileSync(options.peer_tls_cacerts);
-    let peer = client.newPeer(options.peer_url,
+    // add org1 peer0
+    let data1 = fs.readFileSync(options.org1_peer_tls_cacerts);
+    let peer1 = client.newPeer(options.org1_peer_url,
       {
-        pem: Buffer.from(data).toString(),
-        'ssl-target-name-override': options.server_hostname
+        pem: Buffer.from(data1).toString(),
+        'ssl-target-name-override': options.org1_server_hostname
       });
-    channel.addPeer(peer);
+    channel.addPeer(peer1);
+    targets.push(peer1);
+    // add org2 peer0
+    let data2 = fs.readFileSync(options.org2_peer_tls_cacerts);
+    let peer2 = client.newPeer(options.org2_peer_url,
+      {
+        pem: Buffer.from(data2).toString(),
+        'ssl-target-name-override': options.org2_server_hostname
+      });
+    channel.addPeer(peer2);
+    targets.push(peer2);
+
     let odata = fs.readFileSync(options.orderer_tls_cacerts);
     let caroots = Buffer.from(odata).toString();
     let orderer = client.newOrderer(options.orderer_url, {
       'pem': caroots,
       'ssl-target-name-override': "orderer.example.com"
     });
-
     channel.addOrderer(orderer);
-    targets.push(peer);
+
     let tx_id = client.newTransactionID();
     tx_id_string = tx_id.getTransactionID();
     fcn_request.txId = tx_id;

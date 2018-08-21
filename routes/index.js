@@ -3,7 +3,7 @@ let router = express.Router();
 let query = require('./query');
 let invoke = require('./invoke');
 let log4js = require('log4js');
-let logger = log4js.getLogger('cicsBlockchain');
+let logger = log4js.getLogger('blockchainQuickStart');
 
 
 /* GET home page. */

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function startApp() {
-	cd /cics-blockchain/
+	cd /blockchain-quick-start/
 	npm start
 }
 

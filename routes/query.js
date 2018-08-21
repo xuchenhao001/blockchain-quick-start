@@ -4,7 +4,7 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Query');
 logger.level = 'DEBUG';
 
-let options = require('./config/org1Config');
+let options = require('./config/certConfig');
 let hfc = require('fabric-client');
 let path = require('path');
 let fs = require('fs');
@@ -28,11 +28,11 @@ let queryChaincode = async function (request) {
     console.log("Load privateKey and signedCert");
     let client = new hfc();
     let createUserOpt = await {
-      username: options.user_id,
-      mspid: options.msp_id,
+      username: options.org1_user_id,
+      mspid: options.org1_msp_id,
       cryptoContent: {
-        privateKey: getKeyFilesInDir(options.privateKeyFolder)[0],
-        signedCert: options.signedCert
+        privateKey: getKeyFilesInDir(options.org1_privateKeyFolder)[0],
+        signedCert: options.org1_signedCert
       }
     };
     let store = await hfc.newDefaultKeyValueStore({
@@ -41,10 +41,10 @@ let queryChaincode = async function (request) {
     await client.setStateStore(store);
     await client.createUser(createUserOpt);
     let channel = client.newChannel(options.channel_id);
-    let data = await fs.readFileSync(options.tls_cacerts);
-    let peer = client.newPeer(options.network_url, {
+    let data = await fs.readFileSync(options.org1_tls_cacerts);
+    let peer = client.newPeer(options.org1_network_url, {
       pem: Buffer.from(data).toString(),
-      'ssl-target-name-override': options.server_hostname
+      'ssl-target-name-override': options.org1_server_hostname
     });
     peer.setName('peer0');
     channel.addPeer(peer);

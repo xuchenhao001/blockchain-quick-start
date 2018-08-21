@@ -1,6 +1,6 @@
-# CICS ZCEE Blockchain workshop demo
+# Blockchain rest server demo
 
-Here we have the blockchain part of this demo.
+Here we have this demo includes 3 parts: blockchain rest server, blockchain explorer, and a sample blockchain network.
 
 ## Prerequiste
 
@@ -26,7 +26,7 @@ docker-compose version
 Clone this repo:
 
 ```bash
-git clone https://github.com/xuchenhao001/cics-blockchain.git
+git clone https://github.com/xuchenhao001/blockchain-quick-start.git
 ```
 
 ## Start blockchain network
@@ -34,7 +34,7 @@ git clone https://github.com/xuchenhao001/cics-blockchain.git
 Go to the dir `sample-network`, and start the Fabric network by doing this:
 
 ```bash
-cd cics-blockchain/sample-network/
+cd blockchain-quick-start/sample-network/
 ./byfn.sh up
 ```
 
@@ -45,7 +45,7 @@ Then Press `Enter` and wait for the Fabric network successfully running.
 Build docker image:
 
 ```bash
-cd cics-blockchain/
+cd blockchain-quick-start/
 ./build-docker-image.sh
 ```
 
@@ -62,7 +62,7 @@ When the server is up, open `http://<your-host-ip>:3414/` with your browser, you
 Build docker image:
 
 ```bash
-cd cics-blockchain/blockchain-explorer
+cd blockchain-quick-start/blockchain-explorer
 ./build-docker-image.sh
 ```
 

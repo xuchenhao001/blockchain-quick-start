@@ -1,9 +1,9 @@
 FROM node:8.11.3
 
-COPY . /cics-blockchain/
+COPY . /blockchain-quick-start/
 
 RUN set -ex \
-    && cd cics-blockchain \
+    && cd /blockchain-quick-start \
     && mv docker-entrypoint.sh /usr/local/bin/ \
     && npm install 
 
