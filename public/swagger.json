@@ -156,12 +156,22 @@
       }
     },
     "InitResponseS": {
-      "type": "string",
-      "example": "9151d3f48f8793ebdb082378e68b0fb7bf0e0f7ed1a93be361e7ee67a2b336e6"
+      "type": "object",
+      "properties": {
+        "tx_id": {
+          "type": "string",
+          "example": "0c4590348b9f4378468d18f9de53118a396083a02ca68add267a1c816a23acb6"
+        }
+      }
     },
     "InitResponseF": {
-      "type": "string",
-      "example": "Request Error, parameter \"account\" doesn't exist"
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Request Error, parameter \"account\" doesn''t exist"
+        }
+      }
     },
     "AddPoints": {
       "type": "object",
@@ -181,12 +191,22 @@
       }
     },
     "AddPointsResponseS": {
-      "type": "string",
-      "example": "b284d2c9a4e724440af3111c773b0bf52f0fff79b1a1555dea5fee7f8695712d"
+      "type": "object",
+      "properties": {
+        "tx_id": {
+          "type": "string",
+          "example": "0c4590348b9f4378468d18f9de53118a396083a02ca68add267a1c816a23acb6"
+        }
+      }
     },
     "AddPointsResponseF": {
-      "type": "string",
-      "example": "Failed to invoke chaincode. cause:invoke chaincode proposal was bad"
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Failed to invoke chaincode. cause:invoke chaincode proposal was bad"
+        }
+      }
     },
     "QueryBalance": {
       "type": "object",
@@ -201,12 +221,23 @@
       }
     },
     "QueryBalanceResponseS": {
-      "type": "string",
-      "example": "5"
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "number",
+          "example": 5
+        }
+      }
     },
     "QueryBalanceResponseF": {
-      "type": "string",
-      "example": "Error: Incorrect number of arguments. Expecting account of the person to query"
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Error: Incorrect number of arguments. Expecting account of the person to query"
+        }
+      }
     }
   }
 }
+

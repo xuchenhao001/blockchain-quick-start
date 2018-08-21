@@ -49,14 +49,14 @@ router.post('/invoke/init', async function (req, res) {
     let initResut = await initInvoke([initAccount]);
     console.log(initResut);
     if (initResut[0]==='yes') {
-      res.status(200).send(initResut[1]);
+      res.status(200).json({"tx_id": initResut[1]});
     } else {
-      res.status(500).send(initResut[1]);
+      res.status(500).json({"error": initResut[1]});
     }
   } else {
     let errMessage = "Request Error, parameter \"account\" doesn't exist";
     logger.error(errMessage);
-    res.status(400).send(errMessage);
+    res.status(400).json({"error": errMessage});
   }
 });
 
@@ -68,21 +68,21 @@ router.post('/invoke/addPoints', async function (req, res) {
     let invokeResut = await addPointsInvoke([addAccount, addPoints]);
     console.log(invokeResut);
     if (invokeResut[0]==='yes') {
-      res.status(200).send(invokeResut[1]);
+      res.status(200).json({"tx_id": invokeResut[1]});
     } else {
-      res.status(500).send(invokeResut[1]);
+      res.status(500).json({"error": invokeResut[1]});
     }
   } else {
     let errMessage;
     if (!addAccount) {
       errMessage = "Request Error, parameter \"account\" doesn't exist";
       logger.error(errMessage);
-      res.status(400).send(errMessage)
+      res.status(400).json({"error": errMessage});
     }
     if (!addPoints) {
       errMessage = "Request Error, parameter \"points\" doesn't exist";
       logger.error(errMessage);
-      res.status(400).send(errMessage)
+      res.status(400).json({"error": errMessage});
     }
   }
 });
@@ -94,14 +94,14 @@ router.post('/query/balance', async function (req, res) {
     let queryResult = await balanceQuery([queryAccount]);
     if (parseFloat(queryResult).toString() === "NaN") {
       logger.error("Chaincode query failed: " + queryResult);
-      res.status(500).send(queryResult);
+      res.status(500).json({"error": queryResult});
     } else {
-      res.status(200).send(parseFloat(queryResult).toString());
+      res.status(200).json({"result": parseFloat(queryResult)});
     }
   } else {
     let errMessage = "Request Error, parameter \"account\" doesn't exist";
     logger.error(errMessage);
-    res.status(400).send(errMessage)
+    res.status(400).json({"error": errMessage});
   }
 });
 
