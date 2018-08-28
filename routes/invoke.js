@@ -18,10 +18,10 @@ function getKeyFilesInDir(dir) {
   files.forEach(function (file_name) {
     let filePath = path.join(dir, file_name);
     if (file_name.endsWith('_sk')) {
-      keyFiles.push(filePath)
+      keyFiles.push(filePath);
     }
   });
-  return keyFiles
+  return keyFiles;
 }
 
 let invokeChaincode = async function (request) {
@@ -42,7 +42,8 @@ let invokeChaincode = async function (request) {
       cryptoContent: {
         privateKey: getKeyFilesInDir(options.org1_privateKeyFolder)[0],
         signedCert: options.org1_signedCert
-      }
+      },
+      skipPersistence: false
     };
     let store = await hfc.newDefaultKeyValueStore({
       path: "/tmp/fabric-client-stateStore/"

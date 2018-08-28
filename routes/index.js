@@ -1,5 +1,7 @@
 let express = require('express');
 let router = express.Router();
+
+let channel = require('./channal');
 let query = require('./query');
 let invoke = require('./invoke');
 let log4js = require('log4js');
@@ -9,6 +11,10 @@ let logger = log4js.getLogger('blockchainQuickStart');
 /* GET home page. */
 router.get('/', express.static('public'));
 
+createChannel = async function (channelName) {
+  logger.debug('==================== CREATE CHANNEL ==================');
+  return await channel.createChannel(channelName);
+};
 
 initInvoke = async function (args) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
@@ -41,6 +47,25 @@ balanceQuery = async function (args) {
   };
   return await query.queryChaincode(request);
 };
+
+router.post('/createChannel', async function (req, res) {
+  let channelID = req.body.channelID;
+  if (channelID) {
+    logger.debug("Get channel name: \"" + channelID + "\"");
+    let createResult = await createChannel(channelID);
+    console.log(createResult);
+    res.status(200);
+    if (createResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": createResult[1]});
+    }
+  } else {
+    let errMessage = "Request Error, parameter \"channelID\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+});
 
 router.post('/invoke/init', async function (req, res) {
   let initAccount = req.body.account;
