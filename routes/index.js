@@ -36,11 +36,22 @@ installChaincode = async function (chaincodeVersion) {
   logger.debug('==================== INSTALL CHAINCODE ==================');
   let orgNames = ['org1', 'org2'];
   let installResult = await deployCC.installChaincode(orgNames, 'mycc',
-    'go/', chaincodeVersion, 'golang');
+    'github.com/example_cc', chaincodeVersion, 'golang');
   if (installResult[0] !== true) {
     return [false, installResult[1]];
   }
   return [true, installResult[1]];
+};
+
+instantiateChaincode = async function (chaincodeVersion) {
+  logger.debug('==================== INSTANTIATE CHAINCODE ==================');
+  let orgNames = ['org1', 'org2'];
+  let instantiateResult = await deployCC.instantiateChaincode('mychannel', 'mycc',
+    chaincodeVersion, '', 'golang', [], orgNames);
+  if (instantiateResult[0] !== true) {
+    return [false, instantiateResult[1]];
+  }
+  return [true, instantiateResult[1]];
 };
 
 initInvoke = async function (args) {
@@ -126,6 +137,25 @@ router.post('/chaincode/install', async function (req, res) {
       res.status(200).json({"result": "success"});
     } else {
       res.status(500).json({"result": "failed", "error": installResult[1]});
+    }
+  } else {
+    let errMessage = "Request Error, parameter \"version\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+});
+
+router.post('/chaincode/instantiate', async function (req, res) {
+  let chaincodeVersion = req.body.version;
+  if (chaincodeVersion) {
+    logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+    let instantiateResult = await instantiateChaincode(chaincodeVersion);
+    console.log(instantiateResult);
+    res.status(200);
+    if (instantiateResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": instantiateResult[1]});
     }
   } else {
     let errMessage = "Request Error, parameter \"version\" doesn't exist";
