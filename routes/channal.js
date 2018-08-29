@@ -5,24 +5,13 @@ let logger = log4js.getLogger('CreateChannel');
 logger.level = 'DEBUG';
 
 let fs = require('fs');
+let helper = require('./helper');
 let hfc = require('fabric-client');
 let options = require('./config/certConfig');
 let path = require('path');
 let util = require('util');
 
 hfc.setLogger(logger);
-
-function getKeyFilesInDir(dir) {
-  let files = fs.readdirSync(dir);
-  let keyFiles = [];
-  files.forEach(function (file_name) {
-    let filePath = path.join(dir, file_name);
-    if (file_name.endsWith('_sk')) {
-      keyFiles.push(filePath);
-    }
-  });
-  return keyFiles;
-}
 
 //Attempt to send a request to the orderer with the sendTransaction method
 let createChannel = async function(channelName) {
@@ -34,7 +23,7 @@ let createChannel = async function(channelName) {
       username: options.org1_user_id,
       mspid: options.org1_msp_id,
       cryptoContent: {
-        privateKey: getKeyFilesInDir(options.org1_privateKeyFolder)[0],
+        privateKey: helper.getKeyFilesInDir(options.org1_privateKeyFolder)[0],
         signedCert: options.org1_signedCert
       },
       skipPersistence: false

@@ -4,25 +4,13 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Invoke');
 logger.level = 'DEBUG';
 
+let fs = require('fs');
+let helper = require('./helper');
+let hfc = require('fabric-client');
 let options = require('./config/certConfig');
 let util = require('util');
-let hfc = require('fabric-client');
-let path = require('path');
-let fs = require('fs');
 
 hfc.setLogger(logger);
-
-function getKeyFilesInDir(dir) {
-  let files = fs.readdirSync(dir);
-  let keyFiles = [];
-  files.forEach(function (file_name) {
-    let filePath = path.join(dir, file_name);
-    if (file_name.endsWith('_sk')) {
-      keyFiles.push(filePath);
-    }
-  });
-  return keyFiles;
-}
 
 let invokeChaincode = async function (request) {
   let channel = {};
@@ -40,7 +28,7 @@ let invokeChaincode = async function (request) {
       username: options.org1_user_id,
       mspid: options.org1_msp_id,
       cryptoContent: {
-        privateKey: getKeyFilesInDir(options.org1_privateKeyFolder)[0],
+        privateKey: helper.getKeyFilesInDir(options.org1_privateKeyFolder)[0],
         signedCert: options.org1_signedCert
       },
       skipPersistence: false
