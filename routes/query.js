@@ -11,33 +11,26 @@ let options = require('./config/certConfig');
 
 hfc.setLogger(logger);
 
-let queryChaincode = async function (request) {
+let queryChaincode = async function (request, orgName) {
   try {
-    console.log("Load privateKey and signedCert");
-    let client = new hfc();
-    let createUserOpt = await {
-      username: options.org1_user_id,
-      mspid: options.org1_msp_id,
-      cryptoContent: {
-        privateKey: helper.getKeyFilesInDir(options.org1_privateKeyFolder)[0],
-        signedCert: options.org1_signedCert
-      },
-      skipPersistence: false
-    };
-    let store = await hfc.newDefaultKeyValueStore({
-      path: "/tmp/fabric-client-stateStore/"
-    });
-    await client.setStateStore(store);
-    await client.createUser(createUserOpt);
+    logger.debug("Load privateKey and signedCert");
+    // first setup the client for this org
+    let client = await helper.getClientForOrg(orgName);
     let channel = client.newChannel(options.channel_id);
-    let data = await fs.readFileSync(options.org1_tls_cacerts);
-    let peer = client.newPeer(options.org1_network_url, {
-      pem: Buffer.from(data).toString(),
-      'ssl-target-name-override': options.org1_server_hostname
-    });
-    peer.setName('peer0');
-    channel.addPeer(peer);
-    console.log("Make query");
+    // add peers to channel
+    let peers = options[orgName].peers;
+    for (let j in peers) {
+      if (peers.hasOwnProperty(j)) {
+        let caData = fs.readFileSync(peers[j].tls_ca);
+        let peer = client.newPeer(peers[j].peer_url, {
+          pem: Buffer.from(caData).toString(),
+          'ssl-target-name-override': peers[j].server_hostname
+        });
+        channel.addPeer(peer);
+      }
+    }
+
+    logger.debug("Make query");
     let response_payloads = await channel.queryByChaincode(request);
     if (response_payloads) {
       let queryResult = response_payloads[0].toString();

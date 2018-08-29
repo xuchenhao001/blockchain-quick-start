@@ -12,9 +12,8 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
-let invokeChaincode = async function (request) {
+let invokeChaincode = async function (request, orgNames) {
   let channel = {};
-  let client = null;
   let targets = [];
   let error_message = null;
   let tx_id_string = null;
@@ -22,45 +21,31 @@ let invokeChaincode = async function (request) {
   try {
     let fcn_request = request;
     console.log("Load privateKey and signedCert");
-    // org1
-    client = new hfc();
-    let createUserOpt = {
-      username: options.org1_user_id,
-      mspid: options.org1_msp_id,
-      cryptoContent: {
-        privateKey: helper.getKeyFilesInDir(options.org1_privateKeyFolder)[0],
-        signedCert: options.org1_signedCert
-      },
-      skipPersistence: false
-    };
-    let store = await hfc.newDefaultKeyValueStore({
-      path: "/tmp/fabric-client-stateStore/"
-    });
-    await client.setStateStore(store);
-    await client.createUser(createUserOpt);
+    // first setup the client for this org
+    let client = await helper.getClientForOrg(orgNames[0]);
     channel = client.newChannel(options.channel_id);
-    // add org1 peer0
-    let data1 = fs.readFileSync(options.org1_peer_tls_cacerts);
-    let peer1 = client.newPeer(options.org1_peer_url,
-      {
-        pem: Buffer.from(data1).toString(),
-        'ssl-target-name-override': options.org1_server_hostname
-      });
-    channel.addPeer(peer1);
-    targets.push(peer1);
-    // add org2 peer0
-    let data2 = fs.readFileSync(options.org2_peer_tls_cacerts);
-    let peer2 = client.newPeer(options.org2_peer_url,
-      {
-        pem: Buffer.from(data2).toString(),
-        'ssl-target-name-override': options.org2_server_hostname
-      });
-    channel.addPeer(peer2);
-    targets.push(peer2);
 
-    let odata = fs.readFileSync(options.orderer_tls_cacerts);
+    // add all org and all peers
+    for (let i in orgNames) {
+      if (orgNames.hasOwnProperty(i)) {
+        let peers = options[orgNames[i]].peers;
+        for (let j in peers) {
+          if (peers.hasOwnProperty(j)) {
+            let caData = fs.readFileSync(peers[j].tls_ca);
+            let peer = client.newPeer(peers[j].peer_url, {
+              pem: Buffer.from(caData).toString(),
+              'ssl-target-name-override': peers[j].server_hostname
+            });
+            channel.addPeer(peer);
+            targets.push(peer);
+          }
+        }
+      }
+    }
+
+    let odata = fs.readFileSync(options.orderer.tls_ca);
     let caroots = Buffer.from(odata).toString();
-    let orderer = client.newOrderer(options.orderer_url, {
+    let orderer = client.newOrderer(options.orderer.url, {
       'pem': caroots,
       'ssl-target-name-override': "orderer.example.com"
     });

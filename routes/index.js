@@ -16,6 +16,21 @@ createChannel = async function (channelName) {
   return await channel.createChannel(channelName);
 };
 
+joinChannel = async function (channelName) {
+  logger.debug('==================== JOIN CHANNEL ==================');
+  let orgName = 'org1';
+  let joinResult = await channel.joinChannel(channelName, orgName);
+  if (joinResult[0] !== true) {
+    return [false, joinResult[1]];
+  }
+  orgName = 'org2';
+  joinResult = await channel.joinChannel(channelName, orgName);
+  if (joinResult[0] !== true) {
+    return [false, joinResult[1]];
+  }
+  return [true, joinResult[1]];
+};
+
 initInvoke = async function (args) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
   let request = {
@@ -24,7 +39,8 @@ initInvoke = async function (args) {
     args: args,
     chainId: "mychannel"
   };
-  return await invoke.invokeChaincode(request);
+  let orgNames = ['org1', 'org2'];
+  return await invoke.invokeChaincode(request, orgNames);
 };
 
 addPointsInvoke = async function (args) {
@@ -35,7 +51,8 @@ addPointsInvoke = async function (args) {
     args: args,
     chainId: "mychannel"
   };
-  return await invoke.invokeChaincode(request);
+  let orgNames = ['org1', 'org2'];
+  return await invoke.invokeChaincode(request, orgNames);
 };
 
 balanceQuery = async function (args) {
@@ -45,7 +62,7 @@ balanceQuery = async function (args) {
     fcn: 'balanceQuery',
     args: args
   };
-  return await query.queryChaincode(request);
+  return await query.queryChaincode(request, 'org1');
 };
 
 router.post('/createChannel', async function (req, res) {
@@ -59,6 +76,25 @@ router.post('/createChannel', async function (req, res) {
       res.status(200).json({"result": "success"});
     } else {
       res.status(500).json({"result": "failed", "error": createResult[1]});
+    }
+  } else {
+    let errMessage = "Request Error, parameter \"channelID\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+});
+
+router.post('/joinChannel', async function (req, res) {
+  let channelID = req.body.channelID;
+  if (channelID) {
+    logger.debug("Get channel name: \"" + channelID + "\"");
+    let joinResult = await joinChannel(channelID);
+    console.log(joinResult);
+    res.status(200);
+    if (joinResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": joinResult[1]});
     }
   } else {
     let errMessage = "Request Error, parameter \"channelID\" doesn't exist";
