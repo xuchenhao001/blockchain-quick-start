@@ -2,7 +2,7 @@
 
 let fs = require('fs');
 let hfc = require('fabric-client');
-let options = require('./config/certConfig');
+let options = require('./config/config');
 let path = require('path');
 
 let getKeyFilesInDir = async function(dir) {

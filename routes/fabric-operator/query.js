@@ -7,7 +7,7 @@ logger.level = 'DEBUG';
 let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
-let options = require('./config/certConfig');
+let options = require('./config/config');
 
 hfc.setLogger(logger);
 

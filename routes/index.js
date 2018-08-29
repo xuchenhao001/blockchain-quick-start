@@ -1,12 +1,13 @@
 let express = require('express');
 let router = express.Router();
 
-let channel = require('./channal');
-let query = require('./query');
-let invoke = require('./invoke');
+let deployCC = require('./fabric-operator/deploy_cc');
+let channel = require('./fabric-operator/channal');
+let query = require('./fabric-operator/query');
+let invoke = require('./fabric-operator/invoke');
 let log4js = require('log4js');
 let logger = log4js.getLogger('blockchainQuickStart');
-
+logger.level = 'DEBUG';
 
 /* GET home page. */
 router.get('/', express.static('public'));
@@ -29,6 +30,17 @@ joinChannel = async function (channelName) {
     return [false, joinResult[1]];
   }
   return [true, joinResult[1]];
+};
+
+installChaincode = async function (chaincodeVersion) {
+  logger.debug('==================== INSTALL CHAINCODE ==================');
+  let orgNames = ['org1', 'org2'];
+  let installResult = await deployCC.installChaincode(orgNames, 'mycc',
+    'go/', chaincodeVersion, 'golang');
+  if (installResult[0] !== true) {
+    return [false, installResult[1]];
+  }
+  return [true, installResult[1]];
 };
 
 initInvoke = async function (args) {
@@ -98,6 +110,25 @@ router.post('/joinChannel', async function (req, res) {
     }
   } else {
     let errMessage = "Request Error, parameter \"channelID\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+});
+
+router.post('/chaincode/install', async function (req, res) {
+  let chaincodeVersion = req.body.version;
+  if (chaincodeVersion) {
+    logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+    let installResult = await installChaincode(chaincodeVersion);
+    console.log(installResult);
+    res.status(200);
+    if (installResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": installResult[1]});
+    }
+  } else {
+    let errMessage = "Request Error, parameter \"version\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
   }

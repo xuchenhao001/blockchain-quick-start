@@ -7,7 +7,7 @@ logger.level = 'DEBUG';
 let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
-let options = require('./config/certConfig');
+let options = require('./config/config');
 let path = require('path');
 let util = require('util');
 
@@ -21,7 +21,7 @@ let createChannel = async function(channelName) {
     logger.debug('Successfully got the fabric client for the organization "%s"', options.org1.msp_id);
 
     // read in the envelope for the channel config raw bytes
-    let envelope = fs.readFileSync(path.join(__dirname, "/../sample-network/channel-artifacts/channel.tx"));
+    let envelope = fs.readFileSync(path.join(__dirname, "/../../sample-network/channel-artifacts/channel.tx"));
     // extract the channel config bytes from the envelope to be signed
     let channelConfig = client.extractChannelConfig(envelope);
 
