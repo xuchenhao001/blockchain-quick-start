@@ -60,6 +60,12 @@ let addPointsInvoke = async function (args) {
   return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args);
 };
 
+let invokeChaincode = async function (chaincodeName, channelName, functionName, args) {
+  logger.debug('==================== INVOKE ON CHAINCODE ==================');
+
+  return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args);
+};
+
 let queryChaincode = async function (chaincodeName, channelName, functionName, args) {
   logger.debug('==================== QUERY BY CHAINCODE ==================');
 
@@ -70,6 +76,5 @@ exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
 exports.installChaincode = installChaincode;
 exports.instantiateChaincode = instantiateChaincode;
-exports.initInvoke = initInvoke;
-exports.addPointsInvoke = addPointsInvoke;
+exports.invokeChaincode = invokeChaincode;
 exports.queryChaincode = queryChaincode;

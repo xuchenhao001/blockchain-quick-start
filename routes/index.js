@@ -82,48 +82,32 @@ router.post('/chaincode/instantiate', async function (req, res) {
   }
 });
 
-router.post('/invoke/init', async function (req, res) {
-  let initAccount = req.body.account;
-  if (initAccount) {
-    logger.debug("Get init account: \"" + initAccount + "\"");
-    let initResut = await fabric.initInvoke([initAccount]);
-    logger.debug(initResut);
-    if (initResut[0]==='yes') {
-      res.status(200).json({"tx_id": initResut[1]});
-    } else {
-      res.status(500).json({"error": initResut[1]});
-    }
-  } else {
-    let errMessage = "Request Error, parameter \"account\" doesn't exist";
-    logger.error(errMessage);
-    res.status(400).json({"error": errMessage});
-  }
-});
+router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
+  let channelName = req.params.channelName;
+  let chaincodeName = req.params.chaincodeName;
 
-router.post('/invoke/addPoints', async function (req, res) {
-  let addAccount = req.body.account;
-  let addPoints = req.body.points;
-  if (addAccount && addPoints) {
-    logger.debug("Add " + addPoints + " points to account: \"" + addAccount + "\"");
-    let invokeResut = await fabric.addPointsInvoke([addAccount, addPoints]);
-    logger.debug(invokeResut);
-    if (invokeResut[0]==='yes') {
-      res.status(200).json({"tx_id": invokeResut[1]});
-    } else {
-      res.status(500).json({"error": invokeResut[1]});
-    }
+  let args = req.body.args;
+  if (typeof args === 'undefined') {
+    let errMessage = "Request Error, parameter \"args\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get query args: \"" + args + "\"");
+
+  let functionName = req.body.function;
+  if (typeof functionName === 'undefined') {
+    let errMessage = "Request Error, parameter \"function\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get function name: \"" + functionName + "\"");
+
+  let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName, functionName, args);
+  logger.debug(invokeResut);
+  if (invokeResut[0]==='yes') {
+    res.status(200).json({"result": "success"});
   } else {
-    let errMessage;
-    if (!addAccount) {
-      errMessage = "Request Error, parameter \"account\" doesn't exist";
-      logger.error(errMessage);
-      res.status(400).json({"error": errMessage});
-    }
-    if (!addPoints) {
-      errMessage = "Request Error, parameter \"points\" doesn't exist";
-      logger.error(errMessage);
-      res.status(400).json({"error": errMessage});
-    }
+    res.status(500).json({"result": "failed", "error": invokeResut[1]});
   }
 });
 
@@ -137,7 +121,7 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
     logger.error(errMessage);
     res.status(400).json({"error": errMessage});
   }
-  logger.debug("Get query account: \"" + args + "\"");
+  logger.debug("Get query args: \"" + args + "\"");
 
   let functionName = req.body.function;
   if (typeof functionName === 'undefined') {
