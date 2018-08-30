@@ -12,12 +12,13 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
-let createChannel = async function(channelName, orgName) {
+let createChannel = async function(channelName) {
   logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
   try {
     // first setup the client for this org
-    let client = await helper.getClientForOrg(orgName);
-    logger.debug('Successfully got the fabric client for the organization "%s"', options.org1.msp_id);
+    let orgs = options.orgs;
+    let client = await helper.getClientForOrg(orgs[0]);
+    logger.debug('Successfully got the fabric client for the organization "%s"', orgs[0].msp_id);
 
     // read in the envelope for the channel config raw bytes
     let envelope = fs.readFileSync(options.channelConfigPath);
@@ -64,23 +65,23 @@ let createChannel = async function(channelName, orgName) {
 };
 
 
-let joinChannel = async function(channelName, orgNames) {
+let joinChannel = async function(channelName) {
   logger.debug('\n\n============ Join Channel start ============\n');
   let error_message = null;
+  let orgs = options.orgs;
   try {
-    logger.info('Calling peers in organization "%s" to join the channel', orgNames);
-
     // join channel for each org
-    for (let i in orgNames) {
-      if (orgNames.hasOwnProperty(i)) {
+    for (let i in orgs) {
+      if (orgs.hasOwnProperty(i)) {
         // first setup the client for this org
-        let client = await helper.getClientForOrg(orgNames[i]);
-        logger.debug('Successfully got the fabric client for the organization "%s"', orgNames[i]);
+        logger.info('Calling peers in organization "%s" to join the channel', orgs[i].name);
+        let client = await helper.getClientForOrg(orgs[i]);
+        logger.debug('Successfully got the fabric client for the organization "%s"', orgs[i]);
 
         let channel = client.newChannel(channelName);
 
         // add org peers
-        let peers = options[orgNames[i]].peers;
+        let peers = orgs[i].peers;
         for (let j in peers) {
           if (peers.hasOwnProperty(j)) {
             let caData = fs.readFileSync(peers[j].tls_ca);
@@ -128,11 +129,11 @@ let joinChannel = async function(channelName, orgNames) {
           if (peers_results.hasOwnProperty(i)) {
             let peer_result = peers_results[i];
             if(peer_result.response && peer_result.response.status === 200) {
-              logger.info('Successfully joined peer to the channel %s',channelName);
+              logger.info('Successfully joined peers of %s to the channel %s', orgs[i].name, channelName);
             } else {
-              let message = util.format('Failed to joined peer to the channel %s',channelName);
-              error_message = message;
-              logger.error(message);
+              let error_message = util.format('Failed to joined peers of %s to the channel %s',
+                orgs[i].name, channelName);
+              logger.error(error_message);
             }
           }
         }
@@ -144,9 +145,7 @@ let joinChannel = async function(channelName, orgNames) {
   }
 
   if (!error_message) {
-    let message = util.format(
-      'Successfully joined peers in organization %s to the channel:%s',
-      orgNames, channelName);
+    let message = util.format('Successfully joined peers to the channel:%s', channelName);
     logger.info(message);
     // build a response to send back to the REST caller
     return [true, message];

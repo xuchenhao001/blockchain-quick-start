@@ -12,7 +12,7 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
-let invokeChaincode = async function (chaincodeName, channelName, functionName, orgNames, args) {
+let invokeChaincode = async function (chaincodeName, channelName, functionName, args) {
   let channel = {};
   let error_message = null;
   let tx_id_string = null;
@@ -20,13 +20,14 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
   try {
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
-    let client = await helper.getClientForOrg(orgNames[0]);
+    let client = await helper.getClientForOrg(options.orgs[0]);
     channel = client.newChannel(channelName);
 
     // add all org and all peers
-    for (let i in orgNames) {
-      if (orgNames.hasOwnProperty(i)) {
-        let peers = options[orgNames[i]].peers;
+    let orgs = options.orgs;
+    for (let i in orgs) {
+      if (orgs.hasOwnProperty(i)) {
+        let peers = orgs[i].peers;
         for (let j in peers) {
           if (peers.hasOwnProperty(j)) {
             let caData = fs.readFileSync(peers[j].tls_ca);
@@ -181,4 +182,58 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
   }
 };
 
+let queryChaincode = async function (chaincodeName, channelName, functionName, args) {
+  try {
+    logger.debug("Load privateKey and signedCert");
+    // first setup the client for this org
+    let orgs = options.orgs;
+    let client = await helper.getClientForOrg(orgs[0]);
+    let channel = client.newChannel(channelName);
+
+    // add all org and all peers
+    for (let i in orgs) {
+      if (orgs.hasOwnProperty(i)) {
+        let peers = orgs[i].peers;
+        for (let j in peers) {
+          if (peers.hasOwnProperty(j)) {
+            let caData = fs.readFileSync(peers[j].tls_ca);
+            let peer = client.newPeer(peers[j].peer_url, {
+              pem: Buffer.from(caData).toString(),
+              'ssl-target-name-override': peers[j].server_hostname
+            });
+            channel.addPeer(peer);
+          }
+        }
+      }
+    }
+
+    let request = {
+      chaincodeId: chaincodeName,
+      fcn: functionName,
+      args: args
+    };
+    logger.debug("Make query");
+    let response_payloads = await channel.queryByChaincode(request);
+    if (response_payloads) {
+      let queryResult = [];
+      queryResult[0] = true;
+      queryResult[1] = [];
+      for (let i in response_payloads) {
+        if (response_payloads.hasOwnProperty(i)) {
+          queryResult[1].push(response_payloads[i].toString());
+          logger.info('Query result from peer [%s]: %s', i, response_payloads[i].toString());
+        }
+      }
+      return queryResult;
+    } else {
+      logger.error('response_payloads is null');
+      return [false, 'response_payloads is null'];
+    }
+  } catch (error) {
+    logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
+    return [false, error.toString()];
+  }
+};
+
 exports.invokeChaincode = invokeChaincode;
+exports.queryChaincode = queryChaincode;

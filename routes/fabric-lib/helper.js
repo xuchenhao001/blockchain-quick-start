@@ -2,7 +2,6 @@
 
 let fs = require('fs');
 let hfc = require('fabric-client');
-let options = require('./config/config');
 let path = require('path');
 
 let getKeyFilesInDir = async function(dir) {
@@ -17,20 +16,20 @@ let getKeyFilesInDir = async function(dir) {
   return keyFiles;
 };
 
-let getClientForOrg = async function(orgName){
+let getClientForOrg = async function(org){
   let client = new hfc();
-  let pKey = await getKeyFilesInDir(options[orgName].privateKeyFolder);
+  let pKey = await getKeyFilesInDir(org.privateKeyFolder);
   let userOptions = {
-    username: options[orgName].user_id,
-    mspid: options[orgName].msp_id,
+    username: org.user_id,
+    mspid: org.msp_id,
     cryptoContent: {
       privateKey: pKey[0],
-      signedCert: options[orgName].signedCert
+      signedCert: org.signedCert
     },
     skipPersistence: false
   };
   let store = await hfc.newDefaultKeyValueStore({
-    path: options.keyValueStorePath
+    path: org.keyValueStorePath
   });
   await client.setStateStore(store);
   await client.createUser(userOptions);

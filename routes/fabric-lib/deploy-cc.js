@@ -12,22 +12,24 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
-let installChaincode = async function (orgNames, chaincodeName, chaincodePath,
+let installChaincode = async function (chaincodeName, chaincodePath,
                                        chaincodeVersion, chaincodeType) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
   try {
-    logger.info('Calling peers in organization "%s" to join the channel', orgNames);
+
     process.env.GOPATH = options.goPath;
 
+    let orgs = options.orgs;
     // install chaincode for each org
-    for (let i in orgNames) {
-      if (orgNames.hasOwnProperty(i)) {
+    for (let i in orgs) {
+      if (orgs.hasOwnProperty(i)) {
         let targets = [];
+        logger.info('Calling peers in organization "%s" to join the channel', orgs[i].name);
         // first setup the client for this org
-        let client = await helper.getClientForOrg(orgNames[i]);
-        logger.debug('Successfully got the fabric client for the organization "%s"', orgNames[0]);
-        let peers = options[orgNames[i]].peers;
+        let client = await helper.getClientForOrg(orgs[i]);
+        logger.debug('Successfully got the fabric client for the organization "%s"', orgs[i].name);
+        let peers = orgs[i].peers;
 
         // load all of the peers of this org
         for (let j in peers) {
@@ -95,16 +97,17 @@ let installChaincode = async function (orgNames, chaincodeName, chaincodePath,
   }
 };
 
-let instantiateChaincode = async function(orgNames, channelName, chaincodeName,
+let instantiateChaincode = async function(channelName, chaincodeName,
                                           chaincodeVersion, functionName, chaincodeType, args) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = null;
+  let orgs = options.orgs;
 
   try {
     // first setup the client for this org
-    let client = await helper.getClientForOrg(orgNames[0]);
-    logger.debug('Successfully got the fabric client for the organization "%s"', orgNames[0]);
+    let client = await helper.getClientForOrg(orgs[0]);
+    logger.debug('Successfully got the fabric client for the organization "%s"', orgs[0].name);
     let channel = client.newChannel(channelName);
     if(!channel) {
       let message = util.format('Channel %s was not defined in the connection profile', channelName);
@@ -113,9 +116,9 @@ let instantiateChaincode = async function(orgNames, channelName, chaincodeName,
     }
 
     // add all org and all peers
-    for (let i in orgNames) {
-      if (orgNames.hasOwnProperty(i)) {
-        let peers = options[orgNames[i]].peers;
+    for (let i in orgs) {
+      if (orgs.hasOwnProperty(i)) {
+        let peers = orgs[i].peers;
         for (let j in peers) {
           if (peers.hasOwnProperty(j)) {
             let caData = fs.readFileSync(peers[j].tls_ca);
@@ -191,7 +194,7 @@ let instantiateChaincode = async function(orgNames, channelName, chaincodeName,
       // instantiate transaction was committed on the peer
       let promises = [];
       let event_hubs = channel.getChannelEventHubsForOrg();
-      logger.debug('found %s eventhubs for this organization %s',event_hubs.length, orgNames);
+      logger.debug('found %s eventhubs for this organization %s',event_hubs.length, orgs[0].name);
       event_hubs.forEach((eh) => {
         let instantiateEventPromise = new Promise((resolve, reject) => {
           logger.debug('instantiateEventPromise - setting up event');
@@ -278,7 +281,7 @@ let instantiateChaincode = async function(orgNames, channelName, chaincodeName,
   if (!error_message) {
     let message = util.format(
       'Successfully instantiate chaingcode in organization %s to the channel \'%s\'',
-      orgNames, channelName);
+      orgs[0].name, channelName);
     logger.info(message);
     // build a response to send back to the REST caller
     return [true, message];
