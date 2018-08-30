@@ -30,7 +30,7 @@ let getClientForOrg = async function(orgName){
     skipPersistence: false
   };
   let store = await hfc.newDefaultKeyValueStore({
-    path: options.keyValueStore
+    path: options.keyValueStorePath
   });
   await client.setStateStore(store);
   await client.createUser(userOptions);

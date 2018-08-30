@@ -12,18 +12,16 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
-let invokeChaincode = async function (request, orgNames) {
+let invokeChaincode = async function (chaincodeName, channelName, functionName, orgNames, args) {
   let channel = {};
-  let targets = [];
   let error_message = null;
   let tx_id_string = null;
 
   try {
-    let fcn_request = request;
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgNames[0]);
-    channel = client.newChannel(options.channel_id);
+    channel = client.newChannel(channelName);
 
     // add all org and all peers
     for (let i in orgNames) {
@@ -37,7 +35,6 @@ let invokeChaincode = async function (request, orgNames) {
               'ssl-target-name-override': peers[j].server_hostname
             });
             channel.addPeer(peer);
-            targets.push(peer);
           }
         }
       }
@@ -53,9 +50,14 @@ let invokeChaincode = async function (request, orgNames) {
 
     let tx_id = client.newTransactionID();
     tx_id_string = tx_id.getTransactionID();
-    fcn_request.txId = tx_id;
-    fcn_request.targets = targets;
-    let results = await channel.sendTransactionProposal(fcn_request);
+    let request = {
+      args: args,
+      chaincodeId: chaincodeName,
+      chainId: channelName,
+      fcn: functionName,
+      txId: tx_id
+    };
+    let results = await channel.sendTransactionProposal(request);
 
     // the returned object has both the endorsement results
     // and the actual proposal, the proposal will be needed
@@ -170,7 +172,7 @@ let invokeChaincode = async function (request, orgNames) {
 
   if (!error_message) {
     logger.info('Successfully invoked the chaincode \'%s\' to the channel \'%s\' for transaction ID: %s',
-      options.chaincode_id, options.channel_id, tx_id_string);
+      chaincodeName, channelName, tx_id_string);
     return ['yes', tx_id_string];
   } else {
     let message = util.format('Failed to invoke chaincode. cause:%s', error_message);

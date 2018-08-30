@@ -50,7 +50,7 @@
 				"tls_cacerts":"/var/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
 				}
 				],
-	"keyValueStore": "/tmp/fabric-client-kvs",
+	"keyValueStorePath": "/tmp/fabric-client-kvs",
 	"configtxgenToolPath": "fabric-path/fabric-samples/bin",
 	"SYNC_START_DATE_FORMAT":"YYYY/MM/DD",
 	"syncStartDate":"2018/01/01",

@@ -11,78 +11,67 @@ let invoke = require('./fabric-lib/invoke');
 
 let createChannel = async function (channelName) {
   logger.debug('==================== CREATE CHANNEL ==================');
-  return await channel.createChannel(channelName);
+  let orgName = 'org1';
+
+  return await channel.createChannel(channelName, orgName);
 };
 
 let joinChannel = async function (channelName) {
   logger.debug('==================== JOIN CHANNEL ==================');
-  let orgName = 'org1';
-  let joinResult = await channel.joinChannel(channelName, orgName);
-  if (joinResult[0] !== true) {
-    return [false, joinResult[1]];
-  }
-  orgName = 'org2';
-  joinResult = await channel.joinChannel(channelName, orgName);
-  if (joinResult[0] !== true) {
-    return [false, joinResult[1]];
-  }
-  return [true, joinResult[1]];
+  let orgNames = ['org1', 'org2'];
+
+  return await channel.joinChannel(channelName, orgNames);
 };
 
 let installChaincode = async function (chaincodeVersion) {
   logger.debug('==================== INSTALL CHAINCODE ==================');
+  let chaincodeName = 'mycc';
+  let chaincodePath = 'github.com/example_cc';
+  let chaincodeType = 'golang';
   let orgNames = ['org1', 'org2'];
-  let installResult = await deployCC.installChaincode(orgNames, 'mycc',
-    'github.com/example_cc', chaincodeVersion, 'golang');
-  if (installResult[0] !== true) {
-    return [false, installResult[1]];
-  }
-  return [true, installResult[1]];
+
+  return await deployCC.installChaincode(orgNames, chaincodeName,
+    chaincodePath, chaincodeVersion, chaincodeType);
 };
 
 let instantiateChaincode = async function (chaincodeVersion) {
   logger.debug('==================== INSTANTIATE CHAINCODE ==================');
+  let args = [];
+  let chaincodeName = 'mycc';
+  let chaincodeType = 'golang';
+  let channelName = 'mychannel';
+  let functionName = '';
   let orgNames = ['org1', 'org2'];
-  let instantiateResult = await deployCC.instantiateChaincode('mychannel', 'mycc',
-    chaincodeVersion, '', 'golang', [], orgNames);
-  if (instantiateResult[0] !== true) {
-    return [false, instantiateResult[1]];
-  }
-  return [true, instantiateResult[1]];
+
+  return await deployCC.instantiateChaincode(orgNames, channelName,
+    chaincodeName, chaincodeVersion, functionName, chaincodeType, args);
 };
 
 let initInvoke = async function (args) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
-  let request = {
-    chaincodeId: "mycc",
-    fcn: "initAccount",
-    args: args,
-    chainId: "mychannel"
-  };
+  let chaincodeName = 'mycc';
+  let channelName = 'mychannel';
+  let functionName = 'initAccount';
   let orgNames = ['org1', 'org2'];
-  return await invoke.invokeChaincode(request, orgNames);
+  return await invoke.invokeChaincode(chaincodeName, channelName, functionName, orgNames, args);
 };
 
 let addPointsInvoke = async function (args) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
-  let request = {
-    chaincodeId: "mycc",
-    fcn: "addPoints",
-    args: args,
-    chainId: "mychannel"
-  };
+  let chaincodeName = 'mycc';
+  let channelName = 'mychannel';
+  let functionName = 'addPoints';
   let orgNames = ['org1', 'org2'];
-  return await invoke.invokeChaincode(request, orgNames);
+  return await invoke.invokeChaincode(chaincodeName, channelName, functionName, orgNames, args);
 };
 
 let balanceQuery = async function (args) {
   logger.debug('==================== QUERY BY CHAINCODE ==================');
-  let request = {
-    chaincodeId: 'mycc',
-    fcn: 'balanceQuery',
-    args: args
-  };
-  return await query.queryChaincode(request, 'org1');
+  let chaincodeName = 'mycc';
+  let channelName = 'mychannel';
+  let functionName = 'balanceQuery';
+  let orgName = 'org1';
+  return await query.queryChaincode(chaincodeName, channelName, functionName, orgName, args);
 };
 
 exports.createChannel = createChannel;

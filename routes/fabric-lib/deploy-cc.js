@@ -96,8 +96,8 @@ let installChaincode = async function (orgNames, chaincodeName, chaincodePath,
   }
 };
 
-let instantiateChaincode = async function(channelName, chaincodeName, chaincodeVersion,
-                                          functionName, chaincodeType, args, orgNames) {
+let instantiateChaincode = async function(orgNames, channelName, chaincodeName,
+                                          chaincodeVersion, functionName, chaincodeType, args) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = null;

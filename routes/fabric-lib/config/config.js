@@ -29,9 +29,6 @@ let url = {
 };
 
 let config = {
-  channel_id: 'mychannel',
-  chaincode_id: 'mycc',
-
   // orderer
   orderer: {
     server_hostname: 'orderer.example.com',
@@ -94,7 +91,8 @@ let config = {
     ]
   },
 
-  keyValueStore: '/tmp/fabric-client-stateStore/'
+  keyValueStorePath: '/tmp/fabric-client-stateStore/',
+  channelConfigPath: certDir + 'channel-artifacts/channel.tx'
 };
 
 module.exports = config;

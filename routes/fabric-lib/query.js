@@ -11,12 +11,12 @@ let options = require('./config/config');
 
 hfc.setLogger(logger);
 
-let queryChaincode = async function (request, orgName) {
+let queryChaincode = async function (chaincodeName, channelName, functionName, orgName, args) {
   try {
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
-    let channel = client.newChannel(options.channel_id);
+    let channel = client.newChannel(channelName);
     // add peers to channel
     let peers = options[orgName].peers;
     for (let j in peers) {
@@ -30,12 +30,17 @@ let queryChaincode = async function (request, orgName) {
       }
     }
 
+    let request = {
+      chaincodeId: chaincodeName,
+      fcn: functionName,
+      args: args
+    };
     logger.debug("Make query");
     let response_payloads = await channel.queryByChaincode(request);
     if (response_payloads) {
       let queryResult = response_payloads[0].toString();
       logger.info('Successfully queried the chaincode \'%s\' to the channel \'%s\', query result: %s',
-        options.chaincode_id, options.channel_id, queryResult);
+        chaincodeName, channelName, queryResult);
       return queryResult;
     } else {
       logger.error('response_payloads is null');
