@@ -42,24 +42,6 @@ let instantiateChaincode = async function (chaincodeVersion) {
     chaincodeName, chaincodeVersion, functionName, chaincodeType, args);
 };
 
-let initInvoke = async function (args) {
-  logger.debug('==================== INVOKE ON CHAINCODE ==================');
-  let chaincodeName = 'mycc';
-  let channelName = 'mychannel';
-  let functionName = 'initAccount';
-
-  return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args);
-};
-
-let addPointsInvoke = async function (args) {
-  logger.debug('==================== INVOKE ON CHAINCODE ==================');
-  let chaincodeName = 'mycc';
-  let channelName = 'mychannel';
-  let functionName = 'addPoints';
-
-  return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args);
-};
-
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
 
