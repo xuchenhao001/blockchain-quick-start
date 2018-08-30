@@ -10,7 +10,7 @@ let fabric = require('./fabric-op');
 /* GET home page. */
 router.get('/', express.static('public'));
 
-router.post('/createChannel', async function (req, res) {
+router.post('/channel/create', async function (req, res) {
   let channelID = req.body.channelID;
   if (channelID) {
     logger.debug("Get channel name: \"" + channelID + "\"");
@@ -29,7 +29,7 @@ router.post('/createChannel', async function (req, res) {
   }
 });
 
-router.post('/joinChannel', async function (req, res) {
+router.post('/channel/join', async function (req, res) {
   let channelID = req.body.channelID;
   if (channelID) {
     logger.debug("Get channel name: \"" + channelID + "\"");

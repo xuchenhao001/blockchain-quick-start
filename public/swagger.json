@@ -6,6 +6,14 @@
   },
   "tags": [
     {
+      "name": "Channel",
+      "description": "Channel operations on blockchain network"
+    },
+    {
+      "name": "Chaincode",
+      "description": "Chaincode deployments on blockchain network"
+    },
+    {
       "name": "Invoke",
       "description": "Invoke on blockchain network"
     },
@@ -18,6 +26,170 @@
     "http"
   ],
   "paths": {
+    "/channel/create": {
+      "post": {
+        "tags": [
+          "Channel"
+        ],
+        "summary": "create an channel",
+        "description": "",
+        "operationId": "createChannel",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "create an channel with name 'mychannel'",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateChannel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CreateChannelS"
+            }
+          },
+          "500": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/CreateChannelF"
+            }
+          }
+        }
+      }
+    },
+    "/channel/join": {
+      "post": {
+        "tags": [
+          "Channel"
+        ],
+        "summary": "join peers to the channel",
+        "description": "",
+        "operationId": "joinChannel",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "join all of the peers to channel",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JoinChannel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/JoinChannelS"
+            }
+          },
+          "500": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/JoinChannelF"
+            }
+          }
+        }
+      }
+    },
+    "/chaincode/install": {
+      "post": {
+        "tags": [
+          "Chaincode"
+        ],
+        "summary": "install chaincode to the peers",
+        "description": "",
+        "operationId": "installChaincode",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "install chaincode to the peers",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstallChaincode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/InstallChaincodeS"
+            }
+          },
+          "500": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/InstallChaincodeF"
+            }
+          }
+        }
+      }
+    },
+    "/chaincode/instantiate": {
+      "post": {
+        "tags": [
+          "Chaincode"
+        ],
+        "summary": "instantiate the chaincode",
+        "description": "",
+        "operationId": "instantiateChaincode",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "instantiate the chaincode",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstantiateChaincode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/InstantiateChaincodeS"
+            }
+          },
+          "500": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/InstantiateChaincodeF"
+            }
+          }
+        }
+      }
+    },
     "/invoke/init": {
       "post": {
         "tags": [
@@ -143,6 +315,142 @@
     }
   },
   "definitions": {
+    "CreateChannel": {
+      "type": "object",
+      "required": [
+        "channelID"
+      ],
+      "properties": {
+        "channelID": {
+          "type": "string",
+          "example": "mychannel"
+        }
+      }
+    },
+    "CreateChannelS": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "success"
+        }
+      }
+    },
+    "CreateChannelF": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "failed"
+        },
+        "error": {
+          "type": "string",
+          "example": "Failed to create the channel mychannel"
+        }
+      }
+    },
+    "JoinChannel": {
+      "type": "object",
+      "required": [
+        "channelID"
+      ],
+      "properties": {
+        "channelID": {
+          "type": "string",
+          "example": "mychannel"
+        }
+      }
+    },
+    "JoinChannelS": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "success"
+        }
+      }
+    },
+    "JoinChannelF": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "failed"
+        },
+        "error": {
+          "type": "string",
+          "example": "Failed to join the channel mychannel"
+        }
+      }
+    },
+    "InstallChaincode": {
+      "type": "object",
+      "required": [
+        "version"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "example": "1.0"
+        }
+      }
+    },
+    "InstallChaincodeS": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "success"
+        }
+      }
+    },
+    "InstallChaincodeF": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "failed"
+        },
+        "error": {
+          "type": "string",
+          "example": "Failed to install the chaincode"
+        }
+      }
+    },
+    "InstantiateChaincode": {
+      "type": "object",
+      "required": [
+        "version"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "example": "1.0"
+        }
+      }
+    },
+    "InstantiateChaincodeS": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "success"
+        }
+      }
+    },
+    "InstantiateChaincodeF": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "failed"
+        },
+        "error": {
+          "type": "string",
+          "example": "Failed to instantiate the chaincode"
+        }
+      }
+    },
     "Init": {
       "type": "object",
       "required": [
