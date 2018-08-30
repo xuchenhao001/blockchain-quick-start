@@ -92,7 +92,9 @@ let config = {
           'crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt'
       }
     ]
-  }
+  },
+
+  keyValueStore: '/tmp/fabric-client-stateStore/'
 };
 
 module.exports = config;

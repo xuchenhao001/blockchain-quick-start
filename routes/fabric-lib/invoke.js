@@ -20,7 +20,7 @@ let invokeChaincode = async function (request, orgNames) {
 
   try {
     let fcn_request = request;
-    console.log("Load privateKey and signedCert");
+    logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgNames[0]);
     channel = client.newChannel(options.channel_id);

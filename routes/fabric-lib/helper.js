@@ -30,7 +30,7 @@ let getClientForOrg = async function(orgName){
     skipPersistence: false
   };
   let store = await hfc.newDefaultKeyValueStore({
-    path: "/tmp/fabric-client-stateStore/"
+    path: options.keyValueStore
   });
   await client.setStateStore(store);
   await client.createUser(userOptions);
