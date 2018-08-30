@@ -34,6 +34,7 @@ let config = {
 
   // orderer
   orderer: {
+    server_hostname: 'orderer.example.com',
     url: url.orderer_url,
     tls_ca: certDir +
       'crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt'

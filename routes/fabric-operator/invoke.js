@@ -47,7 +47,7 @@ let invokeChaincode = async function (request, orgNames) {
     let caroots = Buffer.from(odata).toString();
     let orderer = client.newOrderer(options.orderer.url, {
       'pem': caroots,
-      'ssl-target-name-override': "orderer.example.com"
+      'ssl-target-name-override': options.orderer.server_hostname
     });
     channel.addOrderer(orderer);
 

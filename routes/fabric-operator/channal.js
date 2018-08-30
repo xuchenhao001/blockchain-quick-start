@@ -35,7 +35,7 @@ let createChannel = async function(channelName) {
     let caroots = Buffer.from(odata).toString();
     let orderer = client.newOrderer(options.orderer.url, {
       'pem': caroots,
-      'ssl-target-name-override': "orderer.example.com"
+      'ssl-target-name-override': options.orderer.server_hostname
     });
 
     let request = {
@@ -96,7 +96,7 @@ let joinChannel = async function(channelName, orgName) {
     let caroots = Buffer.from(odata).toString();
     let orderer = client.newOrderer(options.orderer.url, {
       'pem': caroots,
-      'ssl-target-name-override': "orderer.example.com"
+      'ssl-target-name-override': options.orderer.server_hostname
     });
     channel.addOrderer(orderer);
     let request = {

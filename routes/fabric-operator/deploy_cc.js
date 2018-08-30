@@ -130,6 +130,15 @@ let instantiateChaincode = async function(channelName, chaincodeName, chaincodeV
       }
     }
 
+    // add orderer to channel
+    let odata = fs.readFileSync(options.orderer.tls_ca);
+    let caroots = Buffer.from(odata).toString();
+    let orderer = client.newOrderer(options.orderer.url, {
+      'pem': caroots,
+      'ssl-target-name-override': options.orderer.server_hostname
+    });
+    channel.addOrderer(orderer);
+
     let tx_id = client.newTransactionID(true); // Get an admin based transactionID
     // An admin based transactionID will
     // indicate that admin identity should
