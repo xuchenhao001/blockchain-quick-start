@@ -108,7 +108,6 @@ function generateChannelArtifacts() {
 }
 
 function prepareEnv() {
-  rm -rf /tmp/fabric-client-stateStore
   IMAGE_TAG=$IMAGETAG docker-compose -f docker-compose.yaml up -d 2>&1
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to start network"

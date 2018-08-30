@@ -8,7 +8,6 @@ let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
 let options = require('./config/config');
-let path = require('path');
 let util = require('util');
 
 hfc.setLogger(logger);
@@ -19,7 +18,7 @@ let installChaincode = async function (orgNames, chaincodeName, chaincodePath,
   let error_message = null;
   try {
     logger.info('Calling peers in organization "%s" to join the channel', orgNames);
-    process.env.GOPATH = path.join(__dirname, '../../sample-network/chaincode');
+    process.env.GOPATH = options.goPath;
 
     // install chaincode for each org
     for (let i in orgNames) {

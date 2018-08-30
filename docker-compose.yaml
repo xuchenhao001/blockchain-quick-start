@@ -13,5 +13,5 @@ services:
     ports:
       - 3414:3414
     volumes:
-      - ./sample-network/crypto-config/:/var/crypto-config/
+      - ./sample-network/:/var/
 

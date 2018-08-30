@@ -41,6 +41,7 @@ function networkDown() {
   rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config 
   # remove the docker-compose yaml file that was customized to the example
   rm -f docker-compose-e2e.yaml
+  rm -rf ./fabric-client-stateStore
 }
 
 networkDown
