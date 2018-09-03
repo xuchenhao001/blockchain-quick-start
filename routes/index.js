@@ -19,12 +19,14 @@ router.post('/channel/create', async function (req, res) {
   }
   logger.debug("Get channel name: \"" + channelName + "\"");
 
-  let createResult = await fabric.createChannel(channelName);
-  logger.debug(createResult);
-  if (createResult[0]===true) {
-    res.status(200).json({"result": "success"});
-  } else {
-    res.status(500).json({"result": "failed", "error": createResult[1]});
+  if (channelName) {
+    let createResult = await fabric.createChannel(channelName);
+    logger.debug(createResult);
+    if (createResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": createResult[1]});
+    }
   }
 });
 
@@ -37,12 +39,14 @@ router.post('/channel/join', async function (req, res) {
   }
   logger.debug("Get channel name: \"" + channelName + "\"");
 
-  let joinResult = await fabric.joinChannel(channelName);
-  logger.debug(joinResult);
-  if (joinResult[0]===true) {
-    res.status(200).json({"result": "success"});
-  } else {
-    res.status(500).json({"result": "failed", "error": joinResult[1]});
+  if (channelName) {
+    let joinResult = await fabric.joinChannel(channelName);
+    logger.debug(joinResult);
+    if (joinResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": joinResult[1]});
+    }
   }
 });
 
@@ -63,7 +67,7 @@ router.post('/chaincode/install', async function (req, res) {
   }
   logger.debug("Get chaincode path: \"" + chaincodePath + "\"");
 
-  let chaincodeType = req.body.chaincodeVersion;
+  let chaincodeType = req.body.chaincodeType;
   if (typeof chaincodeType === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeType\" doesn't exist";
     logger.error(errMessage);
@@ -79,13 +83,15 @@ router.post('/chaincode/install', async function (req, res) {
   }
   logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
 
-  let installResult = await fabric.installChaincode(chaincodeName,
-    chaincodePath, chaincodeType, chaincodeVersion);
-  logger.debug(installResult);
-  if (installResult[0]===true) {
-    res.status(200).json({"result": "success"});
-  } else {
-    res.status(500).json({"result": "failed", "error": installResult[1]});
+  if (chaincodeName && chaincodePath && chaincodeType && chaincodeVersion) {
+    let installResult = await fabric.installChaincode(chaincodeName,
+      chaincodePath, chaincodeType, chaincodeVersion);
+    logger.debug(installResult);
+    if (installResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": installResult[1]});
+    }
   }
 });
 
@@ -138,13 +144,15 @@ router.post('/chaincode/instantiate', async function (req, res) {
     logger.debug("Get args: \"" + args + "\"");
   }
 
-  let instantiateResult = await fabric.instantiateChaincode(chaincodeName,
-    chaincodeType, chaincodeVersion, channelName, functionName, args);
-  logger.debug(instantiateResult);
-  if (instantiateResult[0]===true) {
-    res.status(200).json({"result": "success"});
-  } else {
-    res.status(500).json({"result": "failed", "error": instantiateResult[1]});
+  if (chaincodeName && chaincodeType && chaincodeVersion && channelName) {
+    let instantiateResult = await fabric.instantiateChaincode(chaincodeName,
+      chaincodeType, chaincodeVersion, channelName, functionName, args);
+    logger.debug(instantiateResult);
+    if (instantiateResult[0]===true) {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": instantiateResult[1]});
+    }
   }
 });
 
@@ -168,12 +176,14 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get function name: \"" + functionName + "\"");
 
-  let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName, functionName, args);
-  logger.debug(invokeResut);
-  if (invokeResut[0]==='yes') {
-    res.status(200).json({"result": "success"});
-  } else {
-    res.status(500).json({"result": "failed", "error": invokeResut[1]});
+  if (chaincodeName && channelName && functionName && args) {
+    let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName, functionName, args);
+    logger.debug(invokeResut);
+    if (invokeResut[0]==='yes') {
+      res.status(200).json({"result": "success"});
+    } else {
+      res.status(500).json({"result": "failed", "error": invokeResut[1]});
+    }
   }
 });
 
@@ -197,12 +207,14 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get function name: \"" + functionName + "\"");
 
-  let queryResult = await fabric.queryChaincode(chaincodeName, channelName, functionName, args);
-  logger.debug(queryResult);
-  if (queryResult[0]===true) {
-    res.status(200).json({"result": queryResult[1]});
-  } else {
-    res.status(500).json({"result": "failed", "error": queryResult[1]});
+  if (chaincodeName && channelName && functionName && args) {
+    let queryResult = await fabric.queryChaincode(chaincodeName, channelName, functionName, args);
+    logger.debug(queryResult);
+    if (queryResult[0]===true) {
+      res.status(200).json({"result": queryResult[1]});
+    } else {
+      res.status(500).json({"result": "failed", "error": queryResult[1]});
+    }
   }
 });
 
