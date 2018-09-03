@@ -1,8 +1,7 @@
 'use strict';
 
-let homeDir = '/root/blockchain-quick-start/sample-network/';
+let homeDir = '/var/';
 
-/*
 // url config
 let url = {
   // orderer
@@ -23,28 +22,28 @@ let url = {
     peer1_network: 'grpcs://peer1.org2.example.com:7051',
     peer1_event: 'grpcs://peer1.org2.example.com:7053',
   }
-};*/
-
-let url = {
-  // orderer
-  orderer_url: 'grpcs://localhost:7050',
-
-  // org1
-  org1: {
-    peer0_network: 'grpcs://localhost:7051',
-    peer0_event: 'grpcs://localhost:7053',
-    peer1_network: 'grpcs://localhost:8051',
-    peer1_event: 'grpcs://localhost:8053'
-  },
-
-  // org2
-  org2: {
-    peer0_network: 'grpcs://localhost:9051',
-    peer0_event: 'grpcs://localhost:9053',
-    peer1_network: 'grpcs://localhost:10051',
-    peer1_event: 'grpcs://localhost:10053',
-  }
 };
+
+// let url = {
+//   // orderer
+//   orderer_url: 'grpcs://localhost:7050',
+//
+//   // org1
+//   org1: {
+//     peer0_network: 'grpcs://localhost:7051',
+//     peer0_event: 'grpcs://localhost:7053',
+//     peer1_network: 'grpcs://localhost:8051',
+//     peer1_event: 'grpcs://localhost:8053'
+//   },
+//
+//   // org2
+//   org2: {
+//     peer0_network: 'grpcs://localhost:9051',
+//     peer0_event: 'grpcs://localhost:9053',
+//     peer1_network: 'grpcs://localhost:10051',
+//     peer1_event: 'grpcs://localhost:10053',
+//   }
+// };
 
 let config = {
   // orderer

@@ -190,48 +190,7 @@
         }
       }
     },
-    "/invoke/init": {
-      "post": {
-        "tags": [
-          "Invoke"
-        ],
-        "summary": "init an account",
-        "description": "",
-        "operationId": "invokeInit",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "init an account with balance '0'",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Init"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/InitResponseS"
-            }
-          },
-          "400": {
-            "description": "Failed",
-            "schema": {
-              "$ref": "#/definitions/InitResponseF"
-            }
-          }
-        }
-      }
-    },
-    "/invoke/addPoints": {
+    "/invoke/{channelName}/{chaincodeName}": {
       "post": {
         "tags": [
           "Invoke"
@@ -247,12 +206,26 @@
         ],
         "parameters": [
           {
+            "name": "channelName",
+            "in": "path",
+            "description": "channel name to invoke (mychannel)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "chaincodeName",
+            "in": "path",
+            "description": "chaincode name to invoke (mycc)",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
-            "description": "add points to an account",
+            "description": "invoke details",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AddPoints"
+              "$ref": "#/definitions/Invoke"
             }
           }
         ],
@@ -260,19 +233,19 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/AddPointsResponseS"
+              "$ref": "#/definitions/InvokeS"
             }
           },
           "500": {
             "description": "Failed",
             "schema": {
-              "$ref": "#/definitions/AddPointsResponseF"
+              "$ref": "#/definitions/InvokeF"
             }
           }
         }
       }
     },
-    "/query/balance": {
+    "/query/{channelName}/{chaincodeName}": {
       "post": {
         "tags": [
           "Query"
@@ -288,9 +261,23 @@
         ],
         "parameters": [
           {
+            "name": "channelName",
+            "in": "path",
+            "description": "channel name to query (mychannel)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "chaincodeName",
+            "in": "path",
+            "description": "chaincode name to query (mycc)",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
-            "description": "query the balance of an account",
+            "description": "query details",
             "required": true,
             "schema": {
               "$ref": "#/definitions/QueryBalance"
@@ -318,10 +305,10 @@
     "CreateChannel": {
       "type": "object",
       "required": [
-        "channelID"
+        "channelName"
       ],
       "properties": {
-        "channelID": {
+        "channelName": {
           "type": "string",
           "example": "mychannel"
         }
@@ -352,10 +339,10 @@
     "JoinChannel": {
       "type": "object",
       "required": [
-        "channelID"
+        "channelName"
       ],
       "properties": {
-        "channelID": {
+        "channelName": {
           "type": "string",
           "example": "mychannel"
         }
@@ -386,12 +373,27 @@
     "InstallChaincode": {
       "type": "object",
       "required": [
-        "version"
+        "chaincodeName",
+        "chaincodePath",
+        "chaincodeType",
+        "chaincodeVersion"
       ],
       "properties": {
-        "version": {
+        "chaincodeName": {
           "type": "string",
-          "example": "1.0"
+          "example": "mycc"
+        },
+        "chaincodePath": {
+          "type": "string",
+          "example": "github.com/example_cc"
+        },
+        "chaincodeType": {
+          "type": "string",
+          "example": "golang"
+        },
+        "chaincodeVersion": {
+          "type": "string",
+          "example": "v1.0"
         }
       }
     },
@@ -420,12 +422,37 @@
     "InstantiateChaincode": {
       "type": "object",
       "required": [
-        "version"
+        "chaincodeName",
+        "chaincodeType",
+        "chaincodeVersion",
+        "channelName",
+        "functionName",
+        "args"
       ],
       "properties": {
-        "version": {
+        "chaincodeName": {
           "type": "string",
-          "example": "1.0"
+          "example": "mycc"
+        },
+        "chaincodeType": {
+          "type": "string",
+          "example": "golang"
+        },
+        "chaincodeVersion": {
+          "type": "string",
+          "example": "v1.0"
+        },
+        "channelName": {
+          "type": "string",
+          "example": "mychannel"
+        },
+        "functionName": {
+          "type": "string",
+          "example": ""
+        },
+        "args": {
+          "type": "string",
+          "example": []
         }
       }
     },
@@ -451,54 +478,27 @@
         }
       }
     },
-    "Init": {
+    "Invoke": {
       "type": "object",
       "required": [
-        "account"
+        "functionName",
+        "args"
       ],
       "properties": {
-        "account": {
+        "functionName": {
           "type": "string",
-          "example": "testAccount"
-        }
-      }
-    },
-    "InitResponseS": {
-      "type": "object",
-      "properties": {
-        "tx_id": {
-          "type": "string",
-          "example": "0c4590348b9f4378468d18f9de53118a396083a02ca68add267a1c816a23acb6"
-        }
-      }
-    },
-    "InitResponseF": {
-      "type": "object",
-      "properties": {
-        "error": {
-          "type": "string",
-          "example": "Request Error, parameter \"account\" doesn''t exist"
-        }
-      }
-    },
-    "AddPoints": {
-      "type": "object",
-      "required": [
-        "account",
-        "points"
-      ],
-      "properties": {
-        "account": {
-          "type": "string",
-          "example": "testAccount"
+          "example": "put"
         },
-        "points": {
+        "args": {
           "type": "string",
-          "example": "5"
+          "example": [
+            "user",
+            "1"
+          ]
         }
       }
     },
-    "AddPointsResponseS": {
+    "InvokeS": {
       "type": "object",
       "properties": {
         "tx_id": {
@@ -507,7 +507,7 @@
         }
       }
     },
-    "AddPointsResponseF": {
+    "InvokeF": {
       "type": "object",
       "properties": {
         "error": {
@@ -519,12 +519,19 @@
     "QueryBalance": {
       "type": "object",
       "required": [
-        "account"
+        "functionName",
+        "args"
       ],
       "properties": {
-        "account": {
+        "functionName": {
           "type": "string",
-          "example": "testAccount"
+          "example": "get"
+        },
+        "args": {
+          "type": "string",
+          "example": [
+            "user"
+          ]
         }
       }
     },
@@ -542,10 +549,9 @@
       "properties": {
         "error": {
           "type": "string",
-          "example": "Error: Incorrect number of arguments. Expecting account of the person to query"
+          "example": "Error: Incorrect number of arguments"
         }
       }
     }
   }
 }
-
