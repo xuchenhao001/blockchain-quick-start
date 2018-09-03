@@ -12,6 +12,10 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
+/* installation also needs:
+                            options.goPath
+                            options.orgs
+*/
 let installChaincode = async function (chaincodeName, chaincodePath,
                                        chaincodeVersion, chaincodeType) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
@@ -97,8 +101,12 @@ let installChaincode = async function (chaincodeName, chaincodePath,
   }
 };
 
-let instantiateChaincode = async function(channelName, chaincodeName,
-                                          chaincodeVersion, functionName, chaincodeType, args) {
+/* instantiation also needs:
+                             options.orgs
+                             options.orderer
+*/
+let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion,
+                                          channelName, functionName, args) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = null;

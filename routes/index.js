@@ -65,20 +65,61 @@ router.post('/chaincode/install', async function (req, res) {
 });
 
 router.post('/chaincode/instantiate', async function (req, res) {
-  let chaincodeVersion = req.body.version;
-  if (chaincodeVersion) {
-    logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
-    let instantiateResult = await fabric.instantiateChaincode(chaincodeVersion);
-    logger.debug(instantiateResult);
-    if (instantiateResult[0]===true) {
-      res.status(200).json({"result": "success"});
-    } else {
-      res.status(500).json({"result": "failed", "error": instantiateResult[1]});
-    }
-  } else {
-    let errMessage = "Request Error, parameter \"version\" doesn't exist";
+  let chaincodeName = req.body.chaincodeName;
+  if (typeof chaincodeName === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
+
+  let chaincodeType = req.body.chaincodeType;
+  if (typeof chaincodeType === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeType\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get chaincode type: \"" + chaincodeType + "\"");
+
+  let chaincodeVersion = req.body.chaincodeVersion;
+  if (typeof chaincodeVersion === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let functionName = req.body.functionName;
+  if (typeof functionName === 'undefined') {
+    logger.debug("Parameter \"functionName\" doesn't exist, set as null");
+    functionName = "";
+  } else {
+    logger.debug("Get function name: \"" + functionName + "\"");
+  }
+
+  let args = req.body.args;
+  if (typeof args === 'undefined') {
+    logger.debug("Parameter \"args\" doesn't exist, set as null");
+    args = [];
+  } else {
+    logger.debug("Get args: \"" + args + "\"");
+  }
+
+  let instantiateResult = await fabric.instantiateChaincode(chaincodeName,
+    chaincodeType, chaincodeVersion, channelName, functionName, args);
+  logger.debug(instantiateResult);
+  if (instantiateResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": instantiateResult[1]});
   }
 });
 
@@ -92,11 +133,11 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
   }
-  logger.debug("Get query args: \"" + args + "\"");
+  logger.debug("Get invoke args: \"" + args + "\"");
 
-  let functionName = req.body.function;
+  let functionName = req.body.functionName;
   if (typeof functionName === 'undefined') {
-    let errMessage = "Request Error, parameter \"function\" doesn't exist";
+    let errMessage = "Request Error, parameter \"functionName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
   }
@@ -123,9 +164,9 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get query args: \"" + args + "\"");
 
-  let functionName = req.body.function;
+  let functionName = req.body.functionName;
   if (typeof functionName === 'undefined') {
-    let errMessage = "Request Error, parameter \"function\" doesn't exist";
+    let errMessage = "Request Error, parameter \"functionName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"error": errMessage});
   }

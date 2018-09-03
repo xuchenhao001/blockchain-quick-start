@@ -22,6 +22,7 @@ let joinChannel = async function (channelName) {
 
 let installChaincode = async function (chaincodeVersion) {
   logger.debug('==================== INSTALL CHAINCODE ==================');
+
   let chaincodeName = 'mycc';
   let chaincodePath = 'github.com/example_cc';
   let chaincodeType = 'golang';
@@ -30,16 +31,12 @@ let installChaincode = async function (chaincodeVersion) {
     chaincodePath, chaincodeVersion, chaincodeType);
 };
 
-let instantiateChaincode = async function (chaincodeVersion) {
+let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion,
+                                           channelName, functionName, args) {
   logger.debug('==================== INSTANTIATE CHAINCODE ==================');
-  let args = [];
-  let chaincodeName = 'mycc';
-  let chaincodeType = 'golang';
-  let channelName = 'mychannel';
-  let functionName = '';
 
-  return await deployCC.instantiateChaincode(channelName,
-    chaincodeName, chaincodeVersion, functionName, chaincodeType, args);
+  return await deployCC.instantiateChaincode(chaincodeName, chaincodeType,
+      chaincodeVersion, channelName, functionName, args);
 };
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args) {

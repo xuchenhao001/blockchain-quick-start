@@ -12,6 +12,10 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
+/* invocation also needs:
+                          options.orderer
+                          options.orgs
+*/
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args) {
   let channel = {};
   let error_message = null;
@@ -182,6 +186,9 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
   }
 };
 
+/* query also needs:
+                     options.orgs
+*/
 let queryChaincode = async function (chaincodeName, channelName, functionName, args) {
   try {
     logger.debug("Load privateKey and signedCert");
