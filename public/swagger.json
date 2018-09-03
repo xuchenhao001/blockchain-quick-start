@@ -195,9 +195,9 @@
         "tags": [
           "Invoke"
         ],
-        "summary": "add points",
+        "summary": "invoke chaincode",
         "description": "",
-        "operationId": "addPoints",
+        "operationId": "invokeChaincode",
         "consumes": [
           "application/json"
         ],
@@ -250,9 +250,9 @@
         "tags": [
           "Query"
         ],
-        "summary": "query balance",
+        "summary": "query chaincode",
         "description": "",
-        "operationId": "queryBalance",
+        "operationId": "queryChaincode",
         "consumes": [
           "application/json"
         ],
