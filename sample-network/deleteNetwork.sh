@@ -31,8 +31,6 @@ function networkDown() {
   # stop org3 containers also in addition to org1 and org2, in case we were running sample to add org3
   docker-compose -f docker-compose.yaml down --volumes --remove-orphans
   # Bring down the network, deleting the volumes
-  #Delete any ledger backups
-  docker run -v $PWD:/tmp/first-network --rm hyperledger/fabric-tools:$IMAGETAG rm -Rf /tmp/first-network/ledgers-backup
   #Cleanup the chaincode containers
   clearContainers
   #Cleanup images
