@@ -89,7 +89,8 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 
     if (all_good) {
       logger.info(
-        'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
+        'Successfully sent Proposal and received ProposalResponse: ' +
+        'Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
         proposalResponses[0].response.status, proposalResponses[0].response.message,
         proposalResponses[0].response.payload, proposalResponses[0].endorsement.signature);
 
@@ -107,7 +108,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
             return [false, message];
           }, 3000);
           eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
-              logger.info('The chaincode invoke chaincode transaction has been committed on peer %s', eh.getPeerAddr());
+              logger.info('The chaincode invoke transaction has been committed on peer %s', eh.getPeerAddr());
               logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
               clearTimeout(event_timeout);
 

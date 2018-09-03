@@ -12,6 +12,11 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
+/* create channel also needs:
+                              options.channelConfigPath
+                              options.orderer
+                              options.orgs
+*/
 let createChannel = async function(channelName) {
   logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
   try {
@@ -64,7 +69,10 @@ let createChannel = async function(channelName) {
   }
 };
 
-
+/* join channel also needs:
+                            options.orderer
+                            options.orgs
+*/
 let joinChannel = async function(channelName) {
   logger.debug('\n\n============ Join Channel start ============\n');
   let error_message = null;

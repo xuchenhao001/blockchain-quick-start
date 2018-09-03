@@ -11,56 +11,81 @@ let fabric = require('./fabric-op');
 router.get('/', express.static('public'));
 
 router.post('/channel/create', async function (req, res) {
-  let channelID = req.body.channelID;
-  if (channelID) {
-    logger.debug("Get channel name: \"" + channelID + "\"");
-    let createResult = await fabric.createChannel(channelID);
-    logger.debug(createResult);
-    if (createResult[0]===true) {
-      res.status(200).json({"result": "success"});
-    } else {
-      res.status(500).json({"result": "failed", "error": createResult[1]});
-    }
-  } else {
-    let errMessage = "Request Error, parameter \"channelID\" doesn't exist";
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let createResult = await fabric.createChannel(channelName);
+  logger.debug(createResult);
+  if (createResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": createResult[1]});
   }
 });
 
 router.post('/channel/join', async function (req, res) {
-  let channelID = req.body.channelID;
-  if (channelID) {
-    logger.debug("Get channel name: \"" + channelID + "\"");
-    let joinResult = await fabric.joinChannel(channelID);
-    logger.debug(joinResult);
-    if (joinResult[0]===true) {
-      res.status(200).json({"result": "success"});
-    } else {
-      res.status(500).json({"result": "failed", "error": joinResult[1]});
-    }
-  } else {
-    let errMessage = "Request Error, parameter \"channelID\" doesn't exist";
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let joinResult = await fabric.joinChannel(channelName);
+  logger.debug(joinResult);
+  if (joinResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": joinResult[1]});
   }
 });
 
 router.post('/chaincode/install', async function (req, res) {
-  let chaincodeVersion = req.body.version;
-  if (chaincodeVersion) {
-    logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
-    let installResult = await fabric.installChaincode(chaincodeVersion);
-    logger.debug(installResult);
-    if (installResult[0]===true) {
-      res.status(200).json({"result": "success"});
-    } else {
-      res.status(500).json({"result": "failed", "error": installResult[1]});
-    }
-  } else {
-    let errMessage = "Request Error, parameter \"version\" doesn't exist";
+  let chaincodeName = req.body.chaincodeName;
+  if (typeof chaincodeName === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
+
+  let chaincodePath = req.body.chaincodePath;
+  if (typeof chaincodePath === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodePath\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get chaincode path: \"" + chaincodePath + "\"");
+
+  let chaincodeType = req.body.chaincodeVersion;
+  if (typeof chaincodeType === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeType\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get chaincode type: \"" + chaincodeType + "\"");
+
+  let chaincodeVersion = req.body.chaincodeVersion;
+  if (typeof chaincodeVersion === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+  }
+  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+
+  let installResult = await fabric.installChaincode(chaincodeName,
+    chaincodePath, chaincodeType, chaincodeVersion);
+  logger.debug(installResult);
+  if (installResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": installResult[1]});
   }
 });
 

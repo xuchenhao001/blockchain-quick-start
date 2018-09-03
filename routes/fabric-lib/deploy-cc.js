@@ -17,11 +17,10 @@ hfc.setLogger(logger);
                             options.orgs
 */
 let installChaincode = async function (chaincodeName, chaincodePath,
-                                       chaincodeVersion, chaincodeType) {
+                                       chaincodeType, chaincodeVersion) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
   try {
-
     process.env.GOPATH = options.goPath;
 
     let orgs = options.orgs;
@@ -79,7 +78,8 @@ let installChaincode = async function (chaincodeName, chaincodePath,
         if (all_good) {
           logger.info('Successfully sent install Proposal and received ProposalResponse');
         } else {
-          error_message = 'Failed to send install Proposal or receive valid response. Response null or status is not 200';
+          error_message = 'Failed to send install Proposal or receive valid response. ' +
+            'Response null or status is not 200';
           logger.error(error_message);
         }
       }
@@ -194,7 +194,8 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
 
     if (all_good) {
       logger.info(util.format(
-        'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
+        'Successfully sent Proposal and received ProposalResponse: ' +
+        'Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
         proposalResponses[0].response.status, proposalResponses[0].response.message,
         proposalResponses[0].response.payload, proposalResponses[0].endorsement.signature));
 
