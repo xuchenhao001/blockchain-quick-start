@@ -34,15 +34,22 @@ function replacePrivateKey () {
   cd crypto-config/peerOrganizations/org1.example.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
-  sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+  sed -i "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
   cd crypto-config/peerOrganizations/org2.example.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
-  sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+  sed -i "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
   # If MacOSX, remove the temporary backup of the docker-compose file
-  if [ "$ARCH" == "Darwin" ]; then
-    rm docker-compose-e2e.yamlt
-  fi
+
+  cp ../config/network-config-template.yaml ../config/network-config.yaml
+  cd crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed -i "s/ORG1_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
+  cd crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed -i "s/ORG2_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
 }
 
 # Generate orderer genesis block, channel configuration transaction and
@@ -108,7 +115,10 @@ function generateChannelArtifacts() {
 }
 
 function prepareEnv() {
-  IMAGE_TAG=$IMAGETAG docker-compose -f docker-compose.yaml up -d 2>&1
+  # comment this when your env is container
+  sed -i 's/\/var/\/root\/blockchain-quick-start\/sample-network/g' ../config/network-config.yaml
+
+  IMAGE_TAG=$IMAGETAG docker-compose -f docker-compose-e2e.yaml up -d 2>&1
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to start network"
     exit 1

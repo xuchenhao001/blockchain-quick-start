@@ -7,82 +7,59 @@ logger.level = 'DEBUG';
 let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
-let options = require('./config/config');
 let util = require('util');
 
 hfc.setLogger(logger);
 
-/* installation also needs:
-                            options.goPath
-                            options.orgs
-*/
-let installChaincode = async function (chaincodeName, chaincodePath,
-                                       chaincodeType, chaincodeVersion) {
+
+let installChaincode = async function (chaincodeName, chaincodePath, chaincodeType,
+                                       chaincodeVersion, orgName, peers) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
   try {
-    process.env.GOPATH = options.goPath;
+    process.env.GOPATH = '/root/blockchain-quick-start/sample-network/chaincode/';
 
-    let orgs = options.orgs;
     // install chaincode for each org
-    for (let i in orgs) {
-      if (orgs.hasOwnProperty(i)) {
-        let targets = [];
-        logger.info('Calling peers in organization "%s" to join the channel', orgs[i].name);
-        // first setup the client for this org
-        let client = await helper.getClientForOrg(orgs[i]);
-        logger.debug('Successfully got the fabric client for the organization "%s"', orgs[i].name);
-        let peers = orgs[i].peers;
+    logger.info('Calling peers in organization "%s" to join the channel', orgName);
+    // first setup the client for this org
+    let client = await helper.getClientForOrg(orgName);
+    logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
-        // load all of the peers of this org
-        for (let j in peers) {
-          if (peers.hasOwnProperty(j)) {
-            let caData = fs.readFileSync(peers[j].tls_ca);
-            let peer = client.newPeer(peers[j].peer_url, {
-              pem: Buffer.from(caData).toString(),
-              'ssl-target-name-override': peers[j].server_hostname
-            });
-            targets.push(peer);
-          }
-        }
+    let request = {
+      targets: peers,
+      chaincodePath: chaincodePath,
+      chaincodeId: chaincodeName,
+      chaincodeVersion: chaincodeVersion,
+      chaincodeType: chaincodeType
+    };
+    let results = await client.installChaincode(request);
+    // the returned object has both the endorsement results (results[0])
+    // and the actual proposal (results[1])
+    let proposalResponses = results[0];
 
-        let request = {
-          targets: targets,
-          chaincodePath: chaincodePath,
-          chaincodeId: chaincodeName,
-          chaincodeVersion: chaincodeVersion,
-          chaincodeType: chaincodeType
-        };
-        let results = await client.installChaincode(request);
-        // the returned object has both the endorsement results (results[0])
-        // and the actual proposal (results[1])
-        let proposalResponses = results[0];
-
-        // lets have a look at the responses to see if they are
-        // all good, if good they will also include signatures
-        // required to be committed
-        let all_good = true;
-        for (let i in proposalResponses) {
-          if (proposalResponses.hasOwnProperty(i)) {
-            let one_good = false;
-            if (proposalResponses && proposalResponses[i].response &&
-              proposalResponses[i].response.status === 200) {
-              one_good = true;
-              logger.info('install proposal was good');
-            } else {
-              logger.error('install proposal was bad %s', proposalResponses.toString());
-            }
-            all_good = all_good && one_good;
-          }
-        }
-        if (all_good) {
-          logger.info('Successfully sent install Proposal and received ProposalResponse');
+    // lets have a look at the responses to see if they are
+    // all good, if good they will also include signatures
+    // required to be committed
+    let all_good = true;
+    for (let i in proposalResponses) {
+      if (proposalResponses.hasOwnProperty(i)) {
+        let one_good = false;
+        if (proposalResponses && proposalResponses[i].response &&
+          proposalResponses[i].response.status === 200) {
+          one_good = true;
+          logger.info('install proposal was good');
         } else {
-          error_message = 'Failed to send install Proposal or receive valid response. ' +
-            'Response null or status is not 200';
-          logger.error(error_message);
+          logger.error('install proposal was bad %s', proposalResponses.toString());
         }
+        all_good = all_good && one_good;
       }
+    }
+    if (all_good) {
+      logger.info('Successfully sent install Proposal and received ProposalResponse');
+    } else {
+      error_message = 'Failed to send install Proposal or receive valid response. ' +
+        'Response null or status is not 200';
+      logger.error(error_message);
     }
   }
   catch (error) {
@@ -101,53 +78,23 @@ let installChaincode = async function (chaincodeName, chaincodePath,
   }
 };
 
-/* instantiation also needs:
-                             options.orgs
-                             options.orderer
-*/
+
 let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion,
-                                          channelName, functionName, args) {
+                                          channelName, functionName, args, orgName, peers) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = null;
-  let orgs = options.orgs;
 
   try {
     // first setup the client for this org
-    let client = await helper.getClientForOrg(orgs[0]);
-    logger.debug('Successfully got the fabric client for the organization "%s"', orgs[0].name);
-    let channel = client.newChannel(channelName);
+    let client = await helper.getClientForOrg(orgName);
+    logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
+    let channel = client.getChannel(channelName);
     if(!channel) {
       let message = util.format('Channel %s was not defined in the connection profile', channelName);
       logger.error(message);
       return [false, message];
     }
-
-    // add all org and all peers
-    for (let i in orgs) {
-      if (orgs.hasOwnProperty(i)) {
-        let peers = orgs[i].peers;
-        for (let j in peers) {
-          if (peers.hasOwnProperty(j)) {
-            let caData = fs.readFileSync(peers[j].tls_ca);
-            let peer = client.newPeer(peers[j].peer_url, {
-              pem: Buffer.from(caData).toString(),
-              'ssl-target-name-override': peers[j].server_hostname
-            });
-            channel.addPeer(peer);
-          }
-        }
-      }
-    }
-
-    // add orderer to channel
-    let odata = fs.readFileSync(options.orderer.tls_ca);
-    let caroots = Buffer.from(odata).toString();
-    let orderer = client.newOrderer(options.orderer.url, {
-      'pem': caroots,
-      'ssl-target-name-override': options.orderer.server_hostname
-    });
-    channel.addOrderer(orderer);
 
     let tx_id = client.newTransactionID(true); // Get an admin based transactionID
     // An admin based transactionID will
@@ -158,6 +105,7 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
 
     // send proposal to endorser
     let request = {
+      targets: peers,
       chaincodeId: chaincodeName,
       chaincodeType: chaincodeType,
       chaincodeVersion: chaincodeVersion,
@@ -203,7 +151,7 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
       // instantiate transaction was committed on the peer
       let promises = [];
       let event_hubs = channel.getChannelEventHubsForOrg();
-      logger.debug('found %s eventhubs for this organization %s',event_hubs.length, orgs[0].name);
+      logger.debug('found %s eventhubs for this organization %s',event_hubs.length, orgName);
       event_hubs.forEach((eh) => {
         let instantiateEventPromise = new Promise((resolve, reject) => {
           logger.debug('instantiateEventPromise - setting up event');
@@ -290,7 +238,7 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
   if (!error_message) {
     let message = util.format(
       'Successfully instantiate chaingcode in organization %s to the channel \'%s\'',
-      orgs[0].name, channelName);
+      orgName, channelName);
     logger.info(message);
     // build a response to send back to the REST caller
     return [true, message];

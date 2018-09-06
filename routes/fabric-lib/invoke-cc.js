@@ -7,55 +7,30 @@ logger.level = 'DEBUG';
 let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
-let options = require('./config/config');
 let util = require('util');
 
 hfc.setLogger(logger);
 
-/* invocation also needs:
-                          options.orderer
-                          options.orgs
-*/
-let invokeChaincode = async function (chaincodeName, channelName, functionName, args) {
-  let channel = {};
+
+let invokeChaincode = async function (chaincodeName, channelName, functionName, args, orgName, peers) {
   let error_message = null;
   let tx_id_string = null;
 
   try {
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
-    let client = await helper.getClientForOrg(options.orgs[0]);
-    channel = client.newChannel(channelName);
-
-    // add all org and all peers
-    let orgs = options.orgs;
-    for (let i in orgs) {
-      if (orgs.hasOwnProperty(i)) {
-        let peers = orgs[i].peers;
-        for (let j in peers) {
-          if (peers.hasOwnProperty(j)) {
-            let caData = fs.readFileSync(peers[j].tls_ca);
-            let peer = client.newPeer(peers[j].peer_url, {
-              pem: Buffer.from(caData).toString(),
-              'ssl-target-name-override': peers[j].server_hostname
-            });
-            channel.addPeer(peer);
-          }
-        }
-      }
+    let client = await helper.getClientForOrg(orgName);
+    let channel = client.getChannel(channelName);
+    if(!channel) {
+      let message = util.format('Channel %s was not defined in the connection profile', channelName);
+      logger.error(message);
+      return [false, message];
     }
-
-    let odata = fs.readFileSync(options.orderer.tls_ca);
-    let caroots = Buffer.from(odata).toString();
-    let orderer = client.newOrderer(options.orderer.url, {
-      'pem': caroots,
-      'ssl-target-name-override': options.orderer.server_hostname
-    });
-    channel.addOrderer(orderer);
 
     let tx_id = client.newTransactionID();
     tx_id_string = tx_id.getTransactionID();
     let request = {
+      targets: peers,
       args: args,
       chaincodeId: chaincodeName,
       chainId: channelName,
@@ -106,7 +81,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
             logger.error(message);
             eh.disconnect();
             return [false, message];
-          }, 3000);
+          }, 5000);
           eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
               logger.info('The chaincode invoke transaction has been committed on peer %s', eh.getPeerAddr());
               logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
@@ -187,35 +162,21 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
   }
 };
 
-/* query also needs:
-                     options.orgs
-*/
-let queryChaincode = async function (chaincodeName, channelName, functionName, args) {
+
+let queryChaincode = async function (chaincodeName, channelName, functionName, args, orgName, peers) {
   try {
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
-    let orgs = options.orgs;
-    let client = await helper.getClientForOrg(orgs[0]);
-    let channel = client.newChannel(channelName);
-
-    // add all org and all peers
-    for (let i in orgs) {
-      if (orgs.hasOwnProperty(i)) {
-        let peers = orgs[i].peers;
-        for (let j in peers) {
-          if (peers.hasOwnProperty(j)) {
-            let caData = fs.readFileSync(peers[j].tls_ca);
-            let peer = client.newPeer(peers[j].peer_url, {
-              pem: Buffer.from(caData).toString(),
-              'ssl-target-name-override': peers[j].server_hostname
-            });
-            channel.addPeer(peer);
-          }
-        }
-      }
+    let client = await helper.getClientForOrg(orgName);
+    let channel = client.getChannel(channelName);
+    if(!channel) {
+      let message = util.format('Channel %s was not defined in the connection profile', channelName);
+      logger.error(message);
+      return [false, message];
     }
 
     let request = {
+      targets: peers,
       chaincodeId: chaincodeName,
       fcn: functionName,
       args: args

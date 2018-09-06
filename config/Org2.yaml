@@ -1,0 +1,29 @@
+name: "sample-network"
+version: "1.0"
+
+#
+# The client section is SDK-specific. The sample below is for the node.js SDK
+#
+client:
+  # Which organization does this application instance belong to? The value must be the name of an org
+  # defined under "organizations"
+  organization: Org2
+
+    # Needed to load users crypto keys and certs.
+    # cryptoconfig:
+    # path: /root/blockchain-quick-start/sample-network/crypto-config
+
+  # Some SDKs support pluggable KV stores, the properties under "credentialStore"
+  # are implementation specific
+  credentialStore:
+    # [Optional]. Specific to FileKeyValueStore.js or similar implementations in other SDKs. Can be others
+    # if using an alternative impl. For instance, CouchDBKeyValueStore.js would require an object
+    # here for properties like url, db name, etc.
+    path: "/tmp/fabric-client/kv-org2"
+
+    # [Optional]. Specific to the CryptoSuite implementation. Software-based implementations like
+    # CryptoSuite_ECDSA_AES.js in node SDK requires a key store. PKCS#11 based implementations does
+    # not.
+    cryptoStore:
+      # Specific to the underlying KeyValueStore that backs the crypto key store.
+      path: "/tmp/fabric-client/kv-org2"

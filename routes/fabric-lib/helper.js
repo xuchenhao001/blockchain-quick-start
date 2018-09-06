@@ -1,38 +1,47 @@
 'use strict';
 
-let fs = require('fs');
-let hfc = require('fabric-client');
-let path = require('path');
+let log4js = require('log4js');
+let logger = log4js.getLogger('Helper');
+logger.level = 'DEBUG';
 
-let getKeyFilesInDir = async function(dir) {
-  let files = fs.readdirSync(dir);
-  let keyFiles = [];
-  files.forEach(function (file_name) {
-    let filePath = path.join(dir, file_name);
-    if (file_name.endsWith('_sk')) {
-      keyFiles.push(filePath);
-    }
-  });
-  return keyFiles;
-};
+
+let hfc = require('fabric-client');
+
 
 let getClientForOrg = async function(org){
-  let client = new hfc();
-  let pKey = await getKeyFilesInDir(org.privateKeyFolder);
-  let userOptions = {
-    username: org.user_id,
-    mspid: org.msp_id,
-    cryptoContent: {
-      privateKey: pKey[0],
-      signedCert: org.signedCert
-    },
-    skipPersistence: false
-  };
-  let store = await hfc.newDefaultKeyValueStore({
-    path: org.keyValueStorePath
-  });
-  await client.setStateStore(store);
-  await client.createUser(userOptions);
+  logger.debug('getClientForOrg %s', org);
+
+  // build a client context and load it with a connection profile
+  // lets only load the network settings and save the client for later
+  let client = hfc.loadFromConfig('config/network-config.yaml');
+
+  // This will load a connection profile over the top of the current one one
+  // since the first one did not have a client section and the following one does
+  // nothing will actually be replaced.
+  // This will also set an admin identity because the organization defined in the
+  // client section has one defined
+
+  client.loadFromConfig('config/' + org + '.yaml');
+
+  // this will create both the state store and the crypto store based
+  // on the settings in the client section of the connection profile
+  await client.initCredentialStores();
+
+  // The getUserContext call tries to get the user from persistence.
+  // If the user has been saved to persistence then that means the user has
+  // been registered and enrolled. If the user is found in persistence
+  // the call will then assign the user to the client object.
+  // if(username) {
+  //   let user = await client.getUserContext(username, true);
+  //   if(!user) {
+  //     throw new Error(util.format('User was not found :', username));
+  //   } else {
+  //     logger.debug('User %s was found to be registered and enrolled', username);
+  //   }
+  // }
+  // logger.debug('getClientForOrg - ****** END %s %s \n\n', userorg, username);
+  await client.setUserContext({username:'admin', password:'adminpw'});
+
   return client;
 };
 

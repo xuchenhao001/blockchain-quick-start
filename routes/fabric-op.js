@@ -8,44 +8,44 @@ let deployCC = require('./fabric-lib/deploy-cc');
 let channel = require('./fabric-lib/channal');
 let invokeCC = require('./fabric-lib/invoke-cc');
 
-let createChannel = async function (channelName) {
+let createChannel = async function (channelName, orgName) {
   logger.debug('==================== CREATE CHANNEL ==================');
 
-  return await channel.createChannel(channelName);
+  return await channel.createChannel(channelName, orgName);
 };
 
-let joinChannel = async function (channelName) {
+let joinChannel = async function (channelName, orgName, peers) {
   logger.debug('==================== JOIN CHANNEL ==================');
 
-  return await channel.joinChannel(channelName);
+  return await channel.joinChannel(channelName, orgName, peers);
 };
 
-let installChaincode = async function (chaincodeName, chaincodePath,
-                                       chaincodeType, chaincodeVersion) {
+let installChaincode = async function (chaincodeName, chaincodePath, chaincodeType,
+                                       chaincodeVersion, orgName, peers) {
   logger.debug('==================== INSTALL CHAINCODE ==================');
 
   return await deployCC.installChaincode(chaincodeName, chaincodePath,
-    chaincodeType, chaincodeVersion);
+    chaincodeType, chaincodeVersion, orgName, peers);
 };
 
 let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion,
-                                           channelName, functionName, args) {
+                                           channelName, functionName, args, orgName, peers) {
   logger.debug('==================== INSTANTIATE CHAINCODE ==================');
 
   return await deployCC.instantiateChaincode(chaincodeName, chaincodeType,
-      chaincodeVersion, channelName, functionName, args);
+      chaincodeVersion, channelName, functionName, args, orgName, peers);
 };
 
-let invokeChaincode = async function (chaincodeName, channelName, functionName, args) {
+let invokeChaincode = async function (chaincodeName, channelName, functionName, args, orgName, peers) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
 
-  return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args);
+  return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args, orgName, peers);
 };
 
-let queryChaincode = async function (chaincodeName, channelName, functionName, args) {
+let queryChaincode = async function (chaincodeName, channelName, functionName, args, orgName, peers) {
   logger.debug('==================== QUERY BY CHAINCODE ==================');
 
-  return await invokeCC.queryChaincode(chaincodeName, channelName, functionName, args);
+  return await invokeCC.queryChaincode(chaincodeName, channelName, functionName, args, orgName, peers);
 };
 
 exports.createChannel = createChannel;
