@@ -17,7 +17,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\"\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\"\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -32,8 +32,8 @@
         "host": "localhost:3414",
         "path": "/channel/create"
       },
-      "id": "4d10dd86-057d-4964-8c03-e6f54c4efce4",
-      "lastModified": "2018-09-03T16:33:37.498+08:00",
+      "id": "3a642ffb-14dc-4997-a153-bd5ed0cb4be8",
+      "lastModified": "2018-09-05T16:17:12.610+08:00",
       "name": "1. createChannel",
       "headers": [
         {
@@ -59,7 +59,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\"\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -74,9 +74,9 @@
         "host": "localhost:3414",
         "path": "/channel/join"
       },
-      "id": "93a04e60-f479-407c-aedc-1c3678009408",
-      "lastModified": "2018-09-03T16:33:41.742+08:00",
-      "name": "2. joinChannel",
+      "id": "09858764-b44c-4cff-bf9b-c54848f08f36",
+      "lastModified": "2018-09-05T16:58:22.389+08:00",
+      "name": "2. joinChannel - Org1",
       "headers": [
         {
           "enabled": true,
@@ -101,7 +101,49 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\"\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "f26d1d0d-a253-4b98-9c65-88857557056f",
+      "lastModified": "2018-09-06T09:36:23.649+08:00",
+      "name": "3. joinChannel - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {}
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -116,9 +158,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "3f7e822e-c4e3-4c38-b869-e983dc76715e",
-      "lastModified": "2018-09-03T16:33:46.198+08:00",
-      "name": "3. installChaincode",
+      "id": "f6faa047-fa38-4723-93bf-09a32732f8d1",
+      "lastModified": "2018-09-06T10:21:44.446+08:00",
+      "name": "4. installChaincode - Org1",
       "headers": [
         {
           "enabled": true,
@@ -143,7 +185,49 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"functionName\": \"\",\n  \"args\": []\n}"
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "980ae4a2-d339-403c-91d2-7cfd79019e0f",
+      "lastModified": "2018-09-06T10:21:51.714+08:00",
+      "name": "5. installChaincode - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {}
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -158,9 +242,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/instantiate"
       },
-      "id": "a9a845f7-9def-476f-b107-c8b1f989b55e",
-      "lastModified": "2018-09-03T16:33:50.087+08:00",
-      "name": "4. instantiateChaincode",
+      "id": "1febab11-46bd-438d-bbfa-00bf9dbab490",
+      "lastModified": "2018-09-06T10:28:05.372+08:00",
+      "name": "6. instantiateChaincode",
       "headers": [
         {
           "enabled": true,
@@ -185,7 +269,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"1\"]\n}"
+        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"1\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -200,9 +284,9 @@
         "host": "localhost:3414",
         "path": "/invoke/mychannel/mycc"
       },
-      "id": "d973675c-fed9-4b48-a75a-30e0d508a3f1",
-      "lastModified": "2018-09-03T16:33:57.175+08:00",
-      "name": "5. invoke",
+      "id": "a7d5ce98-7c54-4829-bb06-f4031dbb0894",
+      "lastModified": "2018-09-06T10:38:57.134+08:00",
+      "name": "7. invoke",
       "headers": [
         {
           "enabled": true,
@@ -227,7 +311,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"]\n}"
+        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -242,9 +326,9 @@
         "host": "localhost:3414",
         "path": "/query/mychannel/mycc"
       },
-      "id": "c0ffdbb8-f786-44d2-87ec-85e529c896b5",
-      "lastModified": "2018-09-03T16:34:02.848+08:00",
-      "name": "6. query",
+      "id": "998b6201-f5ab-44cb-9f8f-9cbefee96402",
+      "lastModified": "2018-09-06T13:46:43.766+08:00",
+      "name": "8. query",
       "headers": [
         {
           "enabled": true,
