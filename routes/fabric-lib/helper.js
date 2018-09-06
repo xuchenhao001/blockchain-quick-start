@@ -40,7 +40,10 @@ let getClientForOrg = async function(org){
   //   }
   // }
   // logger.debug('getClientForOrg - ****** END %s %s \n\n', userorg, username);
-  await client.setUserContext({username:'admin', password:'adminpw'});
+  let user = await client.getUserContext('admin', true);
+  if (!user) {
+    await client.setUserContext({username:'admin', password:'adminpw'});
+  }
 
   return client;
 };

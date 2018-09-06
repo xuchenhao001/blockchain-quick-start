@@ -39,7 +39,7 @@ function networkDown() {
   rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config 
   # remove the docker-compose yaml file that was customized to the example
   rm -f docker-compose-e2e.yaml
-  rm -rf /tmp/fabric-client/kv-org1
+  rm -rf /tmp/fabric-client
   # remove old network connection profile
   rm ../config/network-config.yaml
 }
