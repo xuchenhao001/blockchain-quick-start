@@ -7,6 +7,7 @@ logger.level = 'DEBUG';
 
 let fabric = require('./fabric-op');
 
+
 /* GET home page. */
 router.get('/', express.static('public'));
 

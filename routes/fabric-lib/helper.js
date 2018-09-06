@@ -4,7 +4,6 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Helper');
 logger.level = 'DEBUG';
 
-
 let hfc = require('fabric-client');
 
 

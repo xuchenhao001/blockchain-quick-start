@@ -4,7 +4,6 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Invoke');
 logger.level = 'DEBUG';
 
-let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
 let util = require('util');

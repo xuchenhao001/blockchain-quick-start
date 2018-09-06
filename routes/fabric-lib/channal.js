@@ -7,6 +7,7 @@ logger.level = 'DEBUG';
 let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
+let path = require('path');
 let util = require('util');
 
 hfc.setLogger(logger);
@@ -20,7 +21,13 @@ let createChannel = async function (channelName, orgName) {
     logger.debug('Successfully got the fabric client for the organization "%s"', 'Org1');
 
     // read in the envelope for the channel config raw bytes
-    let envelope = fs.readFileSync('/root/blockchain-quick-start/sample-network/channel-artifacts/channel.tx');
+    // judge if it is container environment
+    let envelope = null;
+    if (process.env.CONTAINER_ENV) {
+      envelope = fs.readFileSync('/var/channel-artifacts/channel.tx');
+    } else {
+      envelope = fs.readFileSync(path.normalize(__dirname + '/../../sample-network/channel-artifacts/channel.tx'));
+    }
     // extract the channel config bytes from the envelope to be signed
     let channelConfig = client.extractChannelConfig(envelope);
 
@@ -78,10 +85,10 @@ let joinChannel = async function (channelName, orgName, peers) {
     };
     let genesis_block = await channel.getGenesisBlock(request);
 
-    // tell each peer to join and wait 10 seconds
+    // tell each peer to join and wait 2 seconds
     // for the channel to be created on each peer
     let promises = [];
-    promises.push(new Promise(resolve => setTimeout(resolve, 5000)));
+    promises.push(new Promise(resolve => setTimeout(resolve, 2000)));
 
     let join_request = {
       targets: peers, //using the peer names which only is allowed when a connection profile is loaded

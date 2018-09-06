@@ -4,9 +4,9 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Chaincode');
 logger.level = 'DEBUG';
 
-let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
+let path = require('path');
 let util = require('util');
 
 hfc.setLogger(logger);
@@ -17,7 +17,12 @@ let installChaincode = async function (chaincodeName, chaincodePath, chaincodeTy
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
   try {
-    process.env.GOPATH = '/root/blockchain-quick-start/sample-network/chaincode/';
+    // judge if it is container environment
+    if (process.env.CONTAINER_ENV) {
+      process.env.GOPATH = '/var/chaincode';
+    } else {
+      process.env.GOPATH = path.normalize(__dirname + '/../../sample-network/chaincode/');
+    }
 
     // install chaincode for each org
     logger.info('Calling peers in organization "%s" to join the channel', orgName);
