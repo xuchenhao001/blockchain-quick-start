@@ -115,8 +115,27 @@ function generateChannelArtifacts() {
 }
 
 function prepareEnv() {
-  # comment this when your env is container
-  sed -i 's/\/var/\/root\/blockchain-quick-start\/sample-network/g' ../config/network-config.yaml
+  # your running env is container or dev
+  read -p "If you want run in container? (Y/n): " RUN_ENV
+  if [[ $RUN_ENV = "N" || $RUN_ENV = "n" ]]; then
+    # in dev mode, reset certs' path
+    CURRENT_DIR=$PWD
+    CURRENT_DIR=$(echo $CURRENT_DIR | sed -s "s/\//\\\\\//g")
+    sed -i "s/\/var/$CURRENT_DIR/g" ../config/network-config.yaml
+
+    # in dev mode, reset url
+    sed -i "s/orderer.example.com:7050/localhost:7050/g" ../config/network-config.yaml
+    sed -i "s/peer0.org1.example.com:7051/localhost:7051/g" ../config/network-config.yaml
+    sed -i "s/peer0.org1.example.com:7053/localhost:7053/g" ../config/network-config.yaml
+    sed -i "s/peer1.org1.example.com:7051/localhost:8051/g" ../config/network-config.yaml
+    sed -i "s/peer1.org1.example.com:7053/localhost:8053/g" ../config/network-config.yaml
+    sed -i "s/peer0.org2.example.com:7051/localhost:9051/g" ../config/network-config.yaml
+    sed -i "s/peer0.org2.example.com:7053/localhost:9053/g" ../config/network-config.yaml
+    sed -i "s/peer1.org2.example.com:7051/localhost:10051/g" ../config/network-config.yaml
+    sed -i "s/peer1.org2.example.com:7053/localhost:10053/g" ../config/network-config.yaml
+    sed -i "s/ca.org1.example.com:7054/localhost:7054/g" ../config/network-config.yaml
+    sed -i "s/ca.org2.example.com:7054/localhost:8054/g" ../config/network-config.yaml
+  fi
 
   IMAGE_TAG=$IMAGETAG docker-compose -f docker-compose-e2e.yaml up -d 2>&1
   if [ $? -ne 0 ]; then
