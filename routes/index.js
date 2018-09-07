@@ -21,6 +21,15 @@ router.post('/channel/create', async function (req, res) {
   }
   logger.debug("Get channel name: \"" + channelName + "\"");
 
+  let includeOrgNames = req.body.includeOrgNames;
+  if (typeof includeOrgNames === 'undefined') {
+    let errMessage = "Request Error, parameter \"includeOrgNames\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org names included in channel: \"" + includeOrgNames + "\"");
+
   let ordererName = req.body.ordererName;
   if (typeof ordererName === 'undefined') {
     let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
@@ -39,7 +48,7 @@ router.post('/channel/create', async function (req, res) {
   }
   logger.debug("Get org name: \"" + orgName + "\"");
 
-  let createResult = await fabric.createChannel(channelName, ordererName, orgName);
+  let createResult = await fabric.createChannel(channelName, includeOrgNames, ordererName, orgName);
   logger.debug(createResult);
   if (createResult[0]===true) {
     res.status(200).json({"result": "success"});

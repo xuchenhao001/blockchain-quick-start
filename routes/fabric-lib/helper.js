@@ -4,7 +4,11 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Helper');
 logger.level = 'DEBUG';
 
+let fs = require('fs-extra');
 let hfc = require('fabric-client');
+let util = require('util');
+let execSync = require('child_process').execSync;
+let yaml = require('js-yaml');
 
 
 let getClientForOrg = async function(org){
@@ -48,4 +52,74 @@ let getClientForOrg = async function(org){
 };
 
 
+// generate channel.tx file with channel name and org names included in this channel
+let generateChannelTx = async function(channelName, orgNames) {
+  // prepare a tmp directory for place files
+  let tmpDir = './tmp';
+  if (fs.existsSync(tmpDir)) {
+    fs.removeSync(tmpDir);
+  }
+  fs.mkdirSync(tmpDir);
+
+
+  // generate channel config yaml
+  let orgConfigs = [];
+  let fileData = fs.readFileSync('config/network-config.yaml');
+  let networkData = yaml.safeLoad(fileData);
+  if (networkData) {
+    while (orgNames.length > 0) {
+      let orgName = orgNames.pop();
+      let orgData = networkData.organizations[orgName];
+      if (!orgData) {
+        let error_message = util.format('Failed to load Org %s from connection profile', orgName);
+        logger.error(error_message);
+        return [false, error_message];
+      }
+      let orgConfig = {
+        "Name": orgData.mspid,
+        "ID": orgData.mspid,
+        "MSPDir": orgData.mspDir.path,
+        "AnchorPeers": [
+          {
+            "Host": networkData.peers[orgData.peers[0]]['url-addr-container'],
+            "Port": networkData.peers[orgData.peers[0]]['url-port-container']
+          }
+        ]
+      };
+      orgConfigs.push(orgConfig);
+    }
+  } else {
+    let error_message = 'Missing configuration data';
+    logger.error(error_message);
+    return [false, error_message];
+  }
+  let configtxConfig = {
+    "Profiles": {
+      "GeneratedChannel": {
+        "Consortium": "SampleConsortium",
+        "Application": {
+          "Organizations":orgConfigs,
+          "Capabilities": {"V1_2": true}
+        }
+      }
+    }
+  };
+  let configData = yaml.safeDump(configtxConfig);
+  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+
+  // generate channel.tx file and return
+  let configtxgenExec = 'configtxgen';
+  let cmdStr = configtxgenExec + ' -profile GeneratedChannel'
+    + ' -configPath ' + tmpDir
+    + ' -channelID ' + channelName
+    + ' -outputCreateChannelTx ' + tmpDir + '/channel.tx';
+  logger.debug('Generate channel.tx file by command: ' + cmdStr);
+  execSync(cmdStr, {stdio: []});
+  logger.debug('Success generate channel.tx file');
+  let txFile = fs.readFileSync(tmpDir+'/channel.tx');
+  return [true, txFile];
+};
+
+
 exports.getClientForOrg = getClientForOrg;
+exports.generateChannelTx = generateChannelTx;

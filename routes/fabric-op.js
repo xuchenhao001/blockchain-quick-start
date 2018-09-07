@@ -8,10 +8,10 @@ let deployCC = require('./fabric-lib/deploy-cc');
 let channel = require('./fabric-lib/channal');
 let invokeCC = require('./fabric-lib/invoke-cc');
 
-let createChannel = async function (channelName, ordererName, orgName) {
+let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
   logger.debug('==================== CREATE CHANNEL ==================');
 
-  return await channel.createChannel(channelName, ordererName, orgName);
+  return await channel.createChannel(channelName, includeOrgNames, ordererName, orgName);
 };
 
 let joinChannel = async function (channelName, ordererName, orgName, peers) {

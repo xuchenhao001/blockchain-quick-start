@@ -75,5 +75,5 @@ typings/
 # IDE
 .idea/
 
-# keystore
-fabric-client-stateStore
+# tmp
+tmp/

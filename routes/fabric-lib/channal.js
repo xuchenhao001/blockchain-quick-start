@@ -4,16 +4,14 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Channel');
 logger.level = 'DEBUG';
 
-let fs = require('fs');
 let helper = require('./helper');
 let hfc = require('fabric-client');
-let path = require('path');
 let util = require('util');
 
 hfc.setLogger(logger);
 
 
-let createChannel = async function (channelName, ordererName, orgName) {
+let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
   logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
   try {
     // first setup the client for this org
@@ -21,15 +19,12 @@ let createChannel = async function (channelName, ordererName, orgName) {
     logger.debug('Successfully got the fabric client for the organization "%s"', 'Org1');
 
     // read in the envelope for the channel config raw bytes
-    // judge if it is container environment
-    let envelope = null;
-    if (process.env.CONTAINER_ENV) {
-      envelope = fs.readFileSync('/var/channel-artifacts/channel.tx');
-    } else {
-      envelope = fs.readFileSync(path.normalize(__dirname + '/../../sample-network/channel-artifacts/channel.tx'));
+    let createTxResult = await helper.generateChannelTx(channelName, includeOrgNames);
+    if (createTxResult[0] === false) {
+      return [false, createTxResult[1]];
     }
     // extract the channel config bytes from the envelope to be signed
-    let channelConfig = client.extractChannelConfig(envelope);
+    let channelConfig = client.extractChannelConfig(createTxResult[1]);
 
     // Acting as a client in the given organization provided with "orgName" param
     // sign the channel config bytes as "endorsement", this is required by

@@ -57,6 +57,9 @@ organizations:
       path: /var/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/ORG1_PRIVATE_KEY
     signedCert:
       path: /var/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+    # Useful for create channel [xuchenhao]
+    mspDir:
+      path: /var/crypto-config/peerOrganizations/org1.example.com/msp
 
   # the profile will contain public information about organizations other than the one it belongs to.
   # These are necessary information to make transaction lifecycles work, including MSP IDs and
@@ -74,6 +77,8 @@ organizations:
       path: /var/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/ORG2_PRIVATE_KEY
     signedCert:
       path: /var/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
+    mspDir:
+      path: /var/crypto-config/peerOrganizations/org2.example.com/msp
 
 #
 # List of orderers to send transaction and channel create/update requests to. For the time
@@ -100,6 +105,8 @@ peers:
   peer0.org1.example.com:
     # this URL is used to send endorsement and query requests
     url: grpcs://peer0.org1.example.com:7051
+    url-addr-container: peer0.org1.example.com
+    url-port-container: 7051
 
     # this URL is used to connect the EventHub and registering event listeners
     eventUrl: grpcs://peer0.org1.example.com:7053
@@ -113,6 +120,8 @@ peers:
 
   peer1.org1.example.com:
     url: grpcs://peer1.org1.example.com:7051
+    url-addr-container: peer1.org1.example.com
+    url-port-container: 7051
     eventUrl: grpcs://peer1.org1.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer1.org1.example.com
@@ -122,6 +131,8 @@ peers:
 
   peer0.org2.example.com:
     url: grpcs://peer0.org2.example.com:7051
+    url-addr-container: peer0.org2.example.com
+    url-port-container: 7051
     eventUrl: grpcs://peer0.org2.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer0.org2.example.com
@@ -130,6 +141,8 @@ peers:
 
   peer1.org2.example.com:
     url: grpcs://peer1.org2.example.com:7051
+    url-addr-container: peer1.org2.example.com
+    url-port-container: 7051
     eventUrl: grpcs://peer1.org2.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer1.org2.example.com
