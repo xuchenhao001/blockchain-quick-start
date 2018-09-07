@@ -17,7 +17,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\"\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"includeOrgNames\": [\"Org1\", \"Org2\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\"\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -32,8 +32,8 @@
         "host": "localhost:3414",
         "path": "/channel/create"
       },
-      "id": "3a642ffb-14dc-4997-a153-bd5ed0cb4be8",
-      "lastModified": "2018-09-05T16:17:12.610+08:00",
+      "id": "11411ab6-ebcb-4339-8d6b-b1960f35d2bf",
+      "lastModified": "2018-09-07T22:17:25.014+08:00",
       "name": "1. createChannel",
       "headers": [
         {
@@ -59,7 +59,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -74,8 +74,8 @@
         "host": "localhost:3414",
         "path": "/channel/join"
       },
-      "id": "09858764-b44c-4cff-bf9b-c54848f08f36",
-      "lastModified": "2018-09-05T16:58:22.389+08:00",
+      "id": "daae7497-a3b6-4e7d-90e8-c9477d84a5f6",
+      "lastModified": "2018-09-07T22:17:20.134+08:00",
       "name": "2. joinChannel - Org1",
       "headers": [
         {
@@ -101,7 +101,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -116,8 +116,8 @@
         "host": "localhost:3414",
         "path": "/channel/join"
       },
-      "id": "f26d1d0d-a253-4b98-9c65-88857557056f",
-      "lastModified": "2018-09-06T09:36:23.649+08:00",
+      "id": "876e3878-f961-4660-b31c-5ddc2d450c40",
+      "lastModified": "2018-09-07T22:17:15.418+08:00",
       "name": "3. joinChannel - Org2",
       "headers": [
         {
@@ -143,7 +143,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -158,8 +158,8 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "f6faa047-fa38-4723-93bf-09a32732f8d1",
-      "lastModified": "2018-09-06T10:21:44.446+08:00",
+      "id": "314f4012-3aaf-47c2-996a-594d7fe40cf1",
+      "lastModified": "2018-09-07T22:17:10.623+08:00",
       "name": "4. installChaincode - Org1",
       "headers": [
         {
@@ -185,7 +185,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -200,8 +200,8 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "980ae4a2-d339-403c-91d2-7cfd79019e0f",
-      "lastModified": "2018-09-06T10:21:51.714+08:00",
+      "id": "67092499-23b0-412e-a8c8-bb6315033b7c",
+      "lastModified": "2018-09-07T22:17:06.488+08:00",
       "name": "5. installChaincode - Org2",
       "headers": [
         {
@@ -227,7 +227,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -242,8 +242,8 @@
         "host": "localhost:3414",
         "path": "/chaincode/instantiate"
       },
-      "id": "1febab11-46bd-438d-bbfa-00bf9dbab490",
-      "lastModified": "2018-09-06T10:28:05.372+08:00",
+      "id": "cc962882-a23e-4d8b-8937-93cd03ab2951",
+      "lastModified": "2018-09-07T22:17:01.720+08:00",
       "name": "6. instantiateChaincode",
       "headers": [
         {
@@ -269,7 +269,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"1\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"0414\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -284,8 +284,8 @@
         "host": "localhost:3414",
         "path": "/invoke/mychannel/mycc"
       },
-      "id": "a7d5ce98-7c54-4829-bb06-f4031dbb0894",
-      "lastModified": "2018-09-06T10:38:57.134+08:00",
+      "id": "56ae9f28-b41c-4180-b580-73678ff9417a",
+      "lastModified": "2018-09-07T22:16:56.350+08:00",
       "name": "7. invoke",
       "headers": [
         {
@@ -311,7 +311,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -326,8 +326,8 @@
         "host": "localhost:3414",
         "path": "/query/mychannel/mycc"
       },
-      "id": "998b6201-f5ab-44cb-9f8f-9cbefee96402",
-      "lastModified": "2018-09-06T13:46:43.766+08:00",
+      "id": "c4ef2c54-6fd8-40c9-91cb-7e8c420543d4",
+      "lastModified": "2018-09-07T22:16:50.551+08:00",
       "name": "8. query",
       "headers": [
         {
@@ -340,3 +340,4 @@
     }
   ]
 }
+

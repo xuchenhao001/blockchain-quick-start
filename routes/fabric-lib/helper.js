@@ -60,7 +60,7 @@ let generateChannelTx = async function(channelName, orgNames) {
     fs.removeSync(tmpDir);
   }
   fs.mkdirSync(tmpDir);
-
+  logger.debug('Successfully prepared temp directory for channel config files');
 
   // generate channel config yaml
   let orgConfigs = [];
@@ -75,6 +75,7 @@ let generateChannelTx = async function(channelName, orgNames) {
         logger.error(error_message);
         return [false, error_message];
       }
+      logger.debug(util.format('Successfully load Org %s from connection profile', orgName));
       let orgConfig = {
         "Name": orgData.mspid,
         "ID": orgData.mspid,
@@ -106,6 +107,7 @@ let generateChannelTx = async function(channelName, orgNames) {
   };
   let configData = yaml.safeDump(configtxConfig);
   fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+  logger.debug('Successfully written configtx.yaml file');
 
   // generate channel.tx file and return
   let configtxgenExec = 'configtxgen';
@@ -123,3 +125,4 @@ let generateChannelTx = async function(channelName, orgNames) {
 
 exports.getClientForOrg = getClientForOrg;
 exports.generateChannelTx = generateChannelTx;
+
