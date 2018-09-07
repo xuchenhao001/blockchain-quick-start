@@ -85,7 +85,7 @@ let installChaincode = async function (chaincodeName, chaincodePath, chaincodeTy
 
 
 let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion,
-                                          channelName, functionName, args, orgName, peers) {
+                                          channelName, functionName, args, ordererName, orgName, peers) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = null;
@@ -94,12 +94,14 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
-    let channel = client.getChannel(channelName);
-    if(!channel) {
-      let message = util.format('Channel %s was not defined in the connection profile', channelName);
-      logger.error(message);
-      return [false, message];
-    }
+
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    channel.addOrderer(client.getOrderer(ordererName));
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
 
     let tx_id = client.newTransactionID(true); // Get an admin based transactionID
     // An admin based transactionID will

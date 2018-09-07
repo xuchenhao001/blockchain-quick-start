@@ -13,7 +13,7 @@ let util = require('util');
 hfc.setLogger(logger);
 
 
-let createChannel = async function (channelName, orgName) {
+let createChannel = async function (channelName, ordererName, orgName) {
   logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
   try {
     // first setup the client for this org
@@ -37,9 +37,12 @@ let createChannel = async function (channelName, orgName) {
     // this will use the admin identity assigned to the client when the connection profile was loaded
     let signature = client.signChannelConfig(channelConfig);
 
+    let orderer = client.getOrderer(ordererName);
+
     let request = {
       config: channelConfig,
       name: channelName,
+      orderer: orderer,
       signatures: [signature],
       txId: client.newTransactionID(true) // get an admin based transactionID
     };
@@ -63,7 +66,7 @@ let createChannel = async function (channelName, orgName) {
 };
 
 
-let joinChannel = async function (channelName, orgName, peers) {
+let joinChannel = async function (channelName, ordererName, orgName, peers) {
   logger.debug('\n\n============ Join Channel start ============\n');
   let error_message = null;
 
@@ -73,12 +76,13 @@ let joinChannel = async function (channelName, orgName, peers) {
     let client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
-    let channel = client.getChannel(channelName);
-    if (!channel) {
-      let message = util.format('Channel %s was not defined in the connection profile', channelName);
-      logger.error(message);
-      return [false, message];
-    }
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    channel.addOrderer(client.getOrderer(ordererName));
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
 
     let request = {
       txId: client.newTransactionID(true) //get an admin based transactionID
@@ -91,7 +95,6 @@ let joinChannel = async function (channelName, orgName, peers) {
     promises.push(new Promise(resolve => setTimeout(resolve, 2000)));
 
     let join_request = {
-      targets: peers, //using the peer names which only is allowed when a connection profile is loaded
       txId: client.newTransactionID(true), //get an admin based transactionID
       block: genesis_block
     };

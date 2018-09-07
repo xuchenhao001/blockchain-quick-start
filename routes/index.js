@@ -21,6 +21,15 @@ router.post('/channel/create', async function (req, res) {
   }
   logger.debug("Get channel name: \"" + channelName + "\"");
 
+  let ordererName = req.body.ordererName;
+  if (typeof ordererName === 'undefined') {
+    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderer name: \"" + ordererName + "\"");
+
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
     let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
@@ -30,7 +39,7 @@ router.post('/channel/create', async function (req, res) {
   }
   logger.debug("Get org name: \"" + orgName + "\"");
 
-  let createResult = await fabric.createChannel(channelName, orgName);
+  let createResult = await fabric.createChannel(channelName, ordererName, orgName);
   logger.debug(createResult);
   if (createResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -50,6 +59,15 @@ router.post('/channel/join', async function (req, res) {
   }
   logger.debug("Get channel name: \"" + channelName + "\"");
 
+  let ordererName = req.body.ordererName;
+  if (typeof ordererName === 'undefined') {
+    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderer name: \"" + ordererName + "\"");
+
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
     let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
@@ -68,7 +86,7 @@ router.post('/channel/join', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  let joinResult = await fabric.joinChannel(channelName, orgName, peers);
+  let joinResult = await fabric.joinChannel(channelName, ordererName, orgName, peers);
   logger.debug(joinResult);
   if (joinResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -197,6 +215,15 @@ router.post('/chaincode/instantiate', async function (req, res) {
     logger.debug("Get args: \"" + args + "\"");
   }
 
+  let ordererName = req.body.ordererName;
+  if (typeof ordererName === 'undefined') {
+    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderer name: \"" + ordererName + "\"");
+
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
     let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
@@ -215,8 +242,8 @@ router.post('/chaincode/instantiate', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  let instantiateResult = await fabric.instantiateChaincode(chaincodeName,
-    chaincodeType, chaincodeVersion, channelName, functionName, args, orgName, peers);
+  let instantiateResult = await fabric.instantiateChaincode(chaincodeName, chaincodeType,
+    chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers);
   logger.debug(instantiateResult);
   if (instantiateResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -248,6 +275,15 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get function name: \"" + functionName + "\"");
 
+  let ordererName = req.body.ordererName;
+  if (typeof ordererName === 'undefined') {
+    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderer name: \"" + ordererName + "\"");
+
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
     let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
@@ -266,7 +302,8 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName, functionName, args, orgName, peers);
+  let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName,
+    functionName, args, ordererName, orgName, peers);
   logger.debug(invokeResut);
   if (invokeResut[0]==='yes') {
     res.status(200).json({"result": "success"});
@@ -298,6 +335,15 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get function name: \"" + functionName + "\"");
 
+  let ordererName = req.body.ordererName;
+  if (typeof ordererName === 'undefined') {
+    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderer name: \"" + ordererName + "\"");
+
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
     let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
@@ -316,7 +362,8 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  let queryResult = await fabric.queryChaincode(chaincodeName, channelName, functionName, args, orgName, peers);
+  let queryResult = await fabric.queryChaincode(chaincodeName, channelName,
+    functionName, args, ordererName, orgName, peers);
   logger.debug(queryResult);
   if (queryResult[0]===true) {
     res.status(200).json({"result": queryResult[1]});

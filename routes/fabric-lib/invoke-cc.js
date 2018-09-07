@@ -11,7 +11,7 @@ let util = require('util');
 hfc.setLogger(logger);
 
 
-let invokeChaincode = async function (chaincodeName, channelName, functionName, args, orgName, peers) {
+let invokeChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
   let error_message = null;
   let tx_id_string = null;
 
@@ -19,12 +19,14 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
-    let channel = client.getChannel(channelName);
-    if(!channel) {
-      let message = util.format('Channel %s was not defined in the connection profile', channelName);
-      logger.error(message);
-      return [false, message];
-    }
+
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    channel.addOrderer(client.getOrderer(ordererName));
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
 
     let tx_id = client.newTransactionID();
     tx_id_string = tx_id.getTransactionID();
@@ -162,17 +164,19 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 };
 
 
-let queryChaincode = async function (chaincodeName, channelName, functionName, args, orgName, peers) {
+let queryChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
   try {
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
-    let channel = client.getChannel(channelName);
-    if(!channel) {
-      let message = util.format('Channel %s was not defined in the connection profile', channelName);
-      logger.error(message);
-      return [false, message];
-    }
+
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    channel.addOrderer(client.getOrderer(ordererName));
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
 
     let request = {
       targets: peers,
