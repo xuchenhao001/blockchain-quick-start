@@ -119,6 +119,7 @@ let generateChannelTx = async function(channelName, orgNames) {
   execSync(cmdStr, {stdio: []});
   logger.debug('Success generate channel.tx file');
   let txFile = fs.readFileSync(tmpDir+'/channel.tx');
+  fs.removeSync(tmpDir);
   return [true, txFile];
 };
 
