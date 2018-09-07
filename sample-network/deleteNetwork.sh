@@ -42,6 +42,7 @@ function networkDown() {
   rm -rf /tmp/fabric-client
   # remove old network connection profile
   rm ../config/network-config.yaml
+  rm ../config/network-config-ext.yaml
 }
 
 networkDown

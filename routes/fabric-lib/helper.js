@@ -64,7 +64,7 @@ let generateChannelTx = async function(channelName, orgNames) {
 
   // generate channel config yaml
   let orgConfigs = [];
-  let fileData = fs.readFileSync('config/network-config.yaml');
+  let fileData = fs.readFileSync('config/network-config-ext.yaml');
   let networkData = yaml.safeLoad(fileData);
   if (networkData) {
     while (orgNames.length > 0) {

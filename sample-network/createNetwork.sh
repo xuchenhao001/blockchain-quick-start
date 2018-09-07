@@ -50,6 +50,8 @@ function replacePrivateKey () {
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed -i "s/ORG2_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
+
+  cp ../config/network-config-ext-template.yaml ../config/network-config-ext.yaml
 }
 
 # Generate orderer genesis block, channel configuration transaction and
@@ -122,6 +124,7 @@ function prepareEnv() {
     CURRENT_DIR=$PWD
     CURRENT_DIR=$(echo $CURRENT_DIR | sed -s "s/\//\\\\\//g")
     sed -i "s/\/var/$CURRENT_DIR/g" ../config/network-config.yaml
+    sed -i "s/\/var/$CURRENT_DIR/g" ../config/network-config-ext.yaml
 
     # in dev mode, reset url
     sed -i "s/orderer.example.com:7050/localhost:7050/g" ../config/network-config.yaml
