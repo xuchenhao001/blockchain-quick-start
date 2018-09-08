@@ -63,20 +63,19 @@ let generateChannelTx = async function(channelName, orgNames) {
   logger.debug('Successfully prepared temp directory for channel config files');
 
   // generate channel config yaml
-  let orgConfigs = [];
+  let orgObjs = [];
   let fileData = fs.readFileSync('config/network-config-ext.yaml');
   let networkData = yaml.safeLoad(fileData);
   if (networkData) {
-    while (orgNames.length > 0) {
-      let orgName = orgNames.pop();
+    orgNames.forEach(function (orgName) {
       let orgData = networkData.organizations[orgName];
       if (!orgData) {
         let error_message = util.format('Failed to load Org %s from connection profile', orgName);
         logger.error(error_message);
         return [false, error_message];
       }
-      logger.debug(util.format('Successfully load Org %s from connection profile', orgName));
-      let orgConfig = {
+      // compose org object
+      let orgObj = {
         "Name": orgData.mspid,
         "ID": orgData.mspid,
         "MSPDir": orgData.mspDir.path,
@@ -87,25 +86,28 @@ let generateChannelTx = async function(channelName, orgNames) {
           }
         ]
       };
-      orgConfigs.push(orgConfig);
-    }
+      logger.debug(util.format('Successfully load Org %s from connection profile: %s',
+        orgName, JSON.stringify(orgObj)));
+      orgObjs.push(orgObj);
+    });
   } else {
     let error_message = 'Missing configuration data';
     logger.error(error_message);
     return [false, error_message];
   }
-  let configtxConfig = {
+  // compose configtx object
+  let configtxObj = {
     "Profiles": {
       "GeneratedChannel": {
         "Consortium": "SampleConsortium",
         "Application": {
-          "Organizations":orgConfigs,
+          "Organizations":orgObjs,
           "Capabilities": {"V1_2": true}
         }
       }
     }
   };
-  let configData = yaml.safeDump(configtxConfig);
+  let configData = yaml.safeDump(configtxObj);
   fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
   logger.debug('Successfully written configtx.yaml file');
 
