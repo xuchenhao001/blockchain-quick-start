@@ -28,8 +28,10 @@ function removeUnwantedImages() {
 
 # Tear down running network
 function networkDown() {
-  # stop org3 containers also in addition to org1 and org2, in case we were running sample to add org3
-  docker-compose -f docker-compose-e2e.yaml down --volumes --remove-orphans
+  # stop containers 
+  if [ -f docker-compose-e2e.yaml ]; then
+    docker-compose -f docker-compose-e2e.yaml down --volumes --remove-orphans
+  fi
   # Bring down the network, deleting the volumes
   #Cleanup the chaincode containers
   clearContainers
@@ -41,8 +43,8 @@ function networkDown() {
   rm -f docker-compose-e2e.yaml
   rm -rf /tmp/fabric-client
   # remove old network connection profile
-  rm ../config/network-config.yaml
-  rm ../config/network-config-ext.yaml
+  rm -rf ../config/network-config.yaml
+  rm -rf ../config/network-config-ext.yaml
 }
 
 networkDown
