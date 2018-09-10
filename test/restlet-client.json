@@ -32,8 +32,8 @@
         "host": "localhost:3414",
         "path": "/channel/create"
       },
-      "id": "11411ab6-ebcb-4339-8d6b-b1960f35d2bf",
-      "lastModified": "2018-09-07T22:17:25.014+08:00",
+      "id": "3a642ffb-14dc-4997-a153-bd5ed0cb4be8",
+      "lastModified": "2018-09-07T16:53:09.856+08:00",
       "name": "1. createChannel",
       "headers": [
         {
@@ -74,8 +74,8 @@
         "host": "localhost:3414",
         "path": "/channel/join"
       },
-      "id": "daae7497-a3b6-4e7d-90e8-c9477d84a5f6",
-      "lastModified": "2018-09-07T22:17:20.134+08:00",
+      "id": "09858764-b44c-4cff-bf9b-c54848f08f36",
+      "lastModified": "2018-09-07T11:00:13.262+08:00",
       "name": "2. joinChannel - Org1",
       "headers": [
         {
@@ -116,8 +116,8 @@
         "host": "localhost:3414",
         "path": "/channel/join"
       },
-      "id": "876e3878-f961-4660-b31c-5ddc2d450c40",
-      "lastModified": "2018-09-07T22:17:15.418+08:00",
+      "id": "f26d1d0d-a253-4b98-9c65-88857557056f",
+      "lastModified": "2018-09-07T11:00:26.609+08:00",
       "name": "3. joinChannel - Org2",
       "headers": [
         {
@@ -143,7 +143,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"chaincode\": \"cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkiZ2l0aHViLmNvbS9oeXBlcmxlZGdlci9mYWJyaWMvY29yZS9jaGFpbmNvZGUvc2hpbSIKCXBiICJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9wcm90b3MvcGVlciIKKQoKLy8gVHJhbnNmZXJDaGFpbmNvZGUgRGVmaW5lIGNoYWluY29kZQp0eXBlIFRyYW5zZmVyQ2hhaW5jb2RlIHN0cnVjdCB7Cn0KCi8vIEVudHJ5IG9mIGNoYWluY29kZQpmdW5jIG1haW4oKSB7CgllcnIgOj0gc2hpbS5TdGFydChuZXcoVHJhbnNmZXJDaGFpbmNvZGUpKQoJaWYgZXJyICE9IG5pbCB7CgkJZm10LlByaW50ZigiRXJyb3Igc3RhcnRpbmcgdHJhbnNmZXIgY2hhaW5jb2RlOiAlcyIsIGVycikKCX0KfQoKLy9Jbml0IEluaXRpYWxpemUgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbml0KHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlKSBwYi5SZXNwb25zZSB7CgoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCi8vIEludm9rZSBpbnZva2UgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbnZva2Uoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UpIHBiLlJlc3BvbnNlIHsKCWZ1bmN0aW9uLCBhcmdzIDo9IHN0dWIuR2V0RnVuY3Rpb25BbmRQYXJhbWV0ZXJzKCkKCWlmIGZ1bmN0aW9uID09ICJwdXQiIHsKCQlyZXR1cm4gdC5hZGRNb25leShzdHViLCBhcmdzKQoJfSBlbHNlIGlmIGZ1bmN0aW9uID09ICJnZXQiIHsKCQlyZXR1cm4gdC5xdWVyeU1vbmV5KHN0dWIsIGFyZ3MpCgl9CglyZXR1cm4gc2hpbS5FcnJvcigiVW5zdXBwb3J0ZWQgb3BlcmF0aW9uLiBQbGVhc2UgdXNlIGFkZCB0cmFuc2ZlciBxdWVyeSBkZWxldGUiKQp9CgpmdW5jICh0ICpUcmFuc2ZlckNoYWluY29kZSkgYWRkTW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAyIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMjogdXNlcixtb25leSIpCgl9Cgl1c2VybmFtZSA6PSBhcmdzWzBdCgl2YWx1ZSA6PSBbXWJ5dGUoYXJnc1sxXSkKCXZhciBlcnIgZXJyb3IKCWVyciA9IHN0dWIuUHV0U3RhdGUodXNlcm5hbWUsIHZhbHVlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHNoaW0uRXJyb3IoZXJyLkVycm9yKCkpCgl9CglyZXR1cm4gc2hpbS5TdWNjZXNzKHZhbHVlKQoKfQoKZnVuYyAodCAqVHJhbnNmZXJDaGFpbmNvZGUpIHF1ZXJ5TW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMTogVXNlcm5hbWUiKQoJfQoJbW9uZXlBc0J5dGVzLCBlcnIgOj0gc3R1Yi5HZXRTdGF0ZShhcmdzWzBdKQoJaWYgZXJyICE9IG5pbCB8fCBtb25leUFzQnl0ZXMgPT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MobW9uZXlBc0J5dGVzKQp9Cg==\",\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -158,8 +158,8 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "314f4012-3aaf-47c2-996a-594d7fe40cf1",
-      "lastModified": "2018-09-07T22:17:10.623+08:00",
+      "id": "f6faa047-fa38-4723-93bf-09a32732f8d1",
+      "lastModified": "2018-09-10T18:36:02.493+08:00",
       "name": "4. installChaincode - Org1",
       "headers": [
         {
@@ -185,7 +185,8 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodePath\": \"github.com/example_cc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"chaincode\": \"cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkiZ2l0aHViLmNvbS9oeXBlcmxlZGdlci9mYWJyaWMvY29yZS9jaGFpbmNvZGUvc2hpbSIKCXBiICJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9wcm90b3MvcGVlciIKKQoKLy8gVHJhbnNmZXJDaGFpbmNvZGUgRGVmaW5lIGNoYWluY29kZQp0eXBlIFRyYW5zZmVyQ2hhaW5jb2RlIHN0cnVjdCB7Cn0KCi8vIEVudHJ5IG9mIGNoYWluY29kZQpmdW5jIG1haW4oKSB7CgllcnIgOj0gc2hpbS5TdGFydChuZXcoVHJhbnNmZXJDaGFpbmNvZGUpKQoJaWYgZXJyICE9IG5pbCB7CgkJZm10LlByaW50ZigiRXJyb3Igc3RhcnRpbmcgdHJhbnNmZXIgY2hhaW5jb2RlOiAlcyIsIGVycikKCX0KfQoKLy9Jbml0IEluaXRpYWxpemUgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbml0KHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlKSBwYi5SZXNwb25zZSB7CgoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCi8vIEludm9rZSBpbnZva2UgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbnZva2Uoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UpIHBiLlJlc3BvbnNlIHsKCWZ1bmN0aW9uLCBhcmdzIDo9IHN0dWIuR2V0RnVuY3Rpb25BbmRQYXJhbWV0ZXJzKCkKCWlmIGZ1bmN0aW9uID09ICJwdXQiIHsKCQlyZXR1cm4gdC5hZGRNb25leShzdHViLCBhcmdzKQoJfSBlbHNlIGlmIGZ1bmN0aW9uID09ICJnZXQiIHsKCQlyZXR1cm4gdC5xdWVyeU1vbmV5KHN0dWIsIGFyZ3MpCgl9CglyZXR1cm4gc2hpbS5FcnJvcigiVW5zdXBwb3J0ZWQgb3BlcmF0aW9uLiBQbGVhc2UgdXNlIGFkZCB0cmFuc2ZlciBxdWVyeSBkZWxldGUiKQp9CgpmdW5jICh0ICpUcmFuc2ZlckNoYWluY29kZSkgYWRkTW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAyIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMjogdXNlcixtb25leSIpCgl9Cgl1c2VybmFtZSA6PSBhcmdzWzBdCgl2YWx1ZSA6PSBbXWJ5dGUoYXJnc1sxXSkKCXZhciBlcnIgZXJyb3IKCWVyciA9IHN0dWIuUHV0U3RhdGUodXNlcm5hbWUsIHZhbHVlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHNoaW0uRXJyb3IoZXJyLkVycm9yKCkpCgl9CglyZXR1cm4gc2hpbS5TdWNjZXNzKHZhbHVlKQoKfQoKZnVuYyAodCAqVHJhbnNmZXJDaGFpbmNvZGUpIHF1ZXJ5TW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMTogVXNlcm5hbWUiKQoJfQoJbW9uZXlBc0J5dGVzLCBlcnIgOj0gc3R1Yi5HZXRTdGF0ZShhcmdzWzBdKQoJaWYgZXJyICE9IG5pbCB8fCBtb25leUFzQnl0ZXMgPT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MobW9uZXlBc0J5dGVzKQp9Cg==\",\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -200,8 +201,8 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "67092499-23b0-412e-a8c8-bb6315033b7c",
-      "lastModified": "2018-09-07T22:17:06.488+08:00",
+      "id": "980ae4a2-d339-403c-91d2-7cfd79019e0f",
+      "lastModified": "2018-09-10T18:40:19.485+08:00",
       "name": "5. installChaincode - Org2",
       "headers": [
         {
@@ -242,8 +243,8 @@
         "host": "localhost:3414",
         "path": "/chaincode/instantiate"
       },
-      "id": "cc962882-a23e-4d8b-8937-93cd03ab2951",
-      "lastModified": "2018-09-07T22:17:01.720+08:00",
+      "id": "1febab11-46bd-438d-bbfa-00bf9dbab490",
+      "lastModified": "2018-09-07T11:00:43.357+08:00",
       "name": "6. instantiateChaincode",
       "headers": [
         {
@@ -269,7 +270,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"0414\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"0415\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -284,8 +285,8 @@
         "host": "localhost:3414",
         "path": "/invoke/mychannel/mycc"
       },
-      "id": "56ae9f28-b41c-4180-b580-73678ff9417a",
-      "lastModified": "2018-09-07T22:16:56.350+08:00",
+      "id": "a7d5ce98-7c54-4829-bb06-f4031dbb0894",
+      "lastModified": "2018-09-10T18:43:28.991+08:00",
       "name": "7. invoke",
       "headers": [
         {
@@ -326,8 +327,8 @@
         "host": "localhost:3414",
         "path": "/query/mychannel/mycc"
       },
-      "id": "c4ef2c54-6fd8-40c9-91cb-7e8c420543d4",
-      "lastModified": "2018-09-07T22:16:50.551+08:00",
+      "id": "998b6201-f5ab-44cb-9f8f-9cbefee96402",
+      "lastModified": "2018-09-07T11:03:16.992+08:00",
       "name": "8. query",
       "headers": [
         {
@@ -340,4 +341,3 @@
     }
   ]
 }
-

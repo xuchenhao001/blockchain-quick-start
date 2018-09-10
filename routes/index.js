@@ -106,6 +106,15 @@ router.post('/channel/join', async function (req, res) {
 });
 
 router.post('/chaincode/install', async function (req, res) {
+  let chaincode = req.body.chaincode;
+  if (typeof chaincode === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincode\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode base64 string: \"" + chaincode + "\"");
+
   let chaincodeName = req.body.chaincodeName;
   if (typeof chaincodeName === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
@@ -114,15 +123,6 @@ router.post('/chaincode/install', async function (req, res) {
     return;
   }
   logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
-
-  let chaincodePath = req.body.chaincodePath;
-  if (typeof chaincodePath === 'undefined') {
-    let errMessage = "Request Error, parameter \"chaincodePath\" doesn't exist";
-    logger.error(errMessage);
-    res.status(400).json({"result": "failed", "error": errMessage});
-    return;
-  }
-  logger.debug("Get chaincode path: \"" + chaincodePath + "\"");
 
   let chaincodeType = req.body.chaincodeType;
   if (typeof chaincodeType === 'undefined') {
@@ -160,8 +160,8 @@ router.post('/chaincode/install', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  let installResult = await fabric.installChaincode(chaincodeName,
-    chaincodePath, chaincodeType, chaincodeVersion, orgName, peers);
+  let installResult = await fabric.installChaincode(chaincode, chaincodeName, chaincodeType,
+    chaincodeVersion, orgName, peers);
   logger.debug(installResult);
   if (installResult[0]===true) {
     res.status(200).json({"result": "success"});

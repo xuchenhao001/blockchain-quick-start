@@ -45,6 +45,8 @@ function networkDown() {
   # remove old network connection profile
   rm -rf ../config/network-config.yaml
   rm -rf ../config/network-config-ext.yaml
+  # remove chaincode tmp dir
+  rm -rf /tmp/chaincode-cache
 }
 
 networkDown

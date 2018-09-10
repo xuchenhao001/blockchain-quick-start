@@ -12,6 +12,7 @@ hfc.setLogger(logger);
 
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
+  logger.debug('\n\n============ Invoke chaincode on org \'' + orgName + '\' ============\n');
   let error_message = null;
   let tx_id_string = null;
 
@@ -165,6 +166,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 
 
 let queryChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
+  logger.debug('\n\n============ Query chaincode on org \'' + orgName + '\' ============\n');
   try {
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org

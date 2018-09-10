@@ -4,25 +4,42 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Chaincode');
 logger.level = 'DEBUG';
 
+let fs = require('fs-extra');
 let helper = require('./helper');
 let hfc = require('fabric-client');
-let path = require('path');
 let util = require('util');
 
 hfc.setLogger(logger);
 
 
-let installChaincode = async function (chaincodeName, chaincodePath, chaincodeType,
+let isBase64 = function(string){
+  let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;
+  return reg.test(string);
+};
+
+let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
                                        chaincodeVersion, orgName, peers) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
+  process.env.GOPATH = '/tmp/chaincode-cache';
+
+  // check if this kind of chaincode supported
+  if (!chaincodeType === 'golang') {
+    return [false, 'Does not support this kind of chaincode!'];
+  }
+
+  // check if the chaincode is valid
+  if (!isBase64(chaincode)) {
+    return [false, 'Chaincode is not a valid base64 string!'];
+  }
+
   try {
-    // judge if it is container environment
-    if (process.env.CONTAINER_ENV) {
-      process.env.GOPATH = '/var/chaincode';
-    } else {
-      process.env.GOPATH = path.normalize(__dirname + '/../../sample-network/chaincode/');
-    }
+    // write chaincode to a file
+    let tmpDir = process.env.GOPATH + '/src/github.com/cc';
+    let chaincodeBuffer = new Buffer(chaincode, 'base64');
+    fs.mkdirpSync(tmpDir);
+    fs.writeFileSync(tmpDir + '/chaincode.go', chaincodeBuffer.toString());
+    let chaincodePath = 'github.com/cc';
 
     // install chaincode for each org
     logger.info('Calling peers in organization "%s" to join the channel', orgName);
@@ -66,6 +83,10 @@ let installChaincode = async function (chaincodeName, chaincodePath, chaincodeTy
         'Response null or status is not 200';
       logger.error(error_message);
     }
+
+    // remove chaincode tmp file
+    let tmpFile = tmpDir + '/chaincode.go';
+    fs.removeSync(tmpFile);
   }
   catch (error) {
     logger.error('Failed to install due to error: ' + error.stack ? error.stack : error);

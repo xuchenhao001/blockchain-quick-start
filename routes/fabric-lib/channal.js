@@ -12,7 +12,7 @@ hfc.setLogger(logger);
 
 
 let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
-  logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
+  logger.debug('\n\n====== Creating Channel \'' + channelName + '\' ======\n');
   try {
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
