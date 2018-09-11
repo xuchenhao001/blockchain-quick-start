@@ -7,8 +7,8 @@ RUN set -ex \
     && mv docker-entrypoint.sh /usr/local/bin/ \
     && mv configtxgen /usr/local/bin/ \
     # for chinese users
-    && npm config set registry https://registry.npm.taobao.org \
-    && npm install 
+    && npm config set registry https://r.cnpmjs.org \
+    && npm install --build-from-source
 
 EXPOSE 3414
 ENTRYPOINT ["docker-entrypoint.sh"]
