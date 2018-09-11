@@ -311,8 +311,11 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
+  // transient can be undefined
+  let transient = req.body.transient;
+
   let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName,
-    functionName, args, ordererName, orgName, peers);
+    functionName, args, ordererName, orgName, peers, transient);
   logger.debug(invokeResut);
   if (invokeResut[0]==='yes') {
     res.status(200).json({"result": "success"});
@@ -371,8 +374,11 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
+  // transient can be undefined
+  let transient = req.body.transient;
+
   let queryResult = await fabric.queryChaincode(chaincodeName, channelName,
-    functionName, args, ordererName, orgName, peers);
+    functionName, args, ordererName, orgName, peers, transient);
   logger.debug(queryResult);
   if (queryResult[0]===true) {
     res.status(200).json({"result": queryResult[1]});

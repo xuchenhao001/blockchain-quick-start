@@ -11,7 +11,8 @@ let util = require('util');
 hfc.setLogger(logger);
 
 
-let invokeChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
+let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
+                                      ordererName, orgName, peers, transient) {
   logger.debug('\n\n============ Invoke chaincode on org \'' + orgName + '\' ============\n');
   let error_message = null;
   let tx_id_string = null;
@@ -37,7 +38,8 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       chaincodeId: chaincodeName,
       chainId: channelName,
       fcn: functionName,
-      txId: tx_id
+      txId: tx_id,
+      transientMap: transient
     };
     let results = await channel.sendTransactionProposal(request);
 
@@ -165,7 +167,8 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 };
 
 
-let queryChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
+let queryChaincode = async function (chaincodeName, channelName, functionName, args,
+                                     ordererName, orgName, peers, transient) {
   logger.debug('\n\n============ Query chaincode on org \'' + orgName + '\' ============\n');
   try {
     logger.debug("Load privateKey and signedCert");
@@ -184,7 +187,8 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
       targets: peers,
       chaincodeId: chaincodeName,
       fcn: functionName,
-      args: args
+      args: args,
+      transientMap: transient
     };
     logger.debug("Make query");
     let response_payloads = await channel.queryByChaincode(request);

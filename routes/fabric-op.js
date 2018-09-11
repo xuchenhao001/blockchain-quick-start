@@ -36,16 +36,20 @@ let instantiateChaincode = async function (chaincodeName, chaincodeType, chainco
       chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers);
 };
 
-let invokeChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
+let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
+                                      ordererName, orgName, peers, transient) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
 
-  return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args, ordererName, orgName, peers);
+  return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args,
+    ordererName, orgName, peers, transient);
 };
 
-let queryChaincode = async function (chaincodeName, channelName, functionName, args, ordererName, orgName, peers) {
+let queryChaincode = async function (chaincodeName, channelName, functionName, args,
+                                     ordererName, orgName, peers, transient) {
   logger.debug('==================== QUERY BY CHAINCODE ==================');
 
-  return await invokeCC.queryChaincode(chaincodeName, channelName, functionName, args, ordererName, orgName, peers);
+  return await invokeCC.queryChaincode(chaincodeName, channelName, functionName, args,
+    ordererName, orgName, peers, transient);
 };
 
 exports.createChannel = createChannel;
