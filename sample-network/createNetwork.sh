@@ -125,8 +125,7 @@ function prepareEnv() {
   read -p "If you want run in container? (Y/n): " RUN_ENV
   if [[ $RUN_ENV = "N" || $RUN_ENV = "n" ]]; then
     # in dev mode, reset certs' path
-    CURRENT_DIR=$PWD
-    CURRENT_DIR=$(echo $CURRENT_DIR | sed "s/\//\\\\\//g")
+    CURRENT_DIR=$(pwd | sed "s/\//\\\\\//g")
     sed -i.bak "s/\/var/$CURRENT_DIR/g" ../config/network-config.yaml
     rm -f ../config/network-config.yaml.bak
     sed -i.bak "s/\/var/$CURRENT_DIR/g" ../config/network-config-ext.yaml
