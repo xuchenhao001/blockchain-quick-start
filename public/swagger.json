@@ -415,21 +415,22 @@
     "InstallChaincode": {
       "type": "object",
       "required": [
+        "chaincode",
         "chaincodeName",
-        "chaincodePath",
         "chaincodeType",
         "chaincodeVersion",
         "orgName",
         "peers"
       ],
       "properties": {
+        "chaincode": {
+          "type": "string",
+          "description": "Chaincode file encoded with base64",
+          "example": "cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkiZ2l0aHViLmNvbS9oeXBlcmxlZGdlci9mYWJyaWMvY29yZS9jaGFpbmNvZGUvc2hpbSIKCXBiICJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9wcm90b3MvcGVlciIKKQoKLy8gVHJhbnNmZXJDaGFpbmNvZGUgRGVmaW5lIGNoYWluY29kZQp0eXBlIFRyYW5zZmVyQ2hhaW5jb2RlIHN0cnVjdCB7Cn0KCi8vIEVudHJ5IG9mIGNoYWluY29kZQpmdW5jIG1haW4oKSB7CgllcnIgOj0gc2hpbS5TdGFydChuZXcoVHJhbnNmZXJDaGFpbmNvZGUpKQoJaWYgZXJyICE9IG5pbCB7CgkJZm10LlByaW50ZigiRXJyb3Igc3RhcnRpbmcgdHJhbnNmZXIgY2hhaW5jb2RlOiAlcyIsIGVycikKCX0KfQoKLy9Jbml0IEluaXRpYWxpemUgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbml0KHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlKSBwYi5SZXNwb25zZSB7CgoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCi8vIEludm9rZSBpbnZva2UgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbnZva2Uoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UpIHBiLlJlc3BvbnNlIHsKCWZ1bmN0aW9uLCBhcmdzIDo9IHN0dWIuR2V0RnVuY3Rpb25BbmRQYXJhbWV0ZXJzKCkKCWlmIGZ1bmN0aW9uID09ICJwdXQiIHsKCQlyZXR1cm4gdC5hZGRNb25leShzdHViLCBhcmdzKQoJfSBlbHNlIGlmIGZ1bmN0aW9uID09ICJnZXQiIHsKCQlyZXR1cm4gdC5xdWVyeU1vbmV5KHN0dWIsIGFyZ3MpCgl9CglyZXR1cm4gc2hpbS5FcnJvcigiVW5zdXBwb3J0ZWQgb3BlcmF0aW9uLiBQbGVhc2UgdXNlIGFkZCB0cmFuc2ZlciBxdWVyeSBkZWxldGUiKQp9CgpmdW5jICh0ICpUcmFuc2ZlckNoYWluY29kZSkgYWRkTW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAyIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMjogdXNlcixtb25leSIpCgl9Cgl1c2VybmFtZSA6PSBhcmdzWzBdCgl2YWx1ZSA6PSBbXWJ5dGUoYXJnc1sxXSkKCXZhciBlcnIgZXJyb3IKCWVyciA9IHN0dWIuUHV0U3RhdGUodXNlcm5hbWUsIHZhbHVlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHNoaW0uRXJyb3IoZXJyLkVycm9yKCkpCgl9CglyZXR1cm4gc2hpbS5TdWNjZXNzKHZhbHVlKQoKfQoKZnVuYyAodCAqVHJhbnNmZXJDaGFpbmNvZGUpIHF1ZXJ5TW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMTogVXNlcm5hbWUiKQoJfQoJbW9uZXlBc0J5dGVzLCBlcnIgOj0gc3R1Yi5HZXRTdGF0ZShhcmdzWzBdKQoJaWYgZXJyICE9IG5pbCB8fCBtb25leUFzQnl0ZXMgPT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MobW9uZXlBc0J5dGVzKQp9Cg=="
+        },
         "chaincodeName": {
           "type": "string",
           "example": "mycc"
-        },
-        "chaincodePath": {
-          "type": "string",
-          "example": "github.com/example_cc"
         },
         "chaincodeType": {
           "type": "string",
