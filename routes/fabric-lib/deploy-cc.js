@@ -24,7 +24,7 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
   process.env.GOPATH = '/tmp/chaincode-cache';
 
   // check if this kind of chaincode supported
-  if (!chaincodeType === 'golang') {
+  if (chaincodeType !== 'golang') {
     return [false, 'Does not support this kind of chaincode!'];
   }
 
