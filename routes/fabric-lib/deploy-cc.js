@@ -53,7 +53,6 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
                                        chaincodeVersion, orgName, peers) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
-  let chaincodePackage = null;
 
   // check if this kind of chaincode supported
   if (chaincodeType !== 'golang') {
@@ -68,6 +67,7 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
   let chaincodeBuffer = new Buffer(chaincode, 'base64');
 
   // check if the chaincode is package
+  let chaincodePackage = null;
   if (!isGzip(chaincodeBuffer)) {
     logger.info('Got chaincode souce code, convert to chaincode package');
     let chaincodeTarGzBuffer = new sbuf.WritableStreamBuffer();
@@ -78,16 +78,14 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
     chaincodePackage = chaincodeBuffer;
   }
 
+  let chaincodePath = 'github.com/chaincode';
+
   try {
     // install chaincode for each org
     logger.info('Calling peers in organization "%s" to join the channel', orgName);
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
-
-    // load chaincode tar.gz package
-
-    let chaincodePath = 'github.com/chaincode';
 
     let request = {
       targets: peers,
