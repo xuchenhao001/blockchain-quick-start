@@ -4,10 +4,12 @@ let log4js = require('log4js');
 let logger = log4js.getLogger('Chaincode');
 logger.level = 'DEBUG';
 
-let fs = require('fs-extra');
 let helper = require('./helper');
 let hfc = require('fabric-client');
+let sbuf = require('stream-buffers');
+let tar = require('tar-stream');
 let util = require('util');
+let zlib = require('zlib');
 
 hfc.setLogger(logger);
 
@@ -17,11 +19,41 @@ let isBase64 = function(string){
   return reg.test(string);
 };
 
+let isGzip = function (buf) {
+  if (!buf || buf.length < 3) {
+    return false;
+  }
+
+  return buf[0] === 0x1F && buf[1] === 0x8B && buf[2] === 0x08;
+};
+
+let generateTarGz = async function (chaincodeBuffer, chaincodeTarGzBuffer) {
+  logger.debug("Generate chaincode tar.gz package");
+
+  return new Promise((resolve, reject) => {
+    let pack = tar.pack();
+
+    pack.pipe(zlib.createGzip()).pipe(chaincodeTarGzBuffer).on('finish', () => {
+      resolve(true);
+    }).on('error', (err) => {
+      reject(err);
+    });
+
+    let task = pack.entry({ name: 'src/github.com/chaincode/chaincode.go' }, chaincodeBuffer);
+
+    Promise.all([task]).then(() => {
+      pack.finalize();
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+};
+
 let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
                                        chaincodeVersion, orgName, peers) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
-  process.env.GOPATH = '/tmp/chaincode-cache';
+  let chaincodePackage = null;
 
   // check if this kind of chaincode supported
   if (chaincodeType !== 'golang') {
@@ -33,22 +65,33 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
     return [false, 'Chaincode is not a valid base64 string!'];
   }
 
-  try {
-    // write chaincode to a file
-    let tmpDir = process.env.GOPATH + '/src/github.com/cc';
-    let chaincodeBuffer = new Buffer(chaincode, 'base64');
-    fs.mkdirpSync(tmpDir);
-    fs.writeFileSync(tmpDir + '/chaincode.go', chaincodeBuffer.toString());
-    let chaincodePath = 'github.com/cc';
+  let chaincodeBuffer = new Buffer(chaincode, 'base64');
 
+  // check if the chaincode is package
+  if (!isGzip(chaincodeBuffer)) {
+    logger.info('Got chaincode souce code, convert to chaincode package');
+    let chaincodeTarGzBuffer = new sbuf.WritableStreamBuffer();
+    await generateTarGz(chaincodeBuffer, chaincodeTarGzBuffer);
+    chaincodePackage = chaincodeTarGzBuffer.getContents();
+  } else {
+    logger.info('Got chaincode package buffer');
+    chaincodePackage = chaincodeBuffer;
+  }
+
+  try {
     // install chaincode for each org
     logger.info('Calling peers in organization "%s" to join the channel', orgName);
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
+    // load chaincode tar.gz package
+
+    let chaincodePath = 'github.com/chaincode';
+
     let request = {
       targets: peers,
+      chaincodePackage: chaincodePackage,
       chaincodePath: chaincodePath,
       chaincodeId: chaincodeName,
       chaincodeVersion: chaincodeVersion,
@@ -83,10 +126,6 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
         'Response null or status is not 200';
       logger.error(error_message);
     }
-
-    // remove chaincode tmp file
-    let tmpFile = tmpDir + '/chaincode.go';
-    fs.removeSync(tmpFile);
   }
   catch (error) {
     logger.error('Failed to install due to error: ' + error.stack ? error.stack : error);
