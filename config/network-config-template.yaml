@@ -54,9 +54,9 @@ organizations:
     # this way. The SDK should allow applications to set the org admin identity via APIs, and only use
     # this route as an alternative when it exists.
     adminPrivateKey:
-      path: /var/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/ORG1_PRIVATE_KEY
+      pem: "ORG1_PRIVATE_KEY"
     signedCert:
-      path: /var/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+      pem: "ORG1_SIGN_CERT"
 
   # the profile will contain public information about organizations other than the one it belongs to.
   # These are necessary information to make transaction lifecycles work, including MSP IDs and
@@ -71,9 +71,9 @@ organizations:
     certificateAuthorities:
     - ca-org2
     adminPrivateKey:
-      path: /var/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/ORG2_PRIVATE_KEY
+      pem: "ORG2_PRIVATE_KEY"
     signedCert:
-      path: /var/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
+      pem: "ORG2_SIGN_CERT"
 
 #
 # List of orderers to send transaction and channel create/update requests to. For the time
@@ -91,7 +91,7 @@ orderers:
       hostnameOverride: orderer.example.com
 
     tlsCACerts:
-      path: /var/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+      pem: "ORDERER_TLS"
 
 #
 # List of peers to send various requests to, including endorsement, query
@@ -111,7 +111,7 @@ peers:
 
     tlsCACerts:
       # Comma-Separated list of paths
-      path: /var/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+      pem: "PEER0_ORG1_TLS"
 
   peer1.org1.example.com:
     url: grpcs://peer1.org1.example.com:7051
@@ -121,7 +121,7 @@ peers:
       hostnameOverride: peer1.org1.example.com
     tlsCACerts:
       # Comma-Separated list of paths
-      path: /var/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
+      pem: "PEER1_ORG1_TLS"
 
   peer0.org2.example.com:
     url: grpcs://peer0.org2.example.com:7051
@@ -130,7 +130,7 @@ peers:
       ssl-target-name-override: peer0.org2.example.com
       hostnameOverride: peer0.org2.example.com
     tlsCACerts:
-      path: /var/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+      pem: "PEER0_ORG2_TLS"
 
   peer1.org2.example.com:
     url: grpcs://peer1.org2.example.com:7051
@@ -139,7 +139,7 @@ peers:
       ssl-target-name-override: peer1.org2.example.com
       hostnameOverride: peer1.org2.example.com
     tlsCACerts:
-      path: /var/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
+      pem: "PEER1_ORG2_TLS"
 
 #
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows
@@ -155,7 +155,7 @@ certificateAuthorities:
       verify: false
     tlsCACerts:
       # Comma-Separated list of paths
-      path: /var/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+      pem: "CA_ORG1_TLS"
       # Client key and cert for TLS mutual auth with Fabric CA. If the target Fabric CA server
       # does not have TLS mutual auth turned on, then this section is not needed
       # client:
@@ -176,7 +176,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: /var/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
+      pem: "CA_ORG2_TLS"
     registrar:
     - enrollId: admin
       enrollSecret: adminpw

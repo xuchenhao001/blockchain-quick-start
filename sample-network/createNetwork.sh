@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -xe
 CHANNEL_NAME="mychannel"
 IMAGETAG="1.2.0"
 
@@ -42,19 +42,51 @@ function prepareCAFile () {
   rm -f docker-compose-e2e.yaml.bak
 }
 
-function prepareConnectionFile() {
-  CURRENT_DIR=$PWD
-  cp ../config/network-config-template.yaml ../config/network-config.yaml
-  cd crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/
-  PRIV_KEY=$(ls *_sk)
-  cd "$CURRENT_DIR"
-  sed -i.bak "s/ORG1_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
-  cd crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/
-  PRIV_KEY=$(ls *_sk)
-  cd "$CURRENT_DIR"
-  sed -i.bak "s/ORG2_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
-  rm -f ../config/network-config.yaml.bak
+# Got a path parameter, and then return it's content parsed with '\n'
+function getFileParse() {
+  local FILEPATH=$1
+  local CONTENT=$(cat -E $FILEPATH)
+  local CONTENT=$(echo $CONTENT | sed 's/\$ */\\\\n/g')
+  local CONTENT=$(echo $CONTENT | sed 's/\//\\\//g')
+  echo $CONTENT
+}
 
+function prepareConnectionFileCerts() {
+  cp ../config/network-config-template.yaml ../config/network-config.yaml
+
+  # Org1 Admin
+  PRIV_KEY=$(getFileParse crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/*_sk)
+  sed -i.bak "s/ORG1_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
+  ADMIN_CERT=$(getFileParse crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem)
+  sed -i.bak "s/ORG1_SIGN_CERT/${ADMIN_CERT}/g" ../config/network-config.yaml
+
+  # Org2 Admin
+  PRIV_KEY=$(getFileParse crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/*_sk)
+  sed -i.bak "s/ORG2_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
+  ADMIN_CERT=$(getFileParse crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem)
+  sed -i.bak "s/ORG2_SIGN_CERT/${ADMIN_CERT}/g" ../config/network-config.yaml
+
+  # Orderer tls CA
+  ORDERER_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt)
+  sed -i.bak "s/ORDERER_TLS/$ORDERER_TLS/g" ../config/network-config.yaml
+
+  # peers' tls CA
+  PEER0_ORG1_TLS=$(getFileParse crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt)
+  sed -i.bak "s/PEER0_ORG1_TLS/$PEER0_ORG1_TLS/g" ../config/network-config.yaml
+  PEER1_ORG1_TLS=$(getFileParse crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt)
+  sed -i.bak "s/PEER1_ORG1_TLS/$PEER1_ORG1_TLS/g" ../config/network-config.yaml
+  PEER0_ORG2_TLS=$(getFileParse crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt)
+  sed -i.bak "s/PEER0_ORG2_TLS/$PEER0_ORG2_TLS/g" ../config/network-config.yaml
+  PEER1_ORG2_TLS=$(getFileParse crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt)
+  sed -i.bak "s/PEER1_ORG2_TLS/$PEER1_ORG2_TLS/g" ../config/network-config.yaml
+
+  # CA's tls CA
+  CA_ORG1_TLS=$(getFileParse crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem)
+  sed -i.bak "s/CA_ORG1_TLS/$CA_ORG1_TLS/g" ../config/network-config.yaml
+  CA_ORG2_TLS=$(getFileParse crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem)
+  sed -i.bak "s/CA_ORG2_TLS/$CA_ORG2_TLS/g" ../config/network-config.yaml
+
+  rm -f ../config/network-config.yaml.bak
   cp ../config/network-config-ext-template.yaml ../config/network-config-ext.yaml
 }
 
@@ -126,8 +158,6 @@ function prepareEnv() {
   if [[ $RUN_ENV = "N" || $RUN_ENV = "n" ]]; then
     # in dev mode, reset certs' path
     CURRENT_DIR=$(pwd | sed "s/\//\\\\\//g")
-    sed -i.bak "s/\/var/$CURRENT_DIR/g" ../config/network-config.yaml
-    rm -f ../config/network-config.yaml.bak
     sed -i.bak "s/\/var/$CURRENT_DIR/g" ../config/network-config-ext.yaml
     rm -f ../config/network-config-ext.yaml.bak
 
@@ -156,7 +186,7 @@ function prepareEnv() {
 
 generateCerts
 prepareCAFile
-prepareConnectionFile
+prepareConnectionFileCerts
 generateChannelArtifacts
 prepareEnv
 
