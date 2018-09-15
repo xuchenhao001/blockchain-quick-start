@@ -34,12 +34,12 @@ git clone https://github.com/xuchenhao001/blockchain-quick-start.git
 Go to the dir `sample-network`, and start the Fabric network by doing this:
 
 ```bash
-cd blockchain-quick-start/sample-network/
-./createNetwork.sh
+cd blockchain-quick-start/
+./create-network.sh
 # Chose "Y" for container env and "N" for dev env
 ```
 
-> You can delete your network by doing `./deleteNetwork.sh`.
+> You can delete your network by doing `./delete-network.sh`.
 
 Then Press `Enter` and wait for the Fabric network successfully running.
 
