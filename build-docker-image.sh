@@ -11,7 +11,7 @@ mkdir -p ./tmp/app
 
 # Prepare binary
 cd ./tmp/binary
-curl -fsC - ${URL} -o ${BINARY_FILE}
+curl -C - ${URL} -o ${BINARY_FILE}
 tar -zxf ${BINARY_FILE}
 cp bin/configtxgen ../app/
 cd -
