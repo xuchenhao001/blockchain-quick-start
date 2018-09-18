@@ -76,3 +76,9 @@ docker-compose up -d
 ```
 
 When the server is up, open `http://<your-host-ip>:8080/` with your browser, you can see the `blockchian-explorer` page running normally.
+
+## Test with Restlet-Client
+
+There is a extension of Chrome browser named `Restlet-Client`, you could download it from Chrome Web Store.
+
+After installed, import `test/restlet-client.json` and test the REST APIs of each scenario step-by-step.
