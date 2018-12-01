@@ -13,6 +13,13 @@ organizations:
     - peer1.org2.example.com
     mspDir:
       path: /var/crypto-config/peerOrganizations/org2.example.com/msp
+  Org3:
+    mspid: Org3MSP
+    peers:
+    - peer0.org3.example.com
+    - peer1.org3.example.com
+    mspDir:
+      path: /var/crypto-config/peerOrganizations/org3.example.com/msp
 
 peers:
   peer0.org1.example.com:
@@ -31,3 +38,10 @@ peers:
     url-addr-container: peer1.org2.example.com
     url-port-container: 7051
 
+  peer0.org3.example.com:
+    url-addr-container: peer0.org3.example.com
+    url-port-container: 7051
+
+  peer1.org3.example.com:
+    url-addr-container: peer1.org3.example.com
+    url-port-container: 7051

@@ -8,7 +8,8 @@ RUN set -ex \
     && cd blockchain-explorer \
     # fabric 1.2 bug workaround
     && sed -i 's/DOWN/RUNNING/g' app/platform/fabric/Admin.js \  
-    && npm install \
+    && npm config set registry https://r.cnpmjs.org \
+    && npm install --prefer-offline \
     && cd client/ \
     && npm install \
     && npm run build \

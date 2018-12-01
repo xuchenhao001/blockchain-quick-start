@@ -74,6 +74,17 @@ organizations:
       pem: "ORG2_PRIVATE_KEY"
     signedCert:
       pem: "ORG2_SIGN_CERT"
+  Org3:
+    mspid: Org3MSP
+    peers:
+    - peer0.org3.example.com
+    - peer1.org3.example.com
+    certificateAuthorities:
+    - ca-org3
+    adminPrivateKey:
+      pem: "ORG3_PRIVATE_KEY"
+    signedCert:
+      pem: "ORG3_SIGN_CERT"
 
 #
 # List of orderers to send transaction and channel create/update requests to. For the time
@@ -141,6 +152,24 @@ peers:
     tlsCACerts:
       pem: "PEER1_ORG2_TLS"
 
+  peer0.org3.example.com:
+    url: grpcs://peer0.org3.example.com:7051
+    eventUrl: grpcs://peer0.org3.example.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer0.org3.example.com
+      hostnameOverride: peer0.org3.example.com
+    tlsCACerts:
+      pem: "PEER0_ORG3_TLS"
+
+  peer1.org3.example.com:
+    url: grpcs://peer1.org3.example.com:7051
+    eventUrl: grpcs://peer1.org3.example.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer1.org3.example.com
+      hostnameOverride: peer1.org3.example.com
+    tlsCACerts:
+      pem: "PEER1_ORG3_TLS"
+
 #
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows
 # certificate management to be done via REST APIs. Application may choose to use a standard
@@ -182,3 +211,15 @@ certificateAuthorities:
       enrollSecret: adminpw
     # [Optional] The optional name of the CA.
     caName: ca-org2
+
+  ca-org3:
+    url: https://ca.org3.example.com:7054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      pem: "CA_ORG3_TLS"
+    registrar:
+    - enrollId: admin
+      enrollSecret: adminpw
+    # [Optional] The optional name of the CA.
+    caName: ca-org3

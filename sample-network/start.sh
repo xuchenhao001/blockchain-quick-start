@@ -31,14 +31,22 @@ function prepareCAFile () {
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
   CURRENT_DIR=$PWD
+
   cd crypto-config/peerOrganizations/org1.example.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed -i "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+
   cd crypto-config/peerOrganizations/org2.example.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed -i "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+
+  cd crypto-config/peerOrganizations/org3.example.com/ca/
+  PRIV_KEY=$(ls *_sk)
+  cd "$CURRENT_DIR"
+  sed -i "s/CA3_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+
   echo "Finished."
 }
 
@@ -69,6 +77,12 @@ function prepareConnectionFileCerts() {
   ADMIN_CERT=$(getFileParse crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem)
   sed -i "s/ORG2_SIGN_CERT/${ADMIN_CERT}/g" ../config/network-config.yaml
 
+  # Org3 Admin
+  PRIV_KEY=$(getFileParse crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/*_sk)
+  sed -i "s/ORG3_PRIVATE_KEY/${PRIV_KEY}/g" ../config/network-config.yaml
+  ADMIN_CERT=$(getFileParse crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/signcerts/Admin@org3.example.com-cert.pem)
+  sed -i "s/ORG3_SIGN_CERT/${ADMIN_CERT}/g" ../config/network-config.yaml
+
   # Orderer tls CA
   ORDERER_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt)
   sed -i "s/ORDERER_TLS/$ORDERER_TLS/g" ../config/network-config.yaml
@@ -82,12 +96,18 @@ function prepareConnectionFileCerts() {
   sed -i "s/PEER0_ORG2_TLS/$PEER0_ORG2_TLS/g" ../config/network-config.yaml
   PEER1_ORG2_TLS=$(getFileParse crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt)
   sed -i "s/PEER1_ORG2_TLS/$PEER1_ORG2_TLS/g" ../config/network-config.yaml
+  PEER0_ORG3_TLS=$(getFileParse crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt)
+  sed -i "s/PEER0_ORG3_TLS/$PEER0_ORG3_TLS/g" ../config/network-config.yaml
+  PEER1_ORG3_TLS=$(getFileParse crypto-config/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/tls/ca.crt)
+  sed -i "s/PEER1_ORG3_TLS/$PEER1_ORG3_TLS/g" ../config/network-config.yaml
 
   # CA's tls CA
   CA_ORG1_TLS=$(getFileParse crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem)
   sed -i "s/CA_ORG1_TLS/$CA_ORG1_TLS/g" ../config/network-config.yaml
   CA_ORG2_TLS=$(getFileParse crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem)
   sed -i "s/CA_ORG2_TLS/$CA_ORG2_TLS/g" ../config/network-config.yaml
+  CA_ORG3_TLS=$(getFileParse crypto-config/peerOrganizations/org3.example.com/ca/ca.org3.example.com-cert.pem)
+  sed -i "s/CA_ORG3_TLS/$CA_ORG3_TLS/g" ../config/network-config.yaml
 
   cp ../config/network-config-ext-template.yaml ../config/network-config-ext.yaml
   echo "Finished."
@@ -106,7 +126,7 @@ function generateGenesisBlock() {
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
   set -x
-  configtxgen --configPath ./ -profile TwoOrgsOrdererGenesis -outputBlock ./channel-artifacts/genesis.block
+  configtxgen --configPath ./ -profile DefaultGenesis -outputBlock ./channel-artifacts/genesis.block
   res=$?
   set +x
   if [ $res -ne 0 ]; then
@@ -137,8 +157,13 @@ function prepareEnv() {
     sed -i "s/peer0.org2.example.com:7053/localhost:9053/g" ../config/network-config.yaml
     sed -i "s/peer1.org2.example.com:7051/localhost:10051/g" ../config/network-config.yaml
     sed -i "s/peer1.org2.example.com:7053/localhost:10053/g" ../config/network-config.yaml
+    sed -i "s/peer0.org3.example.com:7051/localhost:11051/g" ../config/network-config.yaml
+    sed -i "s/peer0.org3.example.com:7053/localhost:11053/g" ../config/network-config.yaml
+    sed -i "s/peer1.org3.example.com:7051/localhost:12051/g" ../config/network-config.yaml
+    sed -i "s/peer1.org3.example.com:7053/localhost:12053/g" ../config/network-config.yaml
     sed -i "s/ca.org1.example.com:7054/localhost:7054/g" ../config/network-config.yaml
     sed -i "s/ca.org2.example.com:7054/localhost:8054/g" ../config/network-config.yaml
+    sed -i "s/ca.org3.example.com:7054/localhost:9054/g" ../config/network-config.yaml
   fi
   echo "Finished."
 }
