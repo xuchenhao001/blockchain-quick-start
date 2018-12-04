@@ -113,7 +113,7 @@ let joinChannel = async function (channelName, ordererName, orgName, peers) {
       }
     }
   }
-  
+
   if (!error_message) {
     let message = util.format('Successfully joined peers to the channel:%s', channelName);
     logger.info(message);

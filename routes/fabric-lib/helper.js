@@ -136,17 +136,29 @@ let genConfigtxObj = async function(networkConfigPath, orgNames) {
         logger.error(error_message);
         return [false, error_message];
       }
+      // compose anchor peers
+      let anchorPeers = [];
+      if (orgData.peers > 1) {
+        orgData.peers.forEach(function (peer) {
+          let anchorPeer = {
+            "Host": networkData.peers[peer]['url-addr-container'],
+            "Port": networkData.peers[peer]['url-port-container']
+          };
+          anchorPeers.push(anchorPeer);
+        });
+      } else {
+        anchorPeers.push({
+          "Host": networkData.peers[orgData.peers[0]]['url-addr-container'],
+          "Port": networkData.peers[orgData.peers[0]]['url-port-container']
+        })
+      }
+
       // compose org object
       let orgObj = {
         "Name": orgData.mspid,
         "ID": orgData.mspid,
         "MSPDir": orgData.mspDir.path,
-        "AnchorPeers": [
-          {
-            "Host": networkData.peers[orgData.peers[0]]['url-addr-container'],
-            "Port": networkData.peers[orgData.peers[0]]['url-port-container']
-          }
-        ]
+        "AnchorPeers": anchorPeers
       };
       logger.debug(util.format('Successfully load Org %s from connection profile: %s',
         orgName, JSON.stringify(orgObj)));
