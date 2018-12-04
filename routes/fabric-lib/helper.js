@@ -9,6 +9,7 @@ let hfc = require('fabric-client');
 let util = require('util');
 let execSync = require('child_process').execSync;
 let yaml = require('js-yaml');
+let uuid = require('uuid');
 
 
 let getClientForOrg = async function(org){
@@ -51,20 +52,81 @@ let getClientForOrg = async function(org){
   return client;
 };
 
-
 // generate channel.tx file with channel name and org names included in this channel
 let generateChannelTx = async function(channelName, orgNames) {
   // prepare a tmp directory for place files
-  let tmpDir = './tmp';
+  let tmpDir = './' + uuid.v4();
   if (fs.existsSync(tmpDir)) {
     fs.removeSync(tmpDir);
   }
   fs.mkdirSync(tmpDir);
-  logger.debug('Successfully prepared temp directory for channel config files');
+  logger.debug('Successfully prepared temp directory for channel config files: ' + tmpDir);
 
+  // compose configtx object
+  let configtxObj = await genConfigtxObj('config/network-config-ext.yaml', orgNames);
+  logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
+
+  let configData = yaml.safeDump(configtxObj);
+  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+  logger.debug('Successfully written configtx.yaml file');
+
+  // generate channel.tx file and return
+  let configtxgenExec = 'configtxgen';
+  let cmdStr = configtxgenExec + ' -profile GeneratedChannel'
+    + ' -configPath ' + tmpDir
+    + ' -channelID ' + channelName
+    + ' -outputCreateChannelTx ' + tmpDir + '/channel.tx';
+
+  logger.debug('Generate channel.tx file by command: ' + cmdStr);
+  execSync(cmdStr, {stdio: []});
+  logger.debug('Success generate channel.tx file');
+
+  let txFile = fs.readFileSync(tmpDir+'/channel.tx');
+  fs.removeSync(tmpDir);
+
+  return [true, txFile];
+};
+
+// generate anchor peer update tx file
+let generateUpdateAnchorTx = async function(channelName, orgNames, orgMSPId) {
+  // prepare a tmp directory for place files
+  let tmpDir = './' + uuid.v4();
+  if (fs.existsSync(tmpDir)) {
+    fs.removeSync(tmpDir);
+  }
+  fs.mkdirSync(tmpDir);
+  logger.debug('Successfully prepared temp directory for anchor peer config files: ' + tmpDir);
+
+  // compose configtx object
+  let configtxObj = await genConfigtxObj('config/network-config-ext.yaml', orgNames);
+  logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
+
+  let configData = yaml.safeDump(configtxObj);
+  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+  logger.debug('Successfully written configtx.yaml file');
+
+  // generate channel.tx file and return
+  let configtxgenExec = 'configtxgen';
+  let cmdStr = configtxgenExec + ' -profile GeneratedChannel'
+    + ' -configPath ' + tmpDir
+    + ' -channelID ' + channelName
+    + ' -outputAnchorPeersUpdate ' + tmpDir + '/anchorPeer.tx'
+    + ' -asOrg ' + orgMSPId;
+
+  logger.debug('Generate anchorPeer.tx file by command: ' + cmdStr);
+  execSync(cmdStr, {stdio: []});
+  logger.debug('Success generate anchorPeer.tx file');
+
+  let txFile = fs.readFileSync(tmpDir+'/anchorPeer.tx');
+  fs.removeSync(tmpDir);
+
+  return [true, txFile];
+};
+
+let genConfigtxObj = async function(networkConfigPath, orgNames) {
   // generate channel config yaml
   let orgObjs = [];
-  let fileData = fs.readFileSync('config/network-config-ext.yaml');
+  let fileData = fs.readFileSync(networkConfigPath);
   let networkData = yaml.safeLoad(fileData);
   if (networkData) {
     orgNames.forEach(function (orgName) {
@@ -96,36 +158,19 @@ let generateChannelTx = async function(channelName, orgNames) {
     return [false, error_message];
   }
   // compose configtx object
-  let configtxObj = {
+  return {
     "Profiles": {
       "GeneratedChannel": {
         "Consortium": "SampleConsortium",
         "Application": {
-          "Organizations":orgObjs,
+          "Organizations": orgObjs,
           "Capabilities": {"V1_2": true}
         }
       }
     }
   };
-  let configData = yaml.safeDump(configtxObj);
-  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
-  logger.debug('Successfully written configtx.yaml file');
-
-  // generate channel.tx file and return
-  let configtxgenExec = 'configtxgen';
-  let cmdStr = configtxgenExec + ' -profile GeneratedChannel'
-    + ' -configPath ' + tmpDir
-    + ' -channelID ' + channelName
-    + ' -outputCreateChannelTx ' + tmpDir + '/channel.tx';
-  logger.debug('Generate channel.tx file by command: ' + cmdStr);
-  execSync(cmdStr, {stdio: []});
-  logger.debug('Success generate channel.tx file');
-  let txFile = fs.readFileSync(tmpDir+'/channel.tx');
-  fs.removeSync(tmpDir);
-  return [true, txFile];
 };
-
 
 exports.getClientForOrg = getClientForOrg;
 exports.generateChannelTx = generateChannelTx;
-
+exports.generateUpdateAnchorTx = generateUpdateAnchorTx;
