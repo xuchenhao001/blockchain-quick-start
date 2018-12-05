@@ -10,7 +10,43 @@ let util = require('util');
 let execSync = require('child_process').execSync;
 let yaml = require('js-yaml');
 let uuid = require('uuid');
+let tar = require('tar-stream');
+let zlib = require('zlib');
 
+let isBase64 = function(string){
+  let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;
+  return reg.test(string);
+};
+
+let isGzip = function (buf) {
+  if (!buf || buf.length < 3) {
+    return false;
+  }
+
+  return buf[0] === 0x1F && buf[1] === 0x8B && buf[2] === 0x08;
+};
+
+let generateTarGz = async function (chaincodeBuffer, chaincodeTarGzBuffer) {
+  logger.debug("Generate chaincode tar.gz package");
+
+  return new Promise((resolve, reject) => {
+    let pack = tar.pack();
+
+    pack.pipe(zlib.createGzip()).pipe(chaincodeTarGzBuffer).on('finish', () => {
+      resolve(true);
+    }).on('error', (err) => {
+      reject(err);
+    });
+
+    let task = pack.entry({ name: 'src/github.com/chaincode/chaincode.go' }, chaincodeBuffer);
+
+    Promise.all([task]).then(() => {
+      pack.finalize();
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+};
 
 let getClientForOrg = async function(org){
   logger.debug('getClientForOrg %s', org);
@@ -46,7 +82,7 @@ let getClientForOrg = async function(org){
   // logger.debug('getClientForOrg - ****** END %s %s \n\n', userorg, username);
   let user = await client.getUserContext('admin', true);
   if (!user) {
-    await client.setUserContext({username:'admin', password:'adminpw'});
+    await client.setUserContext({username:'admin', password:'adminpw'}, false);
   }
 
   return client;
@@ -183,6 +219,27 @@ let genConfigtxObj = async function(networkConfigPath, orgNames) {
   };
 };
 
+let loadCollection = async function(collectionBase64Encoded) {
+  if (!isBase64(collectionBase64Encoded)) {
+    return [false, 'Collection is not a valid base64 string!']
+  }
+
+  let collectionContent = new Buffer(collectionBase64Encoded, 'base64');
+  let fileName = './' + uuid.v4();
+  fs.writeFileSync(fileName, collectionContent);
+
+  return [true, fileName]
+};
+
+let wipeCollection = async function(fileName) {
+  fs.removeSync(fileName)
+};
+
+exports.isBase64 = isBase64;
+exports.isGzip = isGzip;
+exports.generateTarGz = generateTarGz;
 exports.getClientForOrg = getClientForOrg;
 exports.generateChannelTx = generateChannelTx;
 exports.generateUpdateAnchorTx = generateUpdateAnchorTx;
+exports.loadCollection = loadCollection;
+exports.wipeCollection = wipeCollection;

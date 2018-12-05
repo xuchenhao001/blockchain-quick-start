@@ -7,47 +7,9 @@ logger.level = 'DEBUG';
 let helper = require('./helper');
 let hfc = require('fabric-client');
 let sbuf = require('stream-buffers');
-let tar = require('tar-stream');
 let util = require('util');
-let zlib = require('zlib');
 
 hfc.setLogger(logger);
-
-
-let isBase64 = function(string){
-  let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;
-  return reg.test(string);
-};
-
-let isGzip = function (buf) {
-  if (!buf || buf.length < 3) {
-    return false;
-  }
-
-  return buf[0] === 0x1F && buf[1] === 0x8B && buf[2] === 0x08;
-};
-
-let generateTarGz = async function (chaincodeBuffer, chaincodeTarGzBuffer) {
-  logger.debug("Generate chaincode tar.gz package");
-
-  return new Promise((resolve, reject) => {
-    let pack = tar.pack();
-
-    pack.pipe(zlib.createGzip()).pipe(chaincodeTarGzBuffer).on('finish', () => {
-      resolve(true);
-    }).on('error', (err) => {
-      reject(err);
-    });
-
-    let task = pack.entry({ name: 'src/github.com/chaincode/chaincode.go' }, chaincodeBuffer);
-
-    Promise.all([task]).then(() => {
-      pack.finalize();
-    }).catch((err) => {
-      reject(err);
-    });
-  });
-};
 
 let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
                                        chaincodeVersion, orgName, peers) {
@@ -60,7 +22,7 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
   }
 
   // check if the chaincode is valid
-  if (!isBase64(chaincode)) {
+  if (!helper.isBase64(chaincode)) {
     return [false, 'Chaincode is not a valid base64 string!'];
   }
 
@@ -68,10 +30,10 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
 
   // check if the chaincode is package
   let chaincodePackage = null;
-  if (!isGzip(chaincodeBuffer)) {
+  if (!helper.isGzip(chaincodeBuffer)) {
     logger.info('Got chaincode souce code, convert to chaincode package');
     let chaincodeTarGzBuffer = new sbuf.WritableStreamBuffer();
-    await generateTarGz(chaincodeBuffer, chaincodeTarGzBuffer);
+    await helper.generateTarGz(chaincodeBuffer, chaincodeTarGzBuffer);
     chaincodePackage = chaincodeTarGzBuffer.getContents();
   } else {
     logger.info('Got chaincode package buffer');
@@ -142,8 +104,8 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
 };
 
 
-let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion,
-                                          channelName, functionName, args, ordererName, orgName, peers) {
+let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion, channelName,
+                                          functionName, args, ordererName, orgName, peers, collection) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = null;
@@ -178,10 +140,28 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
       txId: tx_id
     };
 
-    if (functionName)
+    // load collection if exists
+    if (collection) {
+      let result = await helper.loadCollection(collection);
+      if (result[0]) {
+        request['collections-config'] = result[1];
+        logger.debug('Get collection, update init request: ' + JSON.stringify(request));
+      } else {
+        logger.error(result[1]);
+        return [false, result[1]]
+      }
+    }
+
+    if (functionName) {
       request.fcn = functionName;
+    }
 
     let results = await channel.sendInstantiateProposal(request, 600000); //instantiate takes much longer
+
+    // wipe collection config file
+    if (request['collections-config']) {
+      await helper.wipeCollection(request['collections-config']);
+    }
 
     // the returned object has both the endorsement results
     // and the actual proposal, the proposal will be needed

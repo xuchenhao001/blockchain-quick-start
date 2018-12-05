@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2018-12-04T15:53:37.975+08:00",
+      "lastModified": "2018-12-05T11:42:31.525+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -1117,8 +1117,8 @@
     {
       "type": "Service",
       "id": "525e2a34-c947-49e2-bc98-01ec81518b85",
-      "lastModified": "2018-12-01T13:43:12.357+08:00",
-      "name": "4. demo",
+      "lastModified": "2018-12-05T10:38:12.289+08:00",
+      "name": "4. multiChannel",
       "parentId": "11267e20-df40-4e22-bb82-b0cbe9bff7da"
     },
     {
@@ -2069,6 +2069,489 @@
       ],
       "metaInfo": {},
       "parentId": "525e2a34-c947-49e2-bc98-01ec81518b85"
+    },
+    {
+      "type": "Service",
+      "id": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf",
+      "lastModified": "2018-12-05T10:38:26.518+08:00",
+      "name": "5. privateData",
+      "parentId": "11267e20-df40-4e22-bb82-b0cbe9bff7da"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"privatechannel\",\n  \"includeOrgNames\": [\"Org1\", \"Org2\", \"Org3\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/create"
+      },
+      "id": "66f543e2-e272-47ad-aa77-99d8f3f2cb49",
+      "lastModified": "2018-12-05T10:46:34.458+08:00",
+      "name": "01. createChannel",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"privatechannel\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "e2b91e29-2848-414f-8711-9a3b22e37ebe",
+      "lastModified": "2018-12-05T10:46:37.852+08:00",
+      "name": "02. joinChannel - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"privatechannel\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "d5489ffc-f29d-413b-9da0-a3040567eb57",
+      "lastModified": "2018-12-05T10:46:40.847+08:00",
+      "name": "02. joinChannel - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"privatechannel\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "291bd6d7-faf5-47cc-a19a-471ec6036e7e",
+      "lastModified": "2018-12-05T10:46:43.563+08:00",
+      "name": "02. joinChannel - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"chaincode\": \"Ly8gV3JpdHRlbiBieSBYdSBDaGVuIEhhbwpwYWNrYWdlIG1haW4KCmltcG9ydCAoCgkiZW5jb2RpbmcvanNvbiIKCSJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9jb3JlL2NoYWluY29kZS9zaGltIgoJc2MgImdpdGh1Yi5jb20vaHlwZXJsZWRnZXIvZmFicmljL3Byb3Rvcy9wZWVyIgopCgp2YXIgbG9nZ2VyID0gc2hpbS5OZXdMb2dnZXIoImNoYWluY29kZSIpCgovLyBEZWZpbmUgdGhlIFNtYXJ0IENvbnRyYWN0IHN0cnVjdHVyZQp0eXBlIFNtYXJ0Q29udHJhY3Qgc3RydWN0IHsKfQoKdHlwZSBSX0VyciBzdHJ1Y3QgewoJUmVhc29uIHN0cmluZyBganNvbjoicmVhc29uImAKfQoKdHlwZSBQcml2YXRlUHJpY2Ugc3RydWN0IHsKCVVuaXRQcmljZSBmbG9hdDMyIGBqc29uOiJ1bml0UHJpY2UiYAp9Cgp0eXBlIEdvb2RzSW5mb3Mgc3RydWN0IHsKCVVuaXRQcmljZSAgICAgICAgZmxvYXQzMiBganNvbjoidW5pdFByaWNlImAKCUFtb3VudCAgICAgICAgICAgZmxvYXQzMiBganNvbjoiYW1vdW50ImAKCVF1YW50aXR5ICAgICAgICAgZmxvYXQzMiBganNvbjoicXVhbnRpdHkiYAoJRGVsRGF0ZSAgICAgICAgICBzdHJpbmcgIGBqc29uOiJkZWxEYXRlImAKCVF1YW50aXR5Q29kZSAgICAgc3RyaW5nICBganNvbjoicXVhbnRpdHlDb2RlImAKCUdvb2RzTW9kZWwgICAgICAgc3RyaW5nICBganNvbjoiZ29vZHNNb2RlbCJgCglHb29kTm8gICAgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RObyJgCglQcmljZUNvZGUgICAgICAgIHN0cmluZyAgYGpzb246InByaWNlQ29kZSJgCglHb29kc05hbWUgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RzTmFtZSJgCglHb29kc0Rlc2NyaXB0aW9uIHN0cmluZyAgYGpzb246Imdvb2RzRGVzY3JpcHRpb24iYAp9Cgp0eXBlIFBPIHN0cnVjdCB7CglTZWxsZXIgICAgICAgIHN0cmluZyAgICAgYGpzb246InNlbGxlciJgCglDb25zaWduZWUgICAgIHN0cmluZyAgICAgYGpzb246ImNvbnNpZ25lZSJgCglTaGlwbWVudCAgICAgIHN0cmluZyAgICAgYGpzb246InNoaXBtZW50ImAKCURlc3RpbmF0aW9uICAgc3RyaW5nICAgICBganNvbjoiZGVzdGluYXRpb24iYAoJSW5zdXJlSW5mbyAgICBzdHJpbmcgICAgIGBqc29uOiJpbnN1cmVJbmZvImAKCVRyYWRlVGVybXMgICAgc3RyaW5nICAgICBganNvbjoidHJhZGVUZXJtcyJgCglUb3RhbEN1cnJlbmN5IHN0cmluZyAgICAgYGpzb246InRvdGFsQ3VycmVuY3kiYAoJQnV5ZXIgICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJidXllciJgCglUcmFmTW9kZSAgICAgIHN0cmluZyAgICAgYGpzb246InRyYWZNb2RlImAKCUdvb2RzSW5mb3MgICAgR29vZHNJbmZvcyBganNvbjoiZ29vZHNJbmZvcyJgCglUb3RhbEFtb3VudCAgIGZsb2F0MzIgICAgYGpzb246InRvdGFsQW1vdW50ImAKCUNhcnJpZXIgICAgICAgc3RyaW5nICAgICBganNvbjoiY2FycmllciJgCglQb05vICAgICAgICAgIHN0cmluZyAgICAgYGpzb246InBvTm8iYAoJU2VuZGVyICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJzZW5kZXIiYAoJUG9EYXRlICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJwb0RhdGUiYAoJVHJhZGVDb3VudHJ5ICBzdHJpbmcgICAgIGBqc29uOiJ0cmFkZUNvdW50cnkiYAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZXR1cm5FcnJvcihyZWFzb24gc3RyaW5nKSBzYy5SZXNwb25zZSB7CgoJdmFyIHJlIFJfRXJyCgoJcmUuUmVhc29uID0gcmVhc29uCglsb2dnZXIuRXJyb3IocmUuUmVhc29uKQoJcmVBc0J5dGVzLCBfIDo9IGpzb24uTWFyc2hhbChyZSkKCglyZXR1cm4gc2hpbS5TdWNjZXNzKHJlQXNCeXRlcykKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgSW5pdChBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIEludm9rZShBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoKCS8vIFJldHJpZXZlIHRoZSByZXF1ZXN0ZWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gYW5kIGFyZ3VtZW50cwoJZnVuY3Rpb24sIGFyZ3MgOj0gQVBJc3R1Yi5HZXRGdW5jdGlvbkFuZFBhcmFtZXRlcnMoKQoJLy8gUm91dGUgdG8gdGhlIGFwcHJvcHJpYXRlIGhhbmRsZXIgZnVuY3Rpb24gdG8gaW50ZXJhY3Qgd2l0aCB0aGUgbGVkZ2VyIGFwcHJvcHJpYXRlbHkKCWlmIGZ1bmN0aW9uID09ICJ1cGxvYWRQTyIgewoJCXJldHVybiBzLnVwbG9hZFBPKEFQSXN0dWIsIGFyZ3MpCgl9IGVsc2UgaWYgZnVuY3Rpb24gPT0gInF1ZXJ5UE8iIHsKCQlyZXR1cm4gcy5xdWVyeVBPKEFQSXN0dWIsIGFyZ3MpCgl9CgoJcmV0dXJuIHMucmV0dXJuRXJyb3IoIkludmFsaWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gbmFtZS4iKQp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSB2YWxpZGF0ZShwbyBQTykgYm9vbCB7CglpZiBwby5Hb29kc0luZm9zLlVuaXRQcmljZSA8PSAwIHsKCQlyZXR1cm4gZmFsc2UKCX0KCWlmIHBvLkdvb2RzSW5mb3MuUXVhbnRpdHkgPD0gMCB7CgkJcmV0dXJuIGZhbHNlCgl9CglpZiBwby5Hb29kc0luZm9zLkFtb3VudCA8PSAwIHsKCQlyZXR1cm4gZmFsc2UKCX0KCWlmIHBvLkdvb2RzSW5mb3MuVW5pdFByaWNlKnBvLkdvb2RzSW5mb3MuUXVhbnRpdHkgIT0gcG8uR29vZHNJbmZvcy5BbW91bnQgewoJCXJldHVybiBmYWxzZQoJfQoJcmV0dXJuIHRydWUKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgd3JpdGVDaGFpbihBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgcG8gUE8pIGVycm9yIHsKCS8vIHNwbGl0IHVuaXQgcHJpY2UgdG8gcHJpdmF0ZSBkYXRhIGZpcnN0CgkvLyB0aGVuIHNldCB1bml0IHByaWNlIHRvIDAKCXZhciBwcml2YXRlUHJpY2UgUHJpdmF0ZVByaWNlCglwcml2YXRlUHJpY2UuVW5pdFByaWNlID0gcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UKCXBvLkdvb2RzSW5mb3MuVW5pdFByaWNlID0gMAoKCS8vIHdyaXRlIHByaXZhdGUgZGF0YSBmaXJzdAoJcHJpdmF0ZUJ5dGVzLCBlcnIgOj0ganNvbi5NYXJzaGFsKHByaXZhdGVQcmljZSkKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCWxvZ2dlci5EZWJ1ZygiV3JpdGUgcHJpdmF0ZSBkYXRhOiAiICsgc3RyaW5nKHByaXZhdGVCeXRlcykpCgllcnIgPSBBUElzdHViLlB1dFByaXZhdGVEYXRhKCJjb2xsZWN0aW9uRGVtbyIgLHBvLlBvTm8sIHByaXZhdGVCeXRlcykKCWlmIGVyciAhPSBuaWwgewoJCS8vIGlmIGZhaWxlZCB0byB3cml0ZSB0aGUgcHJpdmF0ZSBkYXRhICh1bml0IHByaWNlKSwgdGhlbiBqdXN0IGlnbm9yZQoJCWxvZ2dlci5FcnJvcigiV3JpdGUgcHJpdmF0ZSBkYXRhIGZhaWxlZDogIiArIGVyci5FcnJvcigpKQoJfQoKCXBvQXNCeXRlcywgZXJyIDo9IGpzb24uTWFyc2hhbChwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCWxvZ2dlci5EZWJ1ZygiV3JpdGUgY2hhaW46ICIgKyBzdHJpbmcocG9Bc0J5dGVzKSkKCWVyciA9IEFQSXN0dWIuUHV0U3RhdGUocG8uUG9ObywgcG9Bc0J5dGVzKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIGVycgoJfQoJcmV0dXJuIG5pbAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZWFkQ2hhaW4oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIHBvTm8gc3RyaW5nKSAoKlBPLCBlcnJvcikgewoKCWxvZ2dlci5EZWJ1ZygiUXVlcnkgb24gY2hhaW46ICIgKyBwb05vKQoJcmVzdWx0LCBlcnIgOj0gQVBJc3R1Yi5HZXRTdGF0ZShwb05vKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJdmFyIHBvICpQTwoJZXJyID0ganNvbi5Vbm1hcnNoYWwocmVzdWx0LCAmcG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gbmlsLCBlcnIKCX0KCglsb2dnZXIuRGVidWcoIlF1ZXJ5IHByaXZhdGUgZGF0YSBvbiBjaGFpbjogIiArIHBvTm8pCglyZXN1bHQsIGVyciA9IEFQSXN0dWIuR2V0UHJpdmF0ZURhdGEoImNvbGxlY3Rpb25EZW1vIiwgcG9ObykKCWlmIGVyciAhPSBuaWwgewoJCS8vIGlmIGZhaWxlZCB0byBnZXQgdGhlIHByaXZhdGUgdW5pdCBwcmljZSwgdGhlbiBqdXN0IHJldHVybiBQTyB3aXRoIHVuaXQgcHJpY2UgMAoJCWxvZ2dlci5FcnJvcigiUXVlcnkgcHJpdmF0ZSBkYXRhIG9uIGNoYWluIGZhaWxlZDogIiArIGVyci5FcnJvcigpKQoJCXJldHVybiBwbywgbmlsCgl9CgoJLy8gaWYgc3VjY2Vzc2Z1bGx5IGdvdCBhIHByaXZhdGUgdW5pdCBwcmljZSwgdXBkYXRlIFBPCgl2YXIgcHJpdmF0ZVByaWNlIFByaXZhdGVQcmljZQoJZXJyID0ganNvbi5Vbm1hcnNoYWwocmVzdWx0LCAmcHJpdmF0ZVByaWNlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UgPSBwcml2YXRlUHJpY2UuVW5pdFByaWNlCgoJcmV0dXJuIHBvLCBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgdXBsb2FkUE8oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHNjLlJlc3BvbnNlIHsKCglpZiBsZW4oYXJncykgIT0gMSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIuWPguaVsOaVsOmHj+S4jeato+ehriIpCgl9CgoJbG9nZ2VyLkRlYnVnKCLojrflj5bor7fmsYLlj4LmlbA6ICIgKyBhcmdzWzBdKQoKCXBvQXNCeXRlcyA6PSBbXWJ5dGUoYXJnc1swXSkKCXZhciBwbyBQTwoJZXJyIDo9IGpzb24uVW5tYXJzaGFsKHBvQXNCeXRlcywgJnBvKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5qC85byP6ZSZ6K+vOiAiICsgZXJyLkVycm9yKCkpCgl9CgoJLy8g6aqM6K+BUE/ljZXmmK/lkKblkIjms5UKCWlmICFzLnZhbGlkYXRlKHBvKSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5LiN5ZCI5rOVIikKCX0KCgkvLyDmlbDmja7kuIrpk74KCWVyciA9IHMud3JpdGVDaGFpbihBUElzdHViLCBwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJQT+WNleS4iumTvuWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoKCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGVzKQoKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcXVlcnlQTyhBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgYXJncyBbXXN0cmluZykgc2MuUmVzcG9uc2UgewoKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigi5Y+C5pWw5pWw6YeP5LiN5q2j56GuIikKCX0KCglwb05vIDo9IGFyZ3NbMF0KCXBvLCBlcnIgOj0gcy5yZWFkQ2hhaW4oQVBJc3R1YiwgcG9ObykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJwb+WNleafpeivouWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoJcG9Bc0J5dGUsIGVyciA6PSBqc29uLk1hcnNoYWwocG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigicG/ljZXml6DmlYg6ICIgKyBlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGUpCn0KCi8vIFRoZSBtYWluIGZ1bmN0aW9uIGlzIG9ubHkgcmVsZXZhbnQgaW4gdW5pdCB0ZXN0IG1vZGUuIE9ubHkgaW5jbHVkZWQgaGVyZSBmb3IgY29tcGxldGVuZXNzLgpmdW5jIG1haW4oKSB7CgoJLy8gQ3JlYXRlIGEgbmV3IFNtYXJ0IENvbnRyYWN0CgllcnIgOj0gc2hpbS5TdGFydChuZXcoU21hcnRDb250cmFjdCkpCglpZiBlcnIgIT0gbmlsIHsKCQlsb2dnZXIuRXJyb3IoIkVycm9yIGNyZWF0aW5nIG5ldyBTbWFydCBDb250cmFjdDogJXMiLCBlcnIpCgl9Cn0K\",\n  \"chaincodeName\": \"privatecc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "716e7d86-8570-480a-9347-6d6a1894404d",
+      "lastModified": "2018-12-05T11:35:41.941+08:00",
+      "name": "03. installChaincode - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"chaincode\": \"Ly8gV3JpdHRlbiBieSBYdSBDaGVuIEhhbwpwYWNrYWdlIG1haW4KCmltcG9ydCAoCgkiZW5jb2RpbmcvanNvbiIKCSJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9jb3JlL2NoYWluY29kZS9zaGltIgoJc2MgImdpdGh1Yi5jb20vaHlwZXJsZWRnZXIvZmFicmljL3Byb3Rvcy9wZWVyIgopCgp2YXIgbG9nZ2VyID0gc2hpbS5OZXdMb2dnZXIoImNoYWluY29kZSIpCgovLyBEZWZpbmUgdGhlIFNtYXJ0IENvbnRyYWN0IHN0cnVjdHVyZQp0eXBlIFNtYXJ0Q29udHJhY3Qgc3RydWN0IHsKfQoKdHlwZSBSX0VyciBzdHJ1Y3QgewoJUmVhc29uIHN0cmluZyBganNvbjoicmVhc29uImAKfQoKdHlwZSBQcml2YXRlUHJpY2Ugc3RydWN0IHsKCVVuaXRQcmljZSBmbG9hdDMyIGBqc29uOiJ1bml0UHJpY2UiYAp9Cgp0eXBlIEdvb2RzSW5mb3Mgc3RydWN0IHsKCVVuaXRQcmljZSAgICAgICAgZmxvYXQzMiBganNvbjoidW5pdFByaWNlImAKCUFtb3VudCAgICAgICAgICAgZmxvYXQzMiBganNvbjoiYW1vdW50ImAKCVF1YW50aXR5ICAgICAgICAgZmxvYXQzMiBganNvbjoicXVhbnRpdHkiYAoJRGVsRGF0ZSAgICAgICAgICBzdHJpbmcgIGBqc29uOiJkZWxEYXRlImAKCVF1YW50aXR5Q29kZSAgICAgc3RyaW5nICBganNvbjoicXVhbnRpdHlDb2RlImAKCUdvb2RzTW9kZWwgICAgICAgc3RyaW5nICBganNvbjoiZ29vZHNNb2RlbCJgCglHb29kTm8gICAgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RObyJgCglQcmljZUNvZGUgICAgICAgIHN0cmluZyAgYGpzb246InByaWNlQ29kZSJgCglHb29kc05hbWUgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RzTmFtZSJgCglHb29kc0Rlc2NyaXB0aW9uIHN0cmluZyAgYGpzb246Imdvb2RzRGVzY3JpcHRpb24iYAp9Cgp0eXBlIFBPIHN0cnVjdCB7CglTZWxsZXIgICAgICAgIHN0cmluZyAgICAgYGpzb246InNlbGxlciJgCglDb25zaWduZWUgICAgIHN0cmluZyAgICAgYGpzb246ImNvbnNpZ25lZSJgCglTaGlwbWVudCAgICAgIHN0cmluZyAgICAgYGpzb246InNoaXBtZW50ImAKCURlc3RpbmF0aW9uICAgc3RyaW5nICAgICBganNvbjoiZGVzdGluYXRpb24iYAoJSW5zdXJlSW5mbyAgICBzdHJpbmcgICAgIGBqc29uOiJpbnN1cmVJbmZvImAKCVRyYWRlVGVybXMgICAgc3RyaW5nICAgICBganNvbjoidHJhZGVUZXJtcyJgCglUb3RhbEN1cnJlbmN5IHN0cmluZyAgICAgYGpzb246InRvdGFsQ3VycmVuY3kiYAoJQnV5ZXIgICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJidXllciJgCglUcmFmTW9kZSAgICAgIHN0cmluZyAgICAgYGpzb246InRyYWZNb2RlImAKCUdvb2RzSW5mb3MgICAgR29vZHNJbmZvcyBganNvbjoiZ29vZHNJbmZvcyJgCglUb3RhbEFtb3VudCAgIGZsb2F0MzIgICAgYGpzb246InRvdGFsQW1vdW50ImAKCUNhcnJpZXIgICAgICAgc3RyaW5nICAgICBganNvbjoiY2FycmllciJgCglQb05vICAgICAgICAgIHN0cmluZyAgICAgYGpzb246InBvTm8iYAoJU2VuZGVyICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJzZW5kZXIiYAoJUG9EYXRlICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJwb0RhdGUiYAoJVHJhZGVDb3VudHJ5ICBzdHJpbmcgICAgIGBqc29uOiJ0cmFkZUNvdW50cnkiYAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZXR1cm5FcnJvcihyZWFzb24gc3RyaW5nKSBzYy5SZXNwb25zZSB7CgoJdmFyIHJlIFJfRXJyCgoJcmUuUmVhc29uID0gcmVhc29uCglsb2dnZXIuRXJyb3IocmUuUmVhc29uKQoJcmVBc0J5dGVzLCBfIDo9IGpzb24uTWFyc2hhbChyZSkKCglyZXR1cm4gc2hpbS5TdWNjZXNzKHJlQXNCeXRlcykKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgSW5pdChBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIEludm9rZShBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoKCS8vIFJldHJpZXZlIHRoZSByZXF1ZXN0ZWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gYW5kIGFyZ3VtZW50cwoJZnVuY3Rpb24sIGFyZ3MgOj0gQVBJc3R1Yi5HZXRGdW5jdGlvbkFuZFBhcmFtZXRlcnMoKQoJLy8gUm91dGUgdG8gdGhlIGFwcHJvcHJpYXRlIGhhbmRsZXIgZnVuY3Rpb24gdG8gaW50ZXJhY3Qgd2l0aCB0aGUgbGVkZ2VyIGFwcHJvcHJpYXRlbHkKCWlmIGZ1bmN0aW9uID09ICJ1cGxvYWRQTyIgewoJCXJldHVybiBzLnVwbG9hZFBPKEFQSXN0dWIsIGFyZ3MpCgl9IGVsc2UgaWYgZnVuY3Rpb24gPT0gInF1ZXJ5UE8iIHsKCQlyZXR1cm4gcy5xdWVyeVBPKEFQSXN0dWIsIGFyZ3MpCgl9CgoJcmV0dXJuIHMucmV0dXJuRXJyb3IoIkludmFsaWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gbmFtZS4iKQp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSB2YWxpZGF0ZShwbyBQTykgYm9vbCB7CglpZiBwby5Hb29kc0luZm9zLlVuaXRQcmljZSA8PSAwIHsKCQlyZXR1cm4gZmFsc2UKCX0KCWlmIHBvLkdvb2RzSW5mb3MuUXVhbnRpdHkgPD0gMCB7CgkJcmV0dXJuIGZhbHNlCgl9CglpZiBwby5Hb29kc0luZm9zLkFtb3VudCA8PSAwIHsKCQlyZXR1cm4gZmFsc2UKCX0KCWlmIHBvLkdvb2RzSW5mb3MuVW5pdFByaWNlKnBvLkdvb2RzSW5mb3MuUXVhbnRpdHkgIT0gcG8uR29vZHNJbmZvcy5BbW91bnQgewoJCXJldHVybiBmYWxzZQoJfQoJcmV0dXJuIHRydWUKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgd3JpdGVDaGFpbihBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgcG8gUE8pIGVycm9yIHsKCS8vIHNwbGl0IHVuaXQgcHJpY2UgdG8gcHJpdmF0ZSBkYXRhIGZpcnN0CgkvLyB0aGVuIHNldCB1bml0IHByaWNlIHRvIDAKCXZhciBwcml2YXRlUHJpY2UgUHJpdmF0ZVByaWNlCglwcml2YXRlUHJpY2UuVW5pdFByaWNlID0gcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UKCXBvLkdvb2RzSW5mb3MuVW5pdFByaWNlID0gMAoKCS8vIHdyaXRlIHByaXZhdGUgZGF0YSBmaXJzdAoJcHJpdmF0ZUJ5dGVzLCBlcnIgOj0ganNvbi5NYXJzaGFsKHByaXZhdGVQcmljZSkKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCWxvZ2dlci5EZWJ1ZygiV3JpdGUgcHJpdmF0ZSBkYXRhOiAiICsgc3RyaW5nKHByaXZhdGVCeXRlcykpCgllcnIgPSBBUElzdHViLlB1dFByaXZhdGVEYXRhKCJjb2xsZWN0aW9uRGVtbyIgLHBvLlBvTm8sIHByaXZhdGVCeXRlcykKCWlmIGVyciAhPSBuaWwgewoJCS8vIGlmIGZhaWxlZCB0byB3cml0ZSB0aGUgcHJpdmF0ZSBkYXRhICh1bml0IHByaWNlKSwgdGhlbiBqdXN0IGlnbm9yZQoJCWxvZ2dlci5FcnJvcigiV3JpdGUgcHJpdmF0ZSBkYXRhIGZhaWxlZDogIiArIGVyci5FcnJvcigpKQoJfQoKCXBvQXNCeXRlcywgZXJyIDo9IGpzb24uTWFyc2hhbChwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCWxvZ2dlci5EZWJ1ZygiV3JpdGUgY2hhaW46ICIgKyBzdHJpbmcocG9Bc0J5dGVzKSkKCWVyciA9IEFQSXN0dWIuUHV0U3RhdGUocG8uUG9ObywgcG9Bc0J5dGVzKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIGVycgoJfQoJcmV0dXJuIG5pbAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZWFkQ2hhaW4oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIHBvTm8gc3RyaW5nKSAoKlBPLCBlcnJvcikgewoKCWxvZ2dlci5EZWJ1ZygiUXVlcnkgb24gY2hhaW46ICIgKyBwb05vKQoJcmVzdWx0LCBlcnIgOj0gQVBJc3R1Yi5HZXRTdGF0ZShwb05vKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJdmFyIHBvICpQTwoJZXJyID0ganNvbi5Vbm1hcnNoYWwocmVzdWx0LCAmcG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gbmlsLCBlcnIKCX0KCglsb2dnZXIuRGVidWcoIlF1ZXJ5IHByaXZhdGUgZGF0YSBvbiBjaGFpbjogIiArIHBvTm8pCglyZXN1bHQsIGVyciA9IEFQSXN0dWIuR2V0UHJpdmF0ZURhdGEoImNvbGxlY3Rpb25EZW1vIiwgcG9ObykKCWlmIGVyciAhPSBuaWwgewoJCS8vIGlmIGZhaWxlZCB0byBnZXQgdGhlIHByaXZhdGUgdW5pdCBwcmljZSwgdGhlbiBqdXN0IHJldHVybiBQTyB3aXRoIHVuaXQgcHJpY2UgMAoJCWxvZ2dlci5FcnJvcigiUXVlcnkgcHJpdmF0ZSBkYXRhIG9uIGNoYWluIGZhaWxlZDogIiArIGVyci5FcnJvcigpKQoJCXJldHVybiBwbywgbmlsCgl9CgoJLy8gaWYgc3VjY2Vzc2Z1bGx5IGdvdCBhIHByaXZhdGUgdW5pdCBwcmljZSwgdXBkYXRlIFBPCgl2YXIgcHJpdmF0ZVByaWNlIFByaXZhdGVQcmljZQoJZXJyID0ganNvbi5Vbm1hcnNoYWwocmVzdWx0LCAmcHJpdmF0ZVByaWNlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UgPSBwcml2YXRlUHJpY2UuVW5pdFByaWNlCgoJcmV0dXJuIHBvLCBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgdXBsb2FkUE8oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHNjLlJlc3BvbnNlIHsKCglpZiBsZW4oYXJncykgIT0gMSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIuWPguaVsOaVsOmHj+S4jeato+ehriIpCgl9CgoJbG9nZ2VyLkRlYnVnKCLojrflj5bor7fmsYLlj4LmlbA6ICIgKyBhcmdzWzBdKQoKCXBvQXNCeXRlcyA6PSBbXWJ5dGUoYXJnc1swXSkKCXZhciBwbyBQTwoJZXJyIDo9IGpzb24uVW5tYXJzaGFsKHBvQXNCeXRlcywgJnBvKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5qC85byP6ZSZ6K+vOiAiICsgZXJyLkVycm9yKCkpCgl9CgoJLy8g6aqM6K+BUE/ljZXmmK/lkKblkIjms5UKCWlmICFzLnZhbGlkYXRlKHBvKSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5LiN5ZCI5rOVIikKCX0KCgkvLyDmlbDmja7kuIrpk74KCWVyciA9IHMud3JpdGVDaGFpbihBUElzdHViLCBwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJQT+WNleS4iumTvuWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoKCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGVzKQoKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcXVlcnlQTyhBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgYXJncyBbXXN0cmluZykgc2MuUmVzcG9uc2UgewoKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigi5Y+C5pWw5pWw6YeP5LiN5q2j56GuIikKCX0KCglwb05vIDo9IGFyZ3NbMF0KCXBvLCBlcnIgOj0gcy5yZWFkQ2hhaW4oQVBJc3R1YiwgcG9ObykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJwb+WNleafpeivouWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoJcG9Bc0J5dGUsIGVyciA6PSBqc29uLk1hcnNoYWwocG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigicG/ljZXml6DmlYg6ICIgKyBlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGUpCn0KCi8vIFRoZSBtYWluIGZ1bmN0aW9uIGlzIG9ubHkgcmVsZXZhbnQgaW4gdW5pdCB0ZXN0IG1vZGUuIE9ubHkgaW5jbHVkZWQgaGVyZSBmb3IgY29tcGxldGVuZXNzLgpmdW5jIG1haW4oKSB7CgoJLy8gQ3JlYXRlIGEgbmV3IFNtYXJ0IENvbnRyYWN0CgllcnIgOj0gc2hpbS5TdGFydChuZXcoU21hcnRDb250cmFjdCkpCglpZiBlcnIgIT0gbmlsIHsKCQlsb2dnZXIuRXJyb3IoIkVycm9yIGNyZWF0aW5nIG5ldyBTbWFydCBDb250cmFjdDogJXMiLCBlcnIpCgl9Cn0K\",\n  \"chaincodeName\": \"privatecc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "f99f4226-c122-4c4b-b363-6d3ccf93cf09",
+      "lastModified": "2018-12-05T11:35:52.790+08:00",
+      "name": "03. installChaincode - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"chaincode\": \"Ly8gV3JpdHRlbiBieSBYdSBDaGVuIEhhbwpwYWNrYWdlIG1haW4KCmltcG9ydCAoCgkiZW5jb2RpbmcvanNvbiIKCSJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9jb3JlL2NoYWluY29kZS9zaGltIgoJc2MgImdpdGh1Yi5jb20vaHlwZXJsZWRnZXIvZmFicmljL3Byb3Rvcy9wZWVyIgopCgp2YXIgbG9nZ2VyID0gc2hpbS5OZXdMb2dnZXIoImNoYWluY29kZSIpCgovLyBEZWZpbmUgdGhlIFNtYXJ0IENvbnRyYWN0IHN0cnVjdHVyZQp0eXBlIFNtYXJ0Q29udHJhY3Qgc3RydWN0IHsKfQoKdHlwZSBSX0VyciBzdHJ1Y3QgewoJUmVhc29uIHN0cmluZyBganNvbjoicmVhc29uImAKfQoKdHlwZSBQcml2YXRlUHJpY2Ugc3RydWN0IHsKCVVuaXRQcmljZSBmbG9hdDMyIGBqc29uOiJ1bml0UHJpY2UiYAp9Cgp0eXBlIEdvb2RzSW5mb3Mgc3RydWN0IHsKCVVuaXRQcmljZSAgICAgICAgZmxvYXQzMiBganNvbjoidW5pdFByaWNlImAKCUFtb3VudCAgICAgICAgICAgZmxvYXQzMiBganNvbjoiYW1vdW50ImAKCVF1YW50aXR5ICAgICAgICAgZmxvYXQzMiBganNvbjoicXVhbnRpdHkiYAoJRGVsRGF0ZSAgICAgICAgICBzdHJpbmcgIGBqc29uOiJkZWxEYXRlImAKCVF1YW50aXR5Q29kZSAgICAgc3RyaW5nICBganNvbjoicXVhbnRpdHlDb2RlImAKCUdvb2RzTW9kZWwgICAgICAgc3RyaW5nICBganNvbjoiZ29vZHNNb2RlbCJgCglHb29kTm8gICAgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RObyJgCglQcmljZUNvZGUgICAgICAgIHN0cmluZyAgYGpzb246InByaWNlQ29kZSJgCglHb29kc05hbWUgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RzTmFtZSJgCglHb29kc0Rlc2NyaXB0aW9uIHN0cmluZyAgYGpzb246Imdvb2RzRGVzY3JpcHRpb24iYAp9Cgp0eXBlIFBPIHN0cnVjdCB7CglTZWxsZXIgICAgICAgIHN0cmluZyAgICAgYGpzb246InNlbGxlciJgCglDb25zaWduZWUgICAgIHN0cmluZyAgICAgYGpzb246ImNvbnNpZ25lZSJgCglTaGlwbWVudCAgICAgIHN0cmluZyAgICAgYGpzb246InNoaXBtZW50ImAKCURlc3RpbmF0aW9uICAgc3RyaW5nICAgICBganNvbjoiZGVzdGluYXRpb24iYAoJSW5zdXJlSW5mbyAgICBzdHJpbmcgICAgIGBqc29uOiJpbnN1cmVJbmZvImAKCVRyYWRlVGVybXMgICAgc3RyaW5nICAgICBganNvbjoidHJhZGVUZXJtcyJgCglUb3RhbEN1cnJlbmN5IHN0cmluZyAgICAgYGpzb246InRvdGFsQ3VycmVuY3kiYAoJQnV5ZXIgICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJidXllciJgCglUcmFmTW9kZSAgICAgIHN0cmluZyAgICAgYGpzb246InRyYWZNb2RlImAKCUdvb2RzSW5mb3MgICAgR29vZHNJbmZvcyBganNvbjoiZ29vZHNJbmZvcyJgCglUb3RhbEFtb3VudCAgIGZsb2F0MzIgICAgYGpzb246InRvdGFsQW1vdW50ImAKCUNhcnJpZXIgICAgICAgc3RyaW5nICAgICBganNvbjoiY2FycmllciJgCglQb05vICAgICAgICAgIHN0cmluZyAgICAgYGpzb246InBvTm8iYAoJU2VuZGVyICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJzZW5kZXIiYAoJUG9EYXRlICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJwb0RhdGUiYAoJVHJhZGVDb3VudHJ5ICBzdHJpbmcgICAgIGBqc29uOiJ0cmFkZUNvdW50cnkiYAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZXR1cm5FcnJvcihyZWFzb24gc3RyaW5nKSBzYy5SZXNwb25zZSB7CgoJdmFyIHJlIFJfRXJyCgoJcmUuUmVhc29uID0gcmVhc29uCglsb2dnZXIuRXJyb3IocmUuUmVhc29uKQoJcmVBc0J5dGVzLCBfIDo9IGpzb24uTWFyc2hhbChyZSkKCglyZXR1cm4gc2hpbS5TdWNjZXNzKHJlQXNCeXRlcykKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgSW5pdChBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIEludm9rZShBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoKCS8vIFJldHJpZXZlIHRoZSByZXF1ZXN0ZWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gYW5kIGFyZ3VtZW50cwoJZnVuY3Rpb24sIGFyZ3MgOj0gQVBJc3R1Yi5HZXRGdW5jdGlvbkFuZFBhcmFtZXRlcnMoKQoJLy8gUm91dGUgdG8gdGhlIGFwcHJvcHJpYXRlIGhhbmRsZXIgZnVuY3Rpb24gdG8gaW50ZXJhY3Qgd2l0aCB0aGUgbGVkZ2VyIGFwcHJvcHJpYXRlbHkKCWlmIGZ1bmN0aW9uID09ICJ1cGxvYWRQTyIgewoJCXJldHVybiBzLnVwbG9hZFBPKEFQSXN0dWIsIGFyZ3MpCgl9IGVsc2UgaWYgZnVuY3Rpb24gPT0gInF1ZXJ5UE8iIHsKCQlyZXR1cm4gcy5xdWVyeVBPKEFQSXN0dWIsIGFyZ3MpCgl9CgoJcmV0dXJuIHMucmV0dXJuRXJyb3IoIkludmFsaWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gbmFtZS4iKQp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSB2YWxpZGF0ZShwbyBQTykgYm9vbCB7CglpZiBwby5Hb29kc0luZm9zLlVuaXRQcmljZSA8PSAwIHsKCQlyZXR1cm4gZmFsc2UKCX0KCWlmIHBvLkdvb2RzSW5mb3MuUXVhbnRpdHkgPD0gMCB7CgkJcmV0dXJuIGZhbHNlCgl9CglpZiBwby5Hb29kc0luZm9zLkFtb3VudCA8PSAwIHsKCQlyZXR1cm4gZmFsc2UKCX0KCWlmIHBvLkdvb2RzSW5mb3MuVW5pdFByaWNlKnBvLkdvb2RzSW5mb3MuUXVhbnRpdHkgIT0gcG8uR29vZHNJbmZvcy5BbW91bnQgewoJCXJldHVybiBmYWxzZQoJfQoJcmV0dXJuIHRydWUKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgd3JpdGVDaGFpbihBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgcG8gUE8pIGVycm9yIHsKCS8vIHNwbGl0IHVuaXQgcHJpY2UgdG8gcHJpdmF0ZSBkYXRhIGZpcnN0CgkvLyB0aGVuIHNldCB1bml0IHByaWNlIHRvIDAKCXZhciBwcml2YXRlUHJpY2UgUHJpdmF0ZVByaWNlCglwcml2YXRlUHJpY2UuVW5pdFByaWNlID0gcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UKCXBvLkdvb2RzSW5mb3MuVW5pdFByaWNlID0gMAoKCS8vIHdyaXRlIHByaXZhdGUgZGF0YSBmaXJzdAoJcHJpdmF0ZUJ5dGVzLCBlcnIgOj0ganNvbi5NYXJzaGFsKHByaXZhdGVQcmljZSkKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCWxvZ2dlci5EZWJ1ZygiV3JpdGUgcHJpdmF0ZSBkYXRhOiAiICsgc3RyaW5nKHByaXZhdGVCeXRlcykpCgllcnIgPSBBUElzdHViLlB1dFByaXZhdGVEYXRhKCJjb2xsZWN0aW9uRGVtbyIgLHBvLlBvTm8sIHByaXZhdGVCeXRlcykKCWlmIGVyciAhPSBuaWwgewoJCS8vIGlmIGZhaWxlZCB0byB3cml0ZSB0aGUgcHJpdmF0ZSBkYXRhICh1bml0IHByaWNlKSwgdGhlbiBqdXN0IGlnbm9yZQoJCWxvZ2dlci5FcnJvcigiV3JpdGUgcHJpdmF0ZSBkYXRhIGZhaWxlZDogIiArIGVyci5FcnJvcigpKQoJfQoKCXBvQXNCeXRlcywgZXJyIDo9IGpzb24uTWFyc2hhbChwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCWxvZ2dlci5EZWJ1ZygiV3JpdGUgY2hhaW46ICIgKyBzdHJpbmcocG9Bc0J5dGVzKSkKCWVyciA9IEFQSXN0dWIuUHV0U3RhdGUocG8uUG9ObywgcG9Bc0J5dGVzKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIGVycgoJfQoJcmV0dXJuIG5pbAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZWFkQ2hhaW4oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIHBvTm8gc3RyaW5nKSAoKlBPLCBlcnJvcikgewoKCWxvZ2dlci5EZWJ1ZygiUXVlcnkgb24gY2hhaW46ICIgKyBwb05vKQoJcmVzdWx0LCBlcnIgOj0gQVBJc3R1Yi5HZXRTdGF0ZShwb05vKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJdmFyIHBvICpQTwoJZXJyID0ganNvbi5Vbm1hcnNoYWwocmVzdWx0LCAmcG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gbmlsLCBlcnIKCX0KCglsb2dnZXIuRGVidWcoIlF1ZXJ5IHByaXZhdGUgZGF0YSBvbiBjaGFpbjogIiArIHBvTm8pCglyZXN1bHQsIGVyciA9IEFQSXN0dWIuR2V0UHJpdmF0ZURhdGEoImNvbGxlY3Rpb25EZW1vIiwgcG9ObykKCWlmIGVyciAhPSBuaWwgewoJCS8vIGlmIGZhaWxlZCB0byBnZXQgdGhlIHByaXZhdGUgdW5pdCBwcmljZSwgdGhlbiBqdXN0IHJldHVybiBQTyB3aXRoIHVuaXQgcHJpY2UgMAoJCWxvZ2dlci5FcnJvcigiUXVlcnkgcHJpdmF0ZSBkYXRhIG9uIGNoYWluIGZhaWxlZDogIiArIGVyci5FcnJvcigpKQoJCXJldHVybiBwbywgbmlsCgl9CgoJLy8gaWYgc3VjY2Vzc2Z1bGx5IGdvdCBhIHByaXZhdGUgdW5pdCBwcmljZSwgdXBkYXRlIFBPCgl2YXIgcHJpdmF0ZVByaWNlIFByaXZhdGVQcmljZQoJZXJyID0ganNvbi5Vbm1hcnNoYWwocmVzdWx0LCAmcHJpdmF0ZVByaWNlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UgPSBwcml2YXRlUHJpY2UuVW5pdFByaWNlCgoJcmV0dXJuIHBvLCBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgdXBsb2FkUE8oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHNjLlJlc3BvbnNlIHsKCglpZiBsZW4oYXJncykgIT0gMSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIuWPguaVsOaVsOmHj+S4jeato+ehriIpCgl9CgoJbG9nZ2VyLkRlYnVnKCLojrflj5bor7fmsYLlj4LmlbA6ICIgKyBhcmdzWzBdKQoKCXBvQXNCeXRlcyA6PSBbXWJ5dGUoYXJnc1swXSkKCXZhciBwbyBQTwoJZXJyIDo9IGpzb24uVW5tYXJzaGFsKHBvQXNCeXRlcywgJnBvKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5qC85byP6ZSZ6K+vOiAiICsgZXJyLkVycm9yKCkpCgl9CgoJLy8g6aqM6K+BUE/ljZXmmK/lkKblkIjms5UKCWlmICFzLnZhbGlkYXRlKHBvKSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5LiN5ZCI5rOVIikKCX0KCgkvLyDmlbDmja7kuIrpk74KCWVyciA9IHMud3JpdGVDaGFpbihBUElzdHViLCBwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJQT+WNleS4iumTvuWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoKCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGVzKQoKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcXVlcnlQTyhBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgYXJncyBbXXN0cmluZykgc2MuUmVzcG9uc2UgewoKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigi5Y+C5pWw5pWw6YeP5LiN5q2j56GuIikKCX0KCglwb05vIDo9IGFyZ3NbMF0KCXBvLCBlcnIgOj0gcy5yZWFkQ2hhaW4oQVBJc3R1YiwgcG9ObykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJwb+WNleafpeivouWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoJcG9Bc0J5dGUsIGVyciA6PSBqc29uLk1hcnNoYWwocG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigicG/ljZXml6DmlYg6ICIgKyBlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGUpCn0KCi8vIFRoZSBtYWluIGZ1bmN0aW9uIGlzIG9ubHkgcmVsZXZhbnQgaW4gdW5pdCB0ZXN0IG1vZGUuIE9ubHkgaW5jbHVkZWQgaGVyZSBmb3IgY29tcGxldGVuZXNzLgpmdW5jIG1haW4oKSB7CgoJLy8gQ3JlYXRlIGEgbmV3IFNtYXJ0IENvbnRyYWN0CgllcnIgOj0gc2hpbS5TdGFydChuZXcoU21hcnRDb250cmFjdCkpCglpZiBlcnIgIT0gbmlsIHsKCQlsb2dnZXIuRXJyb3IoIkVycm9yIGNyZWF0aW5nIG5ldyBTbWFydCBDb250cmFjdDogJXMiLCBlcnIpCgl9Cn0K\",\n  \"chaincodeName\": \"privatecc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "67e8d258-9bf6-4f41-a754-befac6cfd531",
+      "lastModified": "2018-12-05T11:35:57.911+08:00",
+      "name": "03. installChaincode - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 221,
+        "textBody": "{\n  \"chaincodeName\": \"privatecc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"privatechannel\",\n  \"collection\": \"WwogIHsKICAgICJuYW1lIjogImNvbGxlY3Rpb25EZW1vIiwKICAgICJwb2xpY3kiOiB7CiAgICAgICJpZGVudGl0aWVzIjogWwogICAgICAgIHsKICAgICAgICAgICJyb2xlIjogewogICAgICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICAgICAibXNwSWQiOiAiT3JnMU1TUCIKICAgICAgICAgIH0KICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICJyb2xlIjogewogICAgICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICAgICAibXNwSWQiOiAiT3JnMk1TUCIKICAgICAgICAgIH0KICAgICAgICB9CiAgICAgIF0sCiAgICAgICJwb2xpY3kiOiB7CiAgICAgICAgIjEtb2YiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJzaWduZWQtYnkiOiAwCiAgICAgICAgICB9LAogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMQogICAgICAgICAgfQogICAgICAgIF0KICAgICAgfQogICAgfSwKICAgICJyZXF1aXJlZFBlZXJDb3VudCI6IDEsCiAgICAibWF4UGVlckNvdW50IjogMywKICAgICJibG9ja1RvTGl2ZSI6IDAKICB9Cl0=\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/instantiate"
+      },
+      "id": "15e89701-99ba-43e2-822f-07c806ab761b",
+      "lastModified": "2018-12-05T11:33:10.275+08:00",
+      "name": "04. instantiateChaincode",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/privatechannel/privatecc"
+      },
+      "id": "54e0fca0-0168-4d5e-99a5-2cedcf15cf90",
+      "lastModified": "2018-12-05T11:34:00.878+08:00",
+      "name": "05. invoke - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/privatechannel/privatecc"
+      },
+      "id": "083ad810-8e0a-4a94-8049-8bc3666d4b7e",
+      "lastModified": "2018-12-05T11:33:17.709+08:00",
+      "name": "06. query - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/privatechannel/privatecc"
+      },
+      "id": "d3f66a70-505b-4dbf-b682-b2b6ee16ab7f",
+      "lastModified": "2018-12-05T11:33:24.426+08:00",
+      "name": "06. query - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
     }
   ]
 }

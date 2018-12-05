@@ -28,12 +28,12 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
     chaincodeVersion, orgName, peers);
 };
 
-let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion,
-                                           channelName, functionName, args, ordererName, orgName, peers) {
+let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName,
+                                           functionName, args, ordererName, orgName, peers, collection) {
   logger.debug('==================== INSTANTIATE CHAINCODE ==================');
 
   return await deployCC.instantiateChaincode(chaincodeName, chaincodeType,
-      chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers);
+      chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers, collection);
 };
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
