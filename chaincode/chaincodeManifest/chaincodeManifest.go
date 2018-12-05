@@ -72,6 +72,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryManifest(APIstub, args)
 	} else if function == "queryManifestHistory" {
 		return s.queryManifestHistory(APIstub, args)
+	} else if function == "richQueryManifest" {
+		return s.richQueryManifest(APIstub, args)
 	}
 
 	return s.returnError("Invalid Smart Contract function name.")
@@ -137,6 +139,21 @@ func (s *SmartContract) queryManifest(APIstub shim.ChaincodeStubInterface, args 
 	result, err := APIstub.GetState(masterBillNo)
 	if err != nil {
 		return s.returnError("主舱单查询失败" + err.Error())
+	}
+	return shim.Success(result)
+}
+
+func (s *SmartContract) richQueryManifest(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return s.returnError("参数数量不正确")
+	}
+
+	queryString := args[0]
+	logger.Debug("Rich query on chain: " + queryString)
+	result, err := s.richQuery(APIstub, queryString)
+	if err != nil {
+		return s.returnError("Rich query failed: " + err.Error())
 	}
 	return shim.Success(result)
 }
@@ -209,6 +226,45 @@ func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key 
 
 	logger.Debug("- getHistory returning:\n%s\n", buffer.String())
 
+	return buffer.Bytes(), nil
+}
+
+func (s *SmartContract) richQuery(stub shim.ChaincodeStubInterface, queryString string)([] byte, error) {
+
+	logger.Debug("Get rich query request: \n%s\n", queryString)
+
+	resultsIterator, err := stub.GetQueryResult(queryString)
+	defer resultsIterator.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	// buffer is a JSON array containing QueryRecords
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+	bArrayMemberAlreadyWritten := false
+	for resultsIterator.HasNext() {
+		queryResponse,
+		err := resultsIterator.Next()
+		if err != nil {
+			return nil, err
+		}
+		// Add a comma before array members, suppress it for the first array member
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"Key\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+		buffer.WriteString(", \"Record\":")
+		// Record is a JSON object, so we write as-is
+		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+	logger.Debug("Rich query result: \n%s\n", buffer.String())
 	return buffer.Bytes(), nil
 }
 
