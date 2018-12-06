@@ -8,6 +8,8 @@
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "decompress": "^4.2.0",
+    "decompress-targz": "^4.1.1",
     "ejs": "~2.5.7",
     "express": "~4.16.0",
     "fabric-ca-client": "^1.2.1",

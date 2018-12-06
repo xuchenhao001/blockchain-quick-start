@@ -1,17 +1,18 @@
 'use strict';
 
-let log4js = require('log4js');
-let logger = log4js.getLogger('Chaincode');
+const log4js = require('log4js');
+const logger = log4js.getLogger('Chaincode');
 logger.level = 'DEBUG';
 
-let helper = require('./helper');
-let hfc = require('fabric-client');
-let sbuf = require('stream-buffers');
-let util = require('util');
+const helper = require('./helper');
+const hfc = require('fabric-client');
+const util = require('util');
+const uuid = require('uuid');
+const path = require('path');
 
 hfc.setLogger(logger);
 
-let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
+let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
                                        chaincodeVersion, orgName, peers) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
@@ -26,21 +27,25 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
     return [false, 'Chaincode is not a valid base64 string!'];
   }
 
+  process.env.GOPATH = path.join('./', uuid.v4());
+
   let chaincodeBuffer = new Buffer(chaincode, 'base64');
 
-  // check if the chaincode is package
-  let chaincodePackage = null;
-  if (!helper.isGzip(chaincodeBuffer)) {
-    logger.info('Got chaincode souce code, convert to chaincode package');
-    let chaincodeTarGzBuffer = new sbuf.WritableStreamBuffer();
-    await helper.generateTarGz(chaincodeBuffer, chaincodeTarGzBuffer);
-    chaincodePackage = chaincodeTarGzBuffer.getContents();
-  } else {
-    logger.info('Got chaincode package buffer');
-    chaincodePackage = chaincodeBuffer;
-  }
+  // check if the chaincode is tar.gz package
+  if (helper.isGzip(chaincodeBuffer)) {
 
-  let chaincodePath = 'github.com/chaincode';
+    logger.info('Got chaincode tar.gz package, decompress it');
+
+    let tarballName = uuid.v4();
+    helper.writeFile(tarballName, chaincodeBuffer);
+    await helper.decompressTarGz(tarballName, process.env.GOPATH);
+    helper.removeFile(tarballName);
+  } else {
+
+    logger.info('Got chaincode single file buffer');
+
+    helper.writeFile(path.join(process.env.GOPATH, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer)
+  }
 
   try {
     // install chaincode for each org
@@ -51,7 +56,6 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
 
     let request = {
       targets: peers,
-      chaincodePackage: chaincodePackage,
       chaincodePath: chaincodePath,
       chaincodeId: chaincodeName,
       chaincodeVersion: chaincodeVersion,
@@ -91,6 +95,9 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodeType,
     logger.error('Failed to install due to error: ' + error.stack ? error.stack : error);
     error_message = error.toString();
   }
+
+  // remove useless chaincode directory
+  await helper.removeFile(process.env.GOPATH);
 
   if (!error_message) {
     let message = util.format('Successfully install chaincode');
@@ -160,7 +167,7 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
 
     // wipe collection config file
     if (request['collections-config']) {
-      await helper.wipeCollection(request['collections-config']);
+      await helper.removeFile(request['collections-config']);
     }
 
     // the returned object has both the endorsement results

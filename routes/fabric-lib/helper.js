@@ -1,17 +1,20 @@
 'use strict';
 
-let log4js = require('log4js');
-let logger = log4js.getLogger('Helper');
+const log4js = require('log4js');
+const logger = log4js.getLogger('Helper');
 logger.level = 'DEBUG';
 
-let fs = require('fs-extra');
-let hfc = require('fabric-client');
-let util = require('util');
-let execSync = require('child_process').execSync;
-let yaml = require('js-yaml');
-let uuid = require('uuid');
-let tar = require('tar-stream');
-let zlib = require('zlib');
+const fs = require('fs-extra');
+const hfc = require('fabric-client');
+const util = require('util');
+const execSync = require('child_process').execSync;
+const yaml = require('js-yaml');
+const uuid = require('uuid');
+const tar = require('tar-stream');
+const zlib = require('zlib');
+const decompress = require('decompress');
+const decompressTargz = require('decompress-targz');
+
 
 let isBase64 = function(string){
   let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;
@@ -46,6 +49,27 @@ let generateTarGz = async function (chaincodeBuffer, chaincodeTarGzBuffer) {
       reject(err);
     });
   });
+};
+
+let decompressTarGz = async function (fileName, targetDir) {
+  return new Promise(function(resolve, reject){
+    decompress(fileName, targetDir, {
+      plugins: [
+        decompressTargz()
+      ]
+    }).then(() => {
+      logger.debug('Successfully decompressed tgz package');
+      resolve();
+    });
+  });
+};
+
+let writeFile = async function (fileName, fileBuffer) {
+  fs.outputFileSync(fileName, fileBuffer);
+};
+
+let removeFile = async function(fileName) {
+  fs.removeSync(fileName)
 };
 
 let getClientForOrg = async function(org){
@@ -231,15 +255,13 @@ let loadCollection = async function(collectionBase64Encoded) {
   return [true, fileName]
 };
 
-let wipeCollection = async function(fileName) {
-  fs.removeSync(fileName)
-};
-
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
 exports.generateTarGz = generateTarGz;
+exports.decompressTarGz = decompressTarGz;
+exports.writeFile = writeFile;
+exports.removeFile = removeFile;
 exports.getClientForOrg = getClientForOrg;
 exports.generateChannelTx = generateChannelTx;
 exports.generateUpdateAnchorTx = generateUpdateAnchorTx;
 exports.loadCollection = loadCollection;
-exports.wipeCollection = wipeCollection;

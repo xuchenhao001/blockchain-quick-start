@@ -124,6 +124,13 @@ router.post('/chaincode/install', async function (req, res) {
   }
   logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
 
+  let chaincodePath = req.body.chaincodePath;
+  if (typeof chaincodePath === 'undefined') {
+    chaincodePath = 'github.com/chaincode';
+    logger.debug("Chaincode path not found, set to default: \"" + chaincodePath + "\"");
+  }
+  logger.debug("Get chaincode path: \"" + chaincodePath + "\"");
+
   let chaincodeType = req.body.chaincodeType;
   if (typeof chaincodeType === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeType\" doesn't exist";
@@ -160,7 +167,7 @@ router.post('/chaincode/install', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  let installResult = await fabric.installChaincode(chaincode, chaincodeName, chaincodeType,
+  let installResult = await fabric.installChaincode(chaincode, chaincodeName, chaincodePath, chaincodeType,
     chaincodeVersion, orgName, peers);
   logger.debug(installResult);
   if (installResult[0]===true) {
