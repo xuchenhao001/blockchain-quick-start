@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2018-12-06T21:32:05.078+08:00",
+      "lastModified": "2018-12-07T09:32:05.074+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -1046,8 +1046,9 @@
         "host": "localhost:3414",
         "path": "/query/channela/pocc"
       },
+      "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "f6ba0150-a565-4a48-8656-359e02759259",
-      "lastModified": "2018-12-05T15:59:19.928+08:00",
+      "lastModified": "2018-12-07T09:15:47.155+08:00",
       "name": "06. richQuery - ChannelA",
       "headers": [
         {
@@ -1462,7 +1463,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘2浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392991\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘2浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392991\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.99\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1478,7 +1479,7 @@
         "path": "/invoke/channelb/manifestcc"
       },
       "id": "78dc9a97-0132-4723-84ba-2652d0e3e40b",
-      "lastModified": "2018-12-03T11:09:29.115+08:00",
+      "lastModified": "2018-12-07T09:29:07.607+08:00",
       "name": "11. invoke2 - ChannelB",
       "headers": [
         {
@@ -1606,9 +1607,54 @@
         "host": "localhost:3414",
         "path": "/query/channelb/manifestcc"
       },
+      "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "695931fc-8788-4f83-9743-1bed670ecc58",
-      "lastModified": "2018-12-05T16:02:55.810+08:00",
+      "lastModified": "2018-12-07T09:15:55.727+08:00",
       "name": "12. richQuery - ChannelB",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "525e2a34-c947-49e2-bc98-01ec81518b85"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"richQueryManifest\",\n  \"args\": [\"{\\\"selector\\\": {\\\"grossWeight\\\": {\\\"$gt\\\": 3000 } } }\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channelb/manifestcc"
+      },
+      "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
+      "id": "68d3d2cb-f750-4117-b129-4dd4e8c16ae9",
+      "lastModified": "2018-12-07T09:32:05.075+08:00",
+      "name": "12. richQuery2 - ChannelB",
       "headers": [
         {
           "enabled": true,
