@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2018-12-07T09:32:05.074+08:00",
+      "lastModified": "2018-12-07T10:08:29.235+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -1048,8 +1048,8 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "f6ba0150-a565-4a48-8656-359e02759259",
-      "lastModified": "2018-12-07T09:15:47.155+08:00",
-      "name": "06. richQuery - ChannelA",
+      "lastModified": "2018-12-07T10:08:29.235+08:00",
+      "name": "06. richQueryEq - ChannelA",
       "headers": [
         {
           "enabled": true,
@@ -1609,8 +1609,8 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "695931fc-8788-4f83-9743-1bed670ecc58",
-      "lastModified": "2018-12-07T09:15:55.727+08:00",
-      "name": "12. richQuery - ChannelB",
+      "lastModified": "2018-12-07T10:08:05.035+08:00",
+      "name": "12. richQueryEq - ChannelB",
       "headers": [
         {
           "enabled": true,
@@ -1653,8 +1653,8 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "68d3d2cb-f750-4117-b129-4dd4e8c16ae9",
-      "lastModified": "2018-12-07T09:32:05.075+08:00",
-      "name": "12. richQuery2 - ChannelB",
+      "lastModified": "2018-12-07T10:08:18.249+08:00",
+      "name": "12. richQueryGt - ChannelB",
       "headers": [
         {
           "enabled": true,
