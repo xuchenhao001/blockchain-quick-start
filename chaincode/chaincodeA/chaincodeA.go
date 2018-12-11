@@ -4,6 +4,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
 	"strconv"
@@ -176,17 +177,37 @@ func (s *SmartContract) queryPOHistory(APIstub shim.ChaincodeStubInterface, args
 
 func (s *SmartContract) richQueryPO(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
-	if len(args) != 1 {
+	if len(args) == 1 {
+
+		// rich query without pagination
+		queryString := args[0]
+		logger.Debug("Rich query on chain: " + queryString)
+		result, err := s.richQuery(APIstub, queryString)
+		if err != nil {
+			return s.returnError("Rich query failed: " + err.Error())
+		}
+		return shim.Success(result)
+
+	} else if len(args) == 3 {
+
+		// rich query with pagination
+		queryString := args[0]
+		pageSize, err := strconv.ParseInt(args[1], 10, 32)
+		if err != nil {
+			return s.returnError("Error convert arg 2 to int32: " + err.Error())
+		}
+		bookmark := args[2]
+		logger.Debugf("Rich query %s with pagination ( page size %s, bookmark %s )",
+			queryString, pageSize, bookmark)
+		result, err := s.richQueryWithPagination(APIstub, queryString, int32(pageSize), bookmark)
+		if err != nil {
+			return s.returnError("Rich query failed: " + err.Error())
+		}
+		return shim.Success(result)
+
+	} else {
 		return s.returnError("参数数量不正确")
 	}
-
-	queryString := args[0]
-	logger.Debug("Rich query on chain: " + queryString)
-	result, err := s.richQuery(APIstub, queryString)
-	if err != nil {
-		return s.returnError("Rich query failed: " + err.Error())
-	}
-	return shim.Success(result)
 }
 
 func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key string) ([]byte, error) {
@@ -255,13 +276,55 @@ func (s *SmartContract) richQuery(stub shim.ChaincodeStubInterface, queryString 
 		return nil, err
 	}
 
-	// buffer is a JSON array containing QueryRecords
+	buffer, err := constructQueryResponseFromIterator(resultsIterator)
+	if err != nil {
+		return nil, err
+	}
+
+	return buffer.Bytes(), nil
+}
+
+func (s *SmartContract) richQueryWithPagination(stub shim.ChaincodeStubInterface,
+	queryString string, pageSize int32, bookmark string) ([] byte, error) {
+
+	queryResults, err := getQueryResultForQueryStringWithPagination(stub, queryString, int32(pageSize), bookmark)
+	if err != nil {
+		return nil, err
+	}
+	return queryResults, nil
+}
+
+func getQueryResultForQueryStringWithPagination(stub shim.ChaincodeStubInterface,
+	queryString string, pageSize int32, bookmark string) ([]byte, error) {
+
+	logger.Debug("- getQueryResultForQueryString queryString:\n%s\n", queryString)
+
+	resultsIterator, responseMetadata, err := stub.GetQueryResultWithPagination(queryString, pageSize, bookmark)
+	if err != nil {
+		return nil, err
+	}
+	defer resultsIterator.Close()
+
+	buffer, err := constructQueryResponseFromIterator(resultsIterator)
+	if err != nil {
+		return nil, err
+	}
+
+	bufferWithPaginationInfo := addPaginationMetadataToQueryResults(buffer, responseMetadata)
+
+	logger.Debug("- getQueryResultForQueryString queryResult:\n%s\n", bufferWithPaginationInfo.String())
+
+	return buffer.Bytes(), nil
+}
+
+func constructQueryResponseFromIterator(resultsIterator shim.StateQueryIteratorInterface) (*bytes.Buffer, error) {
+	// buffer is a JSON array containing QueryResults
 	var buffer bytes.Buffer
 	buffer.WriteString("[")
+
 	bArrayMemberAlreadyWritten := false
 	for resultsIterator.HasNext() {
-		queryResponse,
-			err := resultsIterator.Next()
+		queryResponse, err := resultsIterator.Next()
 		if err != nil {
 			return nil, err
 		}
@@ -273,6 +336,7 @@ func (s *SmartContract) richQuery(stub shim.ChaincodeStubInterface, queryString 
 		buffer.WriteString("\"")
 		buffer.WriteString(queryResponse.Key)
 		buffer.WriteString("\"")
+
 		buffer.WriteString(", \"Record\":")
 		// Record is a JSON object, so we write as-is
 		buffer.WriteString(string(queryResponse.Value))
@@ -280,8 +344,22 @@ func (s *SmartContract) richQuery(stub shim.ChaincodeStubInterface, queryString 
 		bArrayMemberAlreadyWritten = true
 	}
 	buffer.WriteString("]")
-	logger.Debug("Rich query result: \n%s\n", buffer.String())
-	return buffer.Bytes(), nil
+
+	return &buffer, nil
+}
+
+func addPaginationMetadataToQueryResults(buffer *bytes.Buffer, responseMetadata *sc.QueryResponseMetadata) *bytes.Buffer {
+
+	buffer.WriteString("[{\"ResponseMetadata\":{\"RecordsCount\":")
+	buffer.WriteString("\"")
+	buffer.WriteString(fmt.Sprintf("%v", responseMetadata.FetchedRecordsCount))
+	buffer.WriteString("\"")
+	buffer.WriteString(", \"Bookmark\":")
+	buffer.WriteString("\"")
+	buffer.WriteString(responseMetadata.Bookmark)
+	buffer.WriteString("\"}}]")
+
+	return buffer
 }
 
 // The main function is only relevant in unit test mode. Only included here for completeness.
