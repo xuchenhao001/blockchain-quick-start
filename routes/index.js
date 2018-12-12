@@ -167,8 +167,14 @@ router.post('/chaincode/install', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
+  let localPath = req.body.localPath;
+  if (localPath) {
+    logger.debug('Detected localPath, install from local path');
+    localPath = true
+  }
+
   let installResult = await fabric.installChaincode(chaincode, chaincodeName, chaincodePath, chaincodeType,
-    chaincodeVersion, orgName, peers);
+    chaincodeVersion, orgName, peers, localPath);
   logger.debug(installResult);
   if (installResult[0]===true) {
     res.status(200).json({"result": "success"});

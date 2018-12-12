@@ -1,7 +1,7 @@
 'use strict';
 
 const log4js = require('log4js');
-const logger = log4js.getLogger('Chaincode');
+const logger = log4js.getLogger('DeployCC');
 logger.level = 'DEBUG';
 
 const helper = require('./helper');
@@ -13,7 +13,7 @@ const path = require('path');
 hfc.setLogger(logger);
 
 let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
-                                       chaincodeVersion, orgName, peers) {
+                                       chaincodeVersion, orgName, peers, localPath) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
 
@@ -22,29 +22,34 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
     return [false, 'Does not support this kind of chaincode!'];
   }
 
-  // check if the chaincode is valid
-  if (!helper.isBase64(chaincode)) {
-    return [false, 'Chaincode is not a valid base64 string!'];
-  }
+  process.env.GOPATH = path.join('./');
 
-  process.env.GOPATH = path.join('./', uuid.v4());
+  // if it's already under local path, just ignore chaincode buffer
+  if (!localPath) {
 
-  let chaincodeBuffer = new Buffer(chaincode, 'base64');
+    process.env.GOPATH = path.join(process.env.GOPATH, uuid.v4());
 
-  // check if the chaincode is tar.gz package
-  if (helper.isGzip(chaincodeBuffer)) {
+    // check if the chaincode is valid
+    if (!helper.isBase64(chaincode)) {
+      return [false, 'Chaincode is not a valid base64 string!'];
+    }
+    let chaincodeBuffer = new Buffer(chaincode, 'base64');
 
-    logger.info('Got chaincode tar.gz package, decompress it');
+    // check if the chaincode is tar.gz package
+    if (helper.isGzip(chaincodeBuffer)) {
 
-    let tarballName = uuid.v4();
-    helper.writeFile(tarballName, chaincodeBuffer);
-    await helper.decompressTarGz(tarballName, process.env.GOPATH);
-    helper.removeFile(tarballName);
-  } else {
+      logger.info('Got chaincode tar.gz package, decompress it');
 
-    logger.info('Got chaincode single file buffer');
+      let tarballName = uuid.v4();
+      helper.writeFile(tarballName, chaincodeBuffer);
+      await helper.decompressTarGz(tarballName, process.env.GOPATH);
+      helper.removeFile(tarballName);
+    } else {
 
-    helper.writeFile(path.join(process.env.GOPATH, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer)
+      logger.info('Got chaincode single file buffer');
+
+      helper.writeFile(path.join(process.env.GOPATH, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer)
+    }
   }
 
   try {
@@ -97,7 +102,9 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
   }
 
   // remove useless chaincode directory
-  await helper.removeFile(process.env.GOPATH);
+  if (!localPath) {
+    await helper.removeFile(process.env.GOPATH);
+  }
 
   if (!error_message) {
     let message = util.format('Successfully install chaincode');
@@ -115,7 +122,7 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
                                           functionName, args, ordererName, orgName, peers, collection) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
-  let error_message = null;
+  let error_message = '';
 
   try {
     // first setup the client for this org
@@ -185,9 +192,11 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('instantiate proposal was good');
+        logger.info('instantiate success');
       } else {
-        logger.error('instantiate proposal was bad');
+        let err_detail = 'instantiate failed: ' + proposalResponses[i];
+        logger.error(err_detail);
+        error_message = error_message + err_detail;
       }
       all_good = all_good && one_good;
     }
@@ -279,7 +288,9 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
         }
       }
     } else {
-      error_message = util.format('Failed to send Proposal and receive all good ProposalResponse');
+      if (!error_message) {
+        error_message = util.format('Failed to send Proposal and receive all good ProposalResponse');
+      }
       logger.debug(error_message);
     }
   } catch (error) {
@@ -295,7 +306,7 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
     // build a response to send back to the REST caller
     return [true, message];
   } else {
-    let message = util.format('Failed to instantiate. cause:%s',error_message);
+    let message = util.format('Failed to instantiate. cause: %s',error_message);
     logger.error(message);
     return [false, message]
   }

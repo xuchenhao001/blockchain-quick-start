@@ -21,11 +21,11 @@ let joinChannel = async function (channelName, ordererName, orgName, peers) {
 };
 
 let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
-                                       chaincodeVersion, orgName, peers) {
+                                       chaincodeVersion, orgName, peers, localPath) {
   logger.debug('==================== INSTALL CHAINCODE ==================');
 
   return await deployCC.installChaincode(chaincode, chaincodeName, chaincodePath, chaincodeType,
-    chaincodeVersion, orgName, peers);
+    chaincodeVersion, orgName, peers, localPath);
 };
 
 let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName,

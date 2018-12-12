@@ -1,7 +1,7 @@
 'use strict';
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('Invoke');
+let logger = log4js.getLogger('InvokeCC');
 logger.level = 'DEBUG';
 
 let helper = require('./helper');
@@ -14,7 +14,7 @@ hfc.setLogger(logger);
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
                                       ordererName, orgName, peers, transient) {
   logger.debug('\n\n============ Invoke chaincode on org \'' + orgName + '\' ============\n');
-  let error_message = null;
+  let error_message = '';
   let tx_id_string = null;
 
   try {
@@ -58,10 +58,11 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('invoke chaincode proposal was good');
+        logger.info('invoke success');
       } else {
-        error_message = 'invoke chaincode proposal was bad';
-        logger.error(error_message);
+        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        logger.error(err_detail);
+        error_message = error_message + err_detail;
       }
       all_good = all_good && one_good;
     }
@@ -85,7 +86,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
             logger.error(message);
             eh.disconnect();
             return [false, message];
-          }, 5000);
+          }, 10000);
           eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
               logger.info('The chaincode invoke transaction has been committed on peer %s', eh.getPeerAddr());
               logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
@@ -148,7 +149,10 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
         }
       }
     } else {
-      logger.debug('Failed to send Proposal and receive all good ProposalResponse');
+      if (!error_message) {
+        error_message = util.format('Failed to send Proposal and receive all good ProposalResponse');
+      }
+      logger.debug(error_message);
     }
   } catch (error) {
     error_message = util.format('Failed to invoke due to error: ' + error.stack ? error.stack : error);
@@ -160,7 +164,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       chaincodeName, channelName, tx_id_string);
     return ['yes', tx_id_string];
   } else {
-    let message = util.format('Failed to invoke chaincode. cause:%s', error_message);
+    let message = util.format('Failed to invoke chaincode. cause: %s', error_message);
     logger.error(message);
     return ['no', message];
   }

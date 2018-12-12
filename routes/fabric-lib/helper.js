@@ -236,7 +236,7 @@ let genConfigtxObj = async function(networkConfigPath, orgNames) {
         "Consortium": "SampleConsortium",
         "Application": {
           "Organizations": orgObjs,
-          "Capabilities": {"V1_2": true}
+          "Capabilities": {"V1_3": true}
         }
       }
     }
