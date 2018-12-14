@@ -1,9 +1,0 @@
-{
-	"pg": {
-		"host": "database",
-		"port": "5432",
-		"database": "fabricexplorer",
-		"username": "hppoc",
-		"passwd": "password"
-	}
-}
