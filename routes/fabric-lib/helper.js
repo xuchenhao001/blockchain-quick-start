@@ -183,11 +183,15 @@ let generateUpdateAnchorTx = async function(channelName, orgNames, orgMSPId) {
   return [true, txFile];
 };
 
-let genConfigtxObj = async function(networkConfigPath, orgNames) {
+let loadExtConfig = async function(extConfigPath) {
+  let fileData = fs.readFileSync(extConfigPath);
+  return yaml.safeLoad(fileData);
+};
+
+let genConfigtxObj = async function(extConfigPath, orgNames) {
   // generate channel config yaml
   let orgObjs = [];
-  let fileData = fs.readFileSync(networkConfigPath);
-  let networkData = yaml.safeLoad(fileData);
+  let networkData = await loadExtConfig(extConfigPath);
   if (networkData) {
     orgNames.forEach(function (orgName) {
       let orgData = networkData.organizations[orgName];
@@ -243,6 +247,17 @@ let genConfigtxObj = async function(networkConfigPath, orgNames) {
   };
 };
 
+let decodeEndorsementPolicy = async function(endorsementPolicyBase64Encoded) {
+  if (!isBase64(endorsementPolicyBase64Encoded)) {
+    logger.debug("Your endorsement policy is not base64 encoded!");
+    return null;
+  }
+
+  let epBuffer = new Buffer(endorsementPolicyBase64Encoded, 'base64');
+  return JSON.parse(epBuffer.toString());
+};
+
+
 let loadCollection = async function(collectionBase64Encoded) {
   if (!isBase64(collectionBase64Encoded)) {
     return [false, 'Collection is not a valid base64 string!']
@@ -255,6 +270,17 @@ let loadCollection = async function(collectionBase64Encoded) {
   return [true, fileName]
 };
 
+// For service discovery develop, see: https://fabric-sdk-node.github.io/tutorial-discovery.html
+let asLocalhost = async function() {
+  let extConfig = await loadExtConfig('config/network-config-ext.yaml');
+  if (extConfig && extConfig.serviceDiscovery && extConfig.serviceDiscovery.asLocalhost) {
+    logger.debug("Set service discovery asLocalhost to true");
+    return true
+  }
+  logger.debug("Set service discovery asLocalhost to false");
+  return false
+};
+
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
 exports.generateTarGz = generateTarGz;
@@ -264,4 +290,6 @@ exports.removeFile = removeFile;
 exports.getClientForOrg = getClientForOrg;
 exports.generateChannelTx = generateChannelTx;
 exports.generateUpdateAnchorTx = generateUpdateAnchorTx;
+exports.decodeEndorsementPolicy = decodeEndorsementPolicy;
 exports.loadCollection = loadCollection;
+exports.asLocalhost = asLocalhost;

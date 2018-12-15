@@ -264,6 +264,12 @@ router.post('/chaincode/instantiate', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
+  // endorsementPolicy could be undefined (default is "any member of the organizations in the channel")
+  let endorsementPolicy = req.body.endorsementPolicy;
+  if (endorsementPolicy) {
+    logger.debug("Get endorsement policy: " + endorsementPolicy)
+  }
+
   // collection can be undefined
   let collection = req.body.collection;
   if (collection) {
@@ -271,7 +277,7 @@ router.post('/chaincode/instantiate', async function (req, res) {
   }
 
   let instantiateResult = await fabric.instantiateChaincode(chaincodeName, chaincodeType,
-    chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers, collection);
+    chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers, endorsementPolicy, collection);
   logger.debug(instantiateResult);
   if (instantiateResult[0]===true) {
     res.status(200).json({"result": "success"});

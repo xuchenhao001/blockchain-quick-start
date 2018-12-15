@@ -125,7 +125,7 @@ peers:
       pem: "PEER0_ORG1_TLS"
 
   peer1.org1.example.com:
-    url: grpcs://peer1.org1.example.com:7051
+    url: grpcs://peer1.org1.example.com:8051
     eventUrl: grpcs://peer1.org1.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer1.org1.example.com
@@ -135,7 +135,7 @@ peers:
       pem: "PEER1_ORG1_TLS"
 
   peer0.org2.example.com:
-    url: grpcs://peer0.org2.example.com:7051
+    url: grpcs://peer0.org2.example.com:9051
     eventUrl: grpcs://peer0.org2.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer0.org2.example.com
@@ -144,7 +144,7 @@ peers:
       pem: "PEER0_ORG2_TLS"
 
   peer1.org2.example.com:
-    url: grpcs://peer1.org2.example.com:7051
+    url: grpcs://peer1.org2.example.com:10051
     eventUrl: grpcs://peer1.org2.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer1.org2.example.com
@@ -153,7 +153,7 @@ peers:
       pem: "PEER1_ORG2_TLS"
 
   peer0.org3.example.com:
-    url: grpcs://peer0.org3.example.com:7051
+    url: grpcs://peer0.org3.example.com:11051
     eventUrl: grpcs://peer0.org3.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer0.org3.example.com
@@ -162,7 +162,7 @@ peers:
       pem: "PEER0_ORG3_TLS"
 
   peer1.org3.example.com:
-    url: grpcs://peer1.org3.example.com:7051
+    url: grpcs://peer1.org3.example.com:12051
     eventUrl: grpcs://peer1.org3.example.com:7053
     grpcOptions:
       ssl-target-name-override: peer1.org3.example.com

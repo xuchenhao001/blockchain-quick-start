@@ -29,11 +29,12 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
     peers.forEach(function (peerName) {
       channel.addPeer(client.getPeer(peerName));
     });
+    let asLocalhost = await helper.asLocalhost();
+    await channel.initialize({discover: true, asLocalhost: asLocalhost});
 
     let tx_id = client.newTransactionID();
     tx_id_string = tx_id.getTransactionID();
     let request = {
-      targets: peers,
       args: args,
       chaincodeId: chaincodeName,
       chainId: channelName,
@@ -170,7 +171,6 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
   }
 };
 
-
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
                                      ordererName, orgName, peers, transient) {
   logger.debug('\n\n============ Query chaincode on org \'' + orgName + '\' ============\n');
@@ -186,9 +186,10 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
     peers.forEach(function (peerName) {
       channel.addPeer(client.getPeer(peerName));
     });
+    let asLocalhost = await helper.asLocalhost();
+    await channel.initialize({discover: true, asLocalhost: asLocalhost});
 
     let request = {
-      targets: peers,
       chaincodeId: chaincodeName,
       fcn: functionName,
       args: args,

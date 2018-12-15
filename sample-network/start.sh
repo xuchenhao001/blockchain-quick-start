@@ -151,23 +151,26 @@ function prepareEnv() {
     sed -i "s/orderer.example.com:7050/localhost:7050/g" ../config/network-config.yaml
     sed -i "s/peer0.org1.example.com:7051/localhost:7051/g" ../config/network-config.yaml
     sed -i "s/peer0.org1.example.com:7053/localhost:7053/g" ../config/network-config.yaml
-    sed -i "s/peer1.org1.example.com:7051/localhost:8051/g" ../config/network-config.yaml
+    sed -i "s/peer1.org1.example.com:8051/localhost:8051/g" ../config/network-config.yaml
     sed -i "s/peer1.org1.example.com:7053/localhost:8053/g" ../config/network-config.yaml
-    sed -i "s/peer0.org2.example.com:7051/localhost:9051/g" ../config/network-config.yaml
+    sed -i "s/peer0.org2.example.com:9051/localhost:9051/g" ../config/network-config.yaml
     sed -i "s/peer0.org2.example.com:7053/localhost:9053/g" ../config/network-config.yaml
-    sed -i "s/peer1.org2.example.com:7051/localhost:10051/g" ../config/network-config.yaml
+    sed -i "s/peer1.org2.example.com:10051/localhost:10051/g" ../config/network-config.yaml
     sed -i "s/peer1.org2.example.com:7053/localhost:10053/g" ../config/network-config.yaml
-    sed -i "s/peer0.org3.example.com:7051/localhost:11051/g" ../config/network-config.yaml
+    sed -i "s/peer0.org3.example.com:11051/localhost:11051/g" ../config/network-config.yaml
     sed -i "s/peer0.org3.example.com:7053/localhost:11053/g" ../config/network-config.yaml
-    sed -i "s/peer1.org3.example.com:7051/localhost:12051/g" ../config/network-config.yaml
+    sed -i "s/peer1.org3.example.com:12051/localhost:12051/g" ../config/network-config.yaml
     sed -i "s/peer1.org3.example.com:7053/localhost:12053/g" ../config/network-config.yaml
     sed -i "s/ca.org1.example.com:7054/localhost:7054/g" ../config/network-config.yaml
     sed -i "s/ca.org2.example.com:7054/localhost:8054/g" ../config/network-config.yaml
     sed -i "s/ca.org3.example.com:7054/localhost:9054/g" ../config/network-config.yaml
+
+    # in dev mode, service discovery needs aslocalhost set to true
+    # See: https://fabric-sdk-node.github.io/tutorial-discovery.html
+    sed -i "s/asLocalhost: false/asLocalhost: true/g" ../config/network-config-ext.yaml
   fi
   echo "Finished."
 }
-
 
 generateCerts
 prepareCAFile

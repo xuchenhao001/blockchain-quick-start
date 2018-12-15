@@ -28,20 +28,23 @@ peers:
 
   peer1.org1.example.com:
     url-addr-container: peer1.org1.example.com
-    url-port-container: 7051
+    url-port-container: 8051
 
   peer0.org2.example.com:
     url-addr-container: peer0.org2.example.com
-    url-port-container: 7051
+    url-port-container: 9051
 
   peer1.org2.example.com:
     url-addr-container: peer1.org2.example.com
-    url-port-container: 7051
+    url-port-container: 10051
 
   peer0.org3.example.com:
     url-addr-container: peer0.org3.example.com
-    url-port-container: 7051
+    url-port-container: 11051
 
   peer1.org3.example.com:
     url-addr-container: peer1.org3.example.com
-    url-port-container: 7051
+    url-port-container: 12051
+
+serviceDiscovery:
+  asLocalhost: false

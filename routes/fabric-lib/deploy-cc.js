@@ -118,8 +118,8 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
 };
 
 
-let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion, channelName,
-                                          functionName, args, ordererName, orgName, peers, collection) {
+let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
+                                          args, ordererName, orgName, peers, endorsementPolicy, collection) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = '';
@@ -153,6 +153,14 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
       args: args,
       txId: tx_id
     };
+
+    logger.debug("Instantiate chaincode request: " + JSON.stringify(request));
+
+    // load endorsement policy if exists
+    if (endorsementPolicy) {
+      request['endorsement-policy'] = await helper.decodeEndorsementPolicy(endorsementPolicy);
+      logger.debug("Get endorsement policy, update init request: " + JSON.stringify(request));
+    }
 
     // load collection if exists
     if (collection) {
