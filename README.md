@@ -29,14 +29,24 @@ Clone this repo:
 git clone https://github.com/xuchenhao001/blockchain-quick-start.git
 ```
 
-## Start blockchain network
+## Prepare Hyperledger Fabric images
 
-Go to the dir `sample-network`, and start the Fabric network by doing this:
+You need to prepare all of the images before start a blockchain network (if not exists):
 
 ```bash
 cd blockchain-quick-start/
+./prepare-fabric.sh
+```
+
+> This may takes a while depends on your network status.
+
+## Start blockchain network
+
+Start the Fabric network by doing this:
+
+```bash
 ./create-network.sh
-# Chose "Y" for container env and "N" for dev env
+# Chose "Y" for container env and "N" for dev env, Default is "Y"
 ```
 
 > You can delete your network by doing `./delete-network.sh`.
@@ -48,11 +58,10 @@ Then Press `Enter` and wait for the Fabric network successfully running.
 Build docker image:
 
 ```bash
-cd blockchain-quick-start/
 ./build-docker-image.sh
 ```
 
-Start server:
+Only need one shot to start the service:
 
 ```bash
 docker-compose up -d
@@ -60,20 +69,20 @@ docker-compose up -d
 
 When the server is up, open `http://<your-host-ip>:3414/` with your browser, you can see `swagger` page there with all of the REST API descriptions.
 
+<aside class="warning">
+The swagger page now is lack of maintenance. Please refer Restlet-Client test cases at the end of this doc.
+</aside>
+
 ## Start blockchain explorer
 
-Build docker image:
+Make sure that you have already joined `Org1` to channel `mychannel`:
 
 ```bash
-cd blockchain-quick-start/blockchain-explorer
-./build-docker-image.sh
+cd blockchain-explorer/
+./start.sh
 ```
 
-Start server:
-
-```bash
-docker-compose up -d
-```
+If not, go to `blockchain-explorer/config.json`, change those `mychannel` to your channel name that `Org1` has already joined.
 
 When the server is up, open `http://<your-host-ip>:8080/` with your browser, you can see the `blockchian-explorer` page running normally.
 
@@ -82,3 +91,11 @@ When the server is up, open `http://<your-host-ip>:8080/` with your browser, you
 There is a extension of Chrome browser named `Restlet-Client`, you could download it from Chrome Web Store.
 
 After installed, import `test/restlet-client.json` and test the REST APIs of each scenario step-by-step.
+
+## Delete All
+
+```bash
+cd blockchain-quick-start/
+./delete-network.sh
+```
+
