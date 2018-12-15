@@ -20,6 +20,7 @@ networks:
 services:
   ca0:
     image: hyperledger/fabric-ca:$IMAGE_TAG
+    restart: always
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org1
@@ -37,6 +38,7 @@ services:
 
   ca1:
     image: hyperledger/fabric-ca:$IMAGE_TAG
+    restart: always
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
@@ -54,6 +56,7 @@ services:
 
   ca2:
     image: hyperledger/fabric-ca:$IMAGE_TAG
+    restart: always
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org3
@@ -70,6 +73,7 @@ services:
       - byfn
 
   orderer.example.com:
+    restart: always
     extends:
       file:   base/docker-compose-base.yaml
       service: orderer.example.com
@@ -79,6 +83,7 @@ services:
 
   couchdb0:
     container_name: couchdb0
+    restart: always
     extends:
       file: base/docker-compose-base.yaml
       service: couchdb0
@@ -87,6 +92,7 @@ services:
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
+    restart: always
     extends:
       file:  base/docker-compose-base.yaml
       service: peer0.org1.example.com
@@ -97,6 +103,7 @@ services:
 
   couchdb1:
     container_name: couchdb1
+    restart: always
     extends:
       file: base/docker-compose-base.yaml
       service: couchdb1
@@ -105,6 +112,7 @@ services:
 
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
+    restart: always
     extends:
       file:  base/docker-compose-base.yaml
       service: peer1.org1.example.com
@@ -115,6 +123,7 @@ services:
 
   couchdb2:
     container_name: couchdb2
+    restart: always
     extends:
       file: base/docker-compose-base.yaml
       service: couchdb2
@@ -123,6 +132,7 @@ services:
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
+    restart: always
     extends:
       file:  base/docker-compose-base.yaml
       service: peer0.org2.example.com
@@ -133,6 +143,7 @@ services:
 
   couchdb3:
     container_name: couchdb3
+    restart: always
     extends:
       file: base/docker-compose-base.yaml
       service: couchdb3
@@ -141,6 +152,7 @@ services:
 
   peer1.org2.example.com:
     container_name: peer1.org2.example.com
+    restart: always
     extends:
       file:  base/docker-compose-base.yaml
       service: peer1.org2.example.com
@@ -151,6 +163,7 @@ services:
 
   couchdb4:
     container_name: couchdb4
+    restart: always
     extends:
       file: base/docker-compose-base.yaml
       service: couchdb4
@@ -159,6 +172,7 @@ services:
 
   peer0.org3.example.com:
     container_name: peer0.org3.example.com
+    restart: always
     extends:
       file:  base/docker-compose-base.yaml
       service: peer0.org3.example.com
@@ -169,6 +183,7 @@ services:
 
   couchdb5:
     container_name: couchdb5
+    restart: always
     extends:
       file: base/docker-compose-base.yaml
       service: couchdb5
@@ -177,6 +192,7 @@ services:
 
   peer1.org3.example.com:
     container_name: peer1.org3.example.com
+    restart: always
     extends:
       file:  base/docker-compose-base.yaml
       service: peer1.org3.example.com
