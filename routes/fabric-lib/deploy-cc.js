@@ -136,6 +136,8 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
     peers.forEach(function (peerName) {
       channel.addPeer(client.getPeer(peerName));
     });
+    let asLocalhost = await helper.asLocalhost();
+    await channel.initialize({discover: true, asLocalhost: asLocalhost});
 
     let tx_id = client.newTransactionID(true); // Get an admin based transactionID
     // An admin based transactionID will
@@ -146,7 +148,6 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
 
     // send proposal to endorser
     let request = {
-      targets: peers,
       chaincodeId: chaincodeName,
       chaincodeType: chaincodeType,
       chaincodeVersion: chaincodeVersion,

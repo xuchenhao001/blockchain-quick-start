@@ -186,8 +186,16 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
     peers.forEach(function (peerName) {
       channel.addPeer(client.getPeer(peerName));
     });
-    let asLocalhost = await helper.asLocalhost();
-    await channel.initialize({discover: true, asLocalhost: asLocalhost});
+
+    /*
+    * I don't think it's a good idea to bind service discovery function with the query function,
+    * because it will return all peer's query result whoever you are. It's not good for demo of
+    * private data. (Query from org2 should return an error in that scenario)
+    * But these codes indeed works.
+    * */
+
+    // let asLocalhost = await helper.asLocalhost();
+    // await channel.initialize({discover: true, asLocalhost: asLocalhost});
 
     let request = {
       chaincodeId: chaincodeName,
