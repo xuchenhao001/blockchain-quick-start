@@ -25,6 +25,10 @@ function removeUnwantedImages() {
 
 # Tear down running network
 function networkDown() {
+  
+  # remove blockchain-explorer
+  ./blockchain-explorer/stop.sh
+
   cd sample-network
   # stop containers 
   if [ -f docker-compose-e2e.yaml ]; then

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker rm -fv blockchain-explorer-db blockchain-explorer
+docker rm -fv $(docker ps -a|grep blockchain-explorer|awk '{print $1}')
