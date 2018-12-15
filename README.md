@@ -69,9 +69,8 @@ docker-compose up -d
 
 When the server is up, open `http://<your-host-ip>:3414/` with your browser, you can see `swagger` page there with all of the REST API descriptions.
 
-<aside class="warning">
-The swagger page now is lack of maintenance. Please refer Restlet-Client test cases at the end of this doc.
-</aside>
+:warning:The swagger page now is lack of maintenance. Please refer Restlet-Client test cases at the end of this doc.
+
 
 ## Start blockchain explorer
 
