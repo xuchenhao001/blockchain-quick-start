@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2018-12-17T20:22:30.221+08:00",
+      "lastModified": "2018-12-18T14:19:55.435+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -73,7 +73,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -89,7 +89,7 @@
         "path": "/channel/join"
       },
       "id": "91f3efc3-7186-486d-998f-2c60da74cba2",
-      "lastModified": "2018-12-03T15:02:29.044+08:00",
+      "lastModified": "2018-12-18T13:52:38.022+08:00",
       "name": "02. joinChannel - Org1",
       "headers": [
         {
@@ -116,7 +116,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -132,7 +132,7 @@
         "path": "/channel/join"
       },
       "id": "3a003987-5dd3-4efb-9b77-14412706bec7",
-      "lastModified": "2018-12-03T15:02:33.282+08:00",
+      "lastModified": "2018-12-18T13:52:49.058+08:00",
       "name": "02. joinChannel - Org2",
       "headers": [
         {
@@ -247,7 +247,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjItb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjItb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -263,8 +263,8 @@
         "path": "/chaincode/instantiate"
       },
       "id": "878409cd-54c8-4238-968f-4965cca72e47",
-      "lastModified": "2018-12-15T16:19:49.077+08:00",
-      "name": "04. initCCWithEnPolicy",
+      "lastModified": "2018-12-18T14:17:53.626+08:00",
+      "name": "04. instantiateChaincode",
       "headers": [
         {
           "enabled": true,
@@ -290,7 +290,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"detail\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"detail\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -306,7 +306,7 @@
         "path": "/invoke/mychannel/mycc"
       },
       "id": "199ef0ef-5d83-4521-bf58-be03567f9c84",
-      "lastModified": "2018-12-15T12:16:32.369+08:00",
+      "lastModified": "2018-12-18T14:18:15.245+08:00",
       "name": "05. invoke",
       "headers": [
         {
@@ -333,7 +333,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -349,7 +349,7 @@
         "path": "/query/mychannel/mycc"
       },
       "id": "0f581480-a3af-4929-8242-cff5721e577f",
-      "lastModified": "2018-12-15T16:42:11.219+08:00",
+      "lastModified": "2018-12-18T14:17:17.810+08:00",
       "name": "06. query",
       "headers": [
         {
@@ -463,7 +463,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"myccpkg\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"myccpkg\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -479,7 +479,7 @@
         "path": "/chaincode/instantiate"
       },
       "id": "1cc7b25a-15cc-471d-ba59-6bdfd5fe8781",
-      "lastModified": "2018-12-15T16:20:05.632+08:00",
+      "lastModified": "2018-12-18T13:59:21.738+08:00",
       "name": "08. initCCPkg",
       "headers": [
         {
@@ -506,7 +506,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"detail\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"detail\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -522,7 +522,7 @@
         "path": "/invoke/mychannel/myccpkg"
       },
       "id": "4978f6fd-b0d1-432e-95db-18456994211f",
-      "lastModified": "2018-12-15T16:02:42.719+08:00",
+      "lastModified": "2018-12-18T14:01:06.050+08:00",
       "name": "09. invoke",
       "headers": [
         {
@@ -549,7 +549,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -565,7 +565,7 @@
         "path": "/query/mychannel/myccpkg"
       },
       "id": "77dca8b7-f989-4093-888c-2339cd25ac3a",
-      "lastModified": "2018-12-15T16:42:17.497+08:00",
+      "lastModified": "2018-12-18T14:01:17.326+08:00",
       "name": "10. query",
       "headers": [
         {
@@ -642,7 +642,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channela\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channela\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -658,7 +658,7 @@
         "path": "/channel/join"
       },
       "id": "d4f025aa-2c45-411f-9964-507a88e3284d",
-      "lastModified": "2018-12-01T17:25:14.736+08:00",
+      "lastModified": "2018-12-18T11:54:52.496+08:00",
       "name": "02. joinChannelA - Org1",
       "headers": [
         {
@@ -685,7 +685,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channela\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channela\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -701,7 +701,7 @@
         "path": "/channel/join"
       },
       "id": "dbdfe2a1-6c9a-4ee8-ad00-4cef4d20f24e",
-      "lastModified": "2018-12-01T17:25:18.663+08:00",
+      "lastModified": "2018-12-18T11:54:58.929+08:00",
       "name": "02. joinChannelA - Org2",
       "headers": [
         {
@@ -816,7 +816,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"pocc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channela\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"pocc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channela\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -832,7 +832,7 @@
         "path": "/chaincode/instantiate"
       },
       "id": "dc9b609f-d57f-44e1-a981-f8c6c4c25271",
-      "lastModified": "2018-12-15T16:08:16.929+08:00",
+      "lastModified": "2018-12-18T11:55:39.402+08:00",
       "name": "04. initCC - ChannelA",
       "headers": [
         {
@@ -859,7 +859,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -875,7 +875,7 @@
         "path": "/invoke/channela/pocc"
       },
       "id": "16b03307-b0be-4295-a07f-262d7d10e98c",
-      "lastModified": "2018-12-15T16:08:35.582+08:00",
+      "lastModified": "2018-12-18T11:56:20.636+08:00",
       "name": "05. invoke - ChannelA",
       "headers": [
         {
@@ -902,7 +902,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -918,7 +918,7 @@
         "path": "/invoke/channela/pocc"
       },
       "id": "a7c66069-4cc0-48e9-8b4b-d91abf123820",
-      "lastModified": "2018-12-15T16:08:50.525+08:00",
+      "lastModified": "2018-12-18T11:56:28.607+08:00",
       "name": "05. invoke2 - ChannelA",
       "headers": [
         {
@@ -945,7 +945,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller3\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo003\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller3\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo003\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -961,7 +961,7 @@
         "path": "/invoke/channela/pocc"
       },
       "id": "7e0bac14-f7e1-4b0a-b183-75be7db4006d",
-      "lastModified": "2018-12-15T16:09:00.994+08:00",
+      "lastModified": "2018-12-18T11:56:49.909+08:00",
       "name": "05. invoke3 - ChannelA",
       "headers": [
         {
@@ -988,7 +988,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1004,7 +1004,7 @@
         "path": "/query/channela/pocc"
       },
       "id": "e5be20d0-e063-4694-b745-b18ec7f27b55",
-      "lastModified": "2018-12-15T16:42:29.517+08:00",
+      "lastModified": "2018-12-18T11:56:58.050+08:00",
       "name": "06. query - ChannelA",
       "headers": [
         {
@@ -1031,7 +1031,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPOHistory\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPOHistory\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1047,7 +1047,7 @@
         "path": "/query/channela/pocc"
       },
       "id": "68f2d583-593c-4e45-9193-2743f45513dc",
-      "lastModified": "2018-12-15T16:42:35.835+08:00",
+      "lastModified": "2018-12-18T11:57:55.808+08:00",
       "name": "06. queryHistory - ChannelA",
       "headers": [
         {
@@ -1074,7 +1074,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1091,7 +1091,7 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "f6ba0150-a565-4a48-8656-359e02759259",
-      "lastModified": "2018-12-15T16:42:50.472+08:00",
+      "lastModified": "2018-12-18T11:58:05.273+08:00",
       "name": "06. richQueryEq - ChannelA",
       "headers": [
         {
@@ -1118,7 +1118,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\", \"1\", \"\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\", \"1\", \"\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1135,7 +1135,7 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "6f8c79ff-7bea-445c-8d47-ef96154f069f",
-      "lastModified": "2018-12-15T16:42:56.860+08:00",
+      "lastModified": "2018-12-18T11:58:10.409+08:00",
       "name": "06. richQueryPaginEq - ChannelA",
       "headers": [
         {
@@ -1178,7 +1178,7 @@
         "path": "/channel/create"
       },
       "id": "09e8eb29-fdbc-4b24-a153-34bde6ea6ddb",
-      "lastModified": "2018-12-01T17:21:54.985+08:00",
+      "lastModified": "2018-12-18T11:58:20.887+08:00",
       "name": "07. createChannelB",
       "headers": [
         {
@@ -1205,7 +1205,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelb\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelb\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1221,7 +1221,7 @@
         "path": "/channel/join"
       },
       "id": "49513d91-7a07-46e0-9811-cbde370aab28",
-      "lastModified": "2018-12-01T17:28:37.686+08:00",
+      "lastModified": "2018-12-18T11:58:34.391+08:00",
       "name": "08. joinChannelB - Org1",
       "headers": [
         {
@@ -1248,7 +1248,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelb\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelb\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1264,7 +1264,7 @@
         "path": "/channel/join"
       },
       "id": "c4bb7ed2-82c0-4c9d-88fb-2cc648dc6305",
-      "lastModified": "2018-12-01T17:28:47.459+08:00",
+      "lastModified": "2018-12-18T11:58:43.705+08:00",
       "name": "08. joinChannelB - Org2",
       "headers": [
         {
@@ -1291,7 +1291,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelb\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelb\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1307,7 +1307,7 @@
         "path": "/channel/join"
       },
       "id": "ca06e5ea-2f86-498b-86d9-cfcb479d7485",
-      "lastModified": "2018-12-01T17:29:01.510+08:00",
+      "lastModified": "2018-12-18T11:58:53.557+08:00",
       "name": "08. joinChannelB - Org3",
       "headers": [
         {
@@ -1464,7 +1464,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"manifestcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelb\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"manifestcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelb\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1480,7 +1480,7 @@
         "path": "/chaincode/instantiate"
       },
       "id": "31bbe61f-88f3-4779-858d-f467b57c292d",
-      "lastModified": "2018-12-15T16:10:18.078+08:00",
+      "lastModified": "2018-12-18T11:59:08.977+08:00",
       "name": "10. initCC - ChannelB",
       "headers": [
         {
@@ -1507,7 +1507,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘1浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392991\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘1浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392991\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1523,7 +1523,7 @@
         "path": "/invoke/channelb/manifestcc"
       },
       "id": "c654febd-99f9-47c1-9453-a7af9f53673b",
-      "lastModified": "2018-12-15T16:12:42.784+08:00",
+      "lastModified": "2018-12-18T12:07:10.234+08:00",
       "name": "11. invoke - ChannelB",
       "headers": [
         {
@@ -1550,7 +1550,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘2浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392991\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.99\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘2浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392991\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.99\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1566,7 +1566,7 @@
         "path": "/invoke/channelb/manifestcc"
       },
       "id": "78dc9a97-0132-4723-84ba-2652d0e3e40b",
-      "lastModified": "2018-12-15T16:12:57.720+08:00",
+      "lastModified": "2018-12-18T13:48:42.528+08:00",
       "name": "11. invoke2 - ChannelB",
       "headers": [
         {
@@ -1593,7 +1593,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘3浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392993\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.99\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"shipper\\\": \\\"刘3浩\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"masterBillNo\\\": \\\"85392993\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"pack\\\": \\\"精装\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"ata\\\": \\\"1540002600639\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"grossWeight\\\": \\\"3463.99\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"measure\\\": \\\"34.2\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"mark\\\": \\\"1\\\", \\\"packNo\\\": \\\"675\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1609,7 +1609,7 @@
         "path": "/invoke/channelb/manifestcc"
       },
       "id": "bf3275ff-3666-47df-8f6a-7a2e59175af6",
-      "lastModified": "2018-12-15T16:13:22.499+08:00",
+      "lastModified": "2018-12-18T13:49:20.433+08:00",
       "name": "11. invoke3 - ChannelB",
       "headers": [
         {
@@ -1636,7 +1636,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryManifest\",\n  \"args\": [\"85392991\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryManifest\",\n  \"args\": [\"85392991\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1652,7 +1652,7 @@
         "path": "/query/channelb/manifestcc"
       },
       "id": "b878016e-8890-4b70-8b21-1ae56a51cc7a",
-      "lastModified": "2018-12-15T16:43:46.798+08:00",
+      "lastModified": "2018-12-18T13:49:59.088+08:00",
       "name": "12. query - ChannelB",
       "headers": [
         {
@@ -1679,7 +1679,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryManifestHistory\",\n  \"args\": [\"85392991\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryManifestHistory\",\n  \"args\": [\"85392991\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1695,7 +1695,7 @@
         "path": "/query/channelb/manifestcc"
       },
       "id": "3660c687-975a-4c21-8eef-d4cded74e30d",
-      "lastModified": "2018-12-15T16:43:51.587+08:00",
+      "lastModified": "2018-12-18T13:51:41.372+08:00",
       "name": "12. queryHistory - ChannelB",
       "headers": [
         {
@@ -1722,7 +1722,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"richQueryManifest\",\n  \"args\": [\"{\\\"selector\\\":{\\\"fromPort\\\":\\\"大连港\\\"}}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"richQueryManifest\",\n  \"args\": [\"{\\\"selector\\\":{\\\"fromPort\\\":\\\"大连港\\\"}}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1739,7 +1739,7 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "695931fc-8788-4f83-9743-1bed670ecc58",
-      "lastModified": "2018-12-15T16:44:02.271+08:00",
+      "lastModified": "2018-12-18T13:51:59.953+08:00",
       "name": "12. richQueryEq - ChannelB",
       "headers": [
         {
@@ -1766,7 +1766,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"richQueryManifest\",\n  \"args\": [\"{\\\"selector\\\":{\\\"fromPort\\\":\\\"大连港\\\"}}\", \"1\", \"\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"richQueryManifest\",\n  \"args\": [\"{\\\"selector\\\":{\\\"fromPort\\\":\\\"大连港\\\"}}\", \"1\", \"\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1783,7 +1783,7 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "6043d93f-43f1-4ba4-82fd-0b2a9f26828d",
-      "lastModified": "2018-12-15T16:44:09.100+08:00",
+      "lastModified": "2018-12-18T13:52:05.938+08:00",
       "name": "12. richQueryEqPagin - ChannelB",
       "headers": [
         {
@@ -1810,7 +1810,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"richQueryManifest\",\n  \"args\": [\"{\\\"selector\\\": {\\\"grossWeight\\\": {\\\"$gt\\\": 3000 } } }\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"richQueryManifest\",\n  \"args\": [\"{\\\"selector\\\": {\\\"grossWeight\\\": {\\\"$gt\\\": 3000 } } }\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1827,7 +1827,7 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "68d3d2cb-f750-4117-b129-4dd4e8c16ae9",
-      "lastModified": "2018-12-15T16:44:15.264+08:00",
+      "lastModified": "2018-12-18T13:52:12.184+08:00",
       "name": "12. richQueryGt - ChannelB",
       "headers": [
         {
@@ -1904,7 +1904,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforencryptdatademo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelforencryptdatademo\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1920,7 +1920,7 @@
         "path": "/channel/join"
       },
       "id": "7d515ef4-513c-4c5b-bf16-185f4a37ba12",
-      "lastModified": "2018-12-06T21:30:36.797+08:00",
+      "lastModified": "2018-12-18T11:48:34.352+08:00",
       "name": "02. joinChannel - Org1",
       "headers": [
         {
@@ -1947,7 +1947,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforencryptdatademo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelforencryptdatademo\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -1963,7 +1963,7 @@
         "path": "/channel/join"
       },
       "id": "b77c0058-9547-4e86-92f1-5aa549e29e71",
-      "lastModified": "2018-12-06T21:30:39.959+08:00",
+      "lastModified": "2018-12-18T11:48:43.219+08:00",
       "name": "02. joinChannel - Org2",
       "headers": [
         {
@@ -2076,7 +2076,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"encryptcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforencryptdatademo\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"encryptcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforencryptdatademo\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2092,7 +2092,7 @@
         "path": "/chaincode/instantiate"
       },
       "id": "d32c9d2b-cac4-47cd-aa46-1b71fe1b2f18",
-      "lastModified": "2018-12-15T16:15:24.037+08:00",
+      "lastModified": "2018-12-18T11:49:00.363+08:00",
       "name": "04. instantiateChaincode",
       "headers": [
         {
@@ -2119,7 +2119,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPOEncAll\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPOEncAll\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2136,7 +2136,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
       "id": "ac031d50-8318-48dc-a3c3-51f05329cbf4",
-      "lastModified": "2018-12-15T16:17:22.409+08:00",
+      "lastModified": "2018-12-18T11:52:52.464+08:00",
       "name": "05. invoke - EncryptAll",
       "headers": [
         {
@@ -2163,7 +2163,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPODecAll\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+        "textBody": "{\n  \"functionName\": \"queryPODecAll\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2180,7 +2180,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
       "id": "f94d0550-58db-4551-9574-2a841107b7ec",
-      "lastModified": "2018-12-15T16:45:57.087+08:00",
+      "lastModified": "2018-12-18T11:53:28.327+08:00",
       "name": "05. query - DecryptAll",
       "headers": [
         {
@@ -2207,7 +2207,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPOEncPart\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo002\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer1.org1.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPOEncPart\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo002\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer1.org1.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2224,7 +2224,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
       "id": "0f9722d9-be77-4122-a64b-414f1bf62e15",
-      "lastModified": "2018-12-15T16:17:53.739+08:00",
+      "lastModified": "2018-12-18T11:54:17.758+08:00",
       "name": "06. invoke - EncryptPart",
       "headers": [
         {
@@ -2251,7 +2251,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPODecPart\",\n  \"args\": [\"poNo002\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+        "textBody": "{\n  \"functionName\": \"queryPODecPart\",\n  \"args\": [\"poNo002\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2268,7 +2268,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
       "id": "d6122d71-abb8-47b3-bae9-9c38f21f8c15",
-      "lastModified": "2018-12-15T16:46:06.206+08:00",
+      "lastModified": "2018-12-18T11:54:26.519+08:00",
       "name": "06. query - DecryptPart",
       "headers": [
         {
@@ -2295,7 +2295,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPOEncPartSign\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller3\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo003\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\",\n    \"SIGKEY\": \"LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNYK05Eb0NRMTROQkprYVAvYkhjSUpGbVN3ckc3UmNnYTlRRWQ3Y3pxV2lvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMlo5RWkyV3F2MWdEeFhHd1cxRCtacHdsV1dQYXFPNFdES3E4d08zL3RmWmp3bi93TGVFTQp4cUZYWjdjQ2M5SjZEZGdYSzY2T3V6UFpwWitjUldCU3R3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=\"\n  }\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPOEncPartSign\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller3\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo003\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\",\n    \"SIGKEY\": \"LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNYK05Eb0NRMTROQkprYVAvYkhjSUpGbVN3ckc3UmNnYTlRRWQ3Y3pxV2lvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMlo5RWkyV3F2MWdEeFhHd1cxRCtacHdsV1dQYXFPNFdES3E4d08zL3RmWmp3bi93TGVFTQp4cUZYWjdjQ2M5SjZEZGdYSzY2T3V6UFpwWitjUldCU3R3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2312,7 +2312,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
       "id": "1aa88c81-bb52-45b4-b7c2-5bf44e248890",
-      "lastModified": "2018-12-15T16:18:49.993+08:00",
+      "lastModified": "2018-12-18T11:54:32.581+08:00",
       "name": "10. invoke - EncryptSignPart",
       "headers": [
         {
@@ -2339,7 +2339,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPODecPartVerify\",\n  \"args\": [\"poNo003\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\",\n    \"VERKEY\": \"LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNYK05Eb0NRMTROQkprYVAvYkhjSUpGbVN3ckc3UmNnYTlRRWQ3Y3pxV2lvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMlo5RWkyV3F2MWdEeFhHd1cxRCtacHdsV1dQYXFPNFdES3E4d08zL3RmWmp3bi93TGVFTQp4cUZYWjdjQ2M5SjZEZGdYSzY2T3V6UFpwWitjUldCU3R3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=\"\n  }\n}"
+        "textBody": "{\n  \"functionName\": \"queryPODecPartVerify\",\n  \"args\": [\"poNo003\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\",\n    \"VERKEY\": \"LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNYK05Eb0NRMTROQkprYVAvYkhjSUpGbVN3ckc3UmNnYTlRRWQ3Y3pxV2lvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMlo5RWkyV3F2MWdEeFhHd1cxRCtacHdsV1dQYXFPNFdES3E4d08zL3RmWmp3bi93TGVFTQp4cUZYWjdjQ2M5SjZEZGdYSzY2T3V6UFpwWitjUldCU3R3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2356,7 +2356,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
       "id": "11ef226e-ed03-4ebe-904f-35bf63c9680b",
-      "lastModified": "2018-12-15T16:46:13.557+08:00",
+      "lastModified": "2018-12-18T11:54:39.583+08:00",
       "name": "10. query - DecryptVrfyPart",
       "headers": [
         {
@@ -2433,7 +2433,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforprivatedatademo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelforprivatedatademo\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2449,7 +2449,7 @@
         "path": "/channel/join"
       },
       "id": "e2b91e29-2848-414f-8711-9a3b22e37ebe",
-      "lastModified": "2018-12-06T20:19:24.045+08:00",
+      "lastModified": "2018-12-18T11:41:56.515+08:00",
       "name": "02. joinChannel - Org1",
       "headers": [
         {
@@ -2476,7 +2476,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforprivatedatademo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelforprivatedatademo\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2492,7 +2492,7 @@
         "path": "/channel/join"
       },
       "id": "d5489ffc-f29d-413b-9da0-a3040567eb57",
-      "lastModified": "2018-12-06T20:19:32.216+08:00",
+      "lastModified": "2018-12-18T11:42:03.840+08:00",
       "name": "02. joinChannel - Org2",
       "headers": [
         {
@@ -2519,7 +2519,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforprivatedatademo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelforprivatedatademo\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2535,7 +2535,7 @@
         "path": "/channel/join"
       },
       "id": "291bd6d7-faf5-47cc-a19a-471ec6036e7e",
-      "lastModified": "2018-12-06T20:19:58.841+08:00",
+      "lastModified": "2018-12-18T11:42:11.459+08:00",
       "name": "02. joinChannel - Org3",
       "headers": [
         {
@@ -2694,7 +2694,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"privatecc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforprivatedatademo\",\n  \"collection\": \"WwogIHsKICAgICJuYW1lIjogImNvbGxlY3Rpb25QTyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzJNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgICAgIH0KICAgICAgICBdCiAgICAgIH0KICAgIH0sCiAgICAicmVxdWlyZWRQZWVyQ291bnQiOiAxLAogICAgIm1heFBlZXJDb3VudCI6IDMsCiAgICAiYmxvY2tUb0xpdmUiOiAxMDAwMDAwCiAgfSwKICB7CiAgICAibmFtZSI6ICJjb2xsZWN0aW9uUE9Qcml2YXRlRGV0YWlscyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfQogICAgICAgIF0KICAgICAgfQogICAgfSwKICAgICJyZXF1aXJlZFBlZXJDb3VudCI6IDEsCiAgICAibWF4UGVlckNvdW50IjogMywKICAgICJibG9ja1RvTGl2ZSI6IDMKICB9Cl0K\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer1.org3.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"privatecc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforprivatedatademo\",\n  \"collection\": \"WwogIHsKICAgICJuYW1lIjogImNvbGxlY3Rpb25QTyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzJNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgICAgIH0KICAgICAgICBdCiAgICAgIH0KICAgIH0sCiAgICAicmVxdWlyZWRQZWVyQ291bnQiOiAxLAogICAgIm1heFBlZXJDb3VudCI6IDMsCiAgICAiYmxvY2tUb0xpdmUiOiAxMDAwMDAwCiAgfSwKICB7CiAgICAibmFtZSI6ICJjb2xsZWN0aW9uUE9Qcml2YXRlRGV0YWlscyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfQogICAgICAgIF0KICAgICAgfQogICAgfSwKICAgICJyZXF1aXJlZFBlZXJDb3VudCI6IDEsCiAgICAibWF4UGVlckNvdW50IjogMywKICAgICJibG9ja1RvTGl2ZSI6IDMKICB9Cl0K\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer1.org3.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2710,7 +2710,7 @@
         "path": "/chaincode/instantiate"
       },
       "id": "15e89701-99ba-43e2-822f-07c806ab761b",
-      "lastModified": "2018-12-15T16:21:01.548+08:00",
+      "lastModified": "2018-12-18T11:42:32.402+08:00",
       "name": "04. instantiateChaincode",
       "headers": [
         {
@@ -2737,7 +2737,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2753,7 +2753,7 @@
         "path": "/invoke/channelforprivatedatademo/privatecc"
       },
       "id": "54e0fca0-0168-4d5e-99a5-2cedcf15cf90",
-      "lastModified": "2018-12-15T16:23:07.862+08:00",
+      "lastModified": "2018-12-18T11:45:39.534+08:00",
       "name": "05. invoke - Org1",
       "headers": [
         {
@@ -2780,7 +2780,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo002\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo002\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2796,7 +2796,7 @@
         "path": "/invoke/channelforprivatedatademo/privatecc"
       },
       "id": "ddee64e5-6455-4868-81b1-7ab7e0f9e088",
-      "lastModified": "2018-12-15T16:23:40.337+08:00",
+      "lastModified": "2018-12-18T11:46:29.349+08:00",
       "name": "05. invoke2 - Org1",
       "headers": [
         {
@@ -2823,7 +2823,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2839,7 +2839,7 @@
         "path": "/query/channelforprivatedatademo/privatecc"
       },
       "id": "083ad810-8e0a-4a94-8049-8bc3666d4b7e",
-      "lastModified": "2018-12-15T16:23:51.179+08:00",
+      "lastModified": "2018-12-18T11:47:22.189+08:00",
       "name": "06. Org1 - queryC1",
       "headers": [
         {
@@ -2866,7 +2866,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2882,7 +2882,7 @@
         "path": "/query/channelforprivatedatademo/privatecc"
       },
       "id": "f5e253de-3774-41c8-bb48-45b79f5a5949",
-      "lastModified": "2018-12-15T16:24:18.775+08:00",
+      "lastModified": "2018-12-18T11:47:33.836+08:00",
       "name": "06. Org1 - queryC2",
       "headers": [
         {
@@ -2909,7 +2909,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2925,7 +2925,7 @@
         "path": "/query/channelforprivatedatademo/privatecc"
       },
       "id": "1043440e-6574-4da7-a62c-3b4baff61ca8",
-      "lastModified": "2018-12-15T16:33:14.768+08:00",
+      "lastModified": "2018-12-18T11:47:39.545+08:00",
       "name": "06. Org2 - queryC1",
       "headers": [
         {
@@ -2952,7 +2952,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -2968,7 +2968,7 @@
         "path": "/query/channelforprivatedatademo/privatecc"
       },
       "id": "70c4a9e3-aee3-4e81-bd85-aaefc93dd260",
-      "lastModified": "2018-12-15T16:33:22.633+08:00",
+      "lastModified": "2018-12-18T11:48:14.781+08:00",
       "name": "06. Org2 - queryC2",
       "headers": [
         {
@@ -2982,9 +2982,362 @@
     },
     {
       "type": "Service",
+      "id": "8a7a6a58-ba82-4aca-948d-785c61ed69c4",
+      "lastModified": "2018-12-18T14:14:29.624+08:00",
+      "name": "05. ServiceDiscovery",
+      "parentId": "11267e20-df40-4e22-bb82-b0cbe9bff7da"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channelforservicediscovery\",\n  \"includeOrgNames\": [\"Org1\", \"Org2\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/create"
+      },
+      "id": "69fbad88-4aae-43f7-a702-ff34a6dbac08",
+      "lastModified": "2018-12-18T14:18:39.393+08:00",
+      "name": "01. createChannel",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channelforservicediscovery\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "f52f3bfe-1870-4460-a741-34436eee1de0",
+      "lastModified": "2018-12-18T14:18:45.456+08:00",
+      "name": "02. joinChannel - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channelforservicediscovery\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "34cade24-1d52-4665-9e11-ea18a3f8c382",
+      "lastModified": "2018-12-18T14:18:48.301+08:00",
+      "name": "02. joinChannel - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"chaincode\": \"cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkiZ2l0aHViLmNvbS9oeXBlcmxlZGdlci9mYWJyaWMvY29yZS9jaGFpbmNvZGUvc2hpbSIKCXBiICJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9wcm90b3MvcGVlciIKKQoKLy8gVHJhbnNmZXJDaGFpbmNvZGUgRGVmaW5lIGNoYWluY29kZQp0eXBlIFRyYW5zZmVyQ2hhaW5jb2RlIHN0cnVjdCB7Cn0KCi8vIEVudHJ5IG9mIGNoYWluY29kZQpmdW5jIG1haW4oKSB7CgllcnIgOj0gc2hpbS5TdGFydChuZXcoVHJhbnNmZXJDaGFpbmNvZGUpKQoJaWYgZXJyICE9IG5pbCB7CgkJZm10LlByaW50ZigiRXJyb3Igc3RhcnRpbmcgdHJhbnNmZXIgY2hhaW5jb2RlOiAlcyIsIGVycikKCX0KfQoKLy9Jbml0IEluaXRpYWxpemUgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbml0KHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlKSBwYi5SZXNwb25zZSB7CgoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCi8vIEludm9rZSBpbnZva2UgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbnZva2Uoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UpIHBiLlJlc3BvbnNlIHsKCWZ1bmN0aW9uLCBhcmdzIDo9IHN0dWIuR2V0RnVuY3Rpb25BbmRQYXJhbWV0ZXJzKCkKCWlmIGZ1bmN0aW9uID09ICJwdXQiIHsKCQlyZXR1cm4gdC5hZGRNb25leShzdHViLCBhcmdzKQoJfSBlbHNlIGlmIGZ1bmN0aW9uID09ICJnZXQiIHsKCQlyZXR1cm4gdC5xdWVyeU1vbmV5KHN0dWIsIGFyZ3MpCgl9CglyZXR1cm4gc2hpbS5FcnJvcigiVW5zdXBwb3J0ZWQgb3BlcmF0aW9uLiBQbGVhc2UgdXNlIGFkZCB0cmFuc2ZlciBxdWVyeSBkZWxldGUiKQp9CgpmdW5jICh0ICpUcmFuc2ZlckNoYWluY29kZSkgYWRkTW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAyIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMjogdXNlcixtb25leSIpCgl9Cgl1c2VybmFtZSA6PSBhcmdzWzBdCgl2YWx1ZSA6PSBbXWJ5dGUoYXJnc1sxXSkKCXZhciBlcnIgZXJyb3IKCWVyciA9IHN0dWIuUHV0U3RhdGUodXNlcm5hbWUsIHZhbHVlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHNoaW0uRXJyb3IoZXJyLkVycm9yKCkpCgl9CglyZXR1cm4gc2hpbS5TdWNjZXNzKHZhbHVlKQoKfQoKZnVuYyAodCAqVHJhbnNmZXJDaGFpbmNvZGUpIHF1ZXJ5TW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMTogVXNlcm5hbWUiKQoJfQoJbW9uZXlBc0J5dGVzLCBlcnIgOj0gc3R1Yi5HZXRTdGF0ZShhcmdzWzBdKQoJaWYgZXJyICE9IG5pbCB8fCBtb25leUFzQnl0ZXMgPT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MobW9uZXlBc0J5dGVzKQp9Cg==\",\n  \"chaincodeName\": \"servicediscoverycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "ed7e626f-7fb8-417d-b487-ad6aeedac4d8",
+      "lastModified": "2018-12-18T14:19:28.491+08:00",
+      "name": "03. installChaincode - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"chaincode\": \"cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkiZ2l0aHViLmNvbS9oeXBlcmxlZGdlci9mYWJyaWMvY29yZS9jaGFpbmNvZGUvc2hpbSIKCXBiICJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9wcm90b3MvcGVlciIKKQoKLy8gVHJhbnNmZXJDaGFpbmNvZGUgRGVmaW5lIGNoYWluY29kZQp0eXBlIFRyYW5zZmVyQ2hhaW5jb2RlIHN0cnVjdCB7Cn0KCi8vIEVudHJ5IG9mIGNoYWluY29kZQpmdW5jIG1haW4oKSB7CgllcnIgOj0gc2hpbS5TdGFydChuZXcoVHJhbnNmZXJDaGFpbmNvZGUpKQoJaWYgZXJyICE9IG5pbCB7CgkJZm10LlByaW50ZigiRXJyb3Igc3RhcnRpbmcgdHJhbnNmZXIgY2hhaW5jb2RlOiAlcyIsIGVycikKCX0KfQoKLy9Jbml0IEluaXRpYWxpemUgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbml0KHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlKSBwYi5SZXNwb25zZSB7CgoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCi8vIEludm9rZSBpbnZva2UgY2hhaW5jb2RlCmZ1bmMgKHQgKlRyYW5zZmVyQ2hhaW5jb2RlKSBJbnZva2Uoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UpIHBiLlJlc3BvbnNlIHsKCWZ1bmN0aW9uLCBhcmdzIDo9IHN0dWIuR2V0RnVuY3Rpb25BbmRQYXJhbWV0ZXJzKCkKCWlmIGZ1bmN0aW9uID09ICJwdXQiIHsKCQlyZXR1cm4gdC5hZGRNb25leShzdHViLCBhcmdzKQoJfSBlbHNlIGlmIGZ1bmN0aW9uID09ICJnZXQiIHsKCQlyZXR1cm4gdC5xdWVyeU1vbmV5KHN0dWIsIGFyZ3MpCgl9CglyZXR1cm4gc2hpbS5FcnJvcigiVW5zdXBwb3J0ZWQgb3BlcmF0aW9uLiBQbGVhc2UgdXNlIGFkZCB0cmFuc2ZlciBxdWVyeSBkZWxldGUiKQp9CgpmdW5jICh0ICpUcmFuc2ZlckNoYWluY29kZSkgYWRkTW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAyIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMjogdXNlcixtb25leSIpCgl9Cgl1c2VybmFtZSA6PSBhcmdzWzBdCgl2YWx1ZSA6PSBbXWJ5dGUoYXJnc1sxXSkKCXZhciBlcnIgZXJyb3IKCWVyciA9IHN0dWIuUHV0U3RhdGUodXNlcm5hbWUsIHZhbHVlKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHNoaW0uRXJyb3IoZXJyLkVycm9yKCkpCgl9CglyZXR1cm4gc2hpbS5TdWNjZXNzKHZhbHVlKQoKfQoKZnVuYyAodCAqVHJhbnNmZXJDaGFpbmNvZGUpIHF1ZXJ5TW9uZXkoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHBiLlJlc3BvbnNlIHsKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gc2hpbS5FcnJvcigiTm90IGVub3VnaCBhcmd1bWVudHMsIE5lZWQgMTogVXNlcm5hbWUiKQoJfQoJbW9uZXlBc0J5dGVzLCBlcnIgOj0gc3R1Yi5HZXRTdGF0ZShhcmdzWzBdKQoJaWYgZXJyICE9IG5pbCB8fCBtb25leUFzQnl0ZXMgPT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gc2hpbS5FcnJvcihlcnIuRXJyb3IoKSkKCX0KCXJldHVybiBzaGltLlN1Y2Nlc3MobW9uZXlBc0J5dGVzKQp9Cg==\",\n  \"chaincodeName\": \"servicediscoverycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "59eb8e8a-4479-449c-afce-8ef511609610",
+      "lastModified": "2018-12-18T14:19:34.115+08:00",
+      "name": "03. installChaincode - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 221,
+        "textBody": "{\n  \"chaincodeName\": \"servicediscoverycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforservicediscovery\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjItb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [],\n  \"useDiscoverService\": true,\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/instantiate"
+      },
+      "id": "228f9323-172f-493d-9307-c27889404a19",
+      "lastModified": "2018-12-18T14:19:46.554+08:00",
+      "name": "04. initCCWithServiceDiscovery",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"detail\"],\n  \"orderers\": [],\n  \"useDiscoverService\": true,\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channelforservicediscovery/servicediscoverycc"
+      },
+      "id": "e254062f-2fae-4cb9-a45b-94981f7e4cae",
+      "lastModified": "2018-12-18T14:19:51.895+08:00",
+      "name": "05. invokeWithServiceDiscovery",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"orderers\": [],\n  \"useDiscoverService\": true,\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channelforservicediscovery/servicediscoverycc"
+      },
+      "id": "80d0b81c-6c5a-4a46-a58c-daa3ab50322e",
+      "lastModified": "2018-12-18T14:19:55.436+08:00",
+      "name": "06. queryWithServiceDiscovery",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "8a7a6a58-ba82-4aca-948d-785c61ed69c4"
+    },
+    {
+      "type": "Service",
       "id": "b8cf65e2-798e-4f59-a631-3746ac1ab079",
-      "lastModified": "2018-12-11T14:19:13.941+08:00",
-      "name": "05. kvEndorsementPolicy",
+      "lastModified": "2018-12-18T14:14:06.556+08:00",
+      "name": "06. kvEndorsementPolicy",
       "parentId": "11267e20-df40-4e22-bb82-b0cbe9bff7da"
     },
     {
@@ -3045,7 +3398,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforkvepdemo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelforkvepdemo\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3061,7 +3414,7 @@
         "path": "/channel/join"
       },
       "id": "e4b47d71-be49-48af-ad0b-eda9add6a021",
-      "lastModified": "2018-12-11T14:08:50.782+08:00",
+      "lastModified": "2018-12-18T11:37:25.797+08:00",
       "name": "02. joinChannel - Org1",
       "headers": [
         {
@@ -3088,7 +3441,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforkvepdemo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channelforkvepdemo\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3104,7 +3457,7 @@
         "path": "/channel/join"
       },
       "id": "3f1bcd1e-88c0-4ae8-9b38-2916661b3c44",
-      "lastModified": "2018-12-11T14:08:54.212+08:00",
+      "lastModified": "2018-12-18T11:37:21.884+08:00",
       "name": "02. joinChannel - Org2",
       "headers": [
         {
@@ -3219,7 +3572,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"kvepcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforkvepdemo\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"kvepcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforkvepdemo\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjItb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3235,7 +3588,7 @@
         "path": "/chaincode/instantiate"
       },
       "id": "3fcf230d-c47a-46e0-9309-60a59bba44d2",
-      "lastModified": "2018-12-17T18:46:58.214+08:00",
+      "lastModified": "2018-12-18T11:30:41.332+08:00",
       "name": "04. initCCWithEnPolicy",
       "headers": [
         {
@@ -3263,7 +3616,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 255,
-        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"masterBillNo\\\": \\\"85392100\\\", \\\"ata\\\": \\\"1540002600640\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"mark\\\": \\\"1\\\", \\\"measure\\\": \\\"34.2\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"pack\\\": \\\"精装\\\", \\\"packNo\\\": \\\"675\\\", \\\"shipper\\\": \\\"刘2浩\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"masterBillNo\\\": \\\"85392100\\\", \\\"ata\\\": \\\"1540002600640\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"mark\\\": \\\"1\\\", \\\"measure\\\": \\\"34.2\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"pack\\\": \\\"精装\\\", \\\"packNo\\\": \\\"675\\\", \\\"shipper\\\": \\\"刘2浩\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3279,8 +3632,8 @@
         "path": "/invoke/channelforkvepdemo/kvepcc"
       },
       "id": "f12ddf78-0910-4ed4-ab46-0c0831b95cb5",
-      "lastModified": "2018-12-17T20:18:55.575+08:00",
-      "name": "05. invoke - Org1",
+      "lastModified": "2018-12-18T11:23:45.599+08:00",
+      "name": "05. invoke - Org1&Org2",
       "headers": [
         {
           "enabled": true,
@@ -3307,7 +3660,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 255,
-        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"masterBillNo\\\": \\\"85392101\\\", \\\"ata\\\": \\\"1540002600642\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"mark\\\": \\\"1\\\", \\\"measure\\\": \\\"34.2\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"pack\\\": \\\"精装\\\", \\\"packNo\\\": \\\"675\\\", \\\"shipper\\\": \\\"刘2浩\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"masterBillNo\\\": \\\"85392100\\\", \\\"ata\\\": \\\"1540002600642\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"mark\\\": \\\"1\\\", \\\"measure\\\": \\\"34.2\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"pack\\\": \\\"精装\\\", \\\"packNo\\\": \\\"675\\\", \\\"shipper\\\": \\\"刘2浩\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3323,7 +3676,7 @@
         "path": "/invoke/channelforkvepdemo/kvepcc"
       },
       "id": "ae5dbebc-f301-423b-a0ab-2053a3f1f782",
-      "lastModified": "2018-12-17T20:22:30.221+08:00",
+      "lastModified": "2018-12-18T11:21:51.836+08:00",
       "name": "05. invoke2 - Org1",
       "headers": [
         {
@@ -3350,7 +3703,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryManifest\",\n  \"args\": [\"85392100\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}\n"
+        "textBody": "{\n  \"functionName\": \"queryManifest\",\n  \"args\": [\"85392100\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}\n"
       },
       "headersType": "Form",
       "uri": {
@@ -3366,7 +3719,7 @@
         "path": "/query/channelforkvepdemo/kvepcc"
       },
       "id": "31b13340-5f62-4cba-99d3-9f50105c1256",
-      "lastModified": "2018-12-17T18:46:37.107+08:00",
+      "lastModified": "2018-12-18T11:15:04.895+08:00",
       "name": "06. query - Org1",
       "headers": [
         {
@@ -3393,50 +3746,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryManifest\",\n  \"args\": [\"85392101\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}\n"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "localhost:3414",
-        "path": "/query/channelforkvepdemo/kvepcc"
-      },
-      "id": "19ef45a6-d8bb-4d0b-b876-436b67869a02",
-      "lastModified": "2018-12-17T20:22:20.848+08:00",
-      "name": "06. query2 - Org1",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"kepListOrgs\",\n  \"args\": [\"85392100\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"kepListOrgs\",\n  \"args\": [\"85392100\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3452,7 +3762,7 @@
         "path": "/query/channelforkvepdemo/kvepcc"
       },
       "id": "a2e8a4bd-41e4-40fa-88c1-80c8e61ffe3f",
-      "lastModified": "2018-12-17T18:46:34.238+08:00",
+      "lastModified": "2018-12-18T11:16:10.645+08:00",
       "name": "07. kepListOrgs - Org1",
       "headers": [
         {
@@ -3479,7 +3789,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"kepAddOrgs\",\n  \"args\": [\"85392100\", \"Org1MSP\", \"Org2MSP\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"kepAddOrgs\",\n  \"args\": [\"85392100\", \"Org1MSP\", \"Org2MSP\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3495,7 +3805,7 @@
         "path": "/invoke/channelforkvepdemo/kvepcc"
       },
       "id": "5bf31a9c-3118-43b5-8e98-595212d9d1ec",
-      "lastModified": "2018-12-17T18:46:31.660+08:00",
+      "lastModified": "2018-12-18T11:16:30.343+08:00",
       "name": "08. kepAddOrg - Org1",
       "headers": [
         {
@@ -3522,7 +3832,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"kepDelOrgs\",\n  \"args\": [\"85392100\", \"Org2MSP\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"kepDelOrgs\",\n  \"args\": [\"85392100\", \"Org2MSP\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3538,7 +3848,7 @@
         "path": "/invoke/channelforkvepdemo/kvepcc"
       },
       "id": "84cc6942-87db-4f7b-b911-4488da26ccb6",
-      "lastModified": "2018-12-17T16:57:37.483+08:00",
+      "lastModified": "2018-12-18T11:22:31.458+08:00",
       "name": "09. kepDelOrgs - Org1",
       "headers": [
         {

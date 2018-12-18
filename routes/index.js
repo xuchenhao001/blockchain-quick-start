@@ -68,14 +68,14 @@ router.post('/channel/join', async function (req, res) {
   }
   logger.debug("Get channel name: \"" + channelName + "\"");
 
-  let ordererName = req.body.ordererName;
-  if (typeof ordererName === 'undefined') {
-    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get orderer name: \"" + ordererName + "\"");
+  logger.debug("Get orderers names: \"" + orderers + "\"");
 
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
@@ -95,7 +95,7 @@ router.post('/channel/join', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  let joinResult = await fabric.joinChannel(channelName, ordererName, orgName, peers);
+  let joinResult = await fabric.joinChannel(channelName, orderers, orgName, peers);
   logger.debug(joinResult);
   if (joinResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -236,14 +236,14 @@ router.post('/chaincode/instantiate', async function (req, res) {
     logger.debug("Get args: \"" + args + "\"");
   }
 
-  let ordererName = req.body.ordererName;
-  if (typeof ordererName === 'undefined') {
-    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get orderer name: \"" + ordererName + "\"");
+  logger.debug("Get orderers names: \"" + orderers + "\"");
 
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
@@ -275,8 +275,15 @@ router.post('/chaincode/instantiate', async function (req, res) {
     logger.debug("Get collection: " + collection)
   }
 
-  let instantiateResult = await fabric.instantiateChaincode(chaincodeName, chaincodeType,
-    chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers, endorsementPolicy, collection);
+  let useDiscoverService = req.body.useDiscoverService;
+  if (useDiscoverService) {
+    logger.debug("Get 'useDiscoverService', do request with discovery service")
+  } else {
+    logger.debug("Does not get parameter 'useDiscoverService', do request without discovery service")
+  }
+
+  let instantiateResult = await fabric.instantiateChaincode(chaincodeName, chaincodeType, chaincodeVersion,
+    channelName, functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
   logger.debug(instantiateResult);
   if (instantiateResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -308,14 +315,14 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get function name: \"" + functionName + "\"");
 
-  let ordererName = req.body.ordererName;
-  if (typeof ordererName === 'undefined') {
-    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get orderer name: \"" + ordererName + "\"");
+  logger.debug("Get orderers names: \"" + orderers + "\"");
 
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
@@ -341,8 +348,15 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
     logger.debug("Get transient: " + transient)
   }
 
+  let useDiscoverService = req.body.useDiscoverService;
+  if (useDiscoverService) {
+    logger.debug("Get 'useDiscoverService', do request with discovery service")
+  } else {
+    logger.debug("Does not get parameter 'useDiscoverService', do request without discovery service")
+  }
+
   let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName,
-    functionName, args, ordererName, orgName, peers, transient);
+    functionName, args, orderers, orgName, peers, transient, useDiscoverService);
   logger.debug(invokeResut);
   if (invokeResut[0]==='yes') {
     res.status(200).json({"result": "success"});
@@ -374,14 +388,14 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   }
   logger.debug("Get function name: \"" + functionName + "\"");
 
-  let ordererName = req.body.ordererName;
-  if (typeof ordererName === 'undefined') {
-    let errMessage = "Request Error, parameter \"ordererName\" doesn't exist";
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get orderer name: \"" + ordererName + "\"");
+  logger.debug("Get orderers names: \"" + orderers + "\"");
 
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
@@ -404,8 +418,15 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   // transient can be undefined
   let transient = req.body.transient;
 
+  let useDiscoverService = req.body.useDiscoverService;
+  if (useDiscoverService) {
+    logger.debug("Get 'useDiscoverService', do request with discovery service")
+  } else {
+    logger.debug("Does not get parameter 'useDiscoverService', do request without discovery service")
+  }
+
   let queryResult = await fabric.queryChaincode(chaincodeName, channelName,
-    functionName, args, ordererName, orgName, peers, transient);
+    functionName, args, orderers, orgName, peers, transient, useDiscoverService);
   logger.debug(queryResult);
   if (queryResult[0]===true) {
     res.status(200).json({"result": queryResult[1]});

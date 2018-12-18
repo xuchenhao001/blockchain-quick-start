@@ -61,7 +61,7 @@ let createChannel = async function (channelName, includeOrgNames, ordererName, o
 };
 
 
-let joinChannel = async function (channelName, ordererName, orgName, peers) {
+let joinChannel = async function (channelName, orderers, orgName, peers) {
   logger.debug('\n\n============ Join Channel start ============\n');
   let error_message = null;
 
@@ -72,7 +72,9 @@ let joinChannel = async function (channelName, ordererName, orgName, peers) {
 
   let channel = client.newChannel(channelName);
   // assign orderer to channel
-  channel.addOrderer(client.getOrderer(ordererName));
+  orderers.forEach(function (ordererName) {
+    channel.addOrderer(client.getOrderer(ordererName));
+  });
   // assign peers to channel
   peers.forEach(function (peerName) {
     channel.addPeer(client.getPeer(peerName));
@@ -119,11 +121,13 @@ let joinChannel = async function (channelName, ordererName, orgName, peers) {
     logger.info(message);
 
     // update anchor peer
-    let updateAnchorResult = await updateAnchorPeer(client, channelName, orgName, ordererName);
-    if (updateAnchorResult[0] === false) {
-      logger.error("Update anchor peer failed!");
-      return [false, updateAnchorResult[1]]
-    }
+    orderers.forEach(async function (ordererName) {
+      let updateAnchorResult = await updateAnchorPeer(client, channelName, orgName, ordererName);
+      if (updateAnchorResult[0] === false) {
+        logger.error("Update anchor peer failed!");
+        return [false, updateAnchorResult[1]]
+      }
+    });
 
     return [true, message];
   } else {

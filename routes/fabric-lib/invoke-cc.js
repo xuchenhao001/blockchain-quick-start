@@ -12,7 +12,7 @@ hfc.setLogger(logger);
 
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
-                                      ordererName, orgName, peers, transient) {
+                                      orderers, orgName, peers, transient, useDiscoverService) {
   logger.debug('\n\n============ Invoke chaincode on org \'' + orgName + '\' ============\n');
   let error_message = '';
   let tx_id_string = null;
@@ -24,13 +24,18 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 
     let channel = client.newChannel(channelName);
     // assign orderer to channel
-    channel.addOrderer(client.getOrderer(ordererName));
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
     // assign peers to channel
     peers.forEach(function (peerName) {
       channel.addPeer(client.getPeer(peerName));
     });
-    let asLocalhost = await helper.asLocalhost();
-    await channel.initialize({discover: true, asLocalhost: asLocalhost});
+    if (useDiscoverService) {
+      logger.debug("Got useDiscoverService, do request with service discovery");
+      let asLocalhost = await helper.asLocalhost();
+      await channel.initialize({discover: true, asLocalhost: asLocalhost});
+    }
 
     let tx_id = client.newTransactionID();
     tx_id_string = tx_id.getTransactionID();
@@ -172,7 +177,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 };
 
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
-                                     ordererName, orgName, peers, transient) {
+                                     orderers, orgName, peers, transient, useDiscoverService) {
   logger.debug('\n\n============ Query chaincode on org \'' + orgName + '\' ============\n');
   try {
     logger.debug("Load privateKey and signedCert");
@@ -181,7 +186,9 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
 
     let channel = client.newChannel(channelName);
     // assign orderer to channel
-    channel.addOrderer(client.getOrderer(ordererName));
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
     // assign peers to channel
     peers.forEach(function (peerName) {
       channel.addPeer(client.getPeer(peerName));
@@ -194,8 +201,11 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
     * But these codes indeed works.
     * */
 
-    // let asLocalhost = await helper.asLocalhost();
-    // await channel.initialize({discover: true, asLocalhost: asLocalhost});
+    if (useDiscoverService) {
+      logger.debug("Got useDiscoverService, do request with service discovery");
+      let asLocalhost = await helper.asLocalhost();
+      await channel.initialize({discover: true, asLocalhost: asLocalhost});
+    }
 
     let request = {
       chaincodeId: chaincodeName,

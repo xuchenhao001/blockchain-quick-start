@@ -121,7 +121,8 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
 
 
 let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
-                                          args, ordererName, orgName, peers, endorsementPolicy, collection) {
+                                          args, orderers, orgName, peers, endorsementPolicy, collection,
+                                          useDiscoverService) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = '';
@@ -133,13 +134,19 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
 
     let channel = client.newChannel(channelName);
     // assign orderer to channel
-    channel.addOrderer(client.getOrderer(ordererName));
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
     // assign peers to channel
     peers.forEach(function (peerName) {
       channel.addPeer(client.getPeer(peerName));
     });
-    let asLocalhost = await helper.asLocalhost();
-    await channel.initialize({discover: true, asLocalhost: asLocalhost});
+
+    if (useDiscoverService) {
+      logger.debug("Got useDiscoverService, do request with service discovery");
+      let asLocalhost = await helper.asLocalhost();
+      await channel.initialize({discover: true, asLocalhost: asLocalhost});
+    }
 
     let tx_id = client.newTransactionID(true); // Get an admin based transactionID
     // An admin based transactionID will

@@ -14,10 +14,10 @@ let createChannel = async function (channelName, includeOrgNames, ordererName, o
   return await channel.createChannel(channelName, includeOrgNames, ordererName, orgName);
 };
 
-let joinChannel = async function (channelName, ordererName, orgName, peers) {
+let joinChannel = async function (channelName, orderers, orgName, peers) {
   logger.debug('==================== JOIN CHANNEL ==================');
 
-  return await channel.joinChannel(channelName, ordererName, orgName, peers);
+  return await channel.joinChannel(channelName, orderers, orgName, peers);
 };
 
 let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
@@ -29,27 +29,28 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
 };
 
 let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
-                                           args, ordererName, orgName, peers, endorsementPolicy, collection) {
+                                           args, orderers, orgName, peers, endorsementPolicy, collection,
+                                           useDiscoverService) {
   logger.debug('==================== INSTANTIATE CHAINCODE ==================');
 
-  return await deployCC.instantiateChaincode(chaincodeName, chaincodeType,
-      chaincodeVersion, channelName, functionName, args, ordererName, orgName, peers, endorsementPolicy, collection);
+  return await deployCC.instantiateChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
+    args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
 };
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
-                                      ordererName, orgName, peers, transient) {
+                                      orderers, orgName, peers, transient, useDiscoverService) {
   logger.debug('==================== INVOKE ON CHAINCODE ==================');
 
   return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args,
-    ordererName, orgName, peers, transient);
+    orderers, orgName, peers, transient, useDiscoverService);
 };
 
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
-                                     ordererName, orgName, peers, transient) {
+                                     orderers, orgName, peers, transient, useDiscoverService) {
   logger.debug('==================== QUERY BY CHAINCODE ==================');
 
   return await invokeCC.queryChaincode(chaincodeName, channelName, functionName, args,
-    ordererName, orgName, peers, transient);
+    orderers, orgName, peers, transient, useDiscoverService);
 };
 
 exports.createChannel = createChannel;
