@@ -96,7 +96,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
               if (code !== 'VALID') {
                 error_message = util.format('The invoke chaincode transaction was invalid, code:%s', code);
                 logger.error(error_message);
-                reject(new Error(message));
+                reject(new Error(error_message));
               } else {
                 let message = 'The invoke chaincode transaction was valid.';
                 logger.info(message);

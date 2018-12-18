@@ -169,8 +169,7 @@ router.post('/chaincode/install', async function (req, res) {
 
   let localPath = req.body.localPath;
   if (localPath) {
-    logger.debug('Detected localPath, install from local path');
-    localPath = true
+    logger.debug('Detected localPath, install from local path: ' + localPath);
   }
 
   let installResult = await fabric.installChaincode(chaincode, chaincodeName, chaincodePath, chaincodeType,

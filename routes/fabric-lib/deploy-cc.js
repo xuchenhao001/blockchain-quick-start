@@ -50,6 +50,8 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
 
       helper.writeFile(path.join(process.env.GOPATH, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer)
     }
+  } else {
+    process.env.GOPATH = path.join(process.env.GOPATH, localPath);
   }
 
   try {

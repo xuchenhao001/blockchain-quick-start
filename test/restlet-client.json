@@ -3,6 +3,12 @@
   "version": 3,
   "nodes": [
     {
+      "type": "Project",
+      "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
+      "lastModified": "2018-12-17T20:22:30.221+08:00",
+      "name": "BlockchainQuickStart"
+    },
+    {
       "type": "Service",
       "id": "218439e9-0c5a-4a2e-9071-49ce39fd37fd",
       "lastModified": "2018-12-06T17:54:09.134+08:00",
@@ -570,12 +576,6 @@
       ],
       "metaInfo": {},
       "parentId": "218439e9-0c5a-4a2e-9071-49ce39fd37fd"
-    },
-    {
-      "type": "Project",
-      "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2018-12-15T16:46:13.555+08:00",
-      "name": "BlockchainQuickStart"
     },
     {
       "type": "Service",
@@ -2979,6 +2979,576 @@
       ],
       "metaInfo": {},
       "parentId": "25c9131a-e0ff-4fa8-a0c3-749b83d0e8cf"
+    },
+    {
+      "type": "Service",
+      "id": "b8cf65e2-798e-4f59-a631-3746ac1ab079",
+      "lastModified": "2018-12-11T14:19:13.941+08:00",
+      "name": "05. kvEndorsementPolicy",
+      "parentId": "11267e20-df40-4e22-bb82-b0cbe9bff7da"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channelforkvepdemo\",\n  \"includeOrgNames\": [\"Org1\", \"Org2\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/create"
+      },
+      "id": "da970d65-2f6d-4a69-a39c-49766952eb71",
+      "lastModified": "2018-12-11T14:08:41.613+08:00",
+      "name": "01. createChannel",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channelforkvepdemo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "e4b47d71-be49-48af-ad0b-eda9add6a021",
+      "lastModified": "2018-12-11T14:08:50.782+08:00",
+      "name": "02. joinChannel - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channelforkvepdemo\",\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "3f1bcd1e-88c0-4ae8-9b38-2916661b3c44",
+      "lastModified": "2018-12-11T14:08:54.212+08:00",
+      "name": "02. joinChannel - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"localPath\": \"chaincode/keyEndorsement\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincode\": \"\",\n  \"chaincodeName\": \"kvepcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "f1debbb6-dcfa-4eb6-8d68-e191e135e9cf",
+      "lastModified": "2018-12-17T18:47:10.149+08:00",
+      "name": "03. installChaincode - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"localPath\": \"chaincode/keyEndorsement\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincode\": \"\",\n  \"chaincodeName\": \"kvepcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "af9125b5-113e-43b6-8373-a41a981d3478",
+      "lastModified": "2018-12-17T18:46:53.399+08:00",
+      "name": "03. installChaincode - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 221,
+        "textBody": "{\n  \"chaincodeName\": \"kvepcc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforkvepdemo\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/instantiate"
+      },
+      "id": "3fcf230d-c47a-46e0-9309-60a59bba44d2",
+      "lastModified": "2018-12-17T18:46:58.214+08:00",
+      "name": "04. initCCWithEnPolicy",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 255,
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"masterBillNo\\\": \\\"85392100\\\", \\\"ata\\\": \\\"1540002600640\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"mark\\\": \\\"1\\\", \\\"measure\\\": \\\"34.2\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"pack\\\": \\\"精装\\\", \\\"packNo\\\": \\\"675\\\", \\\"shipper\\\": \\\"刘2浩\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channelforkvepdemo/kvepcc"
+      },
+      "id": "f12ddf78-0910-4ed4-ab46-0c0831b95cb5",
+      "lastModified": "2018-12-17T20:18:55.575+08:00",
+      "name": "05. invoke - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 255,
+        "textBody": "{\n  \"functionName\": \"uploadManifest\",\n  \"args\": [\"{\\\"masterBillNo\\\": \\\"85392101\\\", \\\"ata\\\": \\\"1540002600642\\\", \\\"atd\\\": \\\"1539581700924\\\", \\\"carrier\\\": \\\"张磊\\\", \\\"consignee\\\": \\\"赵娜\\\", \\\"despPort\\\": \\\"SNK356833\\\", \\\"despPortCode\\\": \\\"HK35643\\\", \\\"distinatePort\\\": \\\"大连海事港\\\", \\\"distinatePortCode\\\": \\\"DL3386843\\\", \\\"flightNo\\\": \\\"CFA33674\\\", \\\"freight\\\": \\\"支付宝\\\", \\\"fromPort\\\": \\\"大连港\\\", \\\"grossWeight\\\": \\\"3463.53\\\", \\\"languageIdentity\\\": \\\"1\\\", \\\"mark\\\": \\\"1\\\", \\\"measure\\\": \\\"34.2\\\", \\\"netWeight\\\": \\\"23.4\\\", \\\"pack\\\": \\\"精装\\\", \\\"packNo\\\": \\\"675\\\", \\\"shipper\\\": \\\"刘2浩\\\", \\\"toPort\\\": \\\"天津港\\\", \\\"toPortCode\\\": \\\"RJC348532\\\", \\\"weightCode\\\": \\\"千克\\\"}\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channelforkvepdemo/kvepcc"
+      },
+      "id": "ae5dbebc-f301-423b-a0ab-2053a3f1f782",
+      "lastModified": "2018-12-17T20:22:30.221+08:00",
+      "name": "05. invoke2 - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryManifest\",\n  \"args\": [\"85392100\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}\n"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channelforkvepdemo/kvepcc"
+      },
+      "id": "31b13340-5f62-4cba-99d3-9f50105c1256",
+      "lastModified": "2018-12-17T18:46:37.107+08:00",
+      "name": "06. query - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryManifest\",\n  \"args\": [\"85392101\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}\n"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channelforkvepdemo/kvepcc"
+      },
+      "id": "19ef45a6-d8bb-4d0b-b876-436b67869a02",
+      "lastModified": "2018-12-17T20:22:20.848+08:00",
+      "name": "06. query2 - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"kepListOrgs\",\n  \"args\": [\"85392100\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channelforkvepdemo/kvepcc"
+      },
+      "id": "a2e8a4bd-41e4-40fa-88c1-80c8e61ffe3f",
+      "lastModified": "2018-12-17T18:46:34.238+08:00",
+      "name": "07. kepListOrgs - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"kepAddOrgs\",\n  \"args\": [\"85392100\", \"Org1MSP\", \"Org2MSP\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channelforkvepdemo/kvepcc"
+      },
+      "id": "5bf31a9c-3118-43b5-8e98-595212d9d1ec",
+      "lastModified": "2018-12-17T18:46:31.660+08:00",
+      "name": "08. kepAddOrg - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"kepDelOrgs\",\n  \"args\": [\"85392100\", \"Org2MSP\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channelforkvepdemo/kvepcc"
+      },
+      "id": "84cc6942-87db-4f7b-b911-4488da26ccb6",
+      "lastModified": "2018-12-17T16:57:37.483+08:00",
+      "name": "09. kepDelOrgs - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "b8cf65e2-798e-4f59-a631-3746ac1ab079"
     }
   ]
 }
