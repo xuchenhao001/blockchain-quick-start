@@ -5,6 +5,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric/bccsp/factory"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
 	"strconv"
@@ -15,36 +17,43 @@ var logger = shim.NewLogger("chaincode")
 
 // Define the Smart Contract structure
 type SmartContract struct {
+	bccspInst bccsp.BCCSP
 }
 
 type R_Err struct {
 	Reason string `json:"reason"`
 }
 
-type Manifest struct {
-	Shipper           string `json:"shipper"`
-	Consignee         string `json:"consignee"`
-	FromPort          string `json:"fromPort"`
-	DespPortCode      string `json:"despPortCode"`
-	DespPort          string `json:"despPort"`
-	Freight           string `json:"freight"`
-	DistinatePortCode string `json:"distinatePortCode"`
-	MasterBillNo      string `json:"masterBillNo"`
-	ToPort            string `json:"toPort"`
-	DistinatePort     string `json:"distinatePort"`
-	Pack              string `json:"pack"`
-	LanguageIdentity  string `json:"languageIdentity"`
-	Ata               string `json:"ata"`
-	Atd               string `json:"atd"`
-	Carrier           string `json:"carrier"`
-	GrossWeight       string `json:"grossWeight"`
-	NetWeight         string `json:"netWeight"`
-	FlightNo          string `json:"flightNo"`
-	Measure           string `json:"measure"`
-	ToPortCode        string `json:"toPortCode"`
-	Mark              string `json:"mark"`
-	PackNo            string `json:"packNo"`
-	WeightCode        string `json:"weightCode"`
+type GoodsInfos struct {
+	UnitPrice        float32 `json:"unitPrice"`
+	Amount           float32 `json:"amount"`
+	Quantity         float32 `json:"quantity"`
+	DelDate          string  `json:"delDate"`
+	QuantityCode     string  `json:"quantityCode"`
+	GoodsModel       string  `json:"goodsModel"`
+	GoodNo           string  `json:"goodNo"`
+	PriceCode        string  `json:"priceCode"`
+	GoodsName        string  `json:"goodsName"`
+	GoodsDescription string  `json:"goodsDescription"`
+}
+
+type PO struct {
+	Seller        string     `json:"seller"`
+	Consignee     string     `json:"consignee"`
+	Shipment      string     `json:"shipment"`
+	Destination   string     `json:"destination"`
+	InsureInfo    string     `json:"insureInfo"`
+	TradeTerms    string     `json:"tradeTerms"`
+	TotalCurrency string     `json:"totalCurrency"`
+	Buyer         string     `json:"buyer"`
+	TrafMode      string     `json:"trafMode"`
+	GoodsInfos    GoodsInfos `json:"goodsInfos"`
+	TotalAmount   float32    `json:"totalAmount"`
+	Carrier       string     `json:"carrier"`
+	PoNo          string     `json:"poNo"`
+	Sender        string     `json:"sender"`
+	PoDate        string     `json:"poDate"`
+	TradeCountry  string     `json:"tradeCountry"`
 }
 
 func (s *SmartContract) returnError(reason string) sc.Response {
@@ -66,7 +75,20 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 
 	// Retrieve the requested Smart Contract function and arguments
 	function, args := APIstub.GetFunctionAndParameters()
+
 	// Route to the appropriate handler function to interact with the ledger appropriately
+	// chaincode A - upload manifest
+	if function == "uploadPO" {
+		return s.uploadPO(APIstub, args)
+	} else if function == "queryPO" {
+		return s.queryPO(APIstub, args)
+	} else if function == "queryPOHistory" {
+		return s.queryPOHistory(APIstub, args)
+	} else if function == "richQueryPO" {
+		return s.richQueryPO(APIstub, args)
+	} else
+
+	// chaincode B - upload manifest
 	if function == "uploadManifest" {
 		return s.uploadManifest(APIstub, args)
 	} else if function == "queryManifest" {
@@ -75,31 +97,127 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryManifestHistory(APIstub, args)
 	} else if function == "richQueryManifest" {
 		return s.richQueryManifest(APIstub, args)
+	} else
+
+	// chaincode Encrypt
+	if function == "uploadPOEncAll" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[ENCKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
+		}
+		return s.uploadPOEncrypt(APIstub, args, tMap[ENCKEY], tMap[IV], false, false)
+
+	} else if function == "queryPODecAll" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[DECKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
+		}
+		return s.queryPODecrypt(APIstub, args, tMap[DECKEY], tMap[IV], false, false)
+
+	} else if function == "uploadPOEncPart" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[ENCKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
+		}
+		return s.uploadPOEncrypt(APIstub, args, tMap[ENCKEY], tMap[IV], true, false)
+
+	} else if function == "queryPODecPart" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[DECKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
+		}
+		return s.queryPODecrypt(APIstub, args, tMap[DECKEY], tMap[IV], true, false)
+	} else if function == "uploadPOEncPartSign" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[ENCKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
+		} else if _, in := tMap[SIGKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient key %s", SIGKEY))
+		}
+		return s.uploadPOEncrypt(APIstub, args, tMap[ENCKEY], tMap[SIGKEY], true, true)
+
+	} else if function == "queryPODecPartVerify" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[DECKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
+		} else if _, in := tMap[VERKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient key %s", VERKEY))
+		}
+		return s.queryPODecrypt(APIstub, args, tMap[DECKEY], tMap[VERKEY], true, true)
+	} else
+
+	// key level endorsement policy
+	if function == "kepAddOrgs" {
+		return s.kepAddOrgs(APIstub, args)
+	} else if function == "kepDelOrgs" {
+		return s.kepDelOrgs(APIstub, args)
+	} else if function == "kepListOrgs" {
+		return s.kepListOrgs(APIstub, args)
+	} else if function == "delKEP" {
+		return s.delKEP(APIstub, args)
+	} else
+
+	// private data
+	if function == "uploadPOWithPrivate" {
+		return s.uploadPOWithPrivate(APIstub, args)
+	} else if function == "queryPOPublic" {
+		return s.queryPOPublic(APIstub, args)
+	} else if function == "queryPOPrivate" {
+		return s.queryPOPrivate(APIstub, args)
 	}
 
 	return s.returnError("Invalid Smart Contract function name.")
 }
 
-func (s *SmartContract) validate(manifest Manifest) bool {
-
-	//TODO define some validate conditions
+func (s *SmartContract) validatePO(po PO) bool {
+	if po.GoodsInfos.UnitPrice <= 0 {
+		return false
+	}
+	if po.GoodsInfos.Quantity <= 0 {
+		return false
+	}
+	if po.GoodsInfos.Amount <= 0 {
+		return false
+	}
+	if po.GoodsInfos.UnitPrice*po.GoodsInfos.Quantity != po.GoodsInfos.Amount {
+		return false
+	}
 	return true
 }
 
-func (s *SmartContract) writeChain(APIstub shim.ChaincodeStubInterface, manifest Manifest) error {
-	manifestAsBytes, err := json.Marshal(manifest)
+func (s *SmartContract) writeChainPO(APIstub shim.ChaincodeStubInterface, po PO) error {
+	poAsBytes, err := json.Marshal(po)
 	if err != nil {
 		return err
 	}
-	logger.Debug("Write chain: " + string(manifestAsBytes))
-	err = APIstub.PutState(manifest.MasterBillNo, manifestAsBytes)
+	logger.Debug("Write PO on chain: " + string(poAsBytes))
+	poKey, err := APIstub.CreateCompositeKey("PO@", []string{po.PoNo})
+	err = APIstub.PutState(poKey, poAsBytes)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *SmartContract) uploadManifest(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) uploadPO(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 1 {
 		return s.returnError("参数数量不正确")
@@ -107,44 +225,61 @@ func (s *SmartContract) uploadManifest(APIstub shim.ChaincodeStubInterface, args
 
 	logger.Debug("获取请求参数: " + args[0])
 
-	manifestAsBytes := []byte(args[0])
-	var manifest Manifest
-	err := json.Unmarshal(manifestAsBytes, &manifest)
+	poAsBytes := []byte(args[0])
+	var po PO
+	err := json.Unmarshal(poAsBytes, &po)
 	if err != nil {
-		return s.returnError("主舱单格式错误: " + err.Error())
+		return s.returnError("PO单格式错误: " + err.Error())
 	}
 
-	// 验证主舱单是否合法
-	if !s.validate(manifest) {
-		return s.returnError("主舱单不合法")
+	// 验证PO单是否合法
+	if !s.validatePO(po) {
+		return s.returnError("PO单不合法")
 	}
 
 	// 数据上链
-	err = s.writeChain(APIstub, manifest)
+	err = s.writeChainPO(APIstub, po)
 	if err != nil {
-		return s.returnError("主舱单上链失败: " + err.Error())
+		return s.returnError("PO单上链失败: " + err.Error())
 	}
 
-	return shim.Success(manifestAsBytes)
+	return shim.Success(poAsBytes)
 
 }
 
-func (s *SmartContract) queryManifest(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) queryPO(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 1 {
 		return s.returnError("参数数量不正确")
 	}
 
-	masterBillNo := args[0]
-	logger.Debug("Query on chain: " + masterBillNo)
-	result, err := APIstub.GetState(masterBillNo)
+	po := args[0]
+	logger.Debug("Query PO on chain: " + po)
+	poKey, err := APIstub.CreateCompositeKey("PO@", []string{po})
+	result, err := APIstub.GetState(poKey)
 	if err != nil {
-		return s.returnError("主舱单查询失败" + err.Error())
+		return s.returnError("po单查询失败" + err.Error())
 	}
 	return shim.Success(result)
 }
 
-func (s *SmartContract) richQueryManifest(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) queryPOHistory(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return s.returnError("参数数量不正确")
+	}
+
+	po := args[0]
+	logger.Debug("Query on chain: " + po)
+	poKey, err := APIstub.CreateCompositeKey("PO@", []string{po})
+	result, err := s.queryHistoryAsset(APIstub, poKey)
+	if err != nil {
+		return s.returnError("po单查询失败" + err.Error())
+	}
+	return shim.Success(result)
+}
+
+func (s *SmartContract) richQueryPO(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) == 1 {
 
@@ -177,21 +312,6 @@ func (s *SmartContract) richQueryManifest(APIstub shim.ChaincodeStubInterface, a
 	} else {
 		return s.returnError("参数数量不正确")
 	}
-}
-
-func (s *SmartContract) queryManifestHistory(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-
-	if len(args) != 1 {
-		return s.returnError("参数数量不正确")
-	}
-
-	masterBillNo := args[0]
-	logger.Debug("Query history on chain: " + masterBillNo)
-	result, err := s.queryHistoryAsset(APIstub, masterBillNo)
-	if err != nil {
-		return s.returnError("主舱单查询失败" + err.Error())
-	}
-	return shim.Success(result)
 }
 
 func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key string) ([]byte, error) {
@@ -348,9 +468,10 @@ func addPaginationMetadataToQueryResults(buffer *bytes.Buffer, responseMetadata 
 
 // The main function is only relevant in unit test mode. Only included here for completeness.
 func main() {
+	factory.InitFactories(nil)
 
 	// Create a new Smart Contract
-	err := shim.Start(new(SmartContract))
+	err := shim.Start(&SmartContract{factory.GetDefault()})
 	if err != nil {
 		logger.Error("Error creating new Smart Contract: %s", err)
 	}

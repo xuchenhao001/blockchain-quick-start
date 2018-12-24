@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2018-12-19T17:36:30.964+08:00",
+      "lastModified": "2018-12-24T21:42:07.958+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -3862,9 +3862,10 @@
     },
     {
       "type": "Service",
-      "id": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c",
-      "lastModified": "2018-12-19T11:25:16.649+08:00",
-      "name": "07. chaincodeCallChaincode",
+      "description": "",
+      "id": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1",
+      "lastModified": "2018-12-24T20:04:12.410+08:00",
+      "name": "08. allInOneDemo",
       "parentId": "11267e20-df40-4e22-bb82-b0cbe9bff7da"
     },
     {
@@ -3882,7 +3883,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforcallcc\",\n  \"includeOrgNames\": [\"Org1\", \"Org2\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\"\n}"
+        "textBody": "{\n  \"channelName\": \"channel12\",\n  \"includeOrgNames\": [\"Org1\", \"Org2\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\"\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3897,9 +3898,9 @@
         "host": "localhost:3414",
         "path": "/channel/create"
       },
-      "id": "f2adbe40-f564-44c7-b1c5-68bdd3238524",
-      "lastModified": "2018-12-19T11:28:00.604+08:00",
-      "name": "01. createChannel",
+      "id": "1a8c26c4-0abf-4c71-86a6-68daee45314b",
+      "lastModified": "2018-12-24T20:06:10.143+08:00",
+      "name": "01. createChannel12",
       "headers": [
         {
           "enabled": true,
@@ -3908,7 +3909,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
     },
     {
       "type": "Request",
@@ -3925,7 +3926,50 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforcallcc\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channel123\",\n  \"includeOrgNames\": [\"Org1\", \"Org2\", \"Org3\"],\n  \"ordererName\": \"orderer.example.com\",\n  \"orgName\": \"Org1\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/create"
+      },
+      "id": "af0929b7-724a-48d8-9acd-5cd0f1a1a9aa",
+      "lastModified": "2018-12-24T20:06:26.433+08:00",
+      "name": "01. createChannel123",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3940,9 +3984,9 @@
         "host": "localhost:3414",
         "path": "/channel/join"
       },
-      "id": "aebf80cf-19ee-49eb-aba0-de823eba091d",
-      "lastModified": "2018-12-19T11:28:07.773+08:00",
-      "name": "02. joinChannel - Org1",
+      "id": "a047ea85-c59d-4512-957c-f69ddb62be51",
+      "lastModified": "2018-12-24T20:06:36.809+08:00",
+      "name": "02. joinChannel12 - Org1",
       "headers": [
         {
           "enabled": true,
@@ -3951,7 +3995,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
     },
     {
       "type": "Request",
@@ -3968,7 +4012,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"channelforcallcc\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -3983,9 +4027,9 @@
         "host": "localhost:3414",
         "path": "/channel/join"
       },
-      "id": "597bf373-d7db-41ae-8193-ad2fd325763d",
-      "lastModified": "2018-12-19T11:28:11.162+08:00",
-      "name": "02. joinChannel - Org2",
+      "id": "84dbcffb-b448-44a4-b746-f6ec579237e3",
+      "lastModified": "2018-12-24T20:06:39.962+08:00",
+      "name": "02. joinChannel12 - Org2",
       "headers": [
         {
           "enabled": true,
@@ -3994,7 +4038,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
     },
     {
       "type": "Request",
@@ -4011,7 +4055,136 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincode\": \"Ly8gV3JpdHRlbiBieSBYdSBDaGVuIEhhbwpwYWNrYWdlIG1haW4KCmltcG9ydCAoCgkiYnl0ZXMiCgkiZW5jb2RpbmcvanNvbiIKCSJmbXQiCgkiZ2l0aHViLmNvbS9oeXBlcmxlZGdlci9mYWJyaWMvY29yZS9jaGFpbmNvZGUvc2hpbSIKCXNjICJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9wcm90b3MvcGVlciIKCSJzdHJjb252IgoJInRpbWUiCikKCnZhciBsb2dnZXIgPSBzaGltLk5ld0xvZ2dlcigiY2hhaW5jb2RlIikKCi8vIERlZmluZSB0aGUgU21hcnQgQ29udHJhY3Qgc3RydWN0dXJlCnR5cGUgU21hcnRDb250cmFjdCBzdHJ1Y3Qgewp9Cgp0eXBlIFJfRXJyIHN0cnVjdCB7CglSZWFzb24gc3RyaW5nIGBqc29uOiJyZWFzb24iYAp9Cgp0eXBlIEdvb2RzSW5mb3Mgc3RydWN0IHsKCVVuaXRQcmljZSAgICAgICAgZmxvYXQzMiBganNvbjoidW5pdFByaWNlImAKCUFtb3VudCAgICAgICAgICAgZmxvYXQzMiBganNvbjoiYW1vdW50ImAKCVF1YW50aXR5ICAgICAgICAgZmxvYXQzMiBganNvbjoicXVhbnRpdHkiYAoJRGVsRGF0ZSAgICAgICAgICBzdHJpbmcgIGBqc29uOiJkZWxEYXRlImAKCVF1YW50aXR5Q29kZSAgICAgc3RyaW5nICBganNvbjoicXVhbnRpdHlDb2RlImAKCUdvb2RzTW9kZWwgICAgICAgc3RyaW5nICBganNvbjoiZ29vZHNNb2RlbCJgCglHb29kTm8gICAgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RObyJgCglQcmljZUNvZGUgICAgICAgIHN0cmluZyAgYGpzb246InByaWNlQ29kZSJgCglHb29kc05hbWUgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RzTmFtZSJgCglHb29kc0Rlc2NyaXB0aW9uIHN0cmluZyAgYGpzb246Imdvb2RzRGVzY3JpcHRpb24iYAp9Cgp0eXBlIFBPIHN0cnVjdCB7CglTZWxsZXIgICAgICAgIHN0cmluZyAgICAgYGpzb246InNlbGxlciJgCglDb25zaWduZWUgICAgIHN0cmluZyAgICAgYGpzb246ImNvbnNpZ25lZSJgCglTaGlwbWVudCAgICAgIHN0cmluZyAgICAgYGpzb246InNoaXBtZW50ImAKCURlc3RpbmF0aW9uICAgc3RyaW5nICAgICBganNvbjoiZGVzdGluYXRpb24iYAoJSW5zdXJlSW5mbyAgICBzdHJpbmcgICAgIGBqc29uOiJpbnN1cmVJbmZvImAKCVRyYWRlVGVybXMgICAgc3RyaW5nICAgICBganNvbjoidHJhZGVUZXJtcyJgCglUb3RhbEN1cnJlbmN5IHN0cmluZyAgICAgYGpzb246InRvdGFsQ3VycmVuY3kiYAoJQnV5ZXIgICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJidXllciJgCglUcmFmTW9kZSAgICAgIHN0cmluZyAgICAgYGpzb246InRyYWZNb2RlImAKCUdvb2RzSW5mb3MgICAgR29vZHNJbmZvcyBganNvbjoiZ29vZHNJbmZvcyJgCglUb3RhbEFtb3VudCAgIGZsb2F0MzIgICAgYGpzb246InRvdGFsQW1vdW50ImAKCUNhcnJpZXIgICAgICAgc3RyaW5nICAgICBganNvbjoiY2FycmllciJgCglQb05vICAgICAgICAgIHN0cmluZyAgICAgYGpzb246InBvTm8iYAoJU2VuZGVyICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJzZW5kZXIiYAoJUG9EYXRlICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJwb0RhdGUiYAoJVHJhZGVDb3VudHJ5ICBzdHJpbmcgICAgIGBqc29uOiJ0cmFkZUNvdW50cnkiYAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZXR1cm5FcnJvcihyZWFzb24gc3RyaW5nKSBzYy5SZXNwb25zZSB7CgoJdmFyIHJlIFJfRXJyCgoJcmUuUmVhc29uID0gcmVhc29uCglsb2dnZXIuRXJyb3IocmUuUmVhc29uKQoJcmVBc0J5dGVzLCBfIDo9IGpzb24uTWFyc2hhbChyZSkKCglyZXR1cm4gc2hpbS5TdWNjZXNzKHJlQXNCeXRlcykKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgSW5pdChBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIEludm9rZShBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoKCS8vIFJldHJpZXZlIHRoZSByZXF1ZXN0ZWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gYW5kIGFyZ3VtZW50cwoJZnVuY3Rpb24sIGFyZ3MgOj0gQVBJc3R1Yi5HZXRGdW5jdGlvbkFuZFBhcmFtZXRlcnMoKQoJLy8gUm91dGUgdG8gdGhlIGFwcHJvcHJpYXRlIGhhbmRsZXIgZnVuY3Rpb24gdG8gaW50ZXJhY3Qgd2l0aCB0aGUgbGVkZ2VyIGFwcHJvcHJpYXRlbHkKCWlmIGZ1bmN0aW9uID09ICJ1cGxvYWRQTyIgewoJCXJldHVybiBzLnVwbG9hZFBPKEFQSXN0dWIsIGFyZ3MpCgl9IGVsc2UgaWYgZnVuY3Rpb24gPT0gInF1ZXJ5UE8iIHsKCQlyZXR1cm4gcy5xdWVyeVBPKEFQSXN0dWIsIGFyZ3MpCgl9IGVsc2UgaWYgZnVuY3Rpb24gPT0gInF1ZXJ5UE9IaXN0b3J5IiB7CgkJcmV0dXJuIHMucXVlcnlQT0hpc3RvcnkoQVBJc3R1YiwgYXJncykKCX0gZWxzZSBpZiBmdW5jdGlvbiA9PSAicmljaFF1ZXJ5UE8iIHsKCQlyZXR1cm4gcy5yaWNoUXVlcnlQTyhBUElzdHViLCBhcmdzKQoJfQoKCXJldHVybiBzLnJldHVybkVycm9yKCJJbnZhbGlkIFNtYXJ0IENvbnRyYWN0IGZ1bmN0aW9uIG5hbWUuIikKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgdmFsaWRhdGUocG8gUE8pIGJvb2wgewoJaWYgcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UgPD0gMCB7CgkJcmV0dXJuIGZhbHNlCgl9CglpZiBwby5Hb29kc0luZm9zLlF1YW50aXR5IDw9IDAgewoJCXJldHVybiBmYWxzZQoJfQoJaWYgcG8uR29vZHNJbmZvcy5BbW91bnQgPD0gMCB7CgkJcmV0dXJuIGZhbHNlCgl9CglpZiBwby5Hb29kc0luZm9zLlVuaXRQcmljZSpwby5Hb29kc0luZm9zLlF1YW50aXR5ICE9IHBvLkdvb2RzSW5mb3MuQW1vdW50IHsKCQlyZXR1cm4gZmFsc2UKCX0KCXJldHVybiB0cnVlCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIHdyaXRlQ2hhaW4oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIHBvIFBPKSBlcnJvciB7Cglwb0FzQnl0ZXMsIGVyciA6PSBqc29uLk1hcnNoYWwocG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gZXJyCgl9Cglsb2dnZXIuRGVidWcoIldyaXRlIGNoYWluOiAiICsgc3RyaW5nKHBvQXNCeXRlcykpCgllcnIgPSBBUElzdHViLlB1dFN0YXRlKHBvLlBvTm8sIHBvQXNCeXRlcykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCXJldHVybiBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgdXBsb2FkUE8oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHNjLlJlc3BvbnNlIHsKCglpZiBsZW4oYXJncykgIT0gMSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIuWPguaVsOaVsOmHj+S4jeato+ehriIpCgl9CgoJbG9nZ2VyLkRlYnVnKCLojrflj5bor7fmsYLlj4LmlbA6ICIgKyBhcmdzWzBdKQoKCXBvQXNCeXRlcyA6PSBbXWJ5dGUoYXJnc1swXSkKCXZhciBwbyBQTwoJZXJyIDo9IGpzb24uVW5tYXJzaGFsKHBvQXNCeXRlcywgJnBvKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5qC85byP6ZSZ6K+vOiAiICsgZXJyLkVycm9yKCkpCgl9CgoJLy8g6aqM6K+BUE/ljZXmmK/lkKblkIjms5UKCWlmICFzLnZhbGlkYXRlKHBvKSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5LiN5ZCI5rOVIikKCX0KCgkvLyDmlbDmja7kuIrpk74KCWVyciA9IHMud3JpdGVDaGFpbihBUElzdHViLCBwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJQT+WNleS4iumTvuWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoKCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGVzKQoKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcXVlcnlQTyhBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgYXJncyBbXXN0cmluZykgc2MuUmVzcG9uc2UgewoKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigi5Y+C5pWw5pWw6YeP5LiN5q2j56GuIikKCX0KCglwbyA6PSBhcmdzWzBdCglsb2dnZXIuRGVidWcoIlF1ZXJ5IG9uIGNoYWluOiAiICsgcG8pCglyZXN1bHQsIGVyciA6PSBBUElzdHViLkdldFN0YXRlKHBvKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoInBv5Y2V5p+l6K+i5aSx6LSlIiArIGVyci5FcnJvcigpKQoJfQoJcmV0dXJuIHNoaW0uU3VjY2VzcyhyZXN1bHQpCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIHF1ZXJ5UE9IaXN0b3J5KEFQSXN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlLCBhcmdzIFtdc3RyaW5nKSBzYy5SZXNwb25zZSB7CgoJaWYgbGVuKGFyZ3MpICE9IDEgewoJCXJldHVybiBzLnJldHVybkVycm9yKCLlj4LmlbDmlbDph4/kuI3mraPnoa4iKQoJfQoKCXBvIDo9IGFyZ3NbMF0KCWxvZ2dlci5EZWJ1ZygiUXVlcnkgb24gY2hhaW46ICIgKyBwbykKCXJlc3VsdCwgZXJyIDo9IHMucXVlcnlIaXN0b3J5QXNzZXQoQVBJc3R1YiwgcG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigicG/ljZXmn6Xor6LlpLHotKUiICsgZXJyLkVycm9yKCkpCgl9CglyZXR1cm4gc2hpbS5TdWNjZXNzKHJlc3VsdCkKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcmljaFF1ZXJ5UE8oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHNjLlJlc3BvbnNlIHsKCglpZiBsZW4oYXJncykgPT0gMSB7CgoJCS8vIHJpY2ggcXVlcnkgd2l0aG91dCBwYWdpbmF0aW9uCgkJcXVlcnlTdHJpbmcgOj0gYXJnc1swXQoJCWxvZ2dlci5EZWJ1ZygiUmljaCBxdWVyeSBvbiBjaGFpbjogIiArIHF1ZXJ5U3RyaW5nKQoJCXJlc3VsdCwgZXJyIDo9IHMucmljaFF1ZXJ5KEFQSXN0dWIsIHF1ZXJ5U3RyaW5nKQoJCWlmIGVyciAhPSBuaWwgewoJCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigiUmljaCBxdWVyeSBmYWlsZWQ6ICIgKyBlcnIuRXJyb3IoKSkKCQl9CgkJcmV0dXJuIHNoaW0uU3VjY2VzcyhyZXN1bHQpCgoJfSBlbHNlIGlmIGxlbihhcmdzKSA9PSAzIHsKCgkJLy8gcmljaCBxdWVyeSB3aXRoIHBhZ2luYXRpb24KCQlxdWVyeVN0cmluZyA6PSBhcmdzWzBdCgkJcGFnZVNpemUsIGVyciA6PSBzdHJjb252LlBhcnNlSW50KGFyZ3NbMV0sIDEwLCAzMikKCQlpZiBlcnIgIT0gbmlsIHsKCQkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIkVycm9yIGNvbnZlcnQgYXJnIDIgdG8gaW50MzI6ICIgKyBlcnIuRXJyb3IoKSkKCQl9CgkJYm9va21hcmsgOj0gYXJnc1syXQoJCWxvZ2dlci5EZWJ1Z2YoIlJpY2ggcXVlcnkgJXMgd2l0aCBwYWdpbmF0aW9uICggcGFnZSBzaXplICVzLCBib29rbWFyayAlcyApIiwKCQkJcXVlcnlTdHJpbmcsIHBhZ2VTaXplLCBib29rbWFyaykKCQlyZXN1bHQsIGVyciA6PSBzLnJpY2hRdWVyeVdpdGhQYWdpbmF0aW9uKEFQSXN0dWIsIHF1ZXJ5U3RyaW5nLCBpbnQzMihwYWdlU2l6ZSksIGJvb2ttYXJrKQoJCWlmIGVyciAhPSBuaWwgewoJCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigiUmljaCBxdWVyeSBmYWlsZWQ6ICIgKyBlcnIuRXJyb3IoKSkKCQl9CgkJcmV0dXJuIHNoaW0uU3VjY2VzcyhyZXN1bHQpCgoJfSBlbHNlIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigi5Y+C5pWw5pWw6YeP5LiN5q2j56GuIikKCX0KfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcXVlcnlIaXN0b3J5QXNzZXQoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGtleSBzdHJpbmcpIChbXWJ5dGUsIGVycm9yKSB7CglyZXN1bHRzSXRlcmF0b3IsIGVyciA6PSBzdHViLkdldEhpc3RvcnlGb3JLZXkoa2V5KQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CglkZWZlciByZXN1bHRzSXRlcmF0b3IuQ2xvc2UoKQoKCS8vIGJ1ZmZlciBpcyBhIEpTT04gYXJyYXkgY29udGFpbmluZyBoaXN0b3JpYyB2YWx1ZXMgZm9yIHRoZSBtYXJibGUKCXZhciBidWZmZXIgYnl0ZXMuQnVmZmVyCglidWZmZXIuV3JpdGVTdHJpbmcoIlsiKQoKCWJBcnJheU1lbWJlckFscmVhZHlXcml0dGVuIDo9IGZhbHNlCglmb3IgcmVzdWx0c0l0ZXJhdG9yLkhhc05leHQoKSB7CgkJcmVzcG9uc2UsIGVyciA6PSByZXN1bHRzSXRlcmF0b3IuTmV4dCgpCgkJaWYgZXJyICE9IG5pbCB7CgkJCXJldHVybiBuaWwsIGVycgoJCX0KCQkvLyBBZGQgYSBjb21tYSBiZWZvcmUgYXJyYXkgbWVtYmVycywgc3VwcHJlc3MgaXQgZm9yIHRoZSBmaXJzdCBhcnJheSBtZW1iZXIKCQlpZiBiQXJyYXlNZW1iZXJBbHJlYWR5V3JpdHRlbiA9PSB0cnVlIHsKCQkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIikKCQl9CgkJYnVmZmVyLldyaXRlU3RyaW5nKCJ7XCJUeElkXCI6IikKCQlidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCQlidWZmZXIuV3JpdGVTdHJpbmcocmVzcG9uc2UuVHhJZCkKCQlidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCgkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIFwiVmFsdWVcIjoiKQoJCS8vIGlmIGl0IHdhcyBhIGRlbGV0ZSBvcGVyYXRpb24gb24gZ2l2ZW4ga2V5LCB0aGVuIHdlIG5lZWQgdG8gc2V0IHRoZQoJCS8vY29ycmVzcG9uZGluZyB2YWx1ZSBudWxsLiBFbHNlLCB3ZSB3aWxsIHdyaXRlIHRoZSByZXNwb25zZS5WYWx1ZQoJCS8vYXMtaXMgKGFzIHRoZSBWYWx1ZSBpdHNlbGYgYSBKU09OIG1hcmJsZSkKCQlpZiByZXNwb25zZS5Jc0RlbGV0ZSB7CgkJCWJ1ZmZlci5Xcml0ZVN0cmluZygibnVsbCIpCgkJfSBlbHNlIHsKCQkJYnVmZmVyLldyaXRlU3RyaW5nKHN0cmluZyhyZXNwb25zZS5WYWx1ZSkpCgkJfQoKCQlidWZmZXIuV3JpdGVTdHJpbmcoIiwgXCJUaW1lc3RhbXBcIjoiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZyh0aW1lLlVuaXgocmVzcG9uc2UuVGltZXN0YW1wLlNlY29uZHMsIGludDY0KHJlc3BvbnNlLlRpbWVzdGFtcC5OYW5vcykpLlN0cmluZygpKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoKCQlidWZmZXIuV3JpdGVTdHJpbmcoIiwgXCJJc0RlbGV0ZVwiOiIpCgkJYnVmZmVyLldyaXRlU3RyaW5nKCJcIiIpCgkJYnVmZmVyLldyaXRlU3RyaW5nKHN0cmNvbnYuRm9ybWF0Qm9vbChyZXNwb25zZS5Jc0RlbGV0ZSkpCgkJYnVmZmVyLldyaXRlU3RyaW5nKCJcIiIpCgoJCWJ1ZmZlci5Xcml0ZVN0cmluZygifSIpCgkJYkFycmF5TWVtYmVyQWxyZWFkeVdyaXR0ZW4gPSB0cnVlCgl9CglidWZmZXIuV3JpdGVTdHJpbmcoIl0iKQoKCWxvZ2dlci5EZWJ1ZygiLSBnZXRIaXN0b3J5IHJldHVybmluZzpcbiVzXG4iLCBidWZmZXIuU3RyaW5nKCkpCgoJcmV0dXJuIGJ1ZmZlci5CeXRlcygpLCBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcmljaFF1ZXJ5KHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlLCBxdWVyeVN0cmluZyBzdHJpbmcpKFtdIGJ5dGUsIGVycm9yKSB7CgoJbG9nZ2VyLkRlYnVnKCJHZXQgcmljaCBxdWVyeSByZXF1ZXN0OiBcbiVzXG4iLCBxdWVyeVN0cmluZykKCglyZXN1bHRzSXRlcmF0b3IsIGVyciA6PSBzdHViLkdldFF1ZXJ5UmVzdWx0KHF1ZXJ5U3RyaW5nKQoJZGVmZXIgcmVzdWx0c0l0ZXJhdG9yLkNsb3NlKCkKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBuaWwsIGVycgoJfQoKCWJ1ZmZlciwgZXJyIDo9IGNvbnN0cnVjdFF1ZXJ5UmVzcG9uc2VGcm9tSXRlcmF0b3IocmVzdWx0c0l0ZXJhdG9yKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJcmV0dXJuIGJ1ZmZlci5CeXRlcygpLCBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcmljaFF1ZXJ5V2l0aFBhZ2luYXRpb24oc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsCglxdWVyeVN0cmluZyBzdHJpbmcsIHBhZ2VTaXplIGludDMyLCBib29rbWFyayBzdHJpbmcpIChbXSBieXRlLCBlcnJvcikgewoKCXF1ZXJ5UmVzdWx0cywgZXJyIDo9IGdldFF1ZXJ5UmVzdWx0Rm9yUXVlcnlTdHJpbmdXaXRoUGFnaW5hdGlvbihzdHViLCBxdWVyeVN0cmluZywgaW50MzIocGFnZVNpemUpLCBib29rbWFyaykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBuaWwsIGVycgoJfQoJcmV0dXJuIHF1ZXJ5UmVzdWx0cywgbmlsCn0KCmZ1bmMgZ2V0UXVlcnlSZXN1bHRGb3JRdWVyeVN0cmluZ1dpdGhQYWdpbmF0aW9uKHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlLAoJcXVlcnlTdHJpbmcgc3RyaW5nLCBwYWdlU2l6ZSBpbnQzMiwgYm9va21hcmsgc3RyaW5nKSAoW11ieXRlLCBlcnJvcikgewoKCWxvZ2dlci5EZWJ1ZygiLSBnZXRRdWVyeVJlc3VsdEZvclF1ZXJ5U3RyaW5nIHF1ZXJ5U3RyaW5nOlxuJXNcbiIsIHF1ZXJ5U3RyaW5nKQoKCXJlc3VsdHNJdGVyYXRvciwgcmVzcG9uc2VNZXRhZGF0YSwgZXJyIDo9IHN0dWIuR2V0UXVlcnlSZXN1bHRXaXRoUGFnaW5hdGlvbihxdWVyeVN0cmluZywgcGFnZVNpemUsIGJvb2ttYXJrKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CglkZWZlciByZXN1bHRzSXRlcmF0b3IuQ2xvc2UoKQoKCWJ1ZmZlciwgZXJyIDo9IGNvbnN0cnVjdFF1ZXJ5UmVzcG9uc2VGcm9tSXRlcmF0b3IocmVzdWx0c0l0ZXJhdG9yKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJYnVmZmVyV2l0aFBhZ2luYXRpb25JbmZvIDo9IGFkZFBhZ2luYXRpb25NZXRhZGF0YVRvUXVlcnlSZXN1bHRzKGJ1ZmZlciwgcmVzcG9uc2VNZXRhZGF0YSkKCglsb2dnZXIuRGVidWcoIi0gZ2V0UXVlcnlSZXN1bHRGb3JRdWVyeVN0cmluZyBxdWVyeVJlc3VsdDpcbiVzXG4iLCBidWZmZXJXaXRoUGFnaW5hdGlvbkluZm8uU3RyaW5nKCkpCgoJcmV0dXJuIGJ1ZmZlci5CeXRlcygpLCBuaWwKfQoKZnVuYyBjb25zdHJ1Y3RRdWVyeVJlc3BvbnNlRnJvbUl0ZXJhdG9yKHJlc3VsdHNJdGVyYXRvciBzaGltLlN0YXRlUXVlcnlJdGVyYXRvckludGVyZmFjZSkgKCpieXRlcy5CdWZmZXIsIGVycm9yKSB7CgkvLyBidWZmZXIgaXMgYSBKU09OIGFycmF5IGNvbnRhaW5pbmcgUXVlcnlSZXN1bHRzCgl2YXIgYnVmZmVyIGJ5dGVzLkJ1ZmZlcgoJYnVmZmVyLldyaXRlU3RyaW5nKCJbIikKCgliQXJyYXlNZW1iZXJBbHJlYWR5V3JpdHRlbiA6PSBmYWxzZQoJZm9yIHJlc3VsdHNJdGVyYXRvci5IYXNOZXh0KCkgewoJCXF1ZXJ5UmVzcG9uc2UsIGVyciA6PSByZXN1bHRzSXRlcmF0b3IuTmV4dCgpCgkJaWYgZXJyICE9IG5pbCB7CgkJCXJldHVybiBuaWwsIGVycgoJCX0KCQkvLyBBZGQgYSBjb21tYSBiZWZvcmUgYXJyYXkgbWVtYmVycywgc3VwcHJlc3MgaXQgZm9yIHRoZSBmaXJzdCBhcnJheSBtZW1iZXIKCQlpZiBiQXJyYXlNZW1iZXJBbHJlYWR5V3JpdHRlbiA9PSB0cnVlIHsKCQkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIikKCQl9CgkJYnVmZmVyLldyaXRlU3RyaW5nKCJ7XCJLZXlcIjoiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZyhxdWVyeVJlc3BvbnNlLktleSkKCQlidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCgkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIFwiUmVjb3JkXCI6IikKCQkvLyBSZWNvcmQgaXMgYSBKU09OIG9iamVjdCwgc28gd2Ugd3JpdGUgYXMtaXMKCQlidWZmZXIuV3JpdGVTdHJpbmcoc3RyaW5nKHF1ZXJ5UmVzcG9uc2UuVmFsdWUpKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygifSIpCgkJYkFycmF5TWVtYmVyQWxyZWFkeVdyaXR0ZW4gPSB0cnVlCgl9CglidWZmZXIuV3JpdGVTdHJpbmcoIl0iKQoKCXJldHVybiAmYnVmZmVyLCBuaWwKfQoKZnVuYyBhZGRQYWdpbmF0aW9uTWV0YWRhdGFUb1F1ZXJ5UmVzdWx0cyhidWZmZXIgKmJ5dGVzLkJ1ZmZlciwgcmVzcG9uc2VNZXRhZGF0YSAqc2MuUXVlcnlSZXNwb25zZU1ldGFkYXRhKSAqYnl0ZXMuQnVmZmVyIHsKCglidWZmZXIuV3JpdGVTdHJpbmcoIlt7XCJSZXNwb25zZU1ldGFkYXRhXCI6e1wiUmVjb3Jkc0NvdW50XCI6IikKCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJYnVmZmVyLldyaXRlU3RyaW5nKGZtdC5TcHJpbnRmKCIldiIsIHJlc3BvbnNlTWV0YWRhdGEuRmV0Y2hlZFJlY29yZHNDb3VudCkpCglidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCWJ1ZmZlci5Xcml0ZVN0cmluZygiLCBcIkJvb2ttYXJrXCI6IikKCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJYnVmZmVyLldyaXRlU3RyaW5nKHJlc3BvbnNlTWV0YWRhdGEuQm9va21hcmspCglidWZmZXIuV3JpdGVTdHJpbmcoIlwifX1dIikKCglyZXR1cm4gYnVmZmVyCn0KCi8vIFRoZSBtYWluIGZ1bmN0aW9uIGlzIG9ubHkgcmVsZXZhbnQgaW4gdW5pdCB0ZXN0IG1vZGUuIE9ubHkgaW5jbHVkZWQgaGVyZSBmb3IgY29tcGxldGVuZXNzLgpmdW5jIG1haW4oKSB7CgoJLy8gQ3JlYXRlIGEgbmV3IFNtYXJ0IENvbnRyYWN0CgllcnIgOj0gc2hpbS5TdGFydChuZXcoU21hcnRDb250cmFjdCkpCglpZiBlcnIgIT0gbmlsIHsKCQlsb2dnZXIuRXJyb3IoIkVycm9yIGNyZWF0aW5nIG5ldyBTbWFydCBDb250cmFjdDogJXMiLCBlcnIpCgl9Cn0K\",\n  \"chaincodeName\": \"pocca\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"channelName\": \"channel123\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "e853a9bd-69a6-42bd-8c4c-3d792a2a79c4",
+      "lastModified": "2018-12-24T20:06:47.507+08:00",
+      "name": "02. joinChannel123 - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channel123\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "df2dba48-8e90-4f54-96b4-ffbcfd3f2a4f",
+      "lastModified": "2018-12-24T20:07:02.545+08:00",
+      "name": "02. joinChannel123 - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channel123\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "e37e0b75-a1cd-4290-a89a-fd333b7f8987",
+      "lastModified": "2018-12-24T20:07:17.964+08:00",
+      "name": "02. joinChannel123 - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"localPath\": \"chaincode/allInOne\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincode\": \"\",\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4026,9 +4199,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "0c2fb783-0d31-4271-b7be-9fd3e040e278",
-      "lastModified": "2018-12-19T15:23:52.710+08:00",
-      "name": "03. installCCA - Org1",
+      "id": "d59b0c42-b5cc-48a0-b300-138eaa814e5e",
+      "lastModified": "2018-12-24T20:08:22.294+08:00",
+      "name": "03. installChaincode - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4037,7 +4210,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
     },
     {
       "type": "Request",
@@ -4055,7 +4228,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 231,
-        "textBody": "{\n  \"chaincode\": \"Ly8gV3JpdHRlbiBieSBYdSBDaGVuIEhhbwpwYWNrYWdlIG1haW4KCmltcG9ydCAoCgkiYnl0ZXMiCgkiZW5jb2RpbmcvanNvbiIKCSJmbXQiCgkiZ2l0aHViLmNvbS9oeXBlcmxlZGdlci9mYWJyaWMvY29yZS9jaGFpbmNvZGUvc2hpbSIKCXNjICJnaXRodWIuY29tL2h5cGVybGVkZ2VyL2ZhYnJpYy9wcm90b3MvcGVlciIKCSJzdHJjb252IgoJInRpbWUiCikKCnZhciBsb2dnZXIgPSBzaGltLk5ld0xvZ2dlcigiY2hhaW5jb2RlIikKCi8vIERlZmluZSB0aGUgU21hcnQgQ29udHJhY3Qgc3RydWN0dXJlCnR5cGUgU21hcnRDb250cmFjdCBzdHJ1Y3Qgewp9Cgp0eXBlIFJfRXJyIHN0cnVjdCB7CglSZWFzb24gc3RyaW5nIGBqc29uOiJyZWFzb24iYAp9Cgp0eXBlIEdvb2RzSW5mb3Mgc3RydWN0IHsKCVVuaXRQcmljZSAgICAgICAgZmxvYXQzMiBganNvbjoidW5pdFByaWNlImAKCUFtb3VudCAgICAgICAgICAgZmxvYXQzMiBganNvbjoiYW1vdW50ImAKCVF1YW50aXR5ICAgICAgICAgZmxvYXQzMiBganNvbjoicXVhbnRpdHkiYAoJRGVsRGF0ZSAgICAgICAgICBzdHJpbmcgIGBqc29uOiJkZWxEYXRlImAKCVF1YW50aXR5Q29kZSAgICAgc3RyaW5nICBganNvbjoicXVhbnRpdHlDb2RlImAKCUdvb2RzTW9kZWwgICAgICAgc3RyaW5nICBganNvbjoiZ29vZHNNb2RlbCJgCglHb29kTm8gICAgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RObyJgCglQcmljZUNvZGUgICAgICAgIHN0cmluZyAgYGpzb246InByaWNlQ29kZSJgCglHb29kc05hbWUgICAgICAgIHN0cmluZyAgYGpzb246Imdvb2RzTmFtZSJgCglHb29kc0Rlc2NyaXB0aW9uIHN0cmluZyAgYGpzb246Imdvb2RzRGVzY3JpcHRpb24iYAp9Cgp0eXBlIFBPIHN0cnVjdCB7CglTZWxsZXIgICAgICAgIHN0cmluZyAgICAgYGpzb246InNlbGxlciJgCglDb25zaWduZWUgICAgIHN0cmluZyAgICAgYGpzb246ImNvbnNpZ25lZSJgCglTaGlwbWVudCAgICAgIHN0cmluZyAgICAgYGpzb246InNoaXBtZW50ImAKCURlc3RpbmF0aW9uICAgc3RyaW5nICAgICBganNvbjoiZGVzdGluYXRpb24iYAoJSW5zdXJlSW5mbyAgICBzdHJpbmcgICAgIGBqc29uOiJpbnN1cmVJbmZvImAKCVRyYWRlVGVybXMgICAgc3RyaW5nICAgICBganNvbjoidHJhZGVUZXJtcyJgCglUb3RhbEN1cnJlbmN5IHN0cmluZyAgICAgYGpzb246InRvdGFsQ3VycmVuY3kiYAoJQnV5ZXIgICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJidXllciJgCglUcmFmTW9kZSAgICAgIHN0cmluZyAgICAgYGpzb246InRyYWZNb2RlImAKCUdvb2RzSW5mb3MgICAgR29vZHNJbmZvcyBganNvbjoiZ29vZHNJbmZvcyJgCglUb3RhbEFtb3VudCAgIGZsb2F0MzIgICAgYGpzb246InRvdGFsQW1vdW50ImAKCUNhcnJpZXIgICAgICAgc3RyaW5nICAgICBganNvbjoiY2FycmllciJgCglQb05vICAgICAgICAgIHN0cmluZyAgICAgYGpzb246InBvTm8iYAoJU2VuZGVyICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJzZW5kZXIiYAoJUG9EYXRlICAgICAgICBzdHJpbmcgICAgIGBqc29uOiJwb0RhdGUiYAoJVHJhZGVDb3VudHJ5ICBzdHJpbmcgICAgIGBqc29uOiJ0cmFkZUNvdW50cnkiYAp9CgpmdW5jIChzICpTbWFydENvbnRyYWN0KSByZXR1cm5FcnJvcihyZWFzb24gc3RyaW5nKSBzYy5SZXNwb25zZSB7CgoJdmFyIHJlIFJfRXJyCgoJcmUuUmVhc29uID0gcmVhc29uCglsb2dnZXIuRXJyb3IocmUuUmVhc29uKQoJcmVBc0J5dGVzLCBfIDo9IGpzb24uTWFyc2hhbChyZSkKCglyZXR1cm4gc2hpbS5TdWNjZXNzKHJlQXNCeXRlcykKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgSW5pdChBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoJcmV0dXJuIHNoaW0uU3VjY2VzcyhuaWwpCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIEludm9rZShBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSkgc2MuUmVzcG9uc2UgewoKCS8vIFJldHJpZXZlIHRoZSByZXF1ZXN0ZWQgU21hcnQgQ29udHJhY3QgZnVuY3Rpb24gYW5kIGFyZ3VtZW50cwoJZnVuY3Rpb24sIGFyZ3MgOj0gQVBJc3R1Yi5HZXRGdW5jdGlvbkFuZFBhcmFtZXRlcnMoKQoJLy8gUm91dGUgdG8gdGhlIGFwcHJvcHJpYXRlIGhhbmRsZXIgZnVuY3Rpb24gdG8gaW50ZXJhY3Qgd2l0aCB0aGUgbGVkZ2VyIGFwcHJvcHJpYXRlbHkKCWlmIGZ1bmN0aW9uID09ICJ1cGxvYWRQTyIgewoJCXJldHVybiBzLnVwbG9hZFBPKEFQSXN0dWIsIGFyZ3MpCgl9IGVsc2UgaWYgZnVuY3Rpb24gPT0gInF1ZXJ5UE8iIHsKCQlyZXR1cm4gcy5xdWVyeVBPKEFQSXN0dWIsIGFyZ3MpCgl9IGVsc2UgaWYgZnVuY3Rpb24gPT0gInF1ZXJ5UE9IaXN0b3J5IiB7CgkJcmV0dXJuIHMucXVlcnlQT0hpc3RvcnkoQVBJc3R1YiwgYXJncykKCX0gZWxzZSBpZiBmdW5jdGlvbiA9PSAicmljaFF1ZXJ5UE8iIHsKCQlyZXR1cm4gcy5yaWNoUXVlcnlQTyhBUElzdHViLCBhcmdzKQoJfQoKCXJldHVybiBzLnJldHVybkVycm9yKCJJbnZhbGlkIFNtYXJ0IENvbnRyYWN0IGZ1bmN0aW9uIG5hbWUuIikKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgdmFsaWRhdGUocG8gUE8pIGJvb2wgewoJaWYgcG8uR29vZHNJbmZvcy5Vbml0UHJpY2UgPD0gMCB7CgkJcmV0dXJuIGZhbHNlCgl9CglpZiBwby5Hb29kc0luZm9zLlF1YW50aXR5IDw9IDAgewoJCXJldHVybiBmYWxzZQoJfQoJaWYgcG8uR29vZHNJbmZvcy5BbW91bnQgPD0gMCB7CgkJcmV0dXJuIGZhbHNlCgl9CglpZiBwby5Hb29kc0luZm9zLlVuaXRQcmljZSpwby5Hb29kc0luZm9zLlF1YW50aXR5ICE9IHBvLkdvb2RzSW5mb3MuQW1vdW50IHsKCQlyZXR1cm4gZmFsc2UKCX0KCXJldHVybiB0cnVlCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIHdyaXRlQ2hhaW4oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIHBvIFBPKSBlcnJvciB7Cglwb0FzQnl0ZXMsIGVyciA6PSBqc29uLk1hcnNoYWwocG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gZXJyCgl9Cglsb2dnZXIuRGVidWcoIldyaXRlIGNoYWluOiAiICsgc3RyaW5nKHBvQXNCeXRlcykpCgllcnIgPSBBUElzdHViLlB1dFN0YXRlKHBvLlBvTm8sIHBvQXNCeXRlcykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBlcnIKCX0KCXJldHVybiBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgdXBsb2FkUE8oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHNjLlJlc3BvbnNlIHsKCglpZiBsZW4oYXJncykgIT0gMSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIuWPguaVsOaVsOmHj+S4jeato+ehriIpCgl9CgoJbG9nZ2VyLkRlYnVnKCLojrflj5bor7fmsYLlj4LmlbA6ICIgKyBhcmdzWzBdKQoKCXBvQXNCeXRlcyA6PSBbXWJ5dGUoYXJnc1swXSkKCXZhciBwbyBQTwoJZXJyIDo9IGpzb24uVW5tYXJzaGFsKHBvQXNCeXRlcywgJnBvKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5qC85byP6ZSZ6K+vOiAiICsgZXJyLkVycm9yKCkpCgl9CgoJLy8g6aqM6K+BUE/ljZXmmK/lkKblkIjms5UKCWlmICFzLnZhbGlkYXRlKHBvKSB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIlBP5Y2V5LiN5ZCI5rOVIikKCX0KCgkvLyDmlbDmja7kuIrpk74KCWVyciA9IHMud3JpdGVDaGFpbihBUElzdHViLCBwbykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBzLnJldHVybkVycm9yKCJQT+WNleS4iumTvuWksei0pTogIiArIGVyci5FcnJvcigpKQoJfQoKCXJldHVybiBzaGltLlN1Y2Nlc3MocG9Bc0J5dGVzKQoKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcXVlcnlQTyhBUElzdHViIHNoaW0uQ2hhaW5jb2RlU3R1YkludGVyZmFjZSwgYXJncyBbXXN0cmluZykgc2MuUmVzcG9uc2UgewoKCWlmIGxlbihhcmdzKSAhPSAxIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigi5Y+C5pWw5pWw6YeP5LiN5q2j56GuIikKCX0KCglwbyA6PSBhcmdzWzBdCglsb2dnZXIuRGVidWcoIlF1ZXJ5IG9uIGNoYWluOiAiICsgcG8pCglyZXN1bHQsIGVyciA6PSBBUElzdHViLkdldFN0YXRlKHBvKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIHMucmV0dXJuRXJyb3IoInBv5Y2V5p+l6K+i5aSx6LSlIiArIGVyci5FcnJvcigpKQoJfQoJcmV0dXJuIHNoaW0uU3VjY2VzcyhyZXN1bHQpCn0KCmZ1bmMgKHMgKlNtYXJ0Q29udHJhY3QpIHF1ZXJ5UE9IaXN0b3J5KEFQSXN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlLCBhcmdzIFtdc3RyaW5nKSBzYy5SZXNwb25zZSB7CgoJaWYgbGVuKGFyZ3MpICE9IDEgewoJCXJldHVybiBzLnJldHVybkVycm9yKCLlj4LmlbDmlbDph4/kuI3mraPnoa4iKQoJfQoKCXBvIDo9IGFyZ3NbMF0KCWxvZ2dlci5EZWJ1ZygiUXVlcnkgb24gY2hhaW46ICIgKyBwbykKCXJlc3VsdCwgZXJyIDo9IHMucXVlcnlIaXN0b3J5QXNzZXQoQVBJc3R1YiwgcG8pCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigicG/ljZXmn6Xor6LlpLHotKUiICsgZXJyLkVycm9yKCkpCgl9CglyZXR1cm4gc2hpbS5TdWNjZXNzKHJlc3VsdCkKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcmljaFF1ZXJ5UE8oQVBJc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGFyZ3MgW11zdHJpbmcpIHNjLlJlc3BvbnNlIHsKCglpZiBsZW4oYXJncykgPT0gMSB7CgoJCS8vIHJpY2ggcXVlcnkgd2l0aG91dCBwYWdpbmF0aW9uCgkJcXVlcnlTdHJpbmcgOj0gYXJnc1swXQoJCWxvZ2dlci5EZWJ1ZygiUmljaCBxdWVyeSBvbiBjaGFpbjogIiArIHF1ZXJ5U3RyaW5nKQoJCXJlc3VsdCwgZXJyIDo9IHMucmljaFF1ZXJ5KEFQSXN0dWIsIHF1ZXJ5U3RyaW5nKQoJCWlmIGVyciAhPSBuaWwgewoJCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigiUmljaCBxdWVyeSBmYWlsZWQ6ICIgKyBlcnIuRXJyb3IoKSkKCQl9CgkJcmV0dXJuIHNoaW0uU3VjY2VzcyhyZXN1bHQpCgoJfSBlbHNlIGlmIGxlbihhcmdzKSA9PSAzIHsKCgkJLy8gcmljaCBxdWVyeSB3aXRoIHBhZ2luYXRpb24KCQlxdWVyeVN0cmluZyA6PSBhcmdzWzBdCgkJcGFnZVNpemUsIGVyciA6PSBzdHJjb252LlBhcnNlSW50KGFyZ3NbMV0sIDEwLCAzMikKCQlpZiBlcnIgIT0gbmlsIHsKCQkJcmV0dXJuIHMucmV0dXJuRXJyb3IoIkVycm9yIGNvbnZlcnQgYXJnIDIgdG8gaW50MzI6ICIgKyBlcnIuRXJyb3IoKSkKCQl9CgkJYm9va21hcmsgOj0gYXJnc1syXQoJCWxvZ2dlci5EZWJ1Z2YoIlJpY2ggcXVlcnkgJXMgd2l0aCBwYWdpbmF0aW9uICggcGFnZSBzaXplICVzLCBib29rbWFyayAlcyApIiwKCQkJcXVlcnlTdHJpbmcsIHBhZ2VTaXplLCBib29rbWFyaykKCQlyZXN1bHQsIGVyciA6PSBzLnJpY2hRdWVyeVdpdGhQYWdpbmF0aW9uKEFQSXN0dWIsIHF1ZXJ5U3RyaW5nLCBpbnQzMihwYWdlU2l6ZSksIGJvb2ttYXJrKQoJCWlmIGVyciAhPSBuaWwgewoJCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigiUmljaCBxdWVyeSBmYWlsZWQ6ICIgKyBlcnIuRXJyb3IoKSkKCQl9CgkJcmV0dXJuIHNoaW0uU3VjY2VzcyhyZXN1bHQpCgoJfSBlbHNlIHsKCQlyZXR1cm4gcy5yZXR1cm5FcnJvcigi5Y+C5pWw5pWw6YeP5LiN5q2j56GuIikKCX0KfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcXVlcnlIaXN0b3J5QXNzZXQoc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsIGtleSBzdHJpbmcpIChbXWJ5dGUsIGVycm9yKSB7CglyZXN1bHRzSXRlcmF0b3IsIGVyciA6PSBzdHViLkdldEhpc3RvcnlGb3JLZXkoa2V5KQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CglkZWZlciByZXN1bHRzSXRlcmF0b3IuQ2xvc2UoKQoKCS8vIGJ1ZmZlciBpcyBhIEpTT04gYXJyYXkgY29udGFpbmluZyBoaXN0b3JpYyB2YWx1ZXMgZm9yIHRoZSBtYXJibGUKCXZhciBidWZmZXIgYnl0ZXMuQnVmZmVyCglidWZmZXIuV3JpdGVTdHJpbmcoIlsiKQoKCWJBcnJheU1lbWJlckFscmVhZHlXcml0dGVuIDo9IGZhbHNlCglmb3IgcmVzdWx0c0l0ZXJhdG9yLkhhc05leHQoKSB7CgkJcmVzcG9uc2UsIGVyciA6PSByZXN1bHRzSXRlcmF0b3IuTmV4dCgpCgkJaWYgZXJyICE9IG5pbCB7CgkJCXJldHVybiBuaWwsIGVycgoJCX0KCQkvLyBBZGQgYSBjb21tYSBiZWZvcmUgYXJyYXkgbWVtYmVycywgc3VwcHJlc3MgaXQgZm9yIHRoZSBmaXJzdCBhcnJheSBtZW1iZXIKCQlpZiBiQXJyYXlNZW1iZXJBbHJlYWR5V3JpdHRlbiA9PSB0cnVlIHsKCQkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIikKCQl9CgkJYnVmZmVyLldyaXRlU3RyaW5nKCJ7XCJUeElkXCI6IikKCQlidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCQlidWZmZXIuV3JpdGVTdHJpbmcocmVzcG9uc2UuVHhJZCkKCQlidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCgkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIFwiVmFsdWVcIjoiKQoJCS8vIGlmIGl0IHdhcyBhIGRlbGV0ZSBvcGVyYXRpb24gb24gZ2l2ZW4ga2V5LCB0aGVuIHdlIG5lZWQgdG8gc2V0IHRoZQoJCS8vY29ycmVzcG9uZGluZyB2YWx1ZSBudWxsLiBFbHNlLCB3ZSB3aWxsIHdyaXRlIHRoZSByZXNwb25zZS5WYWx1ZQoJCS8vYXMtaXMgKGFzIHRoZSBWYWx1ZSBpdHNlbGYgYSBKU09OIG1hcmJsZSkKCQlpZiByZXNwb25zZS5Jc0RlbGV0ZSB7CgkJCWJ1ZmZlci5Xcml0ZVN0cmluZygibnVsbCIpCgkJfSBlbHNlIHsKCQkJYnVmZmVyLldyaXRlU3RyaW5nKHN0cmluZyhyZXNwb25zZS5WYWx1ZSkpCgkJfQoKCQlidWZmZXIuV3JpdGVTdHJpbmcoIiwgXCJUaW1lc3RhbXBcIjoiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZyh0aW1lLlVuaXgocmVzcG9uc2UuVGltZXN0YW1wLlNlY29uZHMsIGludDY0KHJlc3BvbnNlLlRpbWVzdGFtcC5OYW5vcykpLlN0cmluZygpKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoKCQlidWZmZXIuV3JpdGVTdHJpbmcoIiwgXCJJc0RlbGV0ZVwiOiIpCgkJYnVmZmVyLldyaXRlU3RyaW5nKCJcIiIpCgkJYnVmZmVyLldyaXRlU3RyaW5nKHN0cmNvbnYuRm9ybWF0Qm9vbChyZXNwb25zZS5Jc0RlbGV0ZSkpCgkJYnVmZmVyLldyaXRlU3RyaW5nKCJcIiIpCgoJCWJ1ZmZlci5Xcml0ZVN0cmluZygifSIpCgkJYkFycmF5TWVtYmVyQWxyZWFkeVdyaXR0ZW4gPSB0cnVlCgl9CglidWZmZXIuV3JpdGVTdHJpbmcoIl0iKQoKCWxvZ2dlci5EZWJ1ZygiLSBnZXRIaXN0b3J5IHJldHVybmluZzpcbiVzXG4iLCBidWZmZXIuU3RyaW5nKCkpCgoJcmV0dXJuIGJ1ZmZlci5CeXRlcygpLCBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcmljaFF1ZXJ5KHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlLCBxdWVyeVN0cmluZyBzdHJpbmcpKFtdIGJ5dGUsIGVycm9yKSB7CgoJbG9nZ2VyLkRlYnVnKCJHZXQgcmljaCBxdWVyeSByZXF1ZXN0OiBcbiVzXG4iLCBxdWVyeVN0cmluZykKCglyZXN1bHRzSXRlcmF0b3IsIGVyciA6PSBzdHViLkdldFF1ZXJ5UmVzdWx0KHF1ZXJ5U3RyaW5nKQoJZGVmZXIgcmVzdWx0c0l0ZXJhdG9yLkNsb3NlKCkKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBuaWwsIGVycgoJfQoKCWJ1ZmZlciwgZXJyIDo9IGNvbnN0cnVjdFF1ZXJ5UmVzcG9uc2VGcm9tSXRlcmF0b3IocmVzdWx0c0l0ZXJhdG9yKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJcmV0dXJuIGJ1ZmZlci5CeXRlcygpLCBuaWwKfQoKZnVuYyAocyAqU21hcnRDb250cmFjdCkgcmljaFF1ZXJ5V2l0aFBhZ2luYXRpb24oc3R1YiBzaGltLkNoYWluY29kZVN0dWJJbnRlcmZhY2UsCglxdWVyeVN0cmluZyBzdHJpbmcsIHBhZ2VTaXplIGludDMyLCBib29rbWFyayBzdHJpbmcpIChbXSBieXRlLCBlcnJvcikgewoKCXF1ZXJ5UmVzdWx0cywgZXJyIDo9IGdldFF1ZXJ5UmVzdWx0Rm9yUXVlcnlTdHJpbmdXaXRoUGFnaW5hdGlvbihzdHViLCBxdWVyeVN0cmluZywgaW50MzIocGFnZVNpemUpLCBib29rbWFyaykKCWlmIGVyciAhPSBuaWwgewoJCXJldHVybiBuaWwsIGVycgoJfQoJcmV0dXJuIHF1ZXJ5UmVzdWx0cywgbmlsCn0KCmZ1bmMgZ2V0UXVlcnlSZXN1bHRGb3JRdWVyeVN0cmluZ1dpdGhQYWdpbmF0aW9uKHN0dWIgc2hpbS5DaGFpbmNvZGVTdHViSW50ZXJmYWNlLAoJcXVlcnlTdHJpbmcgc3RyaW5nLCBwYWdlU2l6ZSBpbnQzMiwgYm9va21hcmsgc3RyaW5nKSAoW11ieXRlLCBlcnJvcikgewoKCWxvZ2dlci5EZWJ1ZygiLSBnZXRRdWVyeVJlc3VsdEZvclF1ZXJ5U3RyaW5nIHF1ZXJ5U3RyaW5nOlxuJXNcbiIsIHF1ZXJ5U3RyaW5nKQoKCXJlc3VsdHNJdGVyYXRvciwgcmVzcG9uc2VNZXRhZGF0YSwgZXJyIDo9IHN0dWIuR2V0UXVlcnlSZXN1bHRXaXRoUGFnaW5hdGlvbihxdWVyeVN0cmluZywgcGFnZVNpemUsIGJvb2ttYXJrKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CglkZWZlciByZXN1bHRzSXRlcmF0b3IuQ2xvc2UoKQoKCWJ1ZmZlciwgZXJyIDo9IGNvbnN0cnVjdFF1ZXJ5UmVzcG9uc2VGcm9tSXRlcmF0b3IocmVzdWx0c0l0ZXJhdG9yKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CgoJYnVmZmVyV2l0aFBhZ2luYXRpb25JbmZvIDo9IGFkZFBhZ2luYXRpb25NZXRhZGF0YVRvUXVlcnlSZXN1bHRzKGJ1ZmZlciwgcmVzcG9uc2VNZXRhZGF0YSkKCglsb2dnZXIuRGVidWcoIi0gZ2V0UXVlcnlSZXN1bHRGb3JRdWVyeVN0cmluZyBxdWVyeVJlc3VsdDpcbiVzXG4iLCBidWZmZXJXaXRoUGFnaW5hdGlvbkluZm8uU3RyaW5nKCkpCgoJcmV0dXJuIGJ1ZmZlci5CeXRlcygpLCBuaWwKfQoKZnVuYyBjb25zdHJ1Y3RRdWVyeVJlc3BvbnNlRnJvbUl0ZXJhdG9yKHJlc3VsdHNJdGVyYXRvciBzaGltLlN0YXRlUXVlcnlJdGVyYXRvckludGVyZmFjZSkgKCpieXRlcy5CdWZmZXIsIGVycm9yKSB7CgkvLyBidWZmZXIgaXMgYSBKU09OIGFycmF5IGNvbnRhaW5pbmcgUXVlcnlSZXN1bHRzCgl2YXIgYnVmZmVyIGJ5dGVzLkJ1ZmZlcgoJYnVmZmVyLldyaXRlU3RyaW5nKCJbIikKCgliQXJyYXlNZW1iZXJBbHJlYWR5V3JpdHRlbiA6PSBmYWxzZQoJZm9yIHJlc3VsdHNJdGVyYXRvci5IYXNOZXh0KCkgewoJCXF1ZXJ5UmVzcG9uc2UsIGVyciA6PSByZXN1bHRzSXRlcmF0b3IuTmV4dCgpCgkJaWYgZXJyICE9IG5pbCB7CgkJCXJldHVybiBuaWwsIGVycgoJCX0KCQkvLyBBZGQgYSBjb21tYSBiZWZvcmUgYXJyYXkgbWVtYmVycywgc3VwcHJlc3MgaXQgZm9yIHRoZSBmaXJzdCBhcnJheSBtZW1iZXIKCQlpZiBiQXJyYXlNZW1iZXJBbHJlYWR5V3JpdHRlbiA9PSB0cnVlIHsKCQkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIikKCQl9CgkJYnVmZmVyLldyaXRlU3RyaW5nKCJ7XCJLZXlcIjoiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZyhxdWVyeVJlc3BvbnNlLktleSkKCQlidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCgkJYnVmZmVyLldyaXRlU3RyaW5nKCIsIFwiUmVjb3JkXCI6IikKCQkvLyBSZWNvcmQgaXMgYSBKU09OIG9iamVjdCwgc28gd2Ugd3JpdGUgYXMtaXMKCQlidWZmZXIuV3JpdGVTdHJpbmcoc3RyaW5nKHF1ZXJ5UmVzcG9uc2UuVmFsdWUpKQoJCWJ1ZmZlci5Xcml0ZVN0cmluZygifSIpCgkJYkFycmF5TWVtYmVyQWxyZWFkeVdyaXR0ZW4gPSB0cnVlCgl9CglidWZmZXIuV3JpdGVTdHJpbmcoIl0iKQoKCXJldHVybiAmYnVmZmVyLCBuaWwKfQoKZnVuYyBhZGRQYWdpbmF0aW9uTWV0YWRhdGFUb1F1ZXJ5UmVzdWx0cyhidWZmZXIgKmJ5dGVzLkJ1ZmZlciwgcmVzcG9uc2VNZXRhZGF0YSAqc2MuUXVlcnlSZXNwb25zZU1ldGFkYXRhKSAqYnl0ZXMuQnVmZmVyIHsKCglidWZmZXIuV3JpdGVTdHJpbmcoIlt7XCJSZXNwb25zZU1ldGFkYXRhXCI6e1wiUmVjb3Jkc0NvdW50XCI6IikKCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJYnVmZmVyLldyaXRlU3RyaW5nKGZtdC5TcHJpbnRmKCIldiIsIHJlc3BvbnNlTWV0YWRhdGEuRmV0Y2hlZFJlY29yZHNDb3VudCkpCglidWZmZXIuV3JpdGVTdHJpbmcoIlwiIikKCWJ1ZmZlci5Xcml0ZVN0cmluZygiLCBcIkJvb2ttYXJrXCI6IikKCWJ1ZmZlci5Xcml0ZVN0cmluZygiXCIiKQoJYnVmZmVyLldyaXRlU3RyaW5nKHJlc3BvbnNlTWV0YWRhdGEuQm9va21hcmspCglidWZmZXIuV3JpdGVTdHJpbmcoIlwifX1dIikKCglyZXR1cm4gYnVmZmVyCn0KCi8vIFRoZSBtYWluIGZ1bmN0aW9uIGlzIG9ubHkgcmVsZXZhbnQgaW4gdW5pdCB0ZXN0IG1vZGUuIE9ubHkgaW5jbHVkZWQgaGVyZSBmb3IgY29tcGxldGVuZXNzLgpmdW5jIG1haW4oKSB7CgoJLy8gQ3JlYXRlIGEgbmV3IFNtYXJ0IENvbnRyYWN0CgllcnIgOj0gc2hpbS5TdGFydChuZXcoU21hcnRDb250cmFjdCkpCglpZiBlcnIgIT0gbmlsIHsKCQlsb2dnZXIuRXJyb3IoIkVycm9yIGNyZWF0aW5nIG5ldyBTbWFydCBDb250cmFjdDogJXMiLCBlcnIpCgl9Cn0K\",\n  \"chaincodeName\": \"pocca\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"localPath\": \"chaincode/allInOne\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincode\": \"\",\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4070,9 +4243,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "7eb602f9-4858-426e-93ff-1caf4c560bea",
-      "lastModified": "2018-12-19T15:23:55.999+08:00",
-      "name": "03. installCCA - Org2",
+      "id": "f4aae438-7d8e-4464-811d-729f0e290325",
+      "lastModified": "2018-12-24T20:08:25.780+08:00",
+      "name": "03. installChaincode - Org2",
       "headers": [
         {
           "enabled": true,
@@ -4081,7 +4254,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
     },
     {
       "type": "Request",
@@ -4099,7 +4272,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"pocca\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforcallcc\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channel12\",\n  \"collection\": \"WwogIHsKICAgICJuYW1lIjogImNvbGxlY3Rpb25QTyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzJNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgICAgIH0KICAgICAgICBdCiAgICAgIH0KICAgIH0sCiAgICAicmVxdWlyZWRQZWVyQ291bnQiOiAxLAogICAgIm1heFBlZXJDb3VudCI6IDMsCiAgICAiYmxvY2tUb0xpdmUiOiAxMDAwMDAwCiAgfSwKICB7CiAgICAibmFtZSI6ICJjb2xsZWN0aW9uUE9Qcml2YXRlRGV0YWlscyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfQogICAgICAgIF0KICAgICAgfQogICAgfSwKICAgICJyZXF1aXJlZFBlZXJDb3VudCI6IDEsCiAgICAibWF4UGVlckNvdW50IjogMywKICAgICJibG9ja1RvTGl2ZSI6IDMKICB9Cl0K\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjEtb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4114,9 +4287,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/instantiate"
       },
-      "id": "94026279-2954-4af7-898a-a81907f962ff",
-      "lastModified": "2018-12-19T17:18:20.790+08:00",
-      "name": "04. initCCA",
+      "id": "1004cbb8-675b-4c8a-a889-7ab1b750aac0",
+      "lastModified": "2018-12-24T21:24:04.832+08:00",
+      "name": "04. initOnChannel12",
       "headers": [
         {
           "enabled": true,
@@ -4125,7 +4298,926 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "ab249641-24eb-40b2-ba15-ded24e5d3c7a",
+      "lastModified": "2018-12-24T21:38:10.107+08:00",
+      "name": "05. invokePO - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "f3c2ca56-6aeb-41d2-8d1b-6cadbfe4a3c3",
+      "lastModified": "2018-12-24T20:42:46.139+08:00",
+      "name": "06. queryPO - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPOHistory\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "db87f8ce-75e4-48f2-94a2-278f652ca663",
+      "lastModified": "2018-12-24T20:42:51.697+08:00",
+      "name": "06. queryPOHistory - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
+      "id": "5313e262-2d42-40dd-bb96-90373095bf0a",
+      "lastModified": "2018-12-24T20:44:24.845+08:00",
+      "name": "06. richQueryPOEq - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\", \"1\", \"\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
+      "id": "bd3d3c9c-f334-4640-94c3-4bdf842b8023",
+      "lastModified": "2018-12-24T20:44:48.403+08:00",
+      "name": "06. richQueryPOPaginEq - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPOEncAll\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "e309b7cd-ce13-4d91-a163-794d3f66a6e8",
+      "lastModified": "2018-12-24T21:31:42.629+08:00",
+      "name": "07. invokePO - EncryptAll",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPODecAll\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "51aa6dd6-7aa0-43d1-96bf-47ea49ea3fb9",
+      "lastModified": "2018-12-24T20:45:32.617+08:00",
+      "name": "07. queryPO - DecryptAll",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPOEncPart\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo002\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "f80a708d-cf2f-4927-a185-f9511a4b17ac",
+      "lastModified": "2018-12-24T21:07:19.056+08:00",
+      "name": "08. invokePO - EncryptPart",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPODecPart\",\n  \"args\": [\"poNo002\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "e9d317e8-41c2-47a7-9075-47f71d31c485",
+      "lastModified": "2018-12-24T20:45:46.430+08:00",
+      "name": "08. queryPO - DecryptPart",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPOEncPartSign\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller3\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo003\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\",\n    \"SIGKEY\": \"LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNYK05Eb0NRMTROQkprYVAvYkhjSUpGbVN3ckc3UmNnYTlRRWQ3Y3pxV2lvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMlo5RWkyV3F2MWdEeFhHd1cxRCtacHdsV1dQYXFPNFdES3E4d08zL3RmWmp3bi93TGVFTQp4cUZYWjdjQ2M5SjZEZGdYSzY2T3V6UFpwWitjUldCU3R3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
+      "id": "10f4fdb2-b0c5-4fa9-8c59-fa9c20329f93",
+      "lastModified": "2018-12-24T21:07:24.788+08:00",
+      "name": "09. invokePO - EncryptSignPart",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPODecPartVerify\",\n  \"args\": [\"poNo003\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\",\n    \"VERKEY\": \"LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNYK05Eb0NRMTROQkprYVAvYkhjSUpGbVN3ckc3UmNnYTlRRWQ3Y3pxV2lvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMlo5RWkyV3F2MWdEeFhHd1cxRCtacHdsV1dQYXFPNFdES3E4d08zL3RmWmp3bi93TGVFTQp4cUZYWjdjQ2M5SjZEZGdYSzY2T3V6UFpwWitjUldCU3R3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
+      "id": "ddd9664b-3e06-4d05-b691-c02edbfdb5ad",
+      "lastModified": "2018-12-24T20:45:59.482+08:00",
+      "name": "09. queryPO - DecryptVrfyPart",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPOWithPrivate\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "e74b43ec-0617-453c-bf8a-9a3a9e6f9ab6",
+      "lastModified": "2018-12-24T21:07:34.482+08:00",
+      "name": "10. invokePO - PrivateData",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "df98ac7e-d768-40d5-a6ac-86b5ddae98bd",
+      "lastModified": "2018-12-24T20:46:16.015+08:00",
+      "name": "11. Org1 - queryPrivData",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "97ddaefd-40ed-4280-9bd6-02e94d45082d",
+      "lastModified": "2018-12-24T20:48:33.475+08:00",
+      "name": "11. Org1 - queryPubData",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "d062605e-be73-4323-bad7-562f1bfabc6f",
+      "lastModified": "2018-12-24T20:48:36.356+08:00",
+      "name": "11. Org2 - queryPrivData",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "5a35c7c0-08da-4b0c-a629-70d521b4d1a3",
+      "lastModified": "2018-12-24T20:48:38.937+08:00",
+      "name": "11. Org2 - queryPubData",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [],\n  \"useDiscoverService\": true,\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "444e2d2e-ac87-4c77-9a7f-4b68ea0843ef",
+      "lastModified": "2018-12-24T20:50:13.704+08:00",
+      "name": "12. invokeWithServiceDiscovery",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [],\n  \"useDiscoverService\": true,\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "f9d57065-e54e-428c-b220-c1fc5962532e",
+      "lastModified": "2018-12-24T20:51:04.484+08:00",
+      "name": "12. queryWithServiceDiscovery",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"kepListOrgs\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "35c9ab87-845a-43b8-aa8e-a850bb3e0932",
+      "lastModified": "2018-12-24T21:28:32.046+08:00",
+      "name": "13. keyEPListOrgs",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"kepAddOrgs\",\n  \"args\": [\"poNo001\", \"Org1MSP\", \"Org2MSP\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "7ad3af0f-495e-4797-b18c-81a6e4ccee10",
+      "lastModified": "2018-12-24T21:28:42.934+08:00",
+      "name": "14. keyEPAddOrg",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"kepDelOrgs\",\n  \"args\": [\"poNo001\", \"Org2MSP\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "5ef4f1b9-79da-4f49-bdaf-8da2d77a8155",
+      "lastModified": "2018-12-24T21:28:48.213+08:00",
+      "name": "15. keyEPDelOrgs",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Service",
+      "description": "",
+      "id": "3d4c93fc-f938-4485-b266-640b5b9a41c1",
+      "lastModified": "2018-12-24T21:42:07.958+08:00",
+      "name": "09. chaincodeCallChaincode",
+      "parentId": "11267e20-df40-4e22-bb82-b0cbe9bff7da"
     },
     {
       "type": "Request",
@@ -4157,9 +5249,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "6f2792d5-dd96-4ae8-9d75-056cc6b72c50",
-      "lastModified": "2018-12-19T17:26:21.271+08:00",
-      "name": "05. installCCB - Org1",
+      "id": "a4188861-4099-4af4-aee6-d601626998f1",
+      "lastModified": "2018-12-24T21:42:07.960+08:00",
+      "name": "05. installCallCC - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4168,7 +5260,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4200,9 +5292,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/install"
       },
-      "id": "83563895-cf31-4568-b605-a53d9658916e",
-      "lastModified": "2018-12-19T17:26:27.417+08:00",
-      "name": "05. installCCB - Org2",
+      "id": "0ffa2ec1-b212-4225-bd4e-2af50b97cdfb",
+      "lastModified": "2018-12-24T21:42:07.960+08:00",
+      "name": "05. installCallCC - Org2",
       "headers": [
         {
           "enabled": true,
@@ -4211,7 +5303,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4229,7 +5321,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"callchaincode\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channelforcallcc\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeName\": \"callchaincode\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channel12\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4244,9 +5336,9 @@
         "host": "localhost:3414",
         "path": "/chaincode/instantiate"
       },
-      "id": "e1e76ed6-4aed-4689-b625-1eb43bd70268",
-      "lastModified": "2018-12-19T17:18:27.102+08:00",
-      "name": "06. initCCB",
+      "id": "107ecb0d-bc81-46f0-ac61-08ac919439a1",
+      "lastModified": "2018-12-24T21:42:07.962+08:00",
+      "name": "06. initCallCC",
       "headers": [
         {
           "enabled": true,
@@ -4255,7 +5347,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4272,7 +5364,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"pocca\", \"\", \"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"mycc\", \"\", \"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4285,11 +5377,11 @@
           "version": "V11"
         },
         "host": "localhost:3414",
-        "path": "/invoke/channelforcallcc/callchaincode"
+        "path": "/invoke/channel12/callchaincode"
       },
-      "id": "4679ddd3-48e8-4370-8ce4-d795180c3501",
-      "lastModified": "2018-12-19T17:36:30.964+08:00",
-      "name": "07. invokeCCB - Org1",
+      "id": "21d9a180-367f-4540-bf37-099df5a76484",
+      "lastModified": "2018-12-24T21:42:07.960+08:00",
+      "name": "07. invokeCallCC - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4298,7 +5390,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4315,7 +5407,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"pocca\", \"\", \"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"mycc\", \"\", \"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4328,11 +5420,11 @@
           "version": "V11"
         },
         "host": "localhost:3414",
-        "path": "/invoke/channelforcallcc/callchaincode"
+        "path": "/invoke/channel12/callchaincode"
       },
-      "id": "77b9b42d-eaeb-4981-8e0c-87cf5945103a",
-      "lastModified": "2018-12-19T17:33:15.852+08:00",
-      "name": "07. invokeCCB2 - Org1",
+      "id": "e70b1c48-f9ae-4c19-be57-228a4ea61d7f",
+      "lastModified": "2018-12-24T21:42:07.960+08:00",
+      "name": "07. invokeCallCC2 - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4341,7 +5433,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4358,7 +5450,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"pocca\", \"\", \"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"mycc\", \"\", \"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4371,11 +5463,11 @@
           "version": "V11"
         },
         "host": "localhost:3414",
-        "path": "/query/channelforcallcc/callchaincode"
+        "path": "/query/channel12/callchaincode"
       },
-      "id": "17706ce5-171d-4912-8d87-8c07b2276ca7",
-      "lastModified": "2018-12-19T17:33:34.621+08:00",
-      "name": "07. queryCCB - Org1",
+      "id": "f0982fb4-73cc-490d-b911-67d66750491f",
+      "lastModified": "2018-12-24T21:42:07.959+08:00",
+      "name": "07. queryCallCC - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4384,7 +5476,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4401,7 +5493,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPOHistory\",\n  \"args\": [\"pocca\", \"\", \"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPOHistory\",\n  \"args\": [\"mycc\", \"\", \"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4414,11 +5506,11 @@
           "version": "V11"
         },
         "host": "localhost:3414",
-        "path": "/query/channelforcallcc/callchaincode"
+        "path": "/query/channel12/callchaincode"
       },
-      "id": "7e6bed75-a401-49f3-82b3-24ae48fcc0a2",
-      "lastModified": "2018-12-19T17:33:56.386+08:00",
-      "name": "07. queryCCBHistory - Org1",
+      "id": "0cf77817-c1f1-4230-8b13-79d96018a47b",
+      "lastModified": "2018-12-24T21:42:07.960+08:00",
+      "name": "07. queryCallCCHistory - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4427,7 +5519,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4444,7 +5536,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"pocca\", \"\", \"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"mycc\", \"\", \"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4457,12 +5549,12 @@
           "version": "V11"
         },
         "host": "localhost:3414",
-        "path": "/query/channelforcallcc/callchaincode"
+        "path": "/query/channel12/callchaincode"
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
-      "id": "b6fc68e5-e2e1-4ccc-8857-badeb46db577",
-      "lastModified": "2018-12-19T17:35:30.829+08:00",
-      "name": "07. richQueryCCBEq - Org1",
+      "id": "cdde25dd-d407-400e-a2ed-b29279ac5088",
+      "lastModified": "2018-12-24T21:42:07.961+08:00",
+      "name": "07. richQueryCallCCEq - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4471,7 +5563,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     },
     {
       "type": "Request",
@@ -4488,7 +5580,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"pocca\", \"\", \"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\", \"1\", \"\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"richQueryPO\",\n  \"args\": [\"mycc\", \"\", \"{\\\"selector\\\":{\\\"goodsInfos.goodNo\\\":\\\"goodtest\\\"}}\", \"1\", \"\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4501,12 +5593,12 @@
           "version": "V11"
         },
         "host": "localhost:3414",
-        "path": "/query/channelforcallcc/callchaincode"
+        "path": "/query/channel12/callchaincode"
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
-      "id": "38a361ca-7a3c-44a8-bcad-14a85acfc414",
-      "lastModified": "2018-12-19T17:35:42.723+08:00",
-      "name": "07. richQueryCCBPaginEq - Org1",
+      "id": "c076dba5-b92b-4253-b612-269e352f5f74",
+      "lastModified": "2018-12-24T21:42:07.959+08:00",
+      "name": "07. richQueryCallCCPaginEq - Org1",
       "headers": [
         {
           "enabled": true,
@@ -4515,7 +5607,7 @@
         }
       ],
       "metaInfo": {},
-      "parentId": "ad2fb117-65eb-4c2e-98fd-b5fc9ba7454c"
+      "parentId": "3d4c93fc-f938-4485-b266-640b5b9a41c1"
     }
   ]
 }

@@ -5,9 +5,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"fmt"
-	"github.com/hyperledger/fabric/bccsp"
-	"github.com/hyperledger/fabric/bccsp/factory"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/entities"
 	sc "github.com/hyperledger/fabric/protos/peer"
@@ -20,18 +17,7 @@ const ENCKEY = "ENCKEY"
 const SIGKEY = "SIGKEY"
 const IV = "IV"
 
-var logger = shim.NewLogger("chaincode")
-
-// Define the Smart Contract structure
-type SmartContract struct {
-	bccspInst bccsp.BCCSP
-}
-
-type R_Err struct {
-	Reason string `json:"reason"`
-}
-
-type GoodsInfos struct {
+type GoodsInfosEncrypt struct {
 	UnitPrice        string `json:"unitPrice"`
 	Amount           string `json:"amount"`
 	Quantity         string `json:"quantity"`
@@ -44,92 +30,26 @@ type GoodsInfos struct {
 	GoodsDescription string `json:"goodsDescription"`
 }
 
-type PO struct {
-	Seller        string     `json:"seller"`
-	Consignee     string     `json:"consignee"`
-	Shipment      string     `json:"shipment"`
-	Destination   string     `json:"destination"`
-	InsureInfo    string     `json:"insureInfo"`
-	TradeTerms    string     `json:"tradeTerms"`
-	TotalCurrency string     `json:"totalCurrency"`
-	Buyer         string     `json:"buyer"`
-	TrafMode      string     `json:"trafMode"`
-	GoodsInfos    GoodsInfos `json:"goodsInfos"`
-	TotalAmount   string     `json:"totalAmount"`
-	Carrier       string     `json:"carrier"`
-	PoNo          string     `json:"poNo"`
-	Sender        string     `json:"sender"`
-	PoDate        string     `json:"poDate"`
-	TradeCountry  string     `json:"tradeCountry"`
+type POEncrypt struct {
+	Seller        string            `json:"seller"`
+	Consignee     string            `json:"consignee"`
+	Shipment      string            `json:"shipment"`
+	Destination   string            `json:"destination"`
+	InsureInfo    string            `json:"insureInfo"`
+	TradeTerms    string            `json:"tradeTerms"`
+	TotalCurrency string            `json:"totalCurrency"`
+	Buyer         string            `json:"buyer"`
+	TrafMode      string            `json:"trafMode"`
+	GoodsInfos    GoodsInfosEncrypt `json:"goodsInfos"`
+	TotalAmount   string            `json:"totalAmount"`
+	Carrier       string            `json:"carrier"`
+	PoNo          string            `json:"poNo"`
+	Sender        string            `json:"sender"`
+	PoDate        string            `json:"poDate"`
+	TradeCountry  string            `json:"tradeCountry"`
 }
 
-func (s *SmartContract) returnError(reason string) sc.Response {
-
-	var re R_Err
-
-	re.Reason = reason
-	logger.Error(re.Reason)
-	reAsBytes, _ := json.Marshal(re)
-
-	return shim.Success(reAsBytes)
-}
-
-func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
-	return shim.Success(nil)
-}
-
-func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
-	// Retrieve the requested Smart Contract function and arguments
-	function, args := APIstub.GetFunctionAndParameters()
-	tMap, err := APIstub.GetTransient()
-	if err != nil {
-		return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
-	}
-	// Route to the appropriate handler function to interact with the ledger appropriately
-	if function == "uploadPOEncAll" {
-		if _, in := tMap[ENCKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
-		}
-		return s.uploadPO(APIstub, args, tMap[ENCKEY], tMap[IV], false, false)
-
-	} else if function == "queryPODecAll" {
-		if _, in := tMap[DECKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
-		}
-		return s.queryPO(APIstub, args, tMap[DECKEY], tMap[IV], false, false)
-
-	} else if function == "uploadPOEncPart" {
-		if _, in := tMap[ENCKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
-		}
-		return s.uploadPO(APIstub, args, tMap[ENCKEY], tMap[IV], true, false)
-
-	} else if function == "queryPODecPart" {
-		if _, in := tMap[DECKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
-		}
-		return s.queryPO(APIstub, args, tMap[DECKEY], tMap[IV], true, false)
-	} else if function == "uploadPOEncPartSign" {
-		if _, in := tMap[ENCKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
-		} else if _, in := tMap[SIGKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient key %s", SIGKEY))
-		}
-		return s.uploadPO(APIstub, args, tMap[ENCKEY], tMap[SIGKEY], true, true)
-
-	} else if function == "queryPODecPartVerify" {
-		if _, in := tMap[DECKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
-		} else if _, in := tMap[VERKEY]; !in {
-			return shim.Error(fmt.Sprintf("Expected transient key %s", VERKEY))
-		}
-		return s.queryPO(APIstub, args, tMap[DECKEY], tMap[VERKEY], true, true)
-	}
-
-	return s.returnError("Invalid Smart Contract function name.")
-}
-
-func (s *SmartContract) validate(po PO) (bool, error) {
+func (s *SmartContract) validatePOEncrypt(po POEncrypt) (bool, error) {
 	unitPrice, err := strconv.ParseFloat(po.GoodsInfos.UnitPrice, 64)
 	if err != nil {
 		return false, err
@@ -163,7 +83,7 @@ func (s *SmartContract) validate(po PO) (bool, error) {
 	return true, nil
 }
 
-func (s *SmartContract) uploadPO(APIstub shim.ChaincodeStubInterface, args []string,
+func (s *SmartContract) uploadPOEncrypt(APIstub shim.ChaincodeStubInterface, args []string,
 	encKey, signOrIV []byte, encPart, sign bool) sc.Response {
 
 	if len(args) != 1 {
@@ -173,14 +93,14 @@ func (s *SmartContract) uploadPO(APIstub shim.ChaincodeStubInterface, args []str
 	logger.Debug("获取请求参数: " + args[0])
 
 	poAsBytes := []byte(args[0])
-	var po PO
+	var po POEncrypt
 	err := json.Unmarshal(poAsBytes, &po)
 	if err != nil {
 		return s.returnError("PO单格式错误: " + err.Error())
 	}
 
 	// 验证PO单是否合法
-	validateResult, err := s.validate(po)
+	validateResult, err := s.validatePOEncrypt(po)
 	if err != nil {
 		return s.returnError("PO单合法性验证失败: " + err.Error())
 	}
@@ -190,9 +110,9 @@ func (s *SmartContract) uploadPO(APIstub shim.ChaincodeStubInterface, args []str
 
 	// 数据上链
 	if sign {
-		err = s.writeChainSign(APIstub, po, encKey, signOrIV, encPart)
+		err = s.writeChainSignPOEncrypt(APIstub, po, encKey, signOrIV, encPart)
 	} else {
-		err = s.writeChain(APIstub, po, encKey, signOrIV, encPart)
+		err = s.writeChainPOEncrypt(APIstub, po, encKey, signOrIV, encPart)
 	}
 	if err != nil {
 		return s.returnError("PO单上链失败: " + err.Error())
@@ -202,7 +122,7 @@ func (s *SmartContract) uploadPO(APIstub shim.ChaincodeStubInterface, args []str
 
 }
 
-func (s *SmartContract) queryPO(APIstub shim.ChaincodeStubInterface, args []string,
+func (s *SmartContract) queryPODecrypt(APIstub shim.ChaincodeStubInterface, args []string,
 	decKey, signOrIV []byte, decPart, verify bool) sc.Response {
 
 	if len(args) != 1 {
@@ -212,7 +132,7 @@ func (s *SmartContract) queryPO(APIstub shim.ChaincodeStubInterface, args []stri
 	poNo := args[0]
 
 	if verify {
-		po, err := s.readChainVerify(APIstub, poNo, decKey, signOrIV, decPart)
+		po, err := s.readChainVerifyPODecrypt(APIstub, poNo, decKey, signOrIV, decPart)
 		if err != nil {
 			return s.returnError("po单查询解密验证签名失败" + err.Error())
 		}
@@ -222,7 +142,7 @@ func (s *SmartContract) queryPO(APIstub shim.ChaincodeStubInterface, args []stri
 		}
 		return shim.Success(poAsBytes)
 	} else {
-		po, err := s.readChain(APIstub, poNo, decKey, signOrIV, decPart)
+		po, err := s.readChainPODecrypt(APIstub, poNo, decKey, signOrIV, decPart)
 		if err != nil {
 			return s.returnError("po单查询解密失败" + err.Error())
 		}
@@ -236,8 +156,8 @@ func (s *SmartContract) queryPO(APIstub shim.ChaincodeStubInterface, args []stri
 }
 
 // Do encrypt & write chain
-func (s *SmartContract) writeChain(APIstub shim.ChaincodeStubInterface,
-	po PO, encKey, IV []byte, encPart bool) error {
+func (s *SmartContract) writeChainPOEncrypt(APIstub shim.ChaincodeStubInterface,
+	po POEncrypt, encKey, IV []byte, encPart bool) error {
 
 	ent, err := entities.NewAES256EncrypterEntity("ID", s.bccspInst, encKey, IV)
 	if err != nil {
@@ -258,7 +178,8 @@ func (s *SmartContract) writeChain(APIstub shim.ChaincodeStubInterface,
 		}
 
 		logger.Debug("Write chain: " + string(cipherText))
-		err = APIstub.PutState(po.PoNo, cipherText)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		err = APIstub.PutState(encryptKey, cipherText)
 		if err != nil {
 			return err
 		}
@@ -279,7 +200,8 @@ func (s *SmartContract) writeChain(APIstub shim.ChaincodeStubInterface,
 		}
 
 		logger.Debug("Write chain: " + string(poAsBytes))
-		err = APIstub.PutState(po.PoNo, poAsBytes)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		err = APIstub.PutState(encryptKey, poAsBytes)
 		if err != nil {
 			return err
 		}
@@ -289,21 +211,22 @@ func (s *SmartContract) writeChain(APIstub shim.ChaincodeStubInterface,
 }
 
 // Do read chain & decrypt
-func (s *SmartContract) readChain(APIstub shim.ChaincodeStubInterface,
-	poNo string, decKey, IV []byte, encPart bool) (*PO, error) {
+func (s *SmartContract) readChainPODecrypt(APIstub shim.ChaincodeStubInterface,
+	poNo string, decKey, IV []byte, encPart bool) (*POEncrypt, error) {
 
 	ent, err := entities.NewAES256EncrypterEntity("ID", s.bccspInst, decKey, IV)
 	if err != nil {
 		return nil, errors.New("entities.NewAES256EncrypterEntity failed, err %s" + err.Error())
 	}
 
-	var po PO
+	var po POEncrypt
 
 	logger.Debug("Query on chain: " + poNo)
 	if encPart == false {
 
 		// Do fully decrypt
-		poAsBytes, err := APIstub.GetState(poNo)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err
 		}
@@ -324,7 +247,8 @@ func (s *SmartContract) readChain(APIstub shim.ChaincodeStubInterface,
 	} else {
 
 		// Do partly decrypt
-		poAsBytes, err := APIstub.GetState(poNo)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err
 		}
@@ -351,8 +275,8 @@ func (s *SmartContract) readChain(APIstub shim.ChaincodeStubInterface,
 }
 
 // Do encrypt & write chain
-func (s *SmartContract) writeChainSign(APIstub shim.ChaincodeStubInterface,
-	po PO, encKey, signKey []byte, encPart bool) error {
+func (s *SmartContract) writeChainSignPOEncrypt(APIstub shim.ChaincodeStubInterface,
+	po POEncrypt, encKey, signKey []byte, encPart bool) error {
 
 	ent, err := entities.NewAES256EncrypterECDSASignerEntity("ID", s.bccspInst, encKey, signKey)
 	if err != nil {
@@ -373,7 +297,8 @@ func (s *SmartContract) writeChainSign(APIstub shim.ChaincodeStubInterface,
 		}
 
 		logger.Debug("Write chain: " + string(cipherText))
-		err = APIstub.PutState(po.PoNo, cipherText)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		err = APIstub.PutState(encryptKey, cipherText)
 		if err != nil {
 			return err
 		}
@@ -394,7 +319,8 @@ func (s *SmartContract) writeChainSign(APIstub shim.ChaincodeStubInterface,
 		}
 
 		logger.Debug("Write chain: " + string(poAsBytes))
-		err = APIstub.PutState(po.PoNo, poAsBytes)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		err = APIstub.PutState(encryptKey, poAsBytes)
 		if err != nil {
 			return err
 		}
@@ -404,21 +330,22 @@ func (s *SmartContract) writeChainSign(APIstub shim.ChaincodeStubInterface,
 }
 
 // Do read chain & decrypt
-func (s *SmartContract) readChainVerify(APIstub shim.ChaincodeStubInterface,
-	poNo string, decKey, verKey []byte, encPart bool) (*PO, error) {
+func (s *SmartContract) readChainVerifyPODecrypt(APIstub shim.ChaincodeStubInterface,
+	poNo string, decKey, verKey []byte, encPart bool) (*POEncrypt, error) {
 
 	ent, err := entities.NewAES256EncrypterECDSASignerEntity("ID", s.bccspInst, decKey, verKey)
 	if err != nil {
 		return nil, errors.New("entities.NewAES256EncrypterEntity failed, err: " + err.Error())
 	}
 
-	var po PO
+	var po POEncrypt
 
 	logger.Debug("Query on chain: " + poNo)
 	if encPart == false {
 
 		// Do fully decrypt
-		poAsBytes, err := APIstub.GetState(poNo)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err
 		}
@@ -439,7 +366,8 @@ func (s *SmartContract) readChainVerify(APIstub shim.ChaincodeStubInterface,
 	} else {
 
 		// Do partly decrypt
-		poAsBytes, err := APIstub.GetState(poNo)
+		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err
 		}
@@ -536,14 +464,4 @@ func (s *SmartContract) decrypt(stub shim.ChaincodeStubInterface,
 
 	logger.Debug("After decrypt: " + string(clearText))
 	return clearText, nil
-}
-
-func main() {
-	factory.InitFactories(nil)
-
-	// Create a new Smart Contract
-	err := shim.Start(&SmartContract{factory.GetDefault()})
-	if err != nil {
-		logger.Error("Error creating new Smart Contract: %s", err)
-	}
 }
