@@ -15,7 +15,7 @@ func (s *SmartContract) kepAddOrgs(stub shim.ChaincodeStubInterface, args []stri
 
 	key := args[0]
 	logger.Debug("Got key-level endorsement policy key: " + key)
-	epKey, _ := stub.CreateCompositeKey("PO@", []string{key})
+	epKey := poPrefix + key
 
 	// get the endorsement policy for the key
 	epBytes, err := stub.GetStateValidationParameter(epKey)
@@ -54,7 +54,7 @@ func (s *SmartContract) kepDelOrgs(stub shim.ChaincodeStubInterface, args []stri
 
 	key := args[0]
 	logger.Debug("Got key-level endorsement policy key: " + key)
-	epKey, _ := stub.CreateCompositeKey("PO@", []string{key})
+	epKey := poPrefix + key
 
 	// get the endorsement policy for the key
 	epBytes, err := stub.GetStateValidationParameter(epKey)
@@ -91,7 +91,7 @@ func (s *SmartContract) kepListOrgs(stub shim.ChaincodeStubInterface, args []str
 
 	key := args[0]
 	logger.Debug("Got key-level endorsement policy key: " + key)
-	epKey, _ := stub.CreateCompositeKey("PO@", []string{key})
+	epKey := poPrefix + key
 
 	// get the endorsement policy for the key
 	epBytes, err := stub.GetStateValidationParameter(epKey)
@@ -121,7 +121,7 @@ func (s *SmartContract) delKEP(stub shim.ChaincodeStubInterface, args []string) 
 
 	key := args[0]
 	logger.Debug("Got key-level endorsement policy key: " + key)
-	epKey, _ := stub.CreateCompositeKey("PO@", []string{key})
+	epKey := poPrefix + key
 
 	// set the modified endorsement policy for the key to nil
 	err := stub.SetStateValidationParameter(epKey, nil)

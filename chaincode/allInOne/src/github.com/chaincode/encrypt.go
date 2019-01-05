@@ -11,6 +11,8 @@ import (
 	"strconv"
 )
 
+var encryptPrefix = "Encrypt@"
+
 const DECKEY = "DECKEY"
 const VERKEY = "VERKEY"
 const ENCKEY = "ENCKEY"
@@ -178,7 +180,7 @@ func (s *SmartContract) writeChainPOEncrypt(APIstub shim.ChaincodeStubInterface,
 		}
 
 		logger.Debug("Write chain: " + string(cipherText))
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		encryptKey := encryptPrefix + po.PoNo
 		err = APIstub.PutState(encryptKey, cipherText)
 		if err != nil {
 			return err
@@ -200,7 +202,7 @@ func (s *SmartContract) writeChainPOEncrypt(APIstub shim.ChaincodeStubInterface,
 		}
 
 		logger.Debug("Write chain: " + string(poAsBytes))
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		encryptKey := encryptPrefix + po.PoNo
 		err = APIstub.PutState(encryptKey, poAsBytes)
 		if err != nil {
 			return err
@@ -225,7 +227,7 @@ func (s *SmartContract) readChainPODecrypt(APIstub shim.ChaincodeStubInterface,
 	if encPart == false {
 
 		// Do fully decrypt
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		encryptKey := encryptPrefix + poNo
 		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err
@@ -247,7 +249,7 @@ func (s *SmartContract) readChainPODecrypt(APIstub shim.ChaincodeStubInterface,
 	} else {
 
 		// Do partly decrypt
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		encryptKey := encryptPrefix + poNo
 		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err
@@ -297,7 +299,7 @@ func (s *SmartContract) writeChainSignPOEncrypt(APIstub shim.ChaincodeStubInterf
 		}
 
 		logger.Debug("Write chain: " + string(cipherText))
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		encryptKey := encryptPrefix + po.PoNo
 		err = APIstub.PutState(encryptKey, cipherText)
 		if err != nil {
 			return err
@@ -319,7 +321,7 @@ func (s *SmartContract) writeChainSignPOEncrypt(APIstub shim.ChaincodeStubInterf
 		}
 
 		logger.Debug("Write chain: " + string(poAsBytes))
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{po.PoNo})
+		encryptKey := encryptPrefix + po.PoNo
 		err = APIstub.PutState(encryptKey, poAsBytes)
 		if err != nil {
 			return err
@@ -344,7 +346,7 @@ func (s *SmartContract) readChainVerifyPODecrypt(APIstub shim.ChaincodeStubInter
 	if encPart == false {
 
 		// Do fully decrypt
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		encryptKey := encryptPrefix + poNo
 		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err
@@ -366,7 +368,7 @@ func (s *SmartContract) readChainVerifyPODecrypt(APIstub shim.ChaincodeStubInter
 	} else {
 
 		// Do partly decrypt
-		encryptKey, err := APIstub.CreateCompositeKey("Encrypt@", []string{poNo})
+		encryptKey := encryptPrefix + poNo
 		poAsBytes, err := APIstub.GetState(encryptKey)
 		if err != nil {
 			return nil, err

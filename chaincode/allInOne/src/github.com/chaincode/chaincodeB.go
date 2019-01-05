@@ -8,6 +8,8 @@ import (
 	"strconv"
 )
 
+var manifestPrefix = "Manifest@"
+
 type Manifest struct {
 	Shipper           string `json:"shipper"`
 	Consignee         string `json:"consignee"`
@@ -46,7 +48,7 @@ func (s *SmartContract) writeChainManifest(APIstub shim.ChaincodeStubInterface, 
 		return err
 	}
 	logger.Debug("Write manifest on chain: " + string(manifestAsBytes))
-	manifestKey, err := APIstub.CreateCompositeKey("Manifest@", []string{manifest.MasterBillNo})
+	manifestKey := manifestPrefix + manifest.MasterBillNo
 	err = APIstub.PutState(manifestKey, manifestAsBytes)
 	if err != nil {
 		return err
@@ -92,7 +94,7 @@ func (s *SmartContract) queryManifest(APIstub shim.ChaincodeStubInterface, args 
 
 	masterBillNo := args[0]
 	logger.Debug("Query manifest on chain: " + masterBillNo)
-	manifestKey, err := APIstub.CreateCompositeKey("Manifest@", []string{masterBillNo})
+	manifestKey := manifestPrefix + masterBillNo
 	result, err := APIstub.GetState(manifestKey)
 	if err != nil {
 		return s.returnError("主舱单查询失败" + err.Error())
@@ -108,7 +110,7 @@ func (s *SmartContract) queryManifestHistory(APIstub shim.ChaincodeStubInterface
 
 	masterBillNo := args[0]
 	logger.Debug("Query history on chain: " + masterBillNo)
-	manifestKey, err := APIstub.CreateCompositeKey("Manifest@", []string{masterBillNo})
+	manifestKey := manifestPrefix + masterBillNo
 	result, err := s.queryHistoryAsset(APIstub, manifestKey)
 	if err != nil {
 		return s.returnError("主舱单查询失败" + err.Error())
