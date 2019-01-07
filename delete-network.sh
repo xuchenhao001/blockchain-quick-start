@@ -29,7 +29,7 @@ function networkDown() {
   # remove blockchain-explorer
   ./blockchain-explorer/stop.sh
 
-  cd sample-network
+  cd sample-network/docker-compose/
   # stop containers 
   if [ -f docker-compose-e2e.yaml ]; then
     docker-compose -f docker-compose-e2e.yaml down --volumes --remove-orphans
@@ -45,8 +45,8 @@ function networkDown() {
   rm -f docker-compose-e2e.yaml
   rm -rf /tmp/fabric-client
   # remove old network connection profile
-  rm -rf ../config/network-config.yaml
-  rm -rf ../config/network-config-ext.yaml
+  rm -rf ../../config/network-config.yaml
+  rm -rf ../../config/network-config-ext.yaml
 }
 
 networkDown

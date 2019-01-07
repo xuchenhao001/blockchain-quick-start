@@ -13,6 +13,6 @@ services:
     ports:
       - 3414:3414
     volumes:
-      - ./sample-network/:/var/
+      - ./sample-network/docker-compose:/var/
       - ./config:/blockchain-quick-start/config
 
