@@ -14,7 +14,10 @@ const tar = require('tar-stream');
 const zlib = require('zlib');
 const decompress = require('decompress');
 const decompressTargz = require('decompress-targz');
+const superagent = require("superagent");
 
+const extConfigPath = 'config/network-config-ext.yaml';
+const configtxlatorAddr = 'http://127.0.0.1:7059';
 
 let isBase64 = function(string){
   let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;
@@ -114,21 +117,8 @@ let getClientForOrg = async function(org){
 
 // generate channel.tx file with channel name and org names included in this channel
 let generateChannelTx = async function(channelName, orgNames) {
-  // prepare a tmp directory for place files
-  let tmpDir = './' + uuid.v4();
-  if (fs.existsSync(tmpDir)) {
-    fs.removeSync(tmpDir);
-  }
-  fs.mkdirSync(tmpDir);
-  logger.debug('Successfully prepared temp directory for channel config files: ' + tmpDir);
 
-  // compose configtx object
-  let configtxObj = await genConfigtxObj('config/network-config-ext.yaml', orgNames);
-  logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
-
-  let configData = yaml.safeDump(configtxObj);
-  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
-  logger.debug('Successfully written configtx.yaml file');
+  let tmpDir = await genConfigtxYaml(orgNames);
 
   // generate channel.tx file and return
   let configtxgenExec = 'configtxgen';
@@ -149,21 +139,8 @@ let generateChannelTx = async function(channelName, orgNames) {
 
 // generate anchor peer update tx file
 let generateUpdateAnchorTx = async function(channelName, orgNames, orgMSPId) {
-  // prepare a tmp directory for place files
-  let tmpDir = './' + uuid.v4();
-  if (fs.existsSync(tmpDir)) {
-    fs.removeSync(tmpDir);
-  }
-  fs.mkdirSync(tmpDir);
-  logger.debug('Successfully prepared temp directory for anchor peer config files: ' + tmpDir);
 
-  // compose configtx object
-  let configtxObj = await genConfigtxObj('config/network-config-ext.yaml', orgNames);
-  logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
-
-  let configData = yaml.safeDump(configtxObj);
-  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
-  logger.debug('Successfully written configtx.yaml file');
+  let tmpDir = await genConfigtxYaml(orgNames);
 
   // generate channel.tx file and return
   let configtxgenExec = 'configtxgen';
@@ -175,7 +152,7 @@ let generateUpdateAnchorTx = async function(channelName, orgNames, orgMSPId) {
 
   logger.debug('Generate anchorPeer.tx file by command: ' + cmdStr);
   execSync(cmdStr, {stdio: []});
-  logger.debug('Success generate anchorPeer.tx file');
+  logger.debug('Successfully generate anchorPeer.tx file');
 
   let txFile = fs.readFileSync(tmpDir+'/anchorPeer.tx');
   fs.removeSync(tmpDir);
@@ -183,15 +160,35 @@ let generateUpdateAnchorTx = async function(channelName, orgNames, orgMSPId) {
   return [true, txFile];
 };
 
-let loadExtConfig = async function(extConfigPath) {
+let loadExtConfig = async function() {
   let fileData = fs.readFileSync(extConfigPath);
   return yaml.safeLoad(fileData);
 };
 
-let genConfigtxObj = async function(extConfigPath, orgNames) {
+// Generate configtx yaml file, and return the file path
+let genConfigtxYaml = async function(orgNames) {
+  // prepare a tmp directory for place files
+  let tmpDir = './' + uuid.v4();
+  if (fs.existsSync(tmpDir)) {
+    fs.removeSync(tmpDir);
+  }
+  fs.mkdirSync(tmpDir);
+  logger.debug('Successfully prepared temp directory: ' + tmpDir);
+
+  // compose configtx object
+  let configtxObj = await genConfigtxObj(orgNames);
+  logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
+
+  let configData = yaml.safeDump(configtxObj);
+  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+  logger.debug('Successfully written configtx.yaml file');
+  return tmpDir;
+};
+
+let genConfigtxObj = async function(orgNames) {
   // generate channel config yaml
   let orgObjs = [];
-  let networkData = await loadExtConfig(extConfigPath);
+  let networkData = await loadExtConfig();
   if (networkData) {
     orgNames.forEach(function (orgName) {
       let orgData = networkData.organizations[orgName];
@@ -218,12 +215,7 @@ let genConfigtxObj = async function(extConfigPath, orgNames) {
       }
 
       // compose org object
-      let orgObj = {
-        "Name": orgData.mspid,
-        "ID": orgData.mspid,
-        "MSPDir": orgData.mspDir.path,
-        "AnchorPeers": anchorPeers
-      };
+      let orgObj = generateOrgObj(networkData, orgData);
       logger.debug(util.format('Successfully load Org %s from connection profile: %s',
         orgName, JSON.stringify(orgObj)));
       orgObjs.push(orgObj);
@@ -245,6 +237,83 @@ let genConfigtxObj = async function(extConfigPath, orgNames) {
       }
     }
   };
+};
+
+let generateOrgObj = function(networkData, orgData) {
+  // compose anchor peers
+  let anchorPeers = [];
+  if (orgData.peers > 1) {
+    orgData.peers.forEach(function (peer) {
+      let anchorPeer = {
+        "Host": networkData.peers[peer]['url-addr-container'],
+        "Port": networkData.peers[peer]['url-port-container']
+      };
+      anchorPeers.push(anchorPeer);
+    });
+  } else {
+    anchorPeers.push({
+      "Host": networkData.peers[orgData.peers[0]]['url-addr-container'],
+      "Port": networkData.peers[orgData.peers[0]]['url-port-container']
+    })
+  }
+
+  // compose org object
+  let orgObj = {
+    "Name": orgData.mspid,
+    "ID": orgData.mspid,
+    "MSPDir": orgData.mspDir.path,
+    "AnchorPeers": anchorPeers
+  };
+  return orgObj;
+};
+
+// generate new org's config json file for updating channel
+let generateNewOrgJSON = async function(channelName, orgName) {
+  // prepare a tmp directory for place files
+  let tmpDir = './' + uuid.v4();
+  if (fs.existsSync(tmpDir)) {
+    fs.removeSync(tmpDir);
+  }
+  fs.mkdirSync(tmpDir);
+  logger.debug('Successfully prepared temp directory: ' + tmpDir);
+
+  let networkData = await loadExtConfig();
+  if (networkData) {
+    let orgData = networkData.organizations[orgName];
+
+    // compose configtx object
+    let orgObj = generateOrgObj(networkData, orgData);
+    let configtxObj = {
+      Organizations: [orgObj]
+    };
+    logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
+
+    let configData = yaml.safeDump(configtxObj);
+    fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+    logger.debug('Successfully written configtx.yaml file');
+
+    // generate new org's json config and return
+    let configtxgenExec = 'configtxgen';
+    let cmdStr = configtxgenExec + ' -profile GeneratedChannel'
+      + ' -configPath ' + tmpDir
+      + ' -printOrg ' + orgData.mspid
+      + ' > ' + tmpDir + '/newOrg.json';
+
+    logger.debug('Generate new org\'s json file by command: ' + cmdStr);
+    execSync(cmdStr, {stdio: []});
+    logger.debug('Successfully generate new org\'s json file');
+
+    let newOrg = fs.readFileSync(tmpDir+'/newOrg.json');
+    fs.removeSync(tmpDir);
+    let newOrgJSON = JSON.parse(newOrg.toString());
+    logger.debug('Successfully load new org\'s json file');
+
+    return [true, orgData.mspid, newOrgJSON];
+  } else {
+    let error_message = 'Missing configuration data';
+    logger.error(error_message);
+    return [false, error_message];
+  }
 };
 
 let decodeEndorsementPolicy = async function(endorsementPolicyBase64Encoded) {
@@ -272,7 +341,7 @@ let loadCollection = async function(collectionBase64Encoded) {
 
 // For service discovery develop, see: https://fabric-sdk-node.github.io/tutorial-discovery.html
 let asLocalhost = async function() {
-  let extConfig = await loadExtConfig('config/network-config-ext.yaml');
+  let extConfig = await loadExtConfig();
   if (extConfig && extConfig.serviceDiscovery && extConfig.serviceDiscovery.asLocalhost) {
     logger.debug("Set service discovery asLocalhost to true");
     return true
@@ -293,3 +362,4 @@ exports.generateUpdateAnchorTx = generateUpdateAnchorTx;
 exports.decodeEndorsementPolicy = decodeEndorsementPolicy;
 exports.loadCollection = loadCollection;
 exports.asLocalhost = asLocalhost;
+exports.generateNewOrgJSON = generateNewOrgJSON;

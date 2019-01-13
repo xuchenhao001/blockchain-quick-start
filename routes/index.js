@@ -58,6 +58,62 @@ router.post('/channel/create', async function (req, res) {
 
 });
 
+router.post('/channel/addorg', async function (req, res) {
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let addOrg = req.body.addOrg;
+  if (typeof addOrg === 'undefined') {
+    let errMessage = "Request Error, parameter \"addOrg\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get add org name: \"" + addOrg + "\"");
+
+  let addOrgSignBy = req.body.addOrgSignBy;
+  if (typeof addOrgSignBy === 'undefined') {
+    let errMessage = "Request Error, parameter \"addOrgSignBy\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get add org signers: \"" + addOrgSignBy + "\"");
+
+  let createResult = await fabric.addOrgToChannel(addOrg, addOrgSignBy, channelName, orderers, orgName);
+  logger.debug(createResult);
+  if (createResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": createResult[1]});
+  }
+
+});
+
 router.post('/channel/join', async function (req, res) {
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
