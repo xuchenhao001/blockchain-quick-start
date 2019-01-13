@@ -148,8 +148,9 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
   }
 };
 
-let addOrgToChannel = async function (addOrg, addOrgSignBy, channelName, orderers, orgName) {
-  logger.debug('\n\n====== add Org to existing Channel \'' + channelName + '\' ======\n');
+// add org or delete org from your exist fabric network channel's config
+let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderers, orgName, isRemove) {
+  logger.debug('\n\n====== modify Org of existing Channel \'' + channelName + '\' ======\n');
   try {
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
@@ -198,21 +199,35 @@ let addOrgToChannel = async function (addOrg, addOrgSignBy, channelName, orderer
 
     // STEP 3: generate new org's config json
     // export FABRIC_CFG_PATH=$PWD && ../../bin/configtxgen -printOrg Org3MSP > ../channel-artifacts/org3.json
-    let genNewOrgResponse = await helper.generateNewOrgJSON(channelName, addOrg);
-    if (genNewOrgResponse[0] !== true) {
-      logger.error("Generated new org's config json failed!");
-      return [false, genNewOrgResponse[1]]
+    let newOrgMSPID, newOrgJSON;
+    if (!isRemove) {
+      let genNewOrgResponse = await helper.generateNewOrgJSON(channelName, targetOrg);
+      if (genNewOrgResponse[0] !== true) {
+        logger.error("Generated new org's config json failed!");
+        return [false, genNewOrgResponse[1]]
+      }
+      newOrgMSPID = genNewOrgResponse[1];
+      newOrgJSON = genNewOrgResponse[2];
+      logger.debug("Generated new org's config json successfully: " + newOrgJSON);
+    } else {
+      newOrgMSPID = await helper.loadOrgMSP(targetOrg);
+      if (!newOrgMSPID) {
+        let errMsg = "Load org's mspid from network-ext-config file failed!";
+        logger.error(errMsg);
+        return [false, errMsg]
+      }
     }
-    let newOrgMSPID = genNewOrgResponse[1];
-    let newOrgJSON = genNewOrgResponse[2];
-    logger.debug("Generated new org's config json successfully: " + newOrgJSON);
 
 
     // STEP 4: merge new org's json with old channelConfig
     // jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"Org3MSP":.[1]}}}}}'
     // ...  config.json ./channel-artifacts/org3.json > modified_config.json
     let modifiedChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig)); // Deep copy
-    modifiedChannelConfig.channel_group.groups.Application.groups[newOrgMSPID] = newOrgJSON;
+    if (!isRemove) {
+      modifiedChannelConfig.channel_group.groups.Application.groups[newOrgMSPID] = newOrgJSON;
+    } else {
+      delete modifiedChannelConfig.channel_group.groups.Application.groups[newOrgMSPID];
+    }
     logger.debug("After merge: " + JSON.stringify(modifiedChannelConfig));
 
 
@@ -337,7 +352,7 @@ let addOrgToChannel = async function (addOrg, addOrgSignBy, channelName, orderer
 
     // STEP 12: Signing the new channel config by each org
     let signatures = [];
-    for (let signerOrg of addOrgSignBy) {
+    for (let signerOrg of modifyOrgSignBy) {
       let signerClient = await helper.getClientForOrg(signerOrg);
       signatures.push(signerClient.signChannelConfig(channelConfig));
       logger.debug('New channel config signed by: ' + signerOrg)
@@ -356,12 +371,12 @@ let addOrgToChannel = async function (addOrg, addOrgSignBy, channelName, orderer
       logger.debug('Successfully updated the channel.');
       return [true];
     } else {
-      let errMsg = util.format('Failed to add new org the channel %s: %s', channelName, response.info);
+      let errMsg = util.format('Failed to modify new org the channel %s: %s', channelName, response.info);
       return [false, errMsg];
     }
 
   } catch (err) {
-    let errMessage = util.format('Failed to add new org the channel: ' + err);
+    let errMessage = util.format('Failed to modify new org the channel: ' + err);
     logger.error(errMessage);
     return [false, errMessage];
   }
@@ -411,4 +426,4 @@ let updateAnchorPeer = async function (client, channelName, orgName, ordererName
 
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
-exports.addOrgToChannel = addOrgToChannel;
+exports.modifyOrg = modifyOrg;

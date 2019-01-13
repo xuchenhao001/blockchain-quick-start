@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2019-01-13T15:23:43.852+08:00",
+      "lastModified": "2019-01-13T16:31:15.797+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -5765,6 +5765,49 @@
       "id": "b8513145-bb63-4af2-ba10-d70dfb6313a0",
       "lastModified": "2019-01-13T14:47:47.364+08:00",
       "name": "21. queryPO - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"delOrg\": \"Org3\",\n  \"delOrgSignBy\": [\"Org1\", \"Org2\"],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/delorg"
+      },
+      "id": "9a19d64b-7cba-4830-ac28-eb9ff65c5a8e",
+      "lastModified": "2019-01-13T16:31:15.797+08:00",
+      "name": "22. delOrg3FromChannel12",
       "headers": [
         {
           "enabled": true,

@@ -267,6 +267,16 @@ let generateOrgObj = function(networkData, orgData) {
   return orgObj;
 };
 
+// load org's mspid from network-ext-config file
+let loadOrgMSP = async function(orgName) {
+  let networkData = await loadExtConfig();
+  if (networkData) {
+    let orgData = networkData.organizations[orgName];
+    return orgData.mspid;
+  }
+  return null;
+};
+
 // generate new org's config json file for updating channel
 let generateNewOrgJSON = async function(channelName, orgName) {
   // prepare a tmp directory for place files
@@ -362,4 +372,5 @@ exports.generateUpdateAnchorTx = generateUpdateAnchorTx;
 exports.decodeEndorsementPolicy = decodeEndorsementPolicy;
 exports.loadCollection = loadCollection;
 exports.asLocalhost = asLocalhost;
+exports.loadOrgMSP = loadOrgMSP;
 exports.generateNewOrgJSON = generateNewOrgJSON;

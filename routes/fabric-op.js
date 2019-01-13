@@ -23,7 +23,13 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
 let addOrgToChannel = async function (addOrg, addOrgSignBy, channelName, orderers, orgName) {
   logger.debug('==================== ADD ORG TO CHANNEL ==================');
 
-  return await channel.addOrgToChannel(addOrg, addOrgSignBy, channelName, orderers, orgName);
+  return await channel.modifyOrg(addOrg, addOrgSignBy, channelName, orderers, orgName);
+};
+
+let delOrgFromChannel = async function (delOrg, delOrgSignBy, channelName, orderers, orgName) {
+  logger.debug('==================== DEL ORG TO CHANNEL ==================');
+
+  return await channel.modifyOrg(delOrg, delOrgSignBy, channelName, orderers, orgName, true);
 };
 
 let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
@@ -71,6 +77,7 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
 exports.addOrgToChannel = addOrgToChannel;
+exports.delOrgFromChannel = delOrgFromChannel;
 exports.installChaincode = installChaincode;
 exports.instantiateChaincode = instantiateChaincode;
 exports.upgradeChaincode = upgradeChaincode;
