@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "11267e20-df40-4e22-bb82-b0cbe9bff7da",
-      "lastModified": "2019-01-05T12:51:51.810+08:00",
+      "lastModified": "2019-01-13T16:31:15.797+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -5418,6 +5418,396 @@
       "id": "fc99d2b8-ee71-42ce-b4e0-bdf5d83cce65",
       "lastModified": "2019-01-05T12:51:51.810+08:00",
       "name": "16. richQueryCommonPaginEq - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"addOrg\": \"Org3\",\n  \"addOrgSignBy\": [\"Org1\", \"Org2\"],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/addorg"
+      },
+      "id": "30e2e813-35ca-4dac-8170-2a151d841539",
+      "lastModified": "2019-01-13T14:41:01.507+08:00",
+      "name": "17. addOrg3ToChannel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/join"
+      },
+      "id": "3620b63e-16eb-4eb4-a510-cbf604a25d90",
+      "lastModified": "2019-01-13T14:43:29.237+08:00",
+      "name": "18. joinChannel12 - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"localPath\": \"chaincode/allInOne\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincode\": \"\",\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v2.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "7e437bf4-2548-455e-afd3-926ce8073cec",
+      "lastModified": "2019-01-13T15:21:03.657+08:00",
+      "name": "19. installChaincode2 - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"localPath\": \"chaincode/allInOne\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincode\": \"\",\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v2.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "99168137-3f99-40d8-aec5-6279d1120f82",
+      "lastModified": "2019-01-13T15:21:20.664+08:00",
+      "name": "19. installChaincode2 - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"localPath\": \"chaincode/allInOne\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincode\": \"\",\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v2.0\",\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/install"
+      },
+      "id": "6e7b32ee-dc97-489a-b729-a5a60e1b0e24",
+      "lastModified": "2019-01-13T14:44:42.428+08:00",
+      "name": "19. installChaincode2 - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 221,
+        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v2.0\",\n  \"channelName\": \"channel12\",\n  \"collection\": \"WwogIHsKICAgICJuYW1lIjogImNvbGxlY3Rpb25QTyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzJNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgICAgIH0KICAgICAgICBdCiAgICAgIH0KICAgIH0sCiAgICAicmVxdWlyZWRQZWVyQ291bnQiOiAxLAogICAgIm1heFBlZXJDb3VudCI6IDMsCiAgICAiYmxvY2tUb0xpdmUiOiAxMDAwMDAwCiAgfSwKICB7CiAgICAibmFtZSI6ICJjb2xsZWN0aW9uUE9Qcml2YXRlRGV0YWlscyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfQogICAgICAgIF0KICAgICAgfQogICAgfSwKICAgICJyZXF1aXJlZFBlZXJDb3VudCI6IDEsCiAgICAibWF4UGVlckNvdW50IjogMywKICAgICJibG9ja1RvTGl2ZSI6IDMKICB9Cl0K\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\", \"peer0.org3.example.com\",\"peer1.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/chaincode/upgrade"
+      },
+      "id": "33180ab1-dba8-4600-a684-450c1062611a",
+      "lastModified": "2019-01-13T15:23:43.852+08:00",
+      "name": "20. upgradeOnChannel12 - withOrg3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPO\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org3.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "ea5a9672-3c53-4042-afd4-662213030069",
+      "lastModified": "2019-01-13T14:47:39.511+08:00",
+      "name": "21. invokePO - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org3\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "b8513145-bb63-4af2-ba10-d70dfb6313a0",
+      "lastModified": "2019-01-13T14:47:47.364+08:00",
+      "name": "21. queryPO - Org3",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "577a48c3-b8d6-41fd-8c8c-3dd80cdb26a1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"delOrg\": \"Org3\",\n  \"delOrgSignBy\": [\"Org1\", \"Org2\"],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3414",
+        "path": "/channel/delorg"
+      },
+      "id": "9a19d64b-7cba-4830-ac28-eb9ff65c5a8e",
+      "lastModified": "2019-01-13T16:31:15.797+08:00",
+      "name": "22. delOrg3FromChannel12",
       "headers": [
         {
           "enabled": true,
