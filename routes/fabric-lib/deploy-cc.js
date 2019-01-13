@@ -120,9 +120,9 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
 };
 
 
-let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
-                                          args, orderers, orgName, peers, endorsementPolicy, collection,
-                                          useDiscoverService) {
+let instantiateUpgradeChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion, channelName,
+                                                 functionName, args, orderers, orgName, peers, endorsementPolicy,
+                                                 collection, useDiscoverService, isUpgrade) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = '';
@@ -188,7 +188,12 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
       request.fcn = functionName;
     }
 
-    let results = await channel.sendInstantiateProposal(request, 600000); //instantiate takes much longer
+    let results;
+    if (isUpgrade) {
+      results = await channel.sendUpgradeProposal(request, 600000); //upgrade takes much longer
+    } else {
+      results = await channel.sendInstantiateProposal(request, 600000); //instantiate takes much longer
+    }
 
     // wipe collection config file
     if (request['collections-config']) {
@@ -331,4 +336,4 @@ let instantiateChaincode = async function(chaincodeName, chaincodeType, chaincod
 };
 
 exports.installChaincode = installChaincode;
-exports.instantiateChaincode = instantiateChaincode;
+exports.instantiateUpgradeChaincode = instantiateUpgradeChaincode;

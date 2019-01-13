@@ -39,8 +39,17 @@ let instantiateChaincode = async function (chaincodeName, chaincodeType, chainco
                                            useDiscoverService) {
   logger.debug('==================== INSTANTIATE CHAINCODE ==================');
 
-  return await deployCC.instantiateChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
-    args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
+  return await deployCC.instantiateUpgradeChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName,
+    functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
+};
+
+let upgradeChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
+                                           args, orderers, orgName, peers, endorsementPolicy, collection,
+                                           useDiscoverService) {
+  logger.debug('==================== INSTANTIATE CHAINCODE ==================');
+
+  return await deployCC.instantiateUpgradeChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName,
+    functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService, true);
 };
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
@@ -64,5 +73,6 @@ exports.joinChannel = joinChannel;
 exports.addOrgToChannel = addOrgToChannel;
 exports.installChaincode = installChaincode;
 exports.instantiateChaincode = instantiateChaincode;
+exports.upgradeChaincode = upgradeChaincode;
 exports.invokeChaincode = invokeChaincode;
 exports.queryChaincode = queryChaincode;
