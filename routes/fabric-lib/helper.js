@@ -14,10 +14,8 @@ const tar = require('tar-stream');
 const zlib = require('zlib');
 const decompress = require('decompress');
 const decompressTargz = require('decompress-targz');
-const superagent = require("superagent");
 
 const extConfigPath = 'config/network-config-ext.yaml';
-const configtxlatorAddr = 'http://127.0.0.1:7059';
 
 let isBase64 = function(string){
   let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;

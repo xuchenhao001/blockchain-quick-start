@@ -90,7 +90,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
   // tell each peer to join and wait 2 seconds
   // for the channel to be created on each peer
   let promises = [];
-  promises.push(new Promise(resolve => setTimeout(resolve, 1500)));
+  promises.push(new Promise(resolve => setTimeout(resolve, 2000)));
 
   let join_request = {
     txId: client.newTransactionID(true), //get an admin based transactionID
