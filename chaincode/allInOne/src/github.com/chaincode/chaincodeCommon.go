@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-var commonPrefix = "Common@"
+var commonPrefix = ""
 
 func (s *SmartContract) uploadCommon(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
