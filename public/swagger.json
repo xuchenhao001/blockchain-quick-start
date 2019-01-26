@@ -190,6 +190,129 @@
         }
       }
     },
+    "/channel/addorg": {
+      "post": {
+        "tags": [
+          "Channel"
+        ],
+        "summary": "create an addorg",
+        "description": "",
+        "operationId": "createAddorg",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "create an addorg with name 'myaddorg'",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateAddorg"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CreateAddorgS"
+            }
+          },
+          "500": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/CreateAddorgF"
+            }
+          }
+        }
+      }
+    },
+    "/channel/delorg": {
+      "post": {
+        "tags": [
+          "Channel"
+        ],
+        "summary": "create an delorg",
+        "description": "",
+        "operationId": "createDelorg",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "create an delorg with name 'mydelorg'",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateDelorg"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CreateDelorgS"
+            }
+          },
+          "500": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/CreateDelorgF"
+            }
+          }
+        }
+      }
+    },
+    "/chaincode/upgrade": {
+      "post": {
+        "tags": [
+          "Chaincode"
+        ],
+        "summary": "upgrade the chaincode",
+        "description": "",
+        "operationId": "upgradeChaincode",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "upgrade the chaincode",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpgradeChaincode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UpgradeChaincodeS"
+            }
+          },
+          "500": {
+            "description": "Failed",
+            "schema": {
+              "$ref": "#/definitions/UpgradeChaincodeF"
+            }
+          }
+        }
+      }
+    },
     "/invoke/{channelName}/{chaincodeName}": {
       "post": {
         "tags": [
@@ -361,7 +484,7 @@
       "type": "object",
       "required": [
         "channelName",
-        "ordererName",
+        "orderers",
         "orgName",
         "peers"
       ],
@@ -370,9 +493,14 @@
           "type": "string",
           "example": "mychannel"
         },
-        "ordererName": {
-          "type": "string",
-          "example": "orderer.example.com"
+        "orderers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "orderer.example.com"
+          ]
         },
         "orgName": {
           "type": "string",
@@ -415,6 +543,8 @@
     "InstallChaincode": {
       "type": "object",
       "required": [
+        "localPath",
+        "chaincodePath",
         "chaincode",
         "chaincodeName",
         "chaincodeType",
@@ -423,6 +553,14 @@
         "peers"
       ],
       "properties": {
+        "localPath": {
+          "type": "string",
+          "example": "mychannel"
+        },
+        "chaincodePath": {
+          "type": "string",
+          "example": "mychannel"
+        },
         "chaincode": {
           "type": "string",
           "description": "Chaincode file encoded with base64",
@@ -485,9 +623,12 @@
         "chaincodeType",
         "chaincodeVersion",
         "channelName",
+        "collection",
+        "endorsementPolicy",
         "functionName",
         "args",
-        "ordererName",
+        "orderers",
+        "useDiscoverService",
         "orgName",
         "peers"
       ],
@@ -508,17 +649,40 @@
           "type": "string",
           "example": "mychannel"
         },
+        "collection": {
+          "type": "string",
+          "example": "mychannel"
+        },
+        "endorsementPolicy": {
+          "type": "string",
+          "example": "ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjItb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ=="
+        },
         "functionName": {
           "type": "string",
           "example": ""
         },
         "args": {
-          "type": "string",
-          "example": []
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "Org1",
+            "Org2"
+          ]
         },
-        "ordererName": {
-          "type": "string",
-          "example": "orderer.example.com"
+        "orderers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "orderer.example.com"
+          ]
+        },
+        "useDiscoverService": {
+          "type": "boolean",
+          "example": true
         },
         "orgName": {
           "type": "string",
@@ -560,19 +724,44 @@
         }
       }
     },
-    "Invoke": {
+    "UpgradeChaincode": {
       "type": "object",
       "required": [
+        "chaincodeName",
+        "chaincodeType",
+        "chaincodeVersion",
+        "channelName",
+        "collection",
         "functionName",
         "args",
-        "ordererName",
+        "orderers",
         "orgName",
         "peers"
       ],
       "properties": {
+        "chaincodeName": {
+          "type": "string",
+          "example": "mycc"
+        },
+        "chaincodeType": {
+          "type": "string",
+          "example": "golang"
+        },
+        "chaincodeVersion": {
+          "type": "string",
+          "example": "v2.0"
+        },
+        "channelName": {
+          "type": "string",
+          "example": "channel12"
+        },
+        "collection": {
+          "type": "string",
+          "example": "WwogIHsKICAgICJuYW1lIjogImNvbGxlY3Rpb25QTyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzJNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgICAgIH0KICAgICAgICBdCiAgICAgIH0KICAgIH0sCiAgICAicmVxdWlyZWRQZWVyQ291bnQiOiAxLAogICAgIm1heFBlZXJDb3VudCI6IDMsCiAgICAiYmxvY2tUb0xpdmUiOiAxMDAwMDAwCiAgfSwKICB7CiAgICAibmFtZSI6ICJjb2xsZWN0aW9uUE9Qcml2YXRlRGV0YWlscyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfQogICAgICAgIF0KICAgICAgfQogICAgfSwKICAgICJyZXF1aXJlZFBlZXJDb3VudCI6IDEsCiAgICAibWF4UGVlckNvdW50IjogMywKICAgICJibG9ja1RvTGl2ZSI6IDMKICB9Cl0K"
+        },
         "functionName": {
           "type": "string",
-          "example": "put"
+          "example": ""
         },
         "args": {
           "type": "array",
@@ -580,13 +769,18 @@
             "type": "string"
           },
           "example": [
-            "user",
-            "1"
+            "Org1",
+            "Org2"
           ]
         },
-        "ordererName": {
-          "type": "string",
-          "example": "orderer.example.com"
+        "orderers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "orderer.example.com"
+          ]
         },
         "orgName": {
           "type": "string",
@@ -603,6 +797,218 @@
             "peer0.org2.example.com",
             "peer1.org2.example.com"
           ]
+        }
+      }
+    },
+    "UpgradeChaincodeS": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "success"
+        }
+      }
+    },
+    "UpgradeChaincodeF": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "failed"
+        },
+        "error": {
+          "type": "string",
+          "example": "Failed to upgrade the chaincode"
+        }
+      }
+    },
+    "CreateAddorg": {
+      "type": "object",
+      "required": [
+        "addOrg",
+        "addOrgSignBy",
+        "channelName",
+        "orgName",
+        "orderers"
+      ],
+      "properties": {
+        "addOrg": {
+          "type": "string",
+          "example": "Org3"
+        },
+        "addOrgSignBy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "Org1",
+            "Org2"
+          ]
+        },
+        "channelName": {
+          "type": "string",
+          "example": "channel12"
+        },
+        "orderers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "orderer.example.com"
+          ]
+        },
+        "orgName": {
+          "type": "string",
+          "example": "Org1"
+        }
+      }
+    },
+    "CreateAddorgS": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "success"
+        }
+      }
+    },
+    "CreateAddorgF": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "failed"
+        },
+        "error": {
+          "type": "string",
+          "example": "Failed to create the addorg myaddorg"
+        }
+      }
+    },
+    "CreateDelorg": {
+      "type": "object",
+      "required": [
+        "delOrg",
+        "delOrgSignBy",
+        "channelName",
+        "orgName",
+        "orderers"
+      ],
+      "properties": {
+        "delOrg": {
+          "type": "string",
+          "example": "Org3"
+        },
+        "delOrgSignBy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "Org1",
+            "Org2"
+          ]
+        },
+        "channelName": {
+          "type": "string",
+          "example": "channel12"
+        },
+        "orderers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "orderer.example.com"
+          ]
+        },
+        "orgName": {
+          "type": "string",
+          "example": "Org1"
+        }
+      }
+    },
+    "CreateDelorgS": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "success"
+        }
+      }
+    },
+    "CreateDelorgF": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "example": "failed"
+        },
+        "error": {
+          "type": "string",
+          "example": "Failed to create the addorg myaddorg"
+        }
+      }
+    },
+    "Invoke": {
+      "type": "object",
+      "required": [
+        "functionName",
+        "args",
+        "orderers",
+        "orgName",
+        "useDiscoverService",
+        "peer",
+        "transient"
+      ],
+      "properties": {
+        "functionName": {
+          "type": "string",
+          "example": "put"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "user",
+            "1"
+          ]
+        },
+        "orderers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "peer0.org1.example.com"
+          ]
+        },
+        "orgName": {
+          "type": "string",
+          "example": "Org1"
+        },
+        "useDiscoverService": {
+          "type": "boolean",
+          "example": true
+        },
+        "peers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "peer0.org1.example.com",
+            "peer1.org1.example.com",
+            "peer0.org2.example.com",
+            "peer1.org2.example.com"
+          ]
+        },
+        "transient": {
+          "type": "object"
         }
       }
     },
@@ -629,9 +1035,10 @@
       "required": [
         "functionName",
         "args",
-        "ordererName",
+        "orderers",
         "orgName",
-        "peers"
+        "peers",
+        "transient"
       ],
       "properties": {
         "functionName": {
@@ -647,7 +1054,7 @@
             "user"
           ]
         },
-        "ordererName": {
+        "orderers": {
           "type": "string",
           "example": "orderer.example.com"
         },
@@ -666,6 +1073,9 @@
             "peer0.org2.example.com",
             "peer1.org2.example.com"
           ]
+        },
+        "transient": {
+          "type": "object"
         }
       }
     },
