@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -18,6 +19,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// If set AUTHORIZATION=true, you must provide a correct Bearer token
+if (process.env.AUTHORIZATION) {
+  app.all('/*', auth);
+}
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
