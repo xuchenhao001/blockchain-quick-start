@@ -227,7 +227,7 @@ let genConfigtxObj = async function(orgNames) {
   return {
     "Profiles": {
       "GeneratedChannel": {
-        "Consortium": "SampleConsortium",
+        "Consortium": "Consortiums",
         "Application": {
           "Organizations": orgObjs,
           "Capabilities": {"V1_3": true}
@@ -257,7 +257,7 @@ let generateOrgObj = function(networkData, orgData) {
 
   // compose org object
   let orgObj = {
-    "Name": orgData.mspid,
+    "Name": orgData.name,
     "ID": orgData.mspid,
     "MSPDir": orgData.mspDir.path,
     "AnchorPeers": anchorPeers
