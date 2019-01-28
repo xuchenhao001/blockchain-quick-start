@@ -85,6 +85,47 @@ func (s *SmartContract) validatePOEncrypt(po POEncrypt) (bool, error) {
 	return true, nil
 }
 
+func (s *SmartContract) uploadEncrypt(APIstub shim.ChaincodeStubInterface, args []string,
+	encKey, signOrIV []byte) sc.Response {
+
+	if len(args) != 2 {
+		return s.returnError("Wrong number of parameters, need key & value")
+	}
+
+	logger.Debugf("Got request parameters: [key] %s, [value] %s", args[0], args[1])
+
+	key := args[0]
+	valueAsByte := []byte(args[1])
+
+	err := s.writeChainEncryptAll(APIstub, key, valueAsByte, encKey, signOrIV)
+	if err != nil {
+		return s.returnError("Data encrypt and write to chain failed: " + err.Error())
+	}
+
+	return shim.Success(valueAsByte)
+
+}
+
+func (s *SmartContract) queryDecrypt(APIstub shim.ChaincodeStubInterface, args []string,
+	decKey, signOrIV []byte) sc.Response {
+
+	if len(args) != 1 {
+		return s.returnError("Wrong number of parameters, need key & value")
+	}
+
+	logger.Debugf("Got request parameters: [key] %s", args[0])
+
+	key := args[0]
+
+	valueAsBytes, err := s.readChainDecryptAll(APIstub, key, decKey, signOrIV)
+	if err != nil {
+		return s.returnError("Data decrypt and query failed: " + err.Error())
+	}
+
+	return shim.Success(valueAsBytes)
+
+}
+
 func (s *SmartContract) uploadPOEncrypt(APIstub shim.ChaincodeStubInterface, args []string,
 	encKey, signOrIV []byte, encPart, sign bool) sc.Response {
 
@@ -155,6 +196,56 @@ func (s *SmartContract) queryPODecrypt(APIstub shim.ChaincodeStubInterface, args
 		return shim.Success(poAsBytes)
 	}
 
+}
+
+// Do encrypt & write chain for common data
+func (s *SmartContract) writeChainEncryptAll(APIstub shim.ChaincodeStubInterface,
+	key string, valueAsBytes []byte, encKey, IV []byte) error {
+
+	ent, err := entities.NewAES256EncrypterEntity("ID", s.bccspInst, encKey, IV)
+	if err != nil {
+		return errors.New("entities.NewAES256EncrypterEntity failed, err %s" + err.Error())
+	}
+
+	// Do fully encrypt
+	logger.Debugf("Do fully encrypt: [data] %s", string(valueAsBytes))
+	cipherText, err := s.encrypt(APIstub, ent, valueAsBytes)
+	if err != nil {
+		return err
+	}
+
+	logger.Debugf("Write chain: [key] %s [data] %s", key, string(cipherText))
+	encryptKey := key
+	err = APIstub.PutState(encryptKey, cipherText)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Do read chain & decrypt for common data
+func (s *SmartContract) readChainDecryptAll(APIstub shim.ChaincodeStubInterface,
+	key string, decKey, IV []byte) ([]byte, error) {
+
+	ent, err := entities.NewAES256EncrypterEntity("ID", s.bccspInst, decKey, IV)
+	if err != nil {
+		return nil, errors.New("entities.NewAES256EncrypterEntity failed, err %s" + err.Error())
+	}
+
+	// Do fully decrypt
+	valueAsBytes, err := APIstub.GetState(key)
+	if err != nil {
+		return nil, err
+	}
+
+	logger.Debug("Do fully decrypt: " + string(valueAsBytes))
+	clearText, err := s.decrypt(APIstub, ent, valueAsBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	return clearText, nil
 }
 
 // Do encrypt & write chain

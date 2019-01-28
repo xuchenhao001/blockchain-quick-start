@@ -2,12 +2,18 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
 	"strconv"
 )
 
 var commonPrefix = ""
+
+type BatchData struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
 
 func (s *SmartContract) uploadCommon(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
@@ -20,7 +26,6 @@ func (s *SmartContract) uploadCommon(APIstub shim.ChaincodeStubInterface, args [
 	key := args[0]
 	valueAsByte := []byte(args[1])
 
-	// 数据上链
 	logger.Debug("Write value on chain: " + string(valueAsByte))
 	commonKey := commonPrefix + key
 	err := APIstub.PutState(commonKey, valueAsByte)
@@ -46,6 +51,50 @@ func (s *SmartContract) queryCommon(APIstub shim.ChaincodeStubInterface, args []
 		return s.returnError("Query failed: " + err.Error())
 	}
 	return shim.Success(result)
+}
+
+func (s *SmartContract) batchUploadCommon(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	logger.Debugf("Got %d args for bach upload.", len(args))
+
+	for _, arg := range args {
+		var batchData BatchData
+		json.Unmarshal([]byte(arg), &batchData)
+		key := batchData.Key
+		valueAsByte := []byte(batchData.Value)
+
+		logger.Debugf("Write [key] %s [value] %s on chain: ", key, string(valueAsByte))
+		err := APIstub.PutState(key, valueAsByte)
+		if err != nil {
+			return shim.Error("Data [key] " + key + " write to chain failed: " + err.Error())
+		}
+	}
+	return shim.Success(nil)
+}
+
+func (s *SmartContract) batchQueryCommon(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	logger.Debugf("Got %d args for bach query.", len(args))
+
+	var batch []BatchData
+	for _, key := range args {
+		logger.Debug("Query common on chain: " + key)
+		valueAsByte, err := APIstub.GetState(key)
+		if err != nil {
+			return s.returnError("Query failed: " + err.Error())
+		}
+		var batchData BatchData
+		batchData.Key = key
+		batchData.Value = string(valueAsByte)
+		batch = append(batch, batchData)
+	}
+	batchAsByte, err := json.Marshal(batch)
+	if err != nil {
+		return shim.Error("Marshal query result failed: " + err.Error())
+	}
+
+	return shim.Success(batchAsByte)
+
 }
 
 func (s *SmartContract) queryCommonHistory(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
@@ -99,4 +148,3 @@ func (s *SmartContract) richQueryCommon(APIstub shim.ChaincodeStubInterface, arg
 			"(rich query string & page size & bookmark).")
 	}
 }
-

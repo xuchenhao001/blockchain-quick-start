@@ -73,6 +73,10 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryCommonHistory(APIstub, args)
 	} else if function == "richQueryCommon" {
 		return s.richQueryCommon(APIstub, args)
+	} else if function == "batchUploadCommon" {
+		return s.batchUploadCommon(APIstub, args)
+	} else if function == "batchQueryCommon" {
+		return s.batchQueryCommon(APIstub, args)
 	} else
 
 	// chaincode Encrypt
@@ -139,6 +143,26 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		}
 		return s.queryPODecrypt(APIstub, args, tMap[DECKEY], tMap[VERKEY], true, true)
 	} else
+	// chaincode common Encrypt
+	if function == "uploadEncAll" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[ENCKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
+		}
+		return s.uploadEncrypt(APIstub, args, tMap[ENCKEY], tMap[IV])
+	} else if function == "queryDecAll" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[DECKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
+		}
+		return s.queryDecrypt(APIstub, args, tMap[DECKEY], tMap[IV])
+	} else
 
 	// key level endorsement policy
 	if function == "kepAddOrgs" {
@@ -170,6 +194,6 @@ func main() {
 	// Create a new Smart Contract
 	err := shim.Start(&SmartContract{factory.GetDefault()})
 	if err != nil {
-		logger.Error("Error creating new Smart Contract: %s", err)
+		logger.Errorf("Error creating new Smart Contract: %s", err)
 	}
 }

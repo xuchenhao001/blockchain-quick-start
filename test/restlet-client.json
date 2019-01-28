@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "095dcc6f-40dc-4d9c-bf30-485adaf09d64",
-      "lastModified": "2019-01-26T20:03:02.587+08:00",
+      "lastModified": "2019-01-28T15:53:34.421+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -2311,9 +2311,9 @@
         "path": "/invoke/channelforencryptdatademo/encryptcc"
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
-      "id": "69e10e32-7880-466d-94fb-e232ee73cd7a",
-      "lastModified": "2019-01-25T21:10:52.890+08:00",
-      "name": "10. invoke - EncryptSignPart",
+      "id": "f58f6be9-3e22-40fe-b06a-fcf73ce2e07b",
+      "lastModified": "2019-01-28T11:09:37.109+08:00",
+      "name": "07. invoke - EncryptSignPart",
       "headers": [
         {
           "enabled": true,
@@ -2355,9 +2355,9 @@
         "path": "/query/channelforencryptdatademo/encryptcc"
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
-      "id": "ff4cb9af-76fe-4f19-bcc2-c1d045ea5b6f",
-      "lastModified": "2019-01-25T21:10:52.890+08:00",
-      "name": "10. query - DecryptVrfyPart",
+      "id": "a542c092-d05b-4d77-81b0-68a253c2421c",
+      "lastModified": "2019-01-28T11:09:43.356+08:00",
+      "name": "07. query - DecryptVrfyPart",
       "headers": [
         {
           "enabled": true,
@@ -4725,7 +4725,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
       "id": "272137be-3a02-4d7a-989e-c83601e1ef11",
-      "lastModified": "2019-01-25T21:10:52.895+08:00",
+      "lastModified": "2019-01-28T11:21:29.734+08:00",
       "name": "09. invokePO - EncryptSignPart",
       "headers": [
         {
@@ -4769,7 +4769,7 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32\n生成prime256v1标准签名密钥：\nopenssl ecparam -name prime256v1 -genkey | tail -n5 | base64 -w0\n",
       "id": "a6f1fc65-ba6d-4967-b9b2-763ee52bd3d8",
-      "lastModified": "2019-01-25T21:10:52.895+08:00",
+      "lastModified": "2019-01-28T11:21:36.260+08:00",
       "name": "09. queryPO - DecryptVrfyPart",
       "headers": [
         {
@@ -4796,7 +4796,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPOWithPrivate\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadEncAll\",\n  \"args\": [\"commonKey010\", \"{\\\"seller\\\": \\\"seller2\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": \\\"1233.00\\\", \\\"amount\\\": \\\"1521522.00\\\", \\\"quantity\\\": \\\"1234\\\", \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": \\\"1521522.00\\\", \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo002\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4811,9 +4811,54 @@
         "host": "127.0.0.1:3414",
         "path": "/invoke/channel12/mycc"
       },
-      "id": "8c81fdaa-2fde-4d0e-81ef-f298dff2b8dc",
-      "lastModified": "2019-01-25T21:10:52.895+08:00",
-      "name": "10. invokePO - PrivateData",
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "551c9d1d-d6ab-4193-9e4b-fe1d6bdf857c",
+      "lastModified": "2019-01-28T11:24:49.486+08:00",
+      "name": "10. invokePO - EncryptCommon",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "f03943c3-eefb-4a85-8faa-1e2eceacbc27"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryDecAll\",\n  \"args\": [\"commonKey010\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "127.0.0.1:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "ca877d91-423a-442a-8005-6490029d590e",
+      "lastModified": "2019-01-28T11:24:57.261+08:00",
+      "name": "10. queryPO - DecryptCommon",
       "headers": [
         {
           "enabled": true,
@@ -4986,6 +5031,49 @@
       "id": "ff22eed2-b912-415f-80e0-00a41cb2bc08",
       "lastModified": "2019-01-25T21:10:52.895+08:00",
       "name": "11. Org2 - queryPubData",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "f03943c3-eefb-4a85-8faa-1e2eceacbc27"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadPOWithPrivate\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "127.0.0.1:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "8c81fdaa-2fde-4d0e-81ef-f298dff2b8dc",
+      "lastModified": "2019-01-28T11:19:11.320+08:00",
+      "name": "11. invokePO - PrivateData",
       "headers": [
         {
           "enabled": true,
@@ -5808,6 +5896,180 @@
       "id": "f2c72f27-2d51-4e7b-b7a8-9589365e5915",
       "lastModified": "2019-01-25T21:10:52.897+08:00",
       "name": "22. delOrg3FromChannel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "f03943c3-eefb-4a85-8faa-1e2eceacbc27"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"batchUploadCommon\",\n  \"args\": [\"{\\\"key\\\":\\\"key1\\\",\\\"value\\\":\\\"value1\\\"}\", \"{\\\"key\\\":\\\"key2\\\",\\\"value\\\":\\\"value2\\\"}\", \"{\\\"key\\\":\\\"key3\\\",\\\"value\\\":\\\"value3\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer1.org1.example.com\", \"peer0.org2.example.com\", \"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "127.0.0.1:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "id": "5063fcf8-c6c0-4b6b-b75a-821feb686b67",
+      "lastModified": "2019-01-28T15:42:31.124+08:00",
+      "name": "23. batchInvokeCommon - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "f03943c3-eefb-4a85-8faa-1e2eceacbc27"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"batchQueryCommon\",\n  \"args\": [\"key1\", \"key2\", \"key3\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "127.0.0.1:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "fd74955c-e65f-4f8d-9ea6-57a85b916825",
+      "lastModified": "2019-01-28T15:44:18.864+08:00",
+      "name": "23. batchQueryCommon - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "f03943c3-eefb-4a85-8faa-1e2eceacbc27"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadEncAll\",\n  \"args\": [\"commonKey2\", \"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "127.0.0.1:3414",
+        "path": "/invoke/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "8922c8b2-9bb1-42ac-af9e-844a4d1eb815",
+      "lastModified": "2019-01-28T15:53:34.422+08:00",
+      "name": "24. invokeCommon - EncryptAll",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "f03943c3-eefb-4a85-8faa-1e2eceacbc27"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryDecAll\",\n  \"args\": [\"commonKey2\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "127.0.0.1:3414",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "e979c792-6eb1-443c-a2fb-2e83985115b4",
+      "lastModified": "2019-01-28T15:53:30.801+08:00",
+      "name": "24. queryCommon - DecryptAll",
       "headers": [
         {
           "enabled": true,

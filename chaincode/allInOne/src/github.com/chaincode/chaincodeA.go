@@ -198,7 +198,7 @@ func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key 
 		buffer.WriteString(response.TxId)
 		buffer.WriteString("\"")
 
-		buffer.WriteString(", \"Value\":")
+		buffer.WriteString(", \"Value\":\"")
 		// if it was a delete operation on given key, then we need to set the
 		//corresponding value null. Else, we will write the response.Value
 		//as-is (as the Value itself a JSON marble)
@@ -208,7 +208,7 @@ func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key 
 			buffer.WriteString(string(response.Value))
 		}
 
-		buffer.WriteString(", \"Timestamp\":")
+		buffer.WriteString("\", \"Timestamp\":")
 		buffer.WriteString("\"")
 		buffer.WriteString(time.Unix(response.Timestamp.Seconds, int64(response.Timestamp.Nanos)).String())
 		buffer.WriteString("\"")
@@ -223,14 +223,14 @@ func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key 
 	}
 	buffer.WriteString("]")
 
-	logger.Debug("- getHistory returning:\n%s\n", buffer.String())
+	logger.Debugf("- getHistory returning:\n%s\n", buffer.String())
 
 	return buffer.Bytes(), nil
 }
 
 func (s *SmartContract) richQuery(stub shim.ChaincodeStubInterface, queryString string)([] byte, error) {
 
-	logger.Debug("Get rich query request: \n%s\n", queryString)
+	logger.Debugf("Get rich query request: \n%s\n", queryString)
 
 	resultsIterator, err := stub.GetQueryResult(queryString)
 	defer resultsIterator.Close()
@@ -259,7 +259,7 @@ func (s *SmartContract) richQueryWithPagination(stub shim.ChaincodeStubInterface
 func getQueryResultForQueryStringWithPagination(stub shim.ChaincodeStubInterface,
 	queryString string, pageSize int32, bookmark string) ([]byte, error) {
 
-	logger.Debug("- getQueryResultForQueryString queryString:\n%s\n", queryString)
+	logger.Debugf("- getQueryResultForQueryString queryString:\n%s\n", queryString)
 
 	resultsIterator, responseMetadata, err := stub.GetQueryResultWithPagination(queryString, pageSize, bookmark)
 	if err != nil {
@@ -274,7 +274,7 @@ func getQueryResultForQueryStringWithPagination(stub shim.ChaincodeStubInterface
 
 	bufferWithPaginationInfo := addPaginationMetadataToQueryResults(buffer, responseMetadata)
 
-	logger.Debug("- getQueryResultForQueryString queryResult:\n%s\n", bufferWithPaginationInfo.String())
+	logger.Debugf("- getQueryResultForQueryString queryResult:\n%s\n", bufferWithPaginationInfo.String())
 
 	return buffer.Bytes(), nil
 }
