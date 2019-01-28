@@ -227,7 +227,7 @@ let genConfigtxObj = async function(orgNames) {
   return {
     "Profiles": {
       "GeneratedChannel": {
-        "Consortium": "Consortiums",
+        "Consortium": "SampleConsortium",
         "Application": {
           "Organizations": orgObjs,
           "Capabilities": {"V1_3": true}
