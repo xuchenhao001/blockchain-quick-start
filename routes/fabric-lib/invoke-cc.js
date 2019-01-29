@@ -92,7 +92,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
             logger.error(message);
             eh.disconnect();
             return [false, message];
-          }, 10000);
+          }, 100000);
           eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
               logger.info('The chaincode invoke transaction has been committed on peer %s', eh.getPeerAddr());
               logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
