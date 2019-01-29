@@ -386,8 +386,11 @@ let updateAnchorPeer = async function (client, channelName, orgName, ordererName
   logger.debug('\n\n====== Updating Anchor Peer \'' + channelName + '\' ======\n');
 
   // read in the envelope for the channel config raw bytes
-  let mspId = client.getMspid();
-  let createTxResult = await helper.generateUpdateAnchorTx(channelName, [orgName], mspId);
+  let genesisOrgNameResult = await helper.loadGenesisOrgName(orgName);
+  if (genesisOrgNameResult[0] === false) {
+    return [false, genesisOrgNameResult[1]];
+  }
+  let createTxResult = await helper.generateUpdateAnchorTx(channelName, [orgName], genesisOrgNameResult[1]);
   if (createTxResult[0] === false) {
     return [false, createTxResult[1]];
   }

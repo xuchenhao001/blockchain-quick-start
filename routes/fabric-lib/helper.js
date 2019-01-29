@@ -265,6 +265,19 @@ let generateOrgObj = function(networkData, orgData) {
   return orgObj;
 };
 
+let loadGenesisOrgName = async function(orgName) {
+  let networkData = await loadExtConfig();
+  if (networkData) {
+    let orgData = networkData.organizations[orgName];
+    if (!orgData) {
+      let error_message = util.format('Failed to load Org %s from connection profile', orgName);
+      logger.error(error_message);
+      return [false, error_message];
+    }
+    return [true, orgData.name]
+  }
+};
+
 // load org's mspid from network-ext-config file
 let loadOrgMSP = async function(orgName) {
   let networkData = await loadExtConfig();
@@ -372,3 +385,4 @@ exports.loadCollection = loadCollection;
 exports.asLocalhost = asLocalhost;
 exports.loadOrgMSP = loadOrgMSP;
 exports.generateNewOrgJSON = generateNewOrgJSON;
+exports.loadGenesisOrgName = loadGenesisOrgName;
