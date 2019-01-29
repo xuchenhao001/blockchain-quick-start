@@ -16,7 +16,7 @@ organizations:
     mspDir:
       path: /var/crypto-config/peerOrganizations/org2.example.com/msp
   Org3:
-    name: Org3
+    name: Org3MSP
     mspid: Org3MSP
     peers:
     - peer0.org3.example.com
