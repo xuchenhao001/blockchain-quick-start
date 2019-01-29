@@ -16,6 +16,10 @@ volumes:
 
 networks:
   byfn:
+    ipam:
+      driver: default
+      config:
+        - subnet: 33.6.0.0/16
 
 services:
   ca0:
