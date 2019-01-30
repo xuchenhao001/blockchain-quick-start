@@ -8,7 +8,6 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
 	"strconv"
-	"time"
 )
 
 var poPrefix = "PO@"
@@ -172,63 +171,7 @@ func (s *SmartContract) richQueryPO(APIstub shim.ChaincodeStubInterface, args []
 	}
 }
 
-func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key string) ([]byte, error) {
-	resultsIterator, err := stub.GetHistoryForKey(key)
-	if err != nil {
-		return nil, err
-	}
-	defer resultsIterator.Close()
-
-	// buffer is a JSON array containing historic values for the marble
-	var buffer bytes.Buffer
-	buffer.WriteString("[")
-
-	bArrayMemberAlreadyWritten := false
-	for resultsIterator.HasNext() {
-		response, err := resultsIterator.Next()
-		if err != nil {
-			return nil, err
-		}
-		// Add a comma before array members, suppress it for the first array member
-		if bArrayMemberAlreadyWritten == true {
-			buffer.WriteString(",")
-		}
-		buffer.WriteString("{\"TxId\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(response.TxId)
-		buffer.WriteString("\"")
-
-		buffer.WriteString(", \"Value\":\"")
-		// if it was a delete operation on given key, then we need to set the
-		//corresponding value null. Else, we will write the response.Value
-		//as-is (as the Value itself a JSON marble)
-		if response.IsDelete {
-			buffer.WriteString("null")
-		} else {
-			buffer.WriteString(string(response.Value))
-		}
-
-		buffer.WriteString("\", \"Timestamp\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(time.Unix(response.Timestamp.Seconds, int64(response.Timestamp.Nanos)).String())
-		buffer.WriteString("\"")
-
-		buffer.WriteString(", \"IsDelete\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(strconv.FormatBool(response.IsDelete))
-		buffer.WriteString("\"")
-
-		buffer.WriteString("}")
-		bArrayMemberAlreadyWritten = true
-	}
-	buffer.WriteString("]")
-
-	logger.Debugf("- getHistory returning:\n%s\n", buffer.String())
-
-	return buffer.Bytes(), nil
-}
-
-func (s *SmartContract) richQuery(stub shim.ChaincodeStubInterface, queryString string)([] byte, error) {
+func (s *SmartContract) richQuery(stub shim.ChaincodeStubInterface, queryString string) ([] byte, error) {
 
 	logger.Debugf("Get rich query request: \n%s\n", queryString)
 
@@ -323,4 +266,3 @@ func addPaginationMetadataToQueryResults(buffer *bytes.Buffer, responseMetadata 
 
 	return buffer
 }
-

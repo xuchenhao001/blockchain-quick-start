@@ -13,6 +13,14 @@ var commonPrefix = ""
 type BatchData struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
+	Flag  string `json:"flag"`
+}
+
+type History struct {
+	TxId      string `json:"txId"`
+	Value     string `json:"value"`
+	Timestamp string `json:"timestamp"`
+	IsDelete  bool   `json:"isDelete"`
 }
 
 func (s *SmartContract) uploadCommon(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
@@ -147,4 +155,38 @@ func (s *SmartContract) richQueryCommon(APIstub shim.ChaincodeStubInterface, arg
 		return s.returnError("Wrong number of parameters, need 1 arg (rich query string) or 3 args " +
 			"(rich query string & page size & bookmark).")
 	}
+}
+
+func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key string) ([]byte, error) {
+	historyIter, err := stub.GetHistoryForKey(key)
+	if err != nil {
+		return nil, err
+	}
+	defer historyIter.Close()
+
+	var historyArray []History
+
+	for historyIter.HasNext() {
+		historyItem, err := historyIter.Next()
+		if err != nil {
+			return nil, err
+		}
+
+		var history History
+		history.TxId = historyItem.TxId
+		history.Timestamp = historyItem.Timestamp.String()
+		history.Value = string(historyItem.Value)
+		history.IsDelete = historyItem.IsDelete
+
+		historyArray = append(historyArray, history)
+	}
+
+	historyAsByte, err := json.Marshal(historyArray)
+	if err != nil {
+		return nil, err
+	}
+
+	logger.Debugf("getHistory returning:\n%s\n", string(historyAsByte))
+
+	return historyAsByte, nil
 }
