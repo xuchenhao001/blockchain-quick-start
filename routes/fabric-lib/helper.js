@@ -317,7 +317,7 @@ let generateNewOrgJSON = async function(channelName, orgName) {
     let configtxgenExec = 'configtxgen';
     let cmdStr = configtxgenExec + ' -profile GeneratedChannel'
       + ' -configPath ' + tmpDir
-      + ' -printOrg ' + orgData.mspid
+      + ' -printOrg ' + orgName
       + ' > ' + tmpDir + '/newOrg.json';
 
     logger.debug('Generate new org\'s json file by command: ' + cmdStr);
