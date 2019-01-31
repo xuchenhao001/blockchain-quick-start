@@ -177,7 +177,8 @@ let genConfigtxYaml = async function(orgNames) {
   let configtxObj = await genConfigtxObj(orgNames);
   logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
 
-  let configData = yaml.safeDump(configtxObj);
+  let configData = yaml.dump(configtxObj);
+  logger.debug('Generated configtx yaml file: ' + configData);
   fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
   logger.debug('Successfully written configtx.yaml file');
   return tmpDir;
