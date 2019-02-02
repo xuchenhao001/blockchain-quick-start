@@ -47,7 +47,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       txId: tx_id,
       transientMap: transient
     };
-    let results = await channel.sendTransactionProposal(request);
+    let results = await channel.sendTransactionProposal(request, 600000);
 
     // the returned object has both the endorsement results
     // and the actual proposal, the proposal will be needed
