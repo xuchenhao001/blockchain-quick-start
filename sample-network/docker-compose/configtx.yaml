@@ -30,7 +30,7 @@ Organizations:
     - &Org1
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org1MSP
+        Name: Org1
 
         # ID to load the MSP definition as
         ID: Org1MSP
@@ -47,7 +47,7 @@ Organizations:
     - &Org2
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org2MSP
+        Name: Org2
 
         # ID to load the MSP definition as
         ID: Org2MSP
@@ -64,7 +64,7 @@ Organizations:
     - &Org3
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org3MSP
+        Name: Org3
 
         # ID to load the MSP definition as
         ID: Org3MSP

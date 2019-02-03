@@ -126,7 +126,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
     // for (let ordererName of orderers) {
     //   let updateAnchorResult = await updateAnchorPeer(client, channelName, orgName, ordererName);
     //   if (updateAnchorResult[0] === false) {
-    //     logger.error("Update anchor peer failed!");
+    //     logger.warn("Update anchor peer failed!");
     //     return [false, updateAnchorResult[1]]
     //   }
     // }
@@ -135,7 +135,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
     orderers.forEach(async function (ordererName) {
       let updateAnchorResult = await updateAnchorPeer(client, channelName, orgName, ordererName);
       if (updateAnchorResult[0] === false) {
-        logger.error("Update anchor peer failed!");
+        logger.warn("Update anchor peer failed!");
         return [false, updateAnchorResult[1]]
       }
     });
@@ -422,7 +422,7 @@ let updateAnchorPeer = async function (client, channelName, orgName, ordererName
     return [true];
   } else {
     let errMessage = util.format('Failed to update anchor peer %s: %s', channelName, response.info);
-    logger.error(errMessage);
+    logger.warn(errMessage);
     return [false, errMessage];
   }
 };
