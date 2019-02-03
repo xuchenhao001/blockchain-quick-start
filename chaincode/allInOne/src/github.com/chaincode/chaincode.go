@@ -163,6 +163,26 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		}
 		return s.queryDecrypt(APIstub, args, tMap[DECKEY], tMap[IV])
 	} else
+	// chaincode common batch Encrypt
+	if function == "uploadEncryptBatch" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[ENCKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient encryption key %s", ENCKEY))
+		}
+		return s.uploadEncryptBatch(APIstub, args, tMap[ENCKEY], tMap[IV])
+	} else if function == "queryDecryptBatch" {
+		tMap, err := APIstub.GetTransient()
+		if err != nil {
+			return shim.Error(fmt.Sprintf("Could not retrieve transient, err %s", err))
+		}
+		if _, in := tMap[DECKEY]; !in {
+			return shim.Error(fmt.Sprintf("Expected transient decryption key %s", DECKEY))
+		}
+		return s.queryDecryptBatch(APIstub, args, tMap[DECKEY], tMap[IV])
+	} else
 
 	// key level endorsement policy
 	if function == "kepAddOrgs" {

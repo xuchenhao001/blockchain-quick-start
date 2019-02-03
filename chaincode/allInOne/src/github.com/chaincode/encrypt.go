@@ -11,7 +11,7 @@ import (
 	"strconv"
 )
 
-var encryptPrefix = "Encrypt@"
+var encryptPrefix = ""
 
 const DECKEY = "DECKEY"
 const VERKEY = "VERKEY"
@@ -123,6 +123,48 @@ func (s *SmartContract) queryDecrypt(APIstub shim.ChaincodeStubInterface, args [
 	}
 
 	return shim.Success(valueAsBytes)
+
+}
+
+func (s *SmartContract) uploadEncryptBatch(APIstub shim.ChaincodeStubInterface, args []string,
+	encKey, signOrIV []byte) sc.Response {
+
+	for _, arg := range args {
+		var batchData BatchData
+		json.Unmarshal([]byte(arg), &batchData)
+		key := batchData.Key
+		valueAsByte := []byte(batchData.Value)
+
+		logger.Debugf("Write [key] %s [value] %s on chain: ", key, string(valueAsByte))
+		err := s.writeChainEncryptAll(APIstub, key, valueAsByte, encKey, signOrIV)
+		if err != nil {
+			return s.returnError("Data encrypt and write to chain failed: " + err.Error())
+		}
+	}
+	return shim.Success(nil)
+}
+
+func (s *SmartContract) queryDecryptBatch(APIstub shim.ChaincodeStubInterface, args []string,
+	decKey, signOrIV []byte) sc.Response {
+
+	var batch []BatchData
+	for _, key := range args {
+		logger.Debug("Query common on chain: " + key)
+		valueAsByte, err := s.readChainDecryptAll(APIstub, key, decKey, signOrIV)
+		if err != nil {
+			return s.returnError("Data decrypt and query failed: " + err.Error())
+		}
+		var batchData BatchData
+		batchData.Key = key
+		batchData.Value = string(valueAsByte)
+		batch = append(batch, batchData)
+	}
+	batchAsByte, err := json.Marshal(batch)
+	if err != nil {
+		return shim.Error("Marshal query result failed: " + err.Error())
+	}
+
+	return shim.Success(batchAsByte)
 
 }
 

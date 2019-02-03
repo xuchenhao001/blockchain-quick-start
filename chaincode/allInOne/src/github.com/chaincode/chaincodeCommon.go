@@ -13,7 +13,6 @@ var commonPrefix = ""
 type BatchData struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
-	Flag  string `json:"flag"`
 }
 
 type History struct {
