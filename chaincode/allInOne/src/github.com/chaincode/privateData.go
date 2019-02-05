@@ -7,7 +7,7 @@ import (
 	sc "github.com/hyperledger/fabric/protos/peer"
 )
 
-var privateDataPrefix = "PrivateData@"
+var privateDataPrefix = ""
 
 type GoodsInfosPrivate struct {
 	UnitPrice        float32 `json:"unitPrice"`
@@ -99,7 +99,7 @@ func (s *SmartContract) writeChainWithPrivate(APIstub shim.ChaincodeStubInterfac
 		return err
 	}
 	logger.Debug("Write data on collectionPOPrivateDetails: " + string(privatePOBytes))
-	privatePOKey, err := APIstub.CreateCompositeKey(privateDataPrefix, []string{po.PoNo})
+	privatePOKey := privateDataPrefix + po.PoNo
 	err = APIstub.PutPrivateData("collectionPOPrivateDetails", privatePOKey, privatePOBytes)
 	if err != nil {
 		// if failed to write the private data (unit price), then just ignore
@@ -114,7 +114,7 @@ func (s *SmartContract) writeChainWithPrivate(APIstub shim.ChaincodeStubInterfac
 		return err
 	}
 	logger.Debug("Write data on collectionPO: " + string(publicPOBytes))
-	privatePOKey, err = APIstub.CreateCompositeKey(privateDataPrefix, []string{po.PoNo})
+	privatePOKey = privateDataPrefix + po.PoNo
 	err = APIstub.PutPrivateData("collectionPO", privatePOKey, publicPOBytes)
 	if err != nil {
 		return err
@@ -125,7 +125,7 @@ func (s *SmartContract) writeChainWithPrivate(APIstub shim.ChaincodeStubInterfac
 func (s *SmartContract) readPubChain(APIstub shim.ChaincodeStubInterface, poNo string) (*PO, error) {
 
 	logger.Debug("Query collectionPO data: " + poNo)
-	privatePOKey, err := APIstub.CreateCompositeKey(privateDataPrefix, []string{poNo})
+	privatePOKey := privateDataPrefix + poNo
 	result, err := APIstub.GetPrivateData("collectionPO", privatePOKey)
 	if err != nil {
 		return nil, err
@@ -143,7 +143,7 @@ func (s *SmartContract) readPubChain(APIstub shim.ChaincodeStubInterface, poNo s
 func (s *SmartContract) readPriChain(APIstub shim.ChaincodeStubInterface, poNo string) (*POPrivate, error) {
 
 	logger.Debug("Query collectionPOPrivateDetails data: " + poNo)
-	privatePOKey, err := APIstub.CreateCompositeKey(privateDataPrefix, []string{poNo})
+	privatePOKey := privateDataPrefix + poNo
 	result, err := APIstub.GetPrivateData("collectionPOPrivateDetails", privatePOKey)
 	if err != nil {
 		return nil, err

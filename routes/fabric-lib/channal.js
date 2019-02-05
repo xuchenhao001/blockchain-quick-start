@@ -406,12 +406,19 @@ let updateAnchorPeer = async function (client, channelName, orgName, ordererName
 
   let orderer = client.getOrderer(ordererName);
 
+  // get an admin based transactionID.
+  // This should be set to false, but if that, you must call function:
+  // client.setUserContext({username:'admin', password:'adminpw'}, false);
+  // to setup a new User object. And since that, you have to enable your CA
+  // with you all the time.
+  // For convenience, I just do all of these transactions with admin user.
+  let tx_id = client.newTransactionID(true);
   let request = {
     config: channelConfig,
     name: channelName,
     orderer: orderer,
     signatures: [signature],
-    txId: client.newTransactionID()
+    txId: tx_id
   };
 
   // send to orderer
