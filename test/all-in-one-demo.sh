@@ -366,7 +366,7 @@ curl -i -X POST \
    -H "Content-Type:application/json" \
    -d \
 '{
-  "functionName": "queryPO",
+  "functionName": "queryPOPublic",
   "args": ["poNo001"],
   "orderers": ["orderer.example.com"],
   "orgName": "Org1",
@@ -392,7 +392,7 @@ curl -i -X POST \
    -H "Content-Type:application/json" \
    -d \
 '{
-  "functionName": "queryPO",
+  "functionName": "queryPOPublic",
   "args": ["poNo001"],
   "orderers": ["orderer.example.com"],
   "orgName": "Org2",

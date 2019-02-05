@@ -9,8 +9,7 @@ import (
 
 var privateDataPrefix = ""
 
-type GoodsInfosPrivate struct {
-	UnitPrice        float32 `json:"unitPrice"`
+type GoodsInfosPub struct {
 	Amount           float32 `json:"amount"`
 	Quantity         float32 `json:"quantity"`
 	DelDate          string  `json:"delDate"`
@@ -22,28 +21,28 @@ type GoodsInfosPrivate struct {
 	GoodsDescription string  `json:"goodsDescription"`
 }
 
-type POPrivate struct {
-	Seller        string            `json:"seller"`
-	Consignee     string            `json:"consignee"`
-	Shipment      string            `json:"shipment"`
-	Destination   string            `json:"destination"`
-	InsureInfo    string            `json:"insureInfo"`
-	TradeTerms    string            `json:"tradeTerms"`
-	TotalCurrency string            `json:"totalCurrency"`
-	Buyer         string            `json:"buyer"`
-	TrafMode      string            `json:"trafMode"`
-	GoodsInfos    GoodsInfosPrivate `json:"goodsInfos"`
-	TotalAmount   float32           `json:"totalAmount"`
-	Carrier       string            `json:"carrier"`
-	PoNo          string            `json:"poNo"`
-	Sender        string            `json:"sender"`
-	PoDate        string            `json:"poDate"`
-	TradeCountry  string            `json:"tradeCountry"`
+type POPub struct {
+	Seller        string        `json:"seller"`
+	Consignee     string        `json:"consignee"`
+	Shipment      string        `json:"shipment"`
+	Destination   string        `json:"destination"`
+	InsureInfo    string        `json:"insureInfo"`
+	TradeTerms    string        `json:"tradeTerms"`
+	TotalCurrency string        `json:"totalCurrency"`
+	Buyer         string        `json:"buyer"`
+	TrafMode      string        `json:"trafMode"`
+	GoodsInfos    GoodsInfosPub `json:"goodsInfos"`
+	TotalAmount   float32       `json:"totalAmount"`
+	Carrier       string        `json:"carrier"`
+	PoNo          string        `json:"poNo"`
+	Sender        string        `json:"sender"`
+	PoDate        string        `json:"poDate"`
+	TradeCountry  string        `json:"tradeCountry"`
 }
 
-func (s *SmartContract) priToPub(poPrivate POPrivate) PO {
-	var po PO
-	var goodsInfos GoodsInfos
+func (s *SmartContract) priToPub(poPrivate PO) POPub {
+	var poPub POPub
+	var goodsInfos GoodsInfosPub
 
 	goodsInfos.Amount = poPrivate.GoodsInfos.Amount
 	goodsInfos.Quantity = poPrivate.GoodsInfos.Quantity
@@ -55,27 +54,27 @@ func (s *SmartContract) priToPub(poPrivate POPrivate) PO {
 	goodsInfos.GoodsName = poPrivate.GoodsInfos.GoodsName
 	goodsInfos.GoodsDescription = poPrivate.GoodsInfos.GoodsDescription
 
-	po.GoodsInfos = goodsInfos
-	po.Seller = poPrivate.Seller
-	po.Consignee = poPrivate.Consignee
-	po.Shipment = poPrivate.Shipment
-	po.Destination = poPrivate.Destination
-	po.InsureInfo = poPrivate.InsureInfo
-	po.TradeTerms = poPrivate.TradeTerms
-	po.TotalCurrency = poPrivate.TotalCurrency
-	po.Buyer = poPrivate.Buyer
-	po.TrafMode = poPrivate.TrafMode
-	po.TotalAmount = poPrivate.TotalAmount
-	po.Carrier = poPrivate.Carrier
-	po.PoNo = poPrivate.PoNo
-	po.Sender = poPrivate.Sender
-	po.PoDate = poPrivate.PoDate
-	po.TradeCountry = poPrivate.TradeCountry
+	poPub.GoodsInfos = goodsInfos
+	poPub.Seller = poPrivate.Seller
+	poPub.Consignee = poPrivate.Consignee
+	poPub.Shipment = poPrivate.Shipment
+	poPub.Destination = poPrivate.Destination
+	poPub.InsureInfo = poPrivate.InsureInfo
+	poPub.TradeTerms = poPrivate.TradeTerms
+	poPub.TotalCurrency = poPrivate.TotalCurrency
+	poPub.Buyer = poPrivate.Buyer
+	poPub.TrafMode = poPrivate.TrafMode
+	poPub.TotalAmount = poPrivate.TotalAmount
+	poPub.Carrier = poPrivate.Carrier
+	poPub.PoNo = poPrivate.PoNo
+	poPub.Sender = poPrivate.Sender
+	poPub.PoDate = poPrivate.PoDate
+	poPub.TradeCountry = poPrivate.TradeCountry
 
-	return po
+	return poPub
 }
 
-func (s *SmartContract) validatePOPrivate(po POPrivate) bool {
+func (s *SmartContract) validatePOPrivate(po PO) bool {
 	if po.GoodsInfos.UnitPrice <= 0 {
 		return false
 	}
@@ -91,7 +90,7 @@ func (s *SmartContract) validatePOPrivate(po POPrivate) bool {
 	return true
 }
 
-func (s *SmartContract) writeChainWithPrivate(APIstub shim.ChaincodeStubInterface, po POPrivate) error {
+func (s *SmartContract) writeChainWithPrivate(APIstub shim.ChaincodeStubInterface, po PO) error {
 
 	// write private data first
 	privatePOBytes, err := json.Marshal(po)
@@ -122,7 +121,7 @@ func (s *SmartContract) writeChainWithPrivate(APIstub shim.ChaincodeStubInterfac
 	return nil
 }
 
-func (s *SmartContract) readPubChain(APIstub shim.ChaincodeStubInterface, poNo string) (*PO, error) {
+func (s *SmartContract) readPubChain(APIstub shim.ChaincodeStubInterface, poNo string) (*POPub, error) {
 
 	logger.Debug("Query collectionPO data: " + poNo)
 	privatePOKey := privateDataPrefix + poNo
@@ -131,16 +130,16 @@ func (s *SmartContract) readPubChain(APIstub shim.ChaincodeStubInterface, poNo s
 		return nil, err
 	}
 
-	var po *PO
+	var po POPub
 	err = json.Unmarshal(result, &po)
 	if err != nil {
 		return nil, err
 	}
 
-	return po, nil
+	return &po, nil
 }
 
-func (s *SmartContract) readPriChain(APIstub shim.ChaincodeStubInterface, poNo string) (*POPrivate, error) {
+func (s *SmartContract) readPriChain(APIstub shim.ChaincodeStubInterface, poNo string) (*PO, error) {
 
 	logger.Debug("Query collectionPOPrivateDetails data: " + poNo)
 	privatePOKey := privateDataPrefix + poNo
@@ -149,13 +148,13 @@ func (s *SmartContract) readPriChain(APIstub shim.ChaincodeStubInterface, poNo s
 		return nil, err
 	}
 
-	var poPrivate *POPrivate
+	var poPrivate PO
 	err = json.Unmarshal(result, &poPrivate)
 	if err != nil {
 		return nil, err
 	}
 
-	return poPrivate, nil
+	return &poPrivate, nil
 }
 
 func (s *SmartContract) uploadPOWithPrivate(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
@@ -167,7 +166,7 @@ func (s *SmartContract) uploadPOWithPrivate(APIstub shim.ChaincodeStubInterface,
 	logger.Debug("获取请求参数: " + args[0])
 
 	poAsBytes := []byte(args[0])
-	var po POPrivate
+	var po PO
 	err := json.Unmarshal(poAsBytes, &po)
 	if err != nil {
 		return s.returnError("PO单格式错误: " + err.Error())
@@ -199,10 +198,11 @@ func (s *SmartContract) queryPOPublic(APIstub shim.ChaincodeStubInterface, args 
 	if err != nil {
 		return s.returnError("po单查询失败: " + err.Error())
 	}
-	poAsByte, err := json.Marshal(po)
+	poAsByte, err := json.Marshal(*po)
 	if err != nil {
 		return s.returnError("po单无效: " + err.Error())
 	}
+	logger.Debug("Read public data from chain: " + string(poAsByte))
 	return shim.Success(poAsByte)
 }
 
@@ -217,9 +217,10 @@ func (s *SmartContract) queryPOPrivate(APIstub shim.ChaincodeStubInterface, args
 	if err != nil {
 		return s.returnError("po单查询失败: " + err.Error())
 	}
-	poAsByte, err := json.Marshal(po)
+	poAsByte, err := json.Marshal(*po)
 	if err != nil {
 		return s.returnError("po单无效: " + err.Error())
 	}
+	logger.Debug("Read private data from chain: " + string(poAsByte))
 	return shim.Success(poAsByte)
 }

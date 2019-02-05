@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-02-03T20:00:42.214+08:00",
+      "lastModified": "2019-02-05T14:46:09.746+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -4884,7 +4884,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"uploadPOWithPrivate\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4897,11 +4897,11 @@
           "version": "V11"
         },
         "host": "${\"host\"}:${\"port\"}",
-        "path": "/query/channel12/mycc"
+        "path": "/invoke/channel12/mycc"
       },
-      "id": "5a5ad3a2-6522-4413-a8f9-578eac9b5524",
-      "lastModified": "2019-02-03T20:00:42.223+08:00",
-      "name": "11. Org1 - queryPrivData",
+      "id": "7b1f245d-3b78-4d09-93f1-9504ce33ae0a",
+      "lastModified": "2019-02-03T20:30:14.609+08:00",
+      "name": "11. invokePO - PrivateData",
       "headers": [
         {
           "enabled": true,
@@ -4927,7 +4927,50 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPOPrivate\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/query/channel12/mycc"
+      },
+      "id": "5a5ad3a2-6522-4413-a8f9-578eac9b5524",
+      "lastModified": "2019-02-03T20:32:35.444+08:00",
+      "name": "12. Org1 - queryPrivData",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "1e99e30a-54ef-4bf3-b0e3-8e1560e995f3"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryPOPublic\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4943,8 +4986,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "8823dec0-d545-4a0a-ac53-6e005bba1386",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "11. Org1 - queryPubData",
+      "lastModified": "2019-02-05T14:44:55.874+08:00",
+      "name": "12. Org1 - queryPubData",
       "headers": [
         {
           "enabled": true,
@@ -4986,8 +5029,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "c0616369-c049-4cb7-9127-91f477145c22",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "11. Org2 - queryPrivData",
+      "lastModified": "2019-02-03T20:33:09.889+08:00",
+      "name": "12. Org2 - queryPrivData",
       "headers": [
         {
           "enabled": true,
@@ -5013,7 +5056,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"queryPO\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
+        "textBody": "{\n  \"functionName\": \"queryPOPublic\",\n  \"args\": [\"poNo001\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -5029,51 +5072,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "7c80d409-357f-4a47-991f-65f3357613c7",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "11. Org2 - queryPubData",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "1e99e30a-54ef-4bf3-b0e3-8e1560e995f3"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"uploadPOWithPrivate\",\n  \"args\": [\"{\\\"seller\\\": \\\"seller1\\\", \\\"consignee\\\": \\\"Qing Xia\\\", \\\"shipment\\\": \\\"fly\\\", \\\"destination\\\": \\\"china\\\", \\\"insureInfo\\\": \\\"test insure info\\\", \\\"tradeTerms\\\": \\\"test trade terms\\\", \\\"totalCurrency\\\": \\\"RMB\\\", \\\"buyer\\\": \\\"buyer test\\\", \\\"trafMode\\\": \\\"123456789\\\", \\\"goodsInfos\\\": {\\\"unitPrice\\\": 1233.00, \\\"amount\\\": 1521522.00, \\\"quantity\\\": 1234, \\\"delDate\\\": \\\"20180926120000\\\", \\\"quantityCode\\\": \\\"thousand\\\", \\\"goodsModel\\\": \\\"goods models test\\\", \\\"goodNo\\\": \\\"goodtest\\\", \\\"priceCode\\\": \\\"YUAN\\\", \\\"goodsName\\\": \\\"goods Name test\\\", \\\"goodsDescription\\\": \\\"goods description test\\\"}, \\\"totalAmount\\\": 1521522.00, \\\"carrier\\\": \\\"ShunFeng\\\", \\\"poNo\\\": \\\"poNo001\\\", \\\"sender\\\": \\\"Ye Yu\\\", \\\"poDate\\\": \\\"20180926120000\\\", \\\"tradeCountry\\\": \\\"US\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/invoke/channel12/mycc"
-      },
-      "id": "7b1f245d-3b78-4d09-93f1-9504ce33ae0a",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "11. invokePO - PrivateData",
+      "lastModified": "2019-02-05T14:46:09.747+08:00",
+      "name": "12. Org2 - queryPubData",
       "headers": [
         {
           "enabled": true,
@@ -5115,8 +5115,8 @@
         "path": "/invoke/channel12/mycc"
       },
       "id": "8b8a16ee-dce0-48a2-960f-69fef7fd1846",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "12. invokeWithServiceDiscovery",
+      "lastModified": "2019-02-03T20:33:26.284+08:00",
+      "name": "13. invokeWithServiceDiscovery",
       "headers": [
         {
           "enabled": true,
@@ -5158,8 +5158,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "4c08ac14-3ebf-451d-ba4d-d56ec58544d3",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "12. queryWithServiceDiscovery",
+      "lastModified": "2019-02-03T20:33:32.105+08:00",
+      "name": "13. queryWithServiceDiscovery",
       "headers": [
         {
           "enabled": true,
@@ -5201,8 +5201,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "cad56a78-7ba3-4d5b-93e9-16e4a8d552e5",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "13. keyEPListOrgs",
+      "lastModified": "2019-02-03T20:33:45.173+08:00",
+      "name": "14. keyEPListOrgs",
       "headers": [
         {
           "enabled": true,
@@ -5244,8 +5244,8 @@
         "path": "/invoke/channel12/mycc"
       },
       "id": "c7887a7c-3640-4026-9eee-410b79b914eb",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "14. keyEPAddOrg",
+      "lastModified": "2019-02-03T20:33:52.095+08:00",
+      "name": "15. keyEPAddOrg",
       "headers": [
         {
           "enabled": true,
@@ -5287,8 +5287,8 @@
         "path": "/invoke/channel12/mycc"
       },
       "id": "e6083be7-8d49-4161-a8c1-3daf2f97ad3a",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "15. keyEPDelOrgs",
+      "lastModified": "2019-02-03T20:34:01.465+08:00",
+      "name": "16. keyEPDelOrgs",
       "headers": [
         {
           "enabled": true,
@@ -5330,8 +5330,8 @@
         "path": "/invoke/channel12/mycc"
       },
       "id": "981e3579-7a0e-41a8-879f-7feb558bfd05",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "16. invokeCommon - Channel12",
+      "lastModified": "2019-02-03T20:34:10.493+08:00",
+      "name": "17. invokeCommon - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -5373,8 +5373,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "8b03319d-57a3-46d0-a3c2-fa941f918ea0",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "16. queryCommon - Channel12",
+      "lastModified": "2019-02-03T20:34:14.772+08:00",
+      "name": "17. queryCommon - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -5416,8 +5416,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "fef707ff-1ee8-4549-9794-7bd11d61f76a",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "16. queryCommonHistory - Channel12",
+      "lastModified": "2019-02-03T20:34:21.233+08:00",
+      "name": "17. queryCommonHistory - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -5460,8 +5460,8 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "e9c27540-68fc-4b78-9cf5-58731d54ef67",
-      "lastModified": "2019-02-03T20:00:42.226+08:00",
-      "name": "16. richQueryCommonEq - Channel12",
+      "lastModified": "2019-02-03T20:34:26.964+08:00",
+      "name": "17. richQueryCommonEq - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -5504,8 +5504,8 @@
       },
       "description": "http://docs.couchdb.org/en/stable/api/database/find.html",
       "id": "74c1bd66-e799-4644-aac6-346a1399f7d8",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "16. richQueryCommonPaginEq - Channel12",
+      "lastModified": "2019-02-03T20:34:32.643+08:00",
+      "name": "17. richQueryCommonPaginEq - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -5547,8 +5547,8 @@
         "path": "/channel/addorg"
       },
       "id": "59f50750-596a-449a-b73c-01c112979098",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "17. addOrg3ToChannel12",
+      "lastModified": "2019-02-03T20:34:53.372+08:00",
+      "name": "18. addOrg3ToChannel12",
       "headers": [
         {
           "enabled": true,
@@ -5590,8 +5590,8 @@
         "path": "/channel/join"
       },
       "id": "90a64a24-f5cd-4cab-82a1-a1b353cf80d2",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "18. joinChannel12 - Org3",
+      "lastModified": "2019-02-03T20:34:58.673+08:00",
+      "name": "19. joinChannel12 - Org3",
       "headers": [
         {
           "enabled": true,
@@ -5633,8 +5633,8 @@
         "path": "/chaincode/install"
       },
       "id": "b2fac038-c3dc-4e9f-a28e-065f0e52cc0b",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "19. installChaincode2 - Org1",
+      "lastModified": "2019-02-03T20:35:22.214+08:00",
+      "name": "20. installChaincode2 - Org1",
       "headers": [
         {
           "enabled": true,
@@ -5677,8 +5677,8 @@
         "path": "/chaincode/install"
       },
       "id": "1de6bdd0-0352-4a6e-aa23-656aec26a9be",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "19. installChaincode2 - Org2",
+      "lastModified": "2019-02-03T20:35:27.513+08:00",
+      "name": "20. installChaincode2 - Org2",
       "headers": [
         {
           "enabled": true,
@@ -5721,8 +5721,8 @@
         "path": "/chaincode/install"
       },
       "id": "de991eaa-7035-421b-af3e-966d3ecacc40",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "19. installChaincode2 - Org3",
+      "lastModified": "2019-02-03T20:35:32.377+08:00",
+      "name": "20. installChaincode2 - Org3",
       "headers": [
         {
           "enabled": true,
@@ -5765,8 +5765,8 @@
         "path": "/chaincode/upgrade"
       },
       "id": "1b64bf2b-bf19-4d20-9a43-66771df8d699",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "20. upgradeOnChannel12 - withOrg3",
+      "lastModified": "2019-02-03T20:35:39.446+08:00",
+      "name": "21. upgradeOnChannel12 - withOrg3",
       "headers": [
         {
           "enabled": true,
@@ -5808,8 +5808,8 @@
         "path": "/invoke/channel12/mycc"
       },
       "id": "89ee611a-942c-4313-9664-2b5ab538dabc",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "21. invokePO - Org3",
+      "lastModified": "2019-02-03T20:35:46.577+08:00",
+      "name": "22. invokePO - Org3",
       "headers": [
         {
           "enabled": true,
@@ -5851,8 +5851,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "93caeafb-0256-4cf1-a4f6-a4000a9ebc08",
-      "lastModified": "2019-02-03T20:00:42.227+08:00",
-      "name": "21. queryPO - Org3",
+      "lastModified": "2019-02-03T20:35:52.494+08:00",
+      "name": "22. queryPO - Org3",
       "headers": [
         {
           "enabled": true,
@@ -5894,8 +5894,8 @@
         "path": "/channel/delorg"
       },
       "id": "cca9ff8f-a8ad-4d49-b4d4-29bbdad178db",
-      "lastModified": "2019-02-03T20:00:42.228+08:00",
-      "name": "22. delOrg3FromChannel12",
+      "lastModified": "2019-02-03T20:35:58.907+08:00",
+      "name": "23. delOrg3FromChannel12",
       "headers": [
         {
           "enabled": true,
@@ -5937,8 +5937,8 @@
         "path": "/invoke/channel12/mycc"
       },
       "id": "fd4a43f4-ddab-4620-ab33-515a15f8a1e5",
-      "lastModified": "2019-02-03T20:00:42.228+08:00",
-      "name": "23. batchInvokeCommon - Channel12",
+      "lastModified": "2019-02-03T20:36:05.254+08:00",
+      "name": "24. batchInvokeCommon - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -5980,8 +5980,8 @@
         "path": "/query/channel12/mycc"
       },
       "id": "c344eac2-f9c6-49db-a554-adbb0e2e9194",
-      "lastModified": "2019-02-03T20:00:42.228+08:00",
-      "name": "23. batchQueryCommon - Channel12",
+      "lastModified": "2019-02-03T20:36:10.203+08:00",
+      "name": "24. batchQueryCommon - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -6024,8 +6024,8 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
       "id": "8458baa2-6137-4342-8093-e5cedfeec439",
-      "lastModified": "2019-02-03T20:00:42.228+08:00",
-      "name": "24. invokeCommon - EncryptAll",
+      "lastModified": "2019-02-03T20:36:15.301+08:00",
+      "name": "25. invokeCommon - EncryptAll",
       "headers": [
         {
           "enabled": true,
@@ -6068,8 +6068,96 @@
       },
       "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
       "id": "1538aa10-2cd0-472f-9422-01c47cf293f0",
-      "lastModified": "2019-02-03T20:00:42.228+08:00",
-      "name": "24. queryCommon - DecryptAll",
+      "lastModified": "2019-02-03T20:36:19.892+08:00",
+      "name": "25. queryCommon - DecryptAll",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "1e99e30a-54ef-4bf3-b0e3-8e1560e995f3"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"queryDecryptBatch\",\n  \"args\": [\"key1\", \"key2\", \"key3\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n  \"transient\": {\n    \"DECKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/query/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "db354ed2-c939-4bfd-a305-d33d00c2ab28",
+      "lastModified": "2019-02-03T21:20:23.999+08:00",
+      "name": "26. batchDecryptCommon - Channel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "1e99e30a-54ef-4bf3-b0e3-8e1560e995f3"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"uploadEncryptBatch\",\n  \"args\": [\"{\\\"key\\\":\\\"key1\\\",\\\"value\\\":\\\"value1\\\"}\", \"{\\\"key\\\":\\\"key2\\\",\\\"value\\\":\\\"value2\\\"}\", \"{\\\"key\\\":\\\"key3\\\",\\\"value\\\":\\\"value3\\\"}\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"],\n  \"transient\": {\n    \"ENCKEY\": \"XCcMnNlh0vekZYXz8ZIjUZ8QOMjFUzVDrwg1mrfJZas=\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/invoke/channel12/mycc"
+      },
+      "description": "https://blog.csdn.net/greedystar/article/details/80604393\n生成AES256加密密钥：\nopenssl rand -base64 32",
+      "id": "01c4d653-9058-4843-b9b8-fa0873e125bf",
+      "lastModified": "2019-02-03T21:20:02.533+08:00",
+      "name": "26. batchEncryptCommon - Channel12",
       "headers": [
         {
           "enabled": true,
@@ -6481,7 +6569,7 @@
     {
       "type": "Context",
       "id": "4a40be7d-c3a9-4445-923a-b461524912bc",
-      "lastModified": "2019-02-03T19:25:56.230+08:00",
+      "lastModified": "2019-02-05T11:29:16.893+08:00",
       "name": "URL",
       "variables": [
         {
