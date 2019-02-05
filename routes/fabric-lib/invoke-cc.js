@@ -37,7 +37,13 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       await channel.initialize({discover: true, asLocalhost: asLocalhost});
     }
 
-    let tx_id = client.newTransactionID();
+    // get an admin based transactionID.
+    // This should be set to false, but if that, you must call function:
+    // client.setUserContext({username:'admin', password:'adminpw'}, false);
+    // to setup a new User object. And since that, you have to enable your CA
+    // with you all the time.
+    // For convenience, I just do all of these transactions with admin user.
+    let tx_id = client.newTransactionID(true);
     tx_id_string = tx_id.getTransactionID();
     let request = {
       args: args,
@@ -207,11 +213,19 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
       await channel.initialize({discover: true, asLocalhost: asLocalhost});
     }
 
+    // get an admin based transactionID.
+    // This should be set to false, but if that, you must call function:
+    // client.setUserContext({username:'admin', password:'adminpw'}, false);
+    // to setup a new User object. And since that, you have to enable your CA
+    // with you all the time.
+    // For convenience, I just do all of these transactions with admin user.
+    let tx_id = client.newTransactionID(true);
     let request = {
       chaincodeId: chaincodeName,
       fcn: functionName,
       args: args,
-      transientMap: transient
+      transientMap: transient,
+      txId: tx_id
     };
     logger.debug("Make query");
     let response_payloads = await channel.queryByChaincode(request);

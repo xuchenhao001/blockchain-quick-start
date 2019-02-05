@@ -73,7 +73,19 @@ let removeFile = async function(fileName) {
   fs.removeSync(fileName)
 };
 
+// get client for org, just consist with admin User identity
 let getClientForOrg = async function(org){
+  logger.debug('get admin client for org %s', org);
+
+  let client = hfc.loadFromConfig('config/network-config.yaml');
+  client.loadFromConfig('config/' + org + '.yaml');
+
+  return client;
+};
+
+// get client for org. This is a standard usage for client. Normally call
+// setUserContext() to sign a normal user identity and then do invoke/query calling.
+let getClientForOrg_normUsage = async function(org){
   logger.debug('getClientForOrg %s', org);
 
   // build a client context and load it with a connection profile
