@@ -6,7 +6,9 @@ let logger = log4js.getLogger('blockchainQuickStart');
 logger.level = 'DEBUG';
 
 let fabric = require('./fabric-op');
+let helper = require('./fabric-lib/helper');
 
+helper.initClient();
 
 /* GET home page. */
 router.get('/', express.static('public'));

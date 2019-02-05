@@ -14,6 +14,9 @@ const tar = require('tar-stream');
 const zlib = require('zlib');
 const decompress = require('decompress');
 const decompressTargz = require('decompress-targz');
+const clonedeep = require('lodash/cloneDeep');
+
+let client;
 
 const extConfigPath = 'config/network-config-ext.yaml';
 
@@ -73,14 +76,47 @@ let removeFile = async function(fileName) {
   fs.removeSync(fileName)
 };
 
+let initClient = async function() {
+  logger.debug('Init client with network config... ');
+
+  client = hfc.loadFromConfig('config/network-config.yaml');
+};
+
 // get client for org, just consist with admin User identity
-let getClientForOrg = async function(org){
-  logger.debug('get admin client for org %s', org);
+let getClientForOrg = async function(orgName){
+  logger.debug('get admin client for org %s', orgName);
 
-  let client = hfc.loadFromConfig('config/network-config.yaml');
-  client.loadFromConfig('config/' + org + '.yaml');
+  // prepare a tmp directory for place files
+  let tmpDir = './' + uuid.v4();
+  if (fs.existsSync(tmpDir)) {
+    fs.removeSync(tmpDir);
+  }
+  fs.mkdirSync(tmpDir);
+  logger.debug('Successfully prepared temp directory: ' + tmpDir);
 
-  return client;
+  let clientFile = tmpDir + '/client.yaml';
+
+  // construct a new client configuration
+  let orgClient = {
+    version: "1.0",
+    client: {
+      organization: orgName
+    }
+  };
+  logger.debug("Constructed new organization's client: " + JSON.stringify(orgClient));
+  let orgClientYaml = yaml.safeDump(orgClient);
+
+  // write down the new client configuration
+  fs.writeFileSync(clientFile, orgClientYaml);
+
+  // load it
+  client.loadFromConfig(clientFile);
+
+  // clean useless cache file
+  fs.removeSync(tmpDir);
+
+  // return a deep clone of client;
+  return clonedeep(client);
 };
 
 // get client for org. This is a standard usage for client. Normally call
@@ -384,6 +420,7 @@ let asLocalhost = async function() {
   return false
 };
 
+exports.initClient = initClient;
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
 exports.generateTarGz = generateTarGz;
