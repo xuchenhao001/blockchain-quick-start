@@ -16,11 +16,14 @@ const decompress = require('decompress');
 const decompressTargz = require('decompress-targz');
 const clonedeep = require('lodash/cloneDeep');
 
-let client;
-
+const networkConfigPath = 'config/network-config.yaml';
 const extConfigPath = 'config/network-config-ext.yaml';
 
-let isBase64 = function(string){
+let client;
+let networkExtConfig;
+
+
+let isBase64 = function (string) {
   let reg = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;
   return reg.test(string);
 };
@@ -45,7 +48,7 @@ let generateTarGz = async function (chaincodeBuffer, chaincodeTarGzBuffer) {
       reject(err);
     });
 
-    let task = pack.entry({ name: 'src/github.com/chaincode/chaincode.go' }, chaincodeBuffer);
+    let task = pack.entry({name: 'src/github.com/chaincode/chaincode.go'}, chaincodeBuffer);
 
     Promise.all([task]).then(() => {
       pack.finalize();
@@ -56,7 +59,7 @@ let generateTarGz = async function (chaincodeBuffer, chaincodeTarGzBuffer) {
 };
 
 let decompressTarGz = async function (fileName, targetDir) {
-  return new Promise(function(resolve, reject){
+  return new Promise(function (resolve, reject) {
     decompress(fileName, targetDir, {
       plugins: [
         decompressTargz()
@@ -72,18 +75,46 @@ let writeFile = async function (fileName, fileBuffer) {
   fs.outputFileSync(fileName, fileBuffer);
 };
 
-let removeFile = async function(fileName) {
+let removeFile = async function (fileName) {
   fs.removeSync(fileName)
 };
 
-let initClient = async function() {
-  logger.debug('Init client with network config... ');
+let initClient = async function () {
+  logger.debug('Init client with network config...');
 
-  client = hfc.loadFromConfig('config/network-config.yaml');
+  let done = false;
+  while (!done) {
+    try {
+      client = hfc.loadFromConfig(networkConfigPath);
+      networkExtConfig = await loadExtConfig();
+      while (!networkExtConfig) {
+        let error_message = 'Missing extended network configuration data. Retry after 1 minutes...';
+        logger.error(error_message);
+        await sleep(30000);
+      }
+      done = true;
+      logger.info("Configurations successfully loaded. Start to serve requests.")
+    } catch (e) {
+      logger.error(e.toString());
+      logger.error('Retry after 1 minutes...');
+      await sleep(30000);
+    }
+  }
+};
+
+let sleep = async function (ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
+};
+
+let loadExtConfig = async function () {
+  let fileData = fs.readFileSync(extConfigPath);
+  return yaml.safeLoad(fileData);
 };
 
 // get client for org, just consist with admin User identity
-let getClientForOrg = async function(orgName){
+let getClientForOrg = async function (orgName) {
   logger.debug('get admin client for org %s', orgName);
 
   // prepare a tmp directory for place files
@@ -121,7 +152,7 @@ let getClientForOrg = async function(orgName){
 
 // get client for org. This is a standard usage for client. Normally call
 // setUserContext() to sign a normal user identity and then do invoke/query calling.
-let getClientForOrg_normUsage = async function(org){
+let getClientForOrg_normUsage = async function (org) {
   logger.debug('getClientForOrg %s', org);
 
   // build a client context and load it with a connection profile
@@ -155,14 +186,14 @@ let getClientForOrg_normUsage = async function(org){
   // logger.debug('getClientForOrg - ****** END %s %s \n\n', userorg, username);
   let user = await client.getUserContext('admin', true);
   if (!user) {
-    await client.setUserContext({username:'admin', password:'adminpw'}, false);
+    await client.setUserContext({username: 'admin', password: 'adminpw'}, false);
   }
 
   return client;
 };
 
 // generate channel.tx file with channel name and org names included in this channel
-let generateChannelTx = async function(channelName, orgNames) {
+let generateChannelTx = async function (channelName, orgNames) {
 
   let tmpDir = await genConfigtxYaml(orgNames);
 
@@ -177,14 +208,14 @@ let generateChannelTx = async function(channelName, orgNames) {
   execSync(cmdStr, {stdio: []});
   logger.debug('Success generate channel.tx file');
 
-  let txFile = fs.readFileSync(tmpDir+'/channel.tx');
+  let txFile = fs.readFileSync(tmpDir + '/channel.tx');
   fs.removeSync(tmpDir);
 
   return [true, txFile];
 };
 
 // generate anchor peer update tx file
-let generateUpdateAnchorTx = async function(channelName, orgNames, orgMSPId) {
+let generateUpdateAnchorTx = async function (channelName, orgNames, orgMSPId) {
 
   let tmpDir = await genConfigtxYaml(orgNames);
 
@@ -200,19 +231,14 @@ let generateUpdateAnchorTx = async function(channelName, orgNames, orgMSPId) {
   execSync(cmdStr, {stdio: []});
   logger.debug('Successfully generate anchorPeer.tx file');
 
-  let txFile = fs.readFileSync(tmpDir+'/anchorPeer.tx');
+  let txFile = fs.readFileSync(tmpDir + '/anchorPeer.tx');
   fs.removeSync(tmpDir);
 
   return [true, txFile];
 };
 
-let loadExtConfig = async function() {
-  let fileData = fs.readFileSync(extConfigPath);
-  return yaml.safeLoad(fileData);
-};
-
 // Generate configtx yaml file, and return the file path
-let genConfigtxYaml = async function(orgNames) {
+let genConfigtxYaml = async function (orgNames) {
   // prepare a tmp directory for place files
   let tmpDir = './' + uuid.v4();
   if (fs.existsSync(tmpDir)) {
@@ -227,15 +253,15 @@ let genConfigtxYaml = async function(orgNames) {
 
   let configData = yaml.dump(configtxObj);
   logger.debug('Generated configtx yaml file: ' + configData);
-  fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+  fs.writeFileSync(tmpDir + '/configtx.yaml', configData);
   logger.debug('Successfully written configtx.yaml file');
   return tmpDir;
 };
 
-let genConfigtxObj = async function(orgNames) {
+let genConfigtxObj = async function (orgNames) {
   // generate channel config yaml
   let orgObjs = [];
-  let networkData = await loadExtConfig();
+  let networkData = networkExtConfig;
   if (networkData) {
     orgNames.forEach(function (orgName) {
       let orgData = networkData.organizations[orgName];
@@ -286,7 +312,7 @@ let genConfigtxObj = async function(orgNames) {
   };
 };
 
-let generateOrgObj = function(networkData, orgData) {
+let generateOrgObj = function (networkData, orgData) {
   // compose anchor peers
   let anchorPeers = [];
   if (orgData.peers > 1) {
@@ -314,8 +340,8 @@ let generateOrgObj = function(networkData, orgData) {
   return orgObj;
 };
 
-let loadGenesisOrgName = async function(orgName) {
-  let networkData = await loadExtConfig();
+let loadGenesisOrgName = async function (orgName) {
+  let networkData = networkExtConfig;
   if (networkData) {
     let orgData = networkData.organizations[orgName];
     if (!orgData) {
@@ -328,8 +354,8 @@ let loadGenesisOrgName = async function(orgName) {
 };
 
 // load org's mspid from network-ext-config file
-let loadOrgMSP = async function(orgName) {
-  let networkData = await loadExtConfig();
+let loadOrgMSP = async function (orgName) {
+  let networkData = networkExtConfig;
   if (networkData) {
     let orgData = networkData.organizations[orgName];
     return orgData.mspid;
@@ -338,7 +364,7 @@ let loadOrgMSP = async function(orgName) {
 };
 
 // generate new org's config json file for updating channel
-let generateNewOrgJSON = async function(channelName, orgName) {
+let generateNewOrgJSON = async function (channelName, orgName) {
   // prepare a tmp directory for place files
   let tmpDir = './' + uuid.v4();
   if (fs.existsSync(tmpDir)) {
@@ -347,7 +373,7 @@ let generateNewOrgJSON = async function(channelName, orgName) {
   fs.mkdirSync(tmpDir);
   logger.debug('Successfully prepared temp directory: ' + tmpDir);
 
-  let networkData = await loadExtConfig();
+  let networkData = networkExtConfig;
   if (networkData) {
     let orgData = networkData.organizations[orgName];
 
@@ -359,7 +385,7 @@ let generateNewOrgJSON = async function(channelName, orgName) {
     logger.debug('Generated configtx Obj: ' + JSON.stringify(configtxObj));
 
     let configData = yaml.safeDump(configtxObj);
-    fs.writeFileSync(tmpDir+'/configtx.yaml', configData);
+    fs.writeFileSync(tmpDir + '/configtx.yaml', configData);
     logger.debug('Successfully written configtx.yaml file');
 
     // generate new org's json config and return
@@ -373,7 +399,7 @@ let generateNewOrgJSON = async function(channelName, orgName) {
     execSync(cmdStr, {stdio: []});
     logger.debug('Successfully generate new org\'s json file');
 
-    let newOrg = fs.readFileSync(tmpDir+'/newOrg.json');
+    let newOrg = fs.readFileSync(tmpDir + '/newOrg.json');
     fs.removeSync(tmpDir);
     let newOrgJSON = JSON.parse(newOrg.toString());
     logger.debug('Successfully load new org\'s json file');
@@ -386,7 +412,7 @@ let generateNewOrgJSON = async function(channelName, orgName) {
   }
 };
 
-let decodeEndorsementPolicy = async function(endorsementPolicyBase64Encoded) {
+let decodeEndorsementPolicy = async function (endorsementPolicyBase64Encoded) {
   if (!isBase64(endorsementPolicyBase64Encoded)) {
     logger.debug("Your endorsement policy is not base64 encoded!");
     return null;
@@ -397,7 +423,7 @@ let decodeEndorsementPolicy = async function(endorsementPolicyBase64Encoded) {
 };
 
 
-let loadCollection = async function(collectionBase64Encoded) {
+let loadCollection = async function (collectionBase64Encoded) {
   if (!isBase64(collectionBase64Encoded)) {
     return [false, 'Collection is not a valid base64 string!']
   }
@@ -410,8 +436,8 @@ let loadCollection = async function(collectionBase64Encoded) {
 };
 
 // For service discovery develop, see: https://fabric-sdk-node.github.io/tutorial-discovery.html
-let asLocalhost = async function() {
-  let extConfig = await loadExtConfig();
+let asLocalhost = async function () {
+  let extConfig = networkExtConfig;
   if (extConfig && extConfig.serviceDiscovery && extConfig.serviceDiscovery.asLocalhost) {
     logger.debug("Set service discovery asLocalhost to true");
     return true
