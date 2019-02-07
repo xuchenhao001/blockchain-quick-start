@@ -38,14 +38,6 @@ organizations:
     - peer0.org1.example.com
     - peer1.org1.example.com
 
-    # [Optional]. Certificate Authorities issue certificates for identification purposes in a Fabric based
-    # network. Typically certificates provisioning is done in a separate process outside of the
-    # runtime network. Fabric-CA is a special certificate authority that provides a REST APIs for
-    # dynamic certificate management (enroll, revoke, re-enroll). The following section is only for
-    # Fabric-CA servers.
-    certificateAuthorities:
-    - ca-org1
-
     # [Optional]. If the application is going to make requests that are reserved to organization
     # administrators, including creating/updating channels, installing/instantiating chaincodes, it
     # must have access to the admin identity represented by the private key and signing certificate.
@@ -68,8 +60,6 @@ organizations:
     peers:
     - peer0.org2.example.com
     - peer1.org2.example.com
-    certificateAuthorities:
-    - ca-org2
     adminPrivateKey:
       pem: "ORG2_PRIVATE_KEY"
     signedCert:
@@ -79,8 +69,6 @@ organizations:
     peers:
     - peer0.org3.example.com
     - peer1.org3.example.com
-    certificateAuthorities:
-    - ca-org3
     adminPrivateKey:
       pem: "ORG3_PRIVATE_KEY"
     signedCert:
@@ -169,57 +157,3 @@ peers:
       hostnameOverride: peer1.org3.example.com
     tlsCACerts:
       pem: "PEER1_ORG3_TLS"
-
-#
-# Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows
-# certificate management to be done via REST APIs. Application may choose to use a standard
-# Certificate Authority instead of Fabric-CA, in which case this section would not be specified.
-#
-certificateAuthorities:
-  ca-org1:
-    url: https://ca.org1.example.com:7054
-    # the properties specified under this object are passed to the 'http' client verbatim when
-    # making the request to the Fabric-CA server
-    httpOptions:
-      verify: false
-    tlsCACerts:
-      # Comma-Separated list of paths
-      pem: "CA_ORG1_TLS"
-      # Client key and cert for TLS mutual auth with Fabric CA. If the target Fabric CA server
-      # does not have TLS mutual auth turned on, then this section is not needed
-      # client:
-      #   keyfile: path/to/tls/fabricca/certs/client/client_fabric_client-key.pem
-      #   certfile: path/to/tls/fabricca/certs/client/client_fabric_client.pem
-
-
-    # Fabric-CA supports dynamic user enrollment via REST APIs. A "root" user, a.k.a registrar, is
-    # needed to enroll and invoke new users.
-    registrar:
-      enrollId: admin
-      enrollSecret: adminpw
-    # [Optional] The optional name of the CA.
-    caName: ca-org1
-
-  ca-org2:
-    url: https://ca.org2.example.com:7054
-    httpOptions:
-      verify: false
-    tlsCACerts:
-      pem: "CA_ORG2_TLS"
-    registrar:
-    - enrollId: admin
-      enrollSecret: adminpw
-    # [Optional] The optional name of the CA.
-    caName: ca-org2
-
-  ca-org3:
-    url: https://ca.org3.example.com:7054
-    httpOptions:
-      verify: false
-    tlsCACerts:
-      pem: "CA_ORG3_TLS"
-    registrar:
-    - enrollId: admin
-      enrollSecret: adminpw
-    # [Optional] The optional name of the CA.
-    caName: ca-org3

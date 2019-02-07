@@ -85,7 +85,8 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
           one_good = true;
           logger.info('install proposal was good');
         } else {
-          logger.error('install proposal was bad %s', proposalResponses.toString());
+          error_message = util.format('install proposal was bad %s', proposalResponses.toString());
+          logger.error(error_message);
         }
         all_good = all_good && one_good;
       }
@@ -93,8 +94,6 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
     if (all_good) {
       logger.info('Successfully sent install Proposal and received ProposalResponse');
     } else {
-      error_message = 'Failed to send install Proposal or receive valid response. ' +
-        'Response null or status is not 200';
       logger.error(error_message);
     }
   }
