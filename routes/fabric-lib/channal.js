@@ -67,55 +67,60 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
   logger.debug('\n\n============ Join Channel start ============\n');
   let error_message = null;
 
-  // first setup the client for this org
-  logger.info('Calling peers in organization "%s" to join the channel', orgName);
-  let client = await helper.getClientForOrg(orgName);
-  logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
+  try {
+    // first setup the client for this org
+    logger.info('Calling peers in organization "%s" to join the channel', orgName);
+    let client = await helper.getClientForOrg(orgName);
+    logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
-  let channel = client.newChannel(channelName);
-  // assign orderer to channel
-  orderers.forEach(function (ordererName) {
-    channel.addOrderer(client.getOrderer(ordererName));
-  });
-  // assign peers to channel
-  peers.forEach(function (peerName) {
-    channel.addPeer(client.getPeer(peerName));
-  });
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
 
-  let request = {
-    txId: client.newTransactionID(true) //get an admin based transactionID
-  };
-  let genesis_block = await channel.getGenesisBlock(request);
+    let request = {
+      txId: client.newTransactionID(true) //get an admin based transactionID
+    };
+    let genesis_block = await channel.getGenesisBlock(request);
 
-  // tell each peer to join and wait 2 seconds
-  // for the channel to be created on each peer
-  let promises = [];
-  promises.push(new Promise(resolve => setTimeout(resolve, 2000)));
+    // tell each peer to join and wait 2 seconds
+    // for the channel to be created on each peer
+    let promises = [];
+    promises.push(new Promise(resolve => setTimeout(resolve, 2000)));
 
-  let join_request = {
-    txId: client.newTransactionID(true), //get an admin based transactionID
-    block: genesis_block
-  };
-  let join_promise = channel.joinChannel(join_request);
-  promises.push(join_promise);
-  let results = await Promise.all(promises);
-  logger.debug(util.format('Join Channel R E S P O N S E : %j', results));
+    let join_request = {
+      txId: client.newTransactionID(true), //get an admin based transactionID
+      block: genesis_block
+    };
+    let join_promise = channel.joinChannel(join_request);
+    promises.push(join_promise);
+    let results = await Promise.all(promises);
+    logger.debug(util.format('Join Channel R E S P O N S E : %j', results));
 
-  // lets check the results of sending to the peers which is
-  // last in the results array
-  let peers_results = results.pop();
-  // then each peer results
-  for (let i in peers_results) {
-    if (peers_results.hasOwnProperty(i)) {
-      let peer_result = peers_results[i];
-      if (peer_result.response && peer_result.response.status === 200) {
-        logger.info('Successfully joined peers of %s to the channel %s', orgName, channelName);
-      } else {
-        error_message = util.format('Failed to joined peers of %s to the channel %s',
-          orgName, channelName);
-        logger.error(error_message);
+    // lets check the results of sending to the peers which is
+    // last in the results array
+    let peers_results = results.pop();
+    // then each peer results
+    for (let i in peers_results) {
+      if (peers_results.hasOwnProperty(i)) {
+        let peer_result = peers_results[i];
+        if (peer_result.response && peer_result.response.status === 200) {
+          logger.info('Successfully joined peers of %s to the channel %s', orgName, channelName);
+        } else {
+          error_message = util.format('Failed to joined peers of %s to the channel %s',
+            orgName, channelName);
+          logger.error(error_message);
+        }
       }
     }
+  } catch (error) {
+    error_message = util.format('Failed to join channel due to error: ' + error.stack ? error.stack : error);
+    logger.error(error_message);
   }
 
   if (!error_message) {
