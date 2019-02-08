@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-02-08T15:50:37.693+08:00",
+      "lastModified": "2019-02-08T21:42:57.657+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -5359,7 +5359,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"newOrgDetail\": {\n    \"name\": \"Org3\",\n    \"mspid\": \"Org3MSP\",\n    \"mspCACerts\": {\n      \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICQzCCAemgAwIBAgIQQ4Mnlyc7la33pOI29Iw7UTAKBggqhkjOPQQDAjBzMQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\\nb3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1MDBa\\nMHMxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\\nYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMRwwGgYDVQQD\\nExNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE\\nIrO28IT4o5Cv6IZXM8+RuTYb3Q+Qpe6DReIbsUGLvtgRFtvFLxddyQJWKYmlYjXf\\naGW3ug6Qa0EStFvptKmPs6NfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYG\\nBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgJKAPKy7kLIC80Y/lMk8e\\nut9NdZVn7fXtgeIYk+f2G3IwCgYIKoZIzj0EAwIDSAAwRQIhAPehUZ0ZTBlwMJcj\\nOOg0TknAuMleOResI+NptQzXCarjAiBAoD9ee6gcsrgBgS4V9WgBIMyaCgm4f0JD\\nHXX7uhkJIg==\\n-----END CERTIFICATE-----\\n\"\n    },\n    \"tlsCACerts\": {\n      \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICSTCCAe+gAwIBAgIQbxU5O0E7Xn7sQCh/8w8l2jAKBggqhkjOPQQDAjB2MQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\\nY2Eub3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1\\nMDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\\nEw1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMR8wHQYD\\nVQQDExZ0bHNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\\nAQcDQgAEOP1cWem9S7ehLJFd6Qjq4T617OkOm4yYPIrUl/EEruXtc5hcvluVm3ni\\n/2Zh0oDcVL//eIL0Gy4qaLHnjaZyoKNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1Ud\\nJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgobGnXyyxEIBQ\\n9Uj4TC73qCtTFI9puMMh5qXmJIRN6fgwCgYIKoZIzj0EAwIDSAAwRQIhANz1TYPc\\nbrJvLSZ2qXoC1tzu7Sl03DmZTICwr08LxZWBAiBkx9kfLg8dCHfCo4Psx8f+NbxU\\n5k2BPfRhL66whtbG3w==\\n-----END CERTIFICATE-----\\n\"\n    },\n    \"adminPrivateKey\": {\n      \"pem\": \"-----BEGIN PRIVATE KEY-----\\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgnuuiRVYOLTNAVXdi\\nKspAk+XKqA9/BK9xehjdHz1gso+hRANCAASnK4/M64rwb9P+ja2EMe1/wt4L1tt0\\nyFT2UNkI2hWDgKKI078gASbMtKxfAiO2mLaIvzDrOF6FUo33wi7AzXHI\\n-----END PRIVATE KEY-----\\n\"\n    },\n    \"signedCert\": {\n      \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICKjCCAdGgAwIBAgIRAM+dgGAp2JOU6wyfggflkhswCgYIKoZIzj0EAwIwczEL\\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzMuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\\nLm9yZzMuZXhhbXBsZS5jb20wHhcNMTkwMjA4MDcxNTAwWhcNMjkwMjA1MDcxNTAw\\nWjBsMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMN\\nU2FuIEZyYW5jaXNjbzEPMA0GA1UECxMGY2xpZW50MR8wHQYDVQQDDBZBZG1pbkBv\\ncmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEpyuPzOuK\\n8G/T/o2thDHtf8LeC9bbdMhU9lDZCNoVg4CiiNO/IAEmzLSsXwIjtpi2iL8w6zhe\\nhVKN98IuwM1xyKNNMEswDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwEB/wQCMAAwKwYD\\nVR0jBCQwIoAgJKAPKy7kLIC80Y/lMk8eut9NdZVn7fXtgeIYk+f2G3IwCgYIKoZI\\nzj0EAwIDRwAwRAIgWtBypL/rrTPlcD66dNTxEGbRCb3Eq9FJdSSZ5SvONDgCIDCB\\nui7pS5XB3SA/om8VUIQEacbwxsxRzsj+YVvIylVN\\n-----END CERTIFICATE-----\\n\"\n    },\n    \"peers\": [{\n        \"name\": \"peer0.org3.example.com\",\n        \"url\": \"grpcs://localhost:11051\",\n        \"eventUrl\": \"grpcs://localhost:11053\",\n        \"url-addr-container\": \"peer0.org3.example.com\",\n        \"url-port-container\": 11051,\n        \"grpcOptions\": {\n          \"ssl-target-name-override\": \"peer0.org3.example.com\",\n          \"hostnameOverride\": \"peer0.org3.example.com\"\n        },\n        \"tlsCACerts\": {\n          \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICSTCCAe+gAwIBAgIQbxU5O0E7Xn7sQCh/8w8l2jAKBggqhkjOPQQDAjB2MQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\\nY2Eub3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1\\nMDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\\nEw1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMR8wHQYD\\nVQQDExZ0bHNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\\nAQcDQgAEOP1cWem9S7ehLJFd6Qjq4T617OkOm4yYPIrUl/EEruXtc5hcvluVm3ni\\n/2Zh0oDcVL//eIL0Gy4qaLHnjaZyoKNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1Ud\\nJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgobGnXyyxEIBQ\\n9Uj4TC73qCtTFI9puMMh5qXmJIRN6fgwCgYIKoZIzj0EAwIDSAAwRQIhANz1TYPc\\nbrJvLSZ2qXoC1tzu7Sl03DmZTICwr08LxZWBAiBkx9kfLg8dCHfCo4Psx8f+NbxU\\n5k2BPfRhL66whtbG3w==\\n-----END CERTIFICATE-----\\n\"\n        }\n      },\n      {\n        \"name\": \"peer1.org3.example.com\",\n        \"url\": \"grpcs://localhost:12051\",\n        \"eventUrl\": \"grpcs://localhost:12053\",\n        \"url-addr-container\": \"peer1.org3.example.com\",\n        \"url-port-container\": 12051,\n        \"grpcOptions\": {\n          \"ssl-target-name-override\": \"peer1.org3.example.com\",\n          \"hostnameOverride\": \"peer1.org3.example.com\"\n        },\n        \"tlsCACerts\": {\n          \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICSTCCAe+gAwIBAgIQbxU5O0E7Xn7sQCh/8w8l2jAKBggqhkjOPQQDAjB2MQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\\nY2Eub3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1\\nMDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\\nEw1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMR8wHQYD\\nVQQDExZ0bHNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\\nAQcDQgAEOP1cWem9S7ehLJFd6Qjq4T617OkOm4yYPIrUl/EEruXtc5hcvluVm3ni\\n/2Zh0oDcVL//eIL0Gy4qaLHnjaZyoKNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1Ud\\nJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgobGnXyyxEIBQ\\n9Uj4TC73qCtTFI9puMMh5qXmJIRN6fgwCgYIKoZIzj0EAwIDSAAwRQIhANz1TYPc\\nbrJvLSZ2qXoC1tzu7Sl03DmZTICwr08LxZWBAiBkx9kfLg8dCHfCo4Psx8f+NbxU\\n5k2BPfRhL66whtbG3w==\\n-----END CERTIFICATE-----\\n\"\n        }\n      }\n    ]\n  },\n  \"addOrgSignBy\": [\n    \"Org1\",\n    \"Org2\"\n  ],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\n    \"orderer.example.com\"\n  ],\n  \"orgName\": \"Org1\"\n}"
+        "textBody": "{\n  \"addOrg\": \"Org3\",\n  \"addOrgSignBy\": [\"Org1\", \"Org2\"],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\"\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -5375,7 +5375,7 @@
         "path": "/channel/addorg"
       },
       "id": "59f50750-596a-449a-b73c-01c112979098",
-      "lastModified": "2019-02-08T15:50:37.694+08:00",
+      "lastModified": "2019-02-08T21:34:56.957+08:00",
       "name": "18. addOrg3ToChannel12",
       "headers": [
         {
@@ -5706,7 +5706,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"delOrgName\": \"Org3\",\n  \"delOrgSignBy\": [\"Org1\", \"Org2\"],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\"\n}"
+        "textBody": "{\n  \"delOrg\": \"Org3\",\n  \"delOrgSignBy\": [\"Org1\", \"Org2\"],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\"\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -5722,7 +5722,7 @@
         "path": "/channel/delorg"
       },
       "id": "cca9ff8f-a8ad-4d49-b4d4-29bbdad178db",
-      "lastModified": "2019-02-08T15:08:49.425+08:00",
+      "lastModified": "2019-02-08T21:35:23.251+08:00",
       "name": "23. delOrg3FromChannel12",
       "headers": [
         {
@@ -6393,6 +6393,99 @@
       ],
       "metaInfo": {},
       "parentId": "bb9c5325-bd02-40f2-b2b9-bdb6feca1e26"
+    },
+    {
+      "type": "Service",
+      "id": "dd8a4e4a-3cf9-4ec5-96ed-ee563f408b85",
+      "lastModified": "2019-02-08T21:41:42.887+08:00",
+      "name": "v1.1",
+      "parentId": "fd23622c-81f0-4525-b6cd-2834c0c205f9"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"newOrgDetail\": {\n    \"name\": \"Org3\",\n    \"mspid\": \"Org3MSP\",\n    \"mspCACerts\": {\n      \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICQzCCAemgAwIBAgIQQ4Mnlyc7la33pOI29Iw7UTAKBggqhkjOPQQDAjBzMQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\\nb3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1MDBa\\nMHMxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\\nYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMRwwGgYDVQQD\\nExNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE\\nIrO28IT4o5Cv6IZXM8+RuTYb3Q+Qpe6DReIbsUGLvtgRFtvFLxddyQJWKYmlYjXf\\naGW3ug6Qa0EStFvptKmPs6NfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYG\\nBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgJKAPKy7kLIC80Y/lMk8e\\nut9NdZVn7fXtgeIYk+f2G3IwCgYIKoZIzj0EAwIDSAAwRQIhAPehUZ0ZTBlwMJcj\\nOOg0TknAuMleOResI+NptQzXCarjAiBAoD9ee6gcsrgBgS4V9WgBIMyaCgm4f0JD\\nHXX7uhkJIg==\\n-----END CERTIFICATE-----\\n\"\n    },\n    \"tlsCACerts\": {\n      \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICSTCCAe+gAwIBAgIQbxU5O0E7Xn7sQCh/8w8l2jAKBggqhkjOPQQDAjB2MQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\\nY2Eub3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1\\nMDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\\nEw1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMR8wHQYD\\nVQQDExZ0bHNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\\nAQcDQgAEOP1cWem9S7ehLJFd6Qjq4T617OkOm4yYPIrUl/EEruXtc5hcvluVm3ni\\n/2Zh0oDcVL//eIL0Gy4qaLHnjaZyoKNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1Ud\\nJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgobGnXyyxEIBQ\\n9Uj4TC73qCtTFI9puMMh5qXmJIRN6fgwCgYIKoZIzj0EAwIDSAAwRQIhANz1TYPc\\nbrJvLSZ2qXoC1tzu7Sl03DmZTICwr08LxZWBAiBkx9kfLg8dCHfCo4Psx8f+NbxU\\n5k2BPfRhL66whtbG3w==\\n-----END CERTIFICATE-----\\n\"\n    },\n    \"adminPrivateKey\": {\n      \"pem\": \"-----BEGIN PRIVATE KEY-----\\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgnuuiRVYOLTNAVXdi\\nKspAk+XKqA9/BK9xehjdHz1gso+hRANCAASnK4/M64rwb9P+ja2EMe1/wt4L1tt0\\nyFT2UNkI2hWDgKKI078gASbMtKxfAiO2mLaIvzDrOF6FUo33wi7AzXHI\\n-----END PRIVATE KEY-----\\n\"\n    },\n    \"signedCert\": {\n      \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICKjCCAdGgAwIBAgIRAM+dgGAp2JOU6wyfggflkhswCgYIKoZIzj0EAwIwczEL\\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzMuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\\nLm9yZzMuZXhhbXBsZS5jb20wHhcNMTkwMjA4MDcxNTAwWhcNMjkwMjA1MDcxNTAw\\nWjBsMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMN\\nU2FuIEZyYW5jaXNjbzEPMA0GA1UECxMGY2xpZW50MR8wHQYDVQQDDBZBZG1pbkBv\\ncmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEpyuPzOuK\\n8G/T/o2thDHtf8LeC9bbdMhU9lDZCNoVg4CiiNO/IAEmzLSsXwIjtpi2iL8w6zhe\\nhVKN98IuwM1xyKNNMEswDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwEB/wQCMAAwKwYD\\nVR0jBCQwIoAgJKAPKy7kLIC80Y/lMk8eut9NdZVn7fXtgeIYk+f2G3IwCgYIKoZI\\nzj0EAwIDRwAwRAIgWtBypL/rrTPlcD66dNTxEGbRCb3Eq9FJdSSZ5SvONDgCIDCB\\nui7pS5XB3SA/om8VUIQEacbwxsxRzsj+YVvIylVN\\n-----END CERTIFICATE-----\\n\"\n    },\n    \"peers\": [{\n        \"name\": \"peer0.org3.example.com\",\n        \"url\": \"grpcs://localhost:11051\",\n        \"eventUrl\": \"grpcs://localhost:11053\",\n        \"url-addr-container\": \"peer0.org3.example.com\",\n        \"url-port-container\": 11051,\n        \"grpcOptions\": {\n          \"ssl-target-name-override\": \"peer0.org3.example.com\",\n          \"hostnameOverride\": \"peer0.org3.example.com\"\n        },\n        \"tlsCACerts\": {\n          \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICSTCCAe+gAwIBAgIQbxU5O0E7Xn7sQCh/8w8l2jAKBggqhkjOPQQDAjB2MQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\\nY2Eub3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1\\nMDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\\nEw1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMR8wHQYD\\nVQQDExZ0bHNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\\nAQcDQgAEOP1cWem9S7ehLJFd6Qjq4T617OkOm4yYPIrUl/EEruXtc5hcvluVm3ni\\n/2Zh0oDcVL//eIL0Gy4qaLHnjaZyoKNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1Ud\\nJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgobGnXyyxEIBQ\\n9Uj4TC73qCtTFI9puMMh5qXmJIRN6fgwCgYIKoZIzj0EAwIDSAAwRQIhANz1TYPc\\nbrJvLSZ2qXoC1tzu7Sl03DmZTICwr08LxZWBAiBkx9kfLg8dCHfCo4Psx8f+NbxU\\n5k2BPfRhL66whtbG3w==\\n-----END CERTIFICATE-----\\n\"\n        }\n      },\n      {\n        \"name\": \"peer1.org3.example.com\",\n        \"url\": \"grpcs://localhost:12051\",\n        \"eventUrl\": \"grpcs://localhost:12053\",\n        \"url-addr-container\": \"peer1.org3.example.com\",\n        \"url-port-container\": 12051,\n        \"grpcOptions\": {\n          \"ssl-target-name-override\": \"peer1.org3.example.com\",\n          \"hostnameOverride\": \"peer1.org3.example.com\"\n        },\n        \"tlsCACerts\": {\n          \"pem\": \"-----BEGIN CERTIFICATE-----\\nMIICSTCCAe+gAwIBAgIQbxU5O0E7Xn7sQCh/8w8l2jAKBggqhkjOPQQDAjB2MQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\\nY2Eub3JnMy5leGFtcGxlLmNvbTAeFw0xOTAyMDgwNzE1MDBaFw0yOTAyMDUwNzE1\\nMDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\\nEw1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMR8wHQYD\\nVQQDExZ0bHNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\\nAQcDQgAEOP1cWem9S7ehLJFd6Qjq4T617OkOm4yYPIrUl/EEruXtc5hcvluVm3ni\\n/2Zh0oDcVL//eIL0Gy4qaLHnjaZyoKNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1Ud\\nJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgobGnXyyxEIBQ\\n9Uj4TC73qCtTFI9puMMh5qXmJIRN6fgwCgYIKoZIzj0EAwIDSAAwRQIhANz1TYPc\\nbrJvLSZ2qXoC1tzu7Sl03DmZTICwr08LxZWBAiBkx9kfLg8dCHfCo4Psx8f+NbxU\\n5k2BPfRhL66whtbG3w==\\n-----END CERTIFICATE-----\\n\"\n        }\n      }\n    ]\n  },\n  \"addOrgSignBy\": [\n    \"Org1\",\n    \"Org2\"\n  ],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\n    \"orderer.example.com\"\n  ],\n  \"orgName\": \"Org1\"\n}\n"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/api/v1.1/channel/addorg"
+      },
+      "id": "16aaefe8-6abe-4753-9a42-9d2853bca0d6",
+      "lastModified": "2019-02-08T21:42:39.402+08:00",
+      "name": "18. addOrg3ToChannel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "dd8a4e4a-3cf9-4ec5-96ed-ee563f408b85"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"delOrgName\": \"Org3\",\n  \"delOrgSignBy\": [\"Org1\", \"Org2\"],\n  \"channelName\": \"channel12\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\"\n}\n"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/api/v1.1/channel/delorg"
+      },
+      "id": "f5f06d71-f5d4-47c7-acb7-0cf29e16572f",
+      "lastModified": "2019-02-08T21:42:57.657+08:00",
+      "name": "23. delOrg3FromChannel12",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "dd8a4e4a-3cf9-4ec5-96ed-ee563f408b85"
     }
   ]
 }
