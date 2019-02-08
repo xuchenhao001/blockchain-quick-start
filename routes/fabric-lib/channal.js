@@ -66,11 +66,12 @@ let createChannel = async function (channelName, includeOrgNames, ordererName, o
 let joinChannel = async function (channelName, orderers, orgName, peers) {
   logger.debug('\n\n============ Join Channel start ============\n');
   let error_message = null;
+  let client;
 
   try {
     // first setup the client for this org
     logger.info('Calling peers in organization "%s" to join the channel', orgName);
-    let client = await helper.getClientForOrg(orgName);
+    client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
     let channel = client.newChannel(channelName);
@@ -157,7 +158,30 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
 let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderers, orgName, isRemove) {
   logger.debug('\n\n====== modify Org of existing Channel \'' + channelName + '\' ======\n');
   try {
-    // first setup the client for this org
+
+    let targetOrgName;
+    if (isRemove) {
+      targetOrgName = targetOrg
+    } else {
+      targetOrgName = targetOrg.name;
+    }
+    if (!targetOrgName) {
+      let errMsg = "Target Org's name doesn't exist";
+      logger.error(errMsg);
+      return [false, errMsg];
+    }
+
+    // If add org, update network config & network extend config in memory first
+    if (!isRemove) {
+      let updateNetConfResult = await helper.newOrgUpdateNetworkConfig(targetOrg);
+      if (!updateNetConfResult[0]) {
+        logger.error(updateNetConfResult[1]);
+        return [false, updateNetConfResult[1]];
+      }
+      logger.debug("Successfully updated network config & network extend config in memory");
+    }
+
+    // setup the client for this org
     let client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', 'Org1');
 
@@ -174,7 +198,7 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
     if (!configEnvelope) {
       let errMsg = "Get old channel's config failed!";
       logger.error(errMsg);
-      return [false, errMsg]
+      return [false, errMsg];
     }
 
 
@@ -206,7 +230,7 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
     // export FABRIC_CFG_PATH=$PWD && ../../bin/configtxgen -printOrg Org3MSP > ../channel-artifacts/org3.json
     let newOrgMSPID, newOrgJSON;
     if (!isRemove) {
-      let genNewOrgResponse = await helper.generateNewOrgJSON(channelName, targetOrg);
+      let genNewOrgResponse = await helper.generateNewOrgJSON(channelName, targetOrgName);
       if (genNewOrgResponse[0] !== true) {
         logger.error("Generated new org's config json failed!");
         return [false, genNewOrgResponse[1]]
@@ -215,7 +239,7 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
       newOrgJSON = genNewOrgResponse[2];
       logger.debug("Generated new org's config json successfully: " + newOrgJSON);
     } else {
-      newOrgMSPID = await helper.loadOrgMSP(targetOrg);
+      newOrgMSPID = await helper.loadOrgMSP(targetOrgName);
       if (!newOrgMSPID) {
         let errMsg = "Load org's mspid from network-ext-config file failed!";
         logger.error(errMsg);

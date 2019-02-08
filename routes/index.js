@@ -88,14 +88,14 @@ router.post('/channel/addorg', async function (req, res) {
   }
   logger.debug("Get org name: \"" + orgName + "\"");
 
-  let addOrg = req.body.addOrg;
-  if (typeof addOrg === 'undefined') {
-    let errMessage = "Request Error, parameter \"addOrg\" doesn't exist";
+  let newOrgDetail = req.body.newOrgDetail;
+  if (typeof newOrgDetail === 'undefined') {
+    let errMessage = "Request Error, parameter \"newOrgDetail\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get add org name: \"" + addOrg + "\"");
+  logger.debug("Get new org's detail: \"" + JSON.stringify(newOrgDetail) + "\"");
 
   let addOrgSignBy = req.body.addOrgSignBy;
   if (typeof addOrgSignBy === 'undefined') {
@@ -106,7 +106,7 @@ router.post('/channel/addorg', async function (req, res) {
   }
   logger.debug("Get add org signers: \"" + addOrgSignBy + "\"");
 
-  let createResult = await fabric.addOrgToChannel(addOrg, addOrgSignBy, channelName, orderers, orgName);
+  let createResult = await fabric.addOrgToChannel(newOrgDetail, addOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
   if (createResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -144,14 +144,14 @@ router.post('/channel/delorg', async function (req, res) {
   }
   logger.debug("Get org name: \"" + orgName + "\"");
 
-  let delOrg = req.body.delOrg;
-  if (typeof delOrg === 'undefined') {
-    let errMessage = "Request Error, parameter \"delOrg\" doesn't exist";
+  let delOrgName = req.body.delOrgName;
+  if (typeof delOrgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"delOrgName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get del org name: \"" + delOrg + "\"");
+  logger.debug("Get del org name: \"" + delOrgName + "\"");
 
   let delOrgSignBy = req.body.delOrgSignBy;
   if (typeof delOrgSignBy === 'undefined') {
@@ -162,7 +162,7 @@ router.post('/channel/delorg', async function (req, res) {
   }
   logger.debug("Get del org signers: \"" + delOrgSignBy + "\"");
 
-  let createResult = await fabric.delOrgFromChannel(delOrg, delOrgSignBy, channelName, orderers, orgName);
+  let createResult = await fabric.delOrgFromChannel(delOrgName, delOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
   if (createResult[0]===true) {
     res.status(200).json({"result": "success"});
