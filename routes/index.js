@@ -88,14 +88,14 @@ router.post('/channel/addorg', async function (req, res) {
   }
   logger.debug("Get org name: \"" + orgName + "\"");
 
-  let newOrgDetail = req.body.newOrgDetail;
-  if (typeof newOrgDetail === 'undefined') {
-    let errMessage = "Request Error, parameter \"newOrgDetail\" doesn't exist";
+  let addOrg = req.body.addOrg;
+  if (typeof addOrg === 'undefined') {
+    let errMessage = "Request Error, parameter \"addOrg\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get new org's detail: \"" + JSON.stringify(newOrgDetail) + "\"");
+  logger.debug("Get add org name: \"" + addOrg + "\"");
 
   let addOrgSignBy = req.body.addOrgSignBy;
   if (typeof addOrgSignBy === 'undefined') {
@@ -106,7 +106,7 @@ router.post('/channel/addorg', async function (req, res) {
   }
   logger.debug("Get add org signers: \"" + addOrgSignBy + "\"");
 
-  let createResult = await fabric.addOrgToChannel(newOrgDetail, addOrgSignBy, channelName, orderers, orgName);
+  let createResult = await fabric.addOrgToChannel(addOrg, addOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
   if (createResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -144,14 +144,14 @@ router.post('/channel/delorg', async function (req, res) {
   }
   logger.debug("Get org name: \"" + orgName + "\"");
 
-  let delOrgName = req.body.delOrgName;
-  if (typeof delOrgName === 'undefined') {
-    let errMessage = "Request Error, parameter \"delOrgName\" doesn't exist";
+  let delOrg = req.body.delOrg;
+  if (typeof delOrg === 'undefined') {
+    let errMessage = "Request Error, parameter \"delOrg\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get del org name: \"" + delOrgName + "\"");
+  logger.debug("Get del org name: \"" + delOrg + "\"");
 
   let delOrgSignBy = req.body.delOrgSignBy;
   if (typeof delOrgSignBy === 'undefined') {
@@ -162,7 +162,7 @@ router.post('/channel/delorg', async function (req, res) {
   }
   logger.debug("Get del org signers: \"" + delOrgSignBy + "\"");
 
-  let createResult = await fabric.delOrgFromChannel(delOrgName, delOrgSignBy, channelName, orderers, orgName);
+  let createResult = await fabric.delOrgFromChannel(delOrg, delOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
   if (createResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -660,5 +660,116 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
 
 });
 
+router.post('/api/v1.1/channel/addorg', async function (req, res) {
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let newOrgDetail = req.body.newOrgDetail;
+  if (typeof newOrgDetail === 'undefined') {
+    let errMessage = "Request Error, parameter \"newOrgDetail\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get new org's detail: \"" + JSON.stringify(newOrgDetail) + "\"");
+
+  let addOrgSignBy = req.body.addOrgSignBy;
+  if (typeof addOrgSignBy === 'undefined') {
+    let errMessage = "Request Error, parameter \"addOrgSignBy\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get add org signers: \"" + addOrgSignBy + "\"");
+
+  let createResult = await fabric.addOrgToChannelWithCerts(newOrgDetail, addOrgSignBy, channelName, orderers, orgName);
+  logger.debug(createResult);
+  if (createResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": createResult[1]});
+  }
+
+});
+
+router.post('/api/v1.1/channel/delorg', async function (req, res) {
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let delOrgName = req.body.delOrgName;
+  if (typeof delOrgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"delOrgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get del org name: \"" + delOrgName + "\"");
+
+  let delOrgSignBy = req.body.delOrgSignBy;
+  if (typeof delOrgSignBy === 'undefined') {
+    let errMessage = "Request Error, parameter \"delOrgSignBy\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get del org signers: \"" + delOrgSignBy + "\"");
+
+  let createResult = await fabric.delOrgFromChannel(delOrgName, delOrgSignBy, channelName, orderers, orgName);
+  logger.debug(createResult);
+  if (createResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": createResult[1]});
+  }
+
+});
 
 module.exports = router;

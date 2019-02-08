@@ -155,15 +155,22 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
 };
 
 // add org or delete org from your exist fabric network channel's config
-let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderers, orgName, isRemove) {
+// withCerts: boolean, indicate if request carrying certs, update network-config in memory.
+let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderers, orgName, isRemove,
+                                         withCerts) {
   logger.debug('\n\n====== modify Org of existing Channel \'' + channelName + '\' ======\n');
   try {
 
+    // judge situations and extract target Org name
     let targetOrgName;
-    if (isRemove) {
-      targetOrgName = targetOrg
+    if (withCerts) {
+      if (isRemove) {
+        targetOrgName = targetOrg;
+      } else {
+        targetOrgName = targetOrg.name;
+      }
     } else {
-      targetOrgName = targetOrg.name;
+      targetOrgName = targetOrg;
     }
     if (!targetOrgName) {
       let errMsg = "Target Org's name doesn't exist";
@@ -171,8 +178,9 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
       return [false, errMsg];
     }
 
+    // If carrying certs, update memory first
     // If add org, update network config & network extend config in memory first
-    if (!isRemove) {
+    if (withCerts && !isRemove) {
       let updateNetConfResult = await helper.newOrgUpdateNetworkConfig(targetOrg);
       if (!updateNetConfResult[0]) {
         logger.error(updateNetConfResult[1]);

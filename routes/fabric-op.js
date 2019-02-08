@@ -20,16 +20,28 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
   return await channel.joinChannel(channelName, orderers, orgName, peers);
 };
 
+let addOrgToChannelWithCerts = async function (newOrgDetail, addOrgSignBy, channelName, orderers, orgName) {
+  logger.debug('==================== ADD ORG TO CHANNEL ==================');
+
+  let withCerts = true;
+  let isRemove = false;
+  return await channel.modifyOrg(newOrgDetail, addOrgSignBy, channelName, orderers, orgName, isRemove, withCerts);
+};
+
 let addOrgToChannel = async function (newOrgDetail, addOrgSignBy, channelName, orderers, orgName) {
   logger.debug('==================== ADD ORG TO CHANNEL ==================');
 
-  return await channel.modifyOrg(newOrgDetail, addOrgSignBy, channelName, orderers, orgName);
+  let withCerts = false;
+  let isRemove = false;
+  return await channel.modifyOrg(newOrgDetail, addOrgSignBy, channelName, orderers, orgName, isRemove, withCerts);
 };
 
 let delOrgFromChannel = async function (delOrgName, delOrgSignBy, channelName, orderers, orgName) {
   logger.debug('==================== DEL ORG TO CHANNEL ==================');
 
-  return await channel.modifyOrg(delOrgName, delOrgSignBy, channelName, orderers, orgName, true);
+  let withCerts = false;
+  let isRemove = true;
+  return await channel.modifyOrg(delOrgName, delOrgSignBy, channelName, orderers, orgName, isRemove, withCerts);
 };
 
 let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
@@ -76,6 +88,7 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
 
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
+exports.addOrgToChannelWithCerts = addOrgToChannelWithCerts;
 exports.addOrgToChannel = addOrgToChannel;
 exports.delOrgFromChannel = delOrgFromChannel;
 exports.installChaincode = installChaincode;
