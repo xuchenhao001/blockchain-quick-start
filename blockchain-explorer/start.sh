@@ -35,7 +35,7 @@ docker run \
     -e DATABASE_USERNAME=hppoc \
     -e DATABASE_PASSWD=password \
     -v $PWD/config.json:/opt/explorer/app/platform/fabric/config.json \
-    -v $PWD/../sample-network/crypto-config:/tmp/crypto \
+    -v $PWD/../sample-network/docker-compose/crypto-config:/tmp/crypto \
     -p 8080:8080 \
     --link blockchain-explorer-db:blockchain-explorer-db \
     hyperledger/explorer:0.3.7.1
