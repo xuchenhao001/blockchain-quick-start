@@ -69,8 +69,6 @@ organizations:
     peers:
     - peer0.org3.example.com
     - peer1.org3.example.com
-    certificateAuthorities:
-    - ca-org3
     adminPrivateKey:
       pem: "ORG3_PRIVATE_KEY"
     signedCert:
