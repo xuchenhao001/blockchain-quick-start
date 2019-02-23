@@ -141,7 +141,7 @@ function prepareEnv() {
   echo "===== Prepare Rest Server container/dev environment ========="
   echo
   # your running env is container or dev
-  read -p "If you want run in container? (Y/n): " RUN_ENV
+  read -p "Rest server run in container? (Y/n): " RUN_ENV
   if [[ $RUN_ENV = "N" || $RUN_ENV = "n" ]]; then
     # in dev mode, reset certs' path
     CURRENT_DIR=$(echo $DEV_PATH | sed "s/\//\\\\\//g")
