@@ -248,6 +248,9 @@ router.post('/chaincode/install', async function (req, res) {
   let chaincodeType = req.body.chaincodeType;
   if (chaincodeType) {
     logger.debug("Get chaincode type: \"" + chaincodeType + "\"");
+  } else {
+    chaincodeType = 'golang';
+    logger.debug("Didn't get chaincode type, default set to golang");
   }
 
   let chaincodeVersion = req.body.chaincodeVersion;
