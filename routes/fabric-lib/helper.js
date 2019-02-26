@@ -540,6 +540,25 @@ let genTmpDir = async function () {
   return tmpDir;
 };
 
+let isNodeChaincode = async function (chaincodePath) {
+  let curPath = fs.readdirSync(chaincodePath);
+  for (let ele of curPath){
+    let subPath = path.join(chaincodePath, ele);
+    let stat = fs.statSync(subPath);
+    if (stat.isDirectory()) {
+      logger.debug("search dir: " + subPath);
+      return await isNodeChaincode(subPath);
+    } else {
+      logger.debug("got file: " + ele);
+      if (ele === 'package.json') {
+        logger.debug("got package.json, judge this chaincode type as node js");
+        return [true, chaincodePath];
+      }
+    }
+  }
+  return [false]
+};
+
 exports.initClient = initClient;
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
@@ -557,3 +576,4 @@ exports.loadOrgMSP = loadOrgMSP;
 exports.generateNewOrgJSON = generateNewOrgJSON;
 exports.loadGenesisOrgName = loadGenesisOrgName;
 exports.newOrgUpdateNetworkConfig = newOrgUpdateNetworkConfig;
+exports.isNodeChaincode = isNodeChaincode;

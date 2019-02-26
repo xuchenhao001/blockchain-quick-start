@@ -16,12 +16,10 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
                                        chaincodeVersion, orgName, peers, localPath) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
   let error_message = null;
+  let chaincodeInstallRequest;
 
   // check if this kind of chaincode supported
-  if (chaincodeType !== 'golang') {
-    return [false, 'Does not support this kind of chaincode!'];
-  }
-
+  // default we handle golang type chaincode
   process.env.GOPATH = path.join('./');
 
   // if it's already under local path, just ignore chaincode buffer
@@ -39,15 +37,31 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
     if (helper.isGzip(chaincodeBuffer)) {
 
       logger.info('Got chaincode tar.gz package, decompress it');
-
       let tarballName = uuid.v4();
       helper.writeFile(tarballName, chaincodeBuffer);
       await helper.decompressTarGz(tarballName, process.env.GOPATH);
       helper.removeFile(tarballName);
+
+      // while in tar.gz format, judge chaincode language, default is golang
+      logger.debug("Judge chaincode language type in dir: " + process.env.GOPATH);
+      // node js chaincode type support
+      let isNodeChaincodeFlag = await helper.isNodeChaincode(process.env.GOPATH);
+      if (isNodeChaincodeFlag[0]) {
+        chaincodeType = 'node';
+        let chaincodeNodePath = isNodeChaincodeFlag[1];
+        logger.debug("Got node js chaincode type! chaincode path: " + chaincodeNodePath);
+        // node js chaincode install request compose
+        chaincodeInstallRequest = {
+          targets: peers,
+          chaincodePath: chaincodeNodePath,
+          chaincodeId: chaincodeName,
+          chaincodeVersion: chaincodeVersion,
+          chaincodeType: chaincodeType
+        };
+      }
+
     } else {
-
       logger.info('Got chaincode single file buffer');
-
       helper.writeFile(path.join(process.env.GOPATH, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer)
     }
   } else {
@@ -61,14 +75,17 @@ let installChaincode = async function (chaincode, chaincodeName, chaincodePath, 
     let client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
-    let request = {
-      targets: peers,
-      chaincodePath: chaincodePath,
-      chaincodeId: chaincodeName,
-      chaincodeVersion: chaincodeVersion,
-      chaincodeType: chaincodeType
-    };
-    let results = await client.installChaincode(request);
+    // default golang chaincode install request compose
+    if (!chaincodeInstallRequest) {
+      chaincodeInstallRequest = {
+        targets: peers,
+        chaincodePath: chaincodePath,
+        chaincodeId: chaincodeName,
+        chaincodeVersion: chaincodeVersion,
+        chaincodeType: chaincodeType
+      };
+    }
+    let results = await client.installChaincode(chaincodeInstallRequest);
     // the returned object has both the endorsement results (results[0])
     // and the actual proposal (results[1])
     let proposalResponses = results[0];

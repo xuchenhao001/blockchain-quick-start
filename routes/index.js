@@ -246,13 +246,9 @@ router.post('/chaincode/install', async function (req, res) {
   logger.debug("Get chaincode path: \"" + chaincodePath + "\"");
 
   let chaincodeType = req.body.chaincodeType;
-  if (typeof chaincodeType === 'undefined') {
-    let errMessage = "Request Error, parameter \"chaincodeType\" doesn't exist";
-    logger.error(errMessage);
-    res.status(400).json({"result": "failed", "error": errMessage});
-    return;
+  if (chaincodeType) {
+    logger.debug("Get chaincode type: \"" + chaincodeType + "\"");
   }
-  logger.debug("Get chaincode type: \"" + chaincodeType + "\"");
 
   let chaincodeVersion = req.body.chaincodeVersion;
   if (typeof chaincodeVersion === 'undefined') {
