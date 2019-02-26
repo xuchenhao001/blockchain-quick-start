@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-02-08T21:42:57.657+08:00",
+      "lastModified": "2019-02-26T12:47:33.737+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -567,6 +567,223 @@
       "id": "a192d63f-7070-4ea0-aa52-8543f399ca2d",
       "lastModified": "2019-02-03T20:00:42.216+08:00",
       "name": "10. query",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "d3942a0c-e2d6-45bb-a609-eba49eb69fa1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"chaincode\": \"H4sIAEi4dFwAA+1YW2/bNhTOa/UrTjMUkttYsWM7GVpkgN3LkGGXrnnYgG4YFIm22cqkSlJpvTb77TuHEmXJcdwWcFMM03mwbPJcvnMl5XgecRHLhHUFfhzufQnqIZ2MRvaJtP603/uD4WCEH72T/l6vfzTsj/Zg9EXQrFGuTaQA9pSUZhvfx/b/oxQ3859F8etoxsJXWoqd2aAEHw+HN+Z/eDIs83/UG/SOMf/Dk95wD3o7Q7CF/uf5f+/d2RfRgu0/hH32LlpkKfsrjvcPcPmSKc2loJ1+2At7djFhOlY8M+UGFU33lYaSF+QUnJbeUTiTUNWXlWZixgXTKIl271hp0vLd6bfhsDCAi9miWBuFA1zz7lyRZGG1kqSkGQcAVsCxcJ1EYaurjeIxsRqVM1pPecyEtnbHWO5z1j2qfMuYSJiI+QriNLpA+a6ec4vqn74D5V15Xzt3u6C1/m9Eclc2PtL/xyfHg7L/+zgL8Jzoj+gYaPv/FujwvvcNPJbZUvHZ3MDZ5Cf8pbIQxmkKL2hNwwummbpkSeh9g8znz5/83v2xaKLuGbaL4VPO1ENYdZN3/9DzYim0AWocOAXF3uRcscCv9ZPfeVQy5YandSb6TbveJabmsatQ5IjTSGtsTA/g8BDOBDc8SvnfDMycrUYN7kZ6KWLLEGiTX3RQBpDInExZyMVUBv6pIzdAekdWBKoNAkFyKTOIDjeAtIUzZp7lIqYhOBbJ80jhADU4AYOSvWEG5WpaIjXT1lUTZiSniy30hpfeaAZSpEvgUxhCVunGr1pTDogd9wLSFKY45cwc7p7C0PkIpDxXwoY+ZEpJFfhnGBilWGxA5IsLpmhQo4J8genTITx9l+EeFzMYOpevvArzGAGTtZe9P1eOTNziUW1xfBmlbr1fZ66tD3C9csIsM4ZQ0E3NzoQJSEEH3TkFvwDqw4cPsM41uca11fmVd1wYNkPvUT5nMJUKKKgG5jJNcH/Nd6OWldrobYSFYbOf5ebcRIYF4wOY5NMpU+FUyUWBvdTQFN4sPmmKTxriTUd0HsdMV/WFCCGOTDyHAF3s1Oxc954YKinvZtltkiRnY+La6lK+Zo3G2l2DIONcJqjIzLl+SX0yjUVZSlQxdwuGFXCnK5WzwBfSKcB6oXvNQx8eQKkFv/mY9FwkfhWSLVG+ulYEhC+LlqmMCGCR08KcDcZBra23Gih1ODsb81F3q57Dz8gTX+XpwPae075hfAxWls1cybcg2Ft4+pnDY/DZw6Nfz+yYev3uZAuSRrfCAs9uENLABV4BF5lZrpnHofo9stPZoKnjgPrM/kxZgmOgMbYulobpKquuistG79RROuYtOJ9FHE2AkYA6SuMUtAo+BnHsN+qsNj4b09CaCo08x3usmAU0IRpjdRvuSR33ZEe4JxuSPFkDPtkMvEzKc6Zw9BaZYO9YnNOcWJ2QC+xQU9dWHjM1Z8oDoWTdfBBcc27rMVBoQsexloyKhI5wMCuWrDlbZsg+uqVUwVCGwD4eNHYaw46uNiF5H5nAL7XdSw6c+L3kD+EfWP3FWpVvjNtvihu2KmcNF/i2TpjXSvoTz6p6bkovP/GYWpN0UwchPmGYQkQWCaCLoVkWPWfxVnMpsUyfNpf6u5hL/Y/NJRfhAr6N52u2XM2LohO4uCHKhUP1WeHi8SZneH7EUZraXCmWKbxMC4uKFBf7hHvD9dVu3mKY6LykTQKW4WmN7/NYXBaF31mPH/1DhC8GGYbx/dWj7WG9nSnsEBXHIirZOM6o2+lOMH50Q7x+OP/l51Db8ubTZeC0dpolVBmzQTt16qrlaoptmuEb5oL/q60EksVlvLZsYqqwFHvlVaCyUBQeJsMrbhv0H0lAjlWvUHYKf+1XzpZaaqmlllpqqaWWWmqppZZaaqmllm6R/gXHkklJACgAAA==\",\n  \"chaincodeName\": \"myccnode\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/chaincode/install"
+      },
+      "id": "fdd4ab00-76f4-4444-a135-9653d495d8cd",
+      "lastModified": "2019-02-26T12:31:53.626+08:00",
+      "name": "11. installChaincodeNode - Org1",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "d3942a0c-e2d6-45bb-a609-eba49eb69fa1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 231,
+        "textBody": "{\n  \"chaincode\": \"H4sIAEi4dFwAA+1YW2/bNhTOa/UrTjMUkttYsWM7GVpkgN3LkGGXrnnYgG4YFIm22cqkSlJpvTb77TuHEmXJcdwWcFMM03mwbPJcvnMl5XgecRHLhHUFfhzufQnqIZ2MRvaJtP603/uD4WCEH72T/l6vfzTsj/Zg9EXQrFGuTaQA9pSUZhvfx/b/oxQ3859F8etoxsJXWoqd2aAEHw+HN+Z/eDIs83/UG/SOMf/Dk95wD3o7Q7CF/uf5f+/d2RfRgu0/hH32LlpkKfsrjvcPcPmSKc2loJ1+2At7djFhOlY8M+UGFU33lYaSF+QUnJbeUTiTUNWXlWZixgXTKIl271hp0vLd6bfhsDCAi9miWBuFA1zz7lyRZGG1kqSkGQcAVsCxcJ1EYaurjeIxsRqVM1pPecyEtnbHWO5z1j2qfMuYSJiI+QriNLpA+a6ec4vqn74D5V15Xzt3u6C1/m9Eclc2PtL/xyfHg7L/+zgL8Jzoj+gYaPv/FujwvvcNPJbZUvHZ3MDZ5Cf8pbIQxmkKL2hNwwummbpkSeh9g8znz5/83v2xaKLuGbaL4VPO1ENYdZN3/9DzYim0AWocOAXF3uRcscCv9ZPfeVQy5YandSb6TbveJabmsatQ5IjTSGtsTA/g8BDOBDc8SvnfDMycrUYN7kZ6KWLLEGiTX3RQBpDInExZyMVUBv6pIzdAekdWBKoNAkFyKTOIDjeAtIUzZp7lIqYhOBbJ80jhADU4AYOSvWEG5WpaIjXT1lUTZiSniy30hpfeaAZSpEvgUxhCVunGr1pTDogd9wLSFKY45cwc7p7C0PkIpDxXwoY+ZEpJFfhnGBilWGxA5IsLpmhQo4J8genTITx9l+EeFzMYOpevvArzGAGTtZe9P1eOTNziUW1xfBmlbr1fZ66tD3C9csIsM4ZQ0E3NzoQJSEEH3TkFvwDqw4cPsM41uca11fmVd1wYNkPvUT5nMJUKKKgG5jJNcH/Nd6OWldrobYSFYbOf5ebcRIYF4wOY5NMpU+FUyUWBvdTQFN4sPmmKTxriTUd0HsdMV/WFCCGOTDyHAF3s1Oxc954YKinvZtltkiRnY+La6lK+Zo3G2l2DIONcJqjIzLl+SX0yjUVZSlQxdwuGFXCnK5WzwBfSKcB6oXvNQx8eQKkFv/mY9FwkfhWSLVG+ulYEhC+LlqmMCGCR08KcDcZBra23Gih1ODsb81F3q57Dz8gTX+XpwPae075hfAxWls1cybcg2Ft4+pnDY/DZw6Nfz+yYev3uZAuSRrfCAs9uENLABV4BF5lZrpnHofo9stPZoKnjgPrM/kxZgmOgMbYulobpKquuistG79RROuYtOJ9FHE2AkYA6SuMUtAo+BnHsN+qsNj4b09CaCo08x3usmAU0IRpjdRvuSR33ZEe4JxuSPFkDPtkMvEzKc6Zw9BaZYO9YnNOcWJ2QC+xQU9dWHjM1Z8oDoWTdfBBcc27rMVBoQsexloyKhI5wMCuWrDlbZsg+uqVUwVCGwD4eNHYaw46uNiF5H5nAL7XdSw6c+L3kD+EfWP3FWpVvjNtvihu2KmcNF/i2TpjXSvoTz6p6bkovP/GYWpN0UwchPmGYQkQWCaCLoVkWPWfxVnMpsUyfNpf6u5hL/Y/NJRfhAr6N52u2XM2LohO4uCHKhUP1WeHi8SZneH7EUZraXCmWKbxMC4uKFBf7hHvD9dVu3mKY6LykTQKW4WmN7/NYXBaF31mPH/1DhC8GGYbx/dWj7WG9nSnsEBXHIirZOM6o2+lOMH50Q7x+OP/l51Db8ubTZeC0dpolVBmzQTt16qrlaoptmuEb5oL/q60EksVlvLZsYqqwFHvlVaCyUBQeJsMrbhv0H0lAjlWvUHYKf+1XzpZaaqmlllpqqaWWWmqppZZaaqmllm6R/gXHkklJACgAAA==\",\n  \"chaincodeName\": \"myccnode\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/chaincode/install"
+      },
+      "id": "719a481d-49ef-40fc-85e8-31f3f7b169ad",
+      "lastModified": "2019-02-26T12:32:01.019+08:00",
+      "name": "11. installChaincodeNode - Org2",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "d3942a0c-e2d6-45bb-a609-eba49eb69fa1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBodyEditorHeight": 221,
+        "textBody": "{\n  \"chaincodeName\": \"myccnode\",\n  \"chaincodeType\": \"node\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjItb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [\"a\",\"1000\",\"b\",\"2000\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/chaincode/instantiate"
+      },
+      "id": "2d8438f3-b2b9-4c5d-b9ee-0341d88adc1b",
+      "lastModified": "2019-02-26T12:32:09.780+08:00",
+      "name": "12. instantiateChaincodeNode",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "d3942a0c-e2d6-45bb-a609-eba49eb69fa1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"invoke\",\n  \"args\": [\"a\", \"b\", \"100\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/invoke/mychannel/myccnode"
+      },
+      "id": "6cad2b0f-d01e-4348-b789-3fbc2c8978de",
+      "lastModified": "2019-02-26T12:47:33.737+08:00",
+      "name": "13. invoke",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "d3942a0c-e2d6-45bb-a609-eba49eb69fa1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"functionName\": \"query\",\n  \"args\": [\"a\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/query/mychannel/mycc"
+      },
+      "id": "439cf7c3-e9f7-4ba7-a5c6-f7a4433bc05d",
+      "lastModified": "2019-02-26T12:31:31.278+08:00",
+      "name": "14. query",
       "headers": [
         {
           "enabled": true,
@@ -6486,6 +6703,24 @@
       ],
       "metaInfo": {},
       "parentId": "dd8a4e4a-3cf9-4ec5-96ed-ee563f408b85"
+    },
+    {
+      "type": "Context",
+      "id": "4a40be7d-c3a9-4445-923a-b461524912bc",
+      "lastModified": "2019-02-14T13:10:46.067+08:00",
+      "name": "URL",
+      "variables": [
+        {
+          "enabled": true,
+          "name": "host",
+          "value": "127.0.0.1"
+        },
+        {
+          "enabled": true,
+          "name": "port",
+          "value": "3414"
+        }
+      ]
     }
   ]
 }
