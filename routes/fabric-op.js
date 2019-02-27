@@ -20,6 +20,12 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
   return await channel.joinChannel(channelName, orderers, orgName, peers);
 };
 
+let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
+  logger.debug('==================== UPDATE CHANNEL ANCHOR PEER ==================');
+
+  return await channel.updateAnchorPeer(channelName, orderers, orgName, peers);
+};
+
 let addOrgToChannelWithCerts = async function (newOrgDetail, addOrgSignBy, channelName, orderers, orgName) {
   logger.debug('==================== ADD ORG TO CHANNEL ==================');
 
@@ -88,6 +94,7 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
 
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
+exports.updateAnchorPeer = updateAnchorPeer;
 exports.addOrgToChannelWithCerts = addOrgToChannelWithCerts;
 exports.addOrgToChannel = addOrgToChannel;
 exports.delOrgFromChannel = delOrgFromChannel;

@@ -7,11 +7,9 @@ logger.level = 'DEBUG';
 const helper = require('./helper');
 const hfc = require('fabric-client');
 const util = require('util');
-const superagent = require('superagent');
 
 hfc.setLogger(logger);
 
-const configtxlatorAddr = 'http://127.0.0.1:7059';
 
 let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
   logger.debug('\n\n====== Creating Channel \'' + channelName + '\' ======\n');
@@ -125,28 +123,23 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
   }
 
   if (!error_message) {
-    let message = util.format('Successfully joined peers to the channel:%s', channelName);
-    logger.info(message);
+    let messageJoinChannel = util.format('Successfully joined peers to the channel: %s', channelName);
+    logger.info(messageJoinChannel);
 
-    // update anchor peer (Asynchronous method)
-    // for (let ordererName of orderers) {
-    //   let updateAnchorResult = await updateAnchorPeer(client, channelName, orgName, ordererName);
-    //   if (updateAnchorResult[0] === false) {
-    //     logger.warn("Update anchor peer failed!");
-    //     return [false, updateAnchorResult[1]]
-    //   }
-    // }
+    // update anchor peer
+    let messageUpdateAnchor;
+    let updateAnchorResult = await updateAnchorPeer(channelName, orderers, orgName, peers);
+    if (updateAnchorResult[0] === false) {
+      messageUpdateAnchor = util.format("Update anchor peer failed: " + updateAnchorResult[1]);
+      logger.warn(messageUpdateAnchor);
+      // no that we don't judge if automatically update anchor peer success
+      // return [false, updateAnchorResult[1]]
+    } else {
+      messageUpdateAnchor = util.format('Successfully updated anchor peer(s): %s', JSON.stringify(peers));
+      logger.info(messageUpdateAnchor);
+    }
 
-    // update anchor peer (Synchronous method)
-    orderers.forEach(async function (ordererName) {
-      let updateAnchorResult = await updateAnchorPeer(client, channelName, orgName, ordererName);
-      if (updateAnchorResult[0] === false) {
-        logger.warn("Update anchor peer failed!");
-        return [false, updateAnchorResult[1]]
-      }
-    });
-
-    return [true, message];
+    return [true, messageJoinChannel + '; ' + messageUpdateAnchor];
   } else {
     let message = util.format('Failed to join all peers to channel. cause:%s', error_message);
     logger.error(message);
@@ -201,40 +194,14 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
 
 
     // STEP 1: get old channel config from orderer
-    // peer channel fetch config config_block.pb -o orderer.example.com:7050 -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
-    let configEnvelope = await channel.getChannelConfigFromOrderer();
-    if (!configEnvelope) {
-      let errMsg = "Get old channel's config failed!";
-      logger.error(errMsg);
-      return [false, errMsg];
+    let fetchResult = await helper.fetchOldChannelConfig(channel);
+    if (!fetchResult[0]){
+      return [false, fetchResult[1]];
     }
+    let oldChannelConfig = fetchResult[1];
 
 
-    // STEP 2: Decode old channel config
-    // configtxlator proto_decode --input config_block.pb --type common.Block |
-    // ...  jq .data.data[0].payload.data.config > config.json
-    let oldChannelConfig = await superagent.post(configtxlatorAddr + '/protolator/decode/common.Config',
-      configEnvelope.config.toBuffer())
-      .then((res) => {
-        return res;
-      }).catch(err => {
-        if (err.response && err.response.text) {
-          logger.error(err.response.text);
-          throw err.response.text;
-        } else {
-          throw err
-        }
-      });
-    if (!oldChannelConfig) {
-      let errMsg = "Decode channel's config failed!";
-      logger.error(errMsg);
-      return [false, errMsg]
-    }
-    oldChannelConfig = JSON.parse(oldChannelConfig.text); // Convert string to JSON object
-    logger.debug("Fetch channel config json successfully: " + JSON.stringify(oldChannelConfig));
-
-
-    // STEP 3: generate new org's config json
+    // STEP 2: generate new org's config json
     // export FABRIC_CFG_PATH=$PWD && ../../bin/configtxgen -printOrg Org3MSP > ../channel-artifacts/org3.json
     let newOrgMSPID, newOrgJSON;
     if (!isRemove) {
@@ -243,9 +210,8 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
         logger.error("Generated new org's config json failed!");
         return [false, genNewOrgResponse[1]]
       }
-      newOrgMSPID = genNewOrgResponse[1];
-      newOrgJSON = genNewOrgResponse[2];
-      logger.debug("Generated new org's config json successfully: " + newOrgJSON);
+      newOrgJSON = genNewOrgResponse[1];
+      logger.debug("Generated new org's config json successfully: " + JSON.stringify(newOrgJSON));
     } else {
       newOrgMSPID = await helper.loadOrgMSP(targetOrgName);
       if (!newOrgMSPID) {
@@ -256,138 +222,27 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
     }
 
 
-    // STEP 4: merge new org's json with old channelConfig
+    // STEP 3: merge new org's json with old channelConfig
     // jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"Org3MSP":.[1]}}}}}'
     // ...  config.json ./channel-artifacts/org3.json > modified_config.json
     let modifiedChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig)); // Deep copy
     if (!isRemove) {
-      modifiedChannelConfig.channel_group.groups.Application.groups[newOrgMSPID] = newOrgJSON;
+      modifiedChannelConfig.channel_group.groups.Application.groups[targetOrgName] = newOrgJSON;
     } else {
-      delete modifiedChannelConfig.channel_group.groups.Application.groups[newOrgMSPID];
+      delete modifiedChannelConfig.channel_group.groups.Application.groups[targetOrgName];
     }
     logger.debug("After merge: " + JSON.stringify(modifiedChannelConfig));
 
 
-    // STEP 5: Encode original channel config json to pb block
-    // configtxlator proto_encode --input config.json --type common.Config --output config.pb
-    let channelConfigPB = await superagent.post(configtxlatorAddr + '/protolator/encode/common.Config',
-      JSON.stringify(oldChannelConfig)).buffer()
-      .then((res) => {
-        return res.body;
-      }).catch(err => {
-        if (err.response && err.response.text) {
-          logger.error(err.response.text);
-          throw err.response.text;
-        } else {
-          throw err
-        }
-      });
-    if (!channelConfigPB) {
-      let errMsg = "Encode old channel's config failed!";
-      logger.error(errMsg);
-      return [false, errMsg]
+    // STEP 4: generate the channel config bytes from the envelope to be signed
+    let generateResult = await helper.generateNewChannelConfig(channelName, oldChannelConfig, modifiedChannelConfig);
+    if (!generateResult[0]) {
+      return [false, generateResult[1]];
     }
-    logger.debug("Encode old channel's config successfully: " + channelConfigPB);
+    let channelConfig = generateResult[1];
 
 
-    // STEP 6: Encode new channel config json to pb block
-    // configtxlator proto_encode --input modified_config.json --type common.Config --output modified_config.pb
-    let newChannelConfigPB = await superagent.post(configtxlatorAddr + '/protolator/encode/common.Config',
-      JSON.stringify(modifiedChannelConfig)).buffer()
-      .then((res) => {
-        return res.body;
-      }).catch(err => {
-        if (err.response && err.response.text) {
-          logger.error(err.response.text);
-          throw err.response.text;
-        } else {
-          throw err
-        }
-      });
-    if (!newChannelConfigPB) {
-      let errMsg = "Encode new channel's config failed!";
-      logger.error(errMsg);
-      return [false, errMsg]
-    }
-    logger.debug("Encode new channel's config successfully: " + newChannelConfigPB);
-
-
-    // STEP 7: Finding delta between old and new channel config pb block
-    // configtxlator compute_update --channel_id $CHANNEL_NAME --original config.pb
-    // ...  --updated modified_config.pb --output org3_update.pb
-    let computeUpdatePB = await superagent.post(configtxlatorAddr + '/configtxlator/compute/update-from-configs')
-      .attach("original", new Buffer(channelConfigPB), "config.pb")
-      .attach("updated", new Buffer(newChannelConfigPB), "modified_config.pb")
-      .field("channel", channelName)
-      .buffer()
-      .then((res) => {
-        return res.body;
-      }).catch(err => {
-        if (err.response && err.response.text) {
-          logger.error(err.response.text);
-          throw err.response.text;
-        } else {
-          throw err
-        }
-      });
-    logger.debug("Compute update from configs successfully: " + computeUpdatePB);
-
-
-    // STEP 8: decode updatePB file to computeUpdate json
-    // configtxlator proto_decode --input org3_update.pb --type common.ConfigUpdate | jq . > org3_update.json
-    let computeUpdate = await superagent.post(configtxlatorAddr + '/protolator/decode/common.ConfigUpdate',
-      computeUpdatePB)
-      .then((res) => {
-        return JSON.parse(res.text);
-      }).catch(err => {
-        if (err.response && err.response.text) {
-          logger.error(err.response.text);
-          throw err.response.text;
-        } else {
-          throw err
-        }
-      });
-    logger.debug("Decoded update PB file to json successfully: " + computeUpdate);
-
-
-    // STEP 9: envelop computeUpdate json to computeUpdateEnvelop json
-    // echo '{"payload":{"header":{"channel_header":{"channel_id":"mychannel", "type":2}},
-    // ...  "data":{"config_update":'$(cat org3_update.json)'}}}' | jq . > org3_update_in_envelope.json
-    let computeUpdateEnvelop = {
-      "payload": {
-        "header": {
-          "channel_header": {
-            "channel_id": channelName,
-            "type": 2
-          }
-        },
-        "data": {
-          "config_update": computeUpdate
-        }
-      }
-    };
-
-    // STEP 10: encode to computeUpdateEnvelop pb file
-    // configtxlator proto_encode --input org3_update_in_envelope.json
-    // ...  --type common.Envelope --output org3_update_in_envelope.pb
-    let computeUpdateEnvelopPB = await superagent.post(configtxlatorAddr + '/protolator/encode/common.Envelope',
-      JSON.stringify(computeUpdateEnvelop))
-      .buffer()
-      .then((res) => {
-        return res.body;
-      }).catch(err => {
-        if (err.response && err.response.text) {
-          logger.error(err.response.text);
-          throw err.response.text;
-        } else {
-          throw err
-        }
-      });
-
-    // STEP 11: extract the channel config bytes from the envelope to be signed
-    let channelConfig = client.extractChannelConfig(computeUpdateEnvelopPB);
-
-    // STEP 12: Signing the new channel config by each org
+    // STEP 5: Signing the new channel config by each org
     let signatures = [];
     for (let signerOrg of modifyOrgSignBy) {
       let signerClient = await helper.getClientForOrg(signerOrg);
@@ -395,7 +250,7 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
       logger.debug('New channel config signed by: ' + signerOrg)
     }
 
-    // STEP 13: Making the request and send to orderer
+    // STEP 6: Making the request and send to orderer
     let request = {
       config: channelConfig,
       signatures: signatures,
@@ -419,58 +274,109 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
   }
 };
 
-let updateAnchorPeer = async function (client, channelName, orgName, ordererName) {
+let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
   logger.debug('\n\n====== Updating Anchor Peer \'' + channelName + '\' ======\n');
+
+  let client = await helper.getClientForOrg(orgName);
 
   // read in the envelope for the channel config raw bytes
   let genesisOrgNameResult = await helper.loadGenesisOrgName(orgName);
   if (genesisOrgNameResult[0] === false) {
     return [false, genesisOrgNameResult[1]];
   }
-  let createTxResult = await helper.generateUpdateAnchorTx(channelName, [orgName], genesisOrgNameResult[1]);
-  if (createTxResult[0] === false) {
-    return [false, createTxResult[1]];
-  }
+  let genesisOrgName = genesisOrgNameResult[1];
 
-  // extract the channel config bytes from the envelope to be signed
-  let channelConfig = client.extractChannelConfig(createTxResult[1]);
+  let channel = client.newChannel(channelName);
+  // assign orderer to channel
+  orderers.forEach(function (ordererName) {
+    channel.addOrderer(client.getOrderer(ordererName));
+  });
 
-  // Acting as a client in the given organization provided with "orgName" param
-  // sign the channel config bytes as "endorsement", this is required by
-  // the orderer's channel creation policy
-  // this will use the admin identity assigned to the client when the connection profile was loaded
-  let signature = client.signChannelConfig(channelConfig);
+  try {
+    // get old channel config from orderer
+    let fetchResult = await helper.fetchOldChannelConfig(channel);
+    if (!fetchResult[0]){
+      return [false, fetchResult[1]];
+    }
+    let oldChannelConfig = fetchResult[1];
 
-  let orderer = client.getOrderer(ordererName);
+    // generate new channel config json with new anchor peers
+    let newChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig)); // Deep copy
+    if (oldChannelConfig.channel_group.groups.Application.groups[genesisOrgName]){
+      // extract old anchor peers config
+      let oldAnchor = oldChannelConfig.channel_group.groups.Application.groups[genesisOrgName].values.AnchorPeers;
 
-  // get an admin based transactionID.
-  // This should be set to false, but if that, you must call function:
-  // client.setUserContext({username:'admin', password:'adminpw'}, false);
-  // to setup a new User object. And since that, you have to enable your CA
-  // with you all the time.
-  // For convenience, I just do all of these transactions with admin user.
-  let tx_id = client.newTransactionID(true);
-  let request = {
-    config: channelConfig,
-    name: channelName,
-    orderer: orderer,
-    signatures: [signature],
-    txId: tx_id
-  };
+      if (oldAnchor) {
+        // there are already some anchor peers there
+        let oldAnchorPeerList = oldAnchor.value.anchor_peers;
+        let genAnchorPeerResult = await helper.generateAnchorPeerList(genesisOrgName, peers);
+        if (!genAnchorPeerResult[0]) {
+          return [false, genAnchorPeerResult[1]]
+        }
+        let genAnchorPeerList = genAnchorPeerResult[1];
+        let newAnchorPeerList = await helper.mergeAnchorPeers(oldAnchorPeerList, genAnchorPeerList);
+        logger.debug("Generated new anchor peer list: " + JSON.stringify(newAnchorPeerList));
 
-  // send to orderer
-  let response = await client.updateChannel(request);
-  logger.debug(' response ::%j', response);
-  if (response && response.status === 'SUCCESS') {
-    logger.debug('Successfully updated anchor peer');
-    return [true];
-  } else {
-    let errMessage = util.format('Failed to update anchor peer %s: %s', channelName, response.info);
-    logger.warn(errMessage);
-    return [false, errMessage];
+        newChannelConfig.channel_group.groups.Application.groups[genesisOrgName].values.AnchorPeers.value.anchor_peers
+          = newAnchorPeerList;
+      } else {
+        // there is no anchor peers before
+        let genAnchorPeerResult = await helper.generateAnchorPeerList(genesisOrgName, peers);
+        if (!genAnchorPeerResult[0]) {
+          return [false, genAnchorPeerResult[1]]
+        }
+        let genAnchorPeerList = genAnchorPeerResult[1];
+        newChannelConfig.channel_group.groups.Application.groups[genesisOrgName].values.AnchorPeers = {
+          "mod_policy": "Admins",
+          "value": {
+            "anchor_peers": genAnchorPeerList
+          },
+          "version": "0"
+        }
+      }
+    } else {
+      return [false, 'Channel [' + channelName + '] doesn\'t contain organization: ' + genesisOrgName ]
+    }
+    logger.debug('Generate organization ' + genesisOrgName + '\'s new anchor peers config: ' + JSON.stringify(
+      newChannelConfig.channel_group.groups.Application.groups[genesisOrgName].values.AnchorPeers));
+
+    // generate the channel config bytes from the envelope to be signed
+    let generateResult = await helper.generateNewChannelConfig(channelName, oldChannelConfig, newChannelConfig);
+    if (!generateResult[0]) {
+      return [false, generateResult[1]];
+    }
+    let channelConfig = generateResult[1];
+
+    // Signing the new channel config by client
+    let signature = client.signChannelConfig(channelConfig);
+
+    // Making the request and send to orderer
+    let request = {
+      config: channelConfig,
+      signatures: [signature],
+      name: channelName,
+      txId: client.newTransactionID(true) // get an admin based transactionID
+    };
+
+    // send to orderer
+    let response = await client.updateChannel(request);
+    logger.debug(' response ::%j', response);
+    if (response && response.status === 'SUCCESS') {
+      logger.debug('Successfully updated anchor peer');
+      return [true];
+    } else {
+      let errMessage = util.format('Failed to update anchor peer %s: %s', channelName, response.info);
+      logger.warn(errMessage);
+      return [false, errMessage];
+    }
+  } catch (error) {
+    let errMessage = util.format('Failed to update anchor peer due to error: ' + error);
+    logger.error(errMessage);
+    return [false, errMessage]
   }
 };
 
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
+exports.updateAnchorPeer = updateAnchorPeer;
 exports.modifyOrg = modifyOrg;

@@ -14,8 +14,11 @@ const tar = require('tar-stream');
 const zlib = require('zlib');
 const decompress = require('decompress');
 const decompressTargz = require('decompress-targz');
-const clonedeep = require('lodash/cloneDeep');
+const _ = require('lodash');
 const path = require('path');
+const superagent = require('superagent');
+
+const configtxlatorAddr = 'http://127.0.0.1:7059';
 
 const networkConfigPath = 'config/network-config.yaml';
 const networkExtConfigPath = 'config/network-config-ext.yaml';
@@ -157,7 +160,7 @@ let getClientForOrg = async function (orgName) {
   fs.removeSync(tmpDir);
 
   // return a deep clone of client;
-  return clonedeep(client);
+  return _.cloneDeep(client);
 };
 
 // get client for org. This is a standard usage for client. Normally call
@@ -225,26 +228,32 @@ let generateChannelTx = async function (channelName, orgNames) {
 };
 
 // generate anchor peer update tx file
-let generateUpdateAnchorTx = async function (channelName, orgNames, orgMSPId) {
+let generateAnchorPeerList = async function (orgName, peers) {
 
-  let tmpDir = await genConfigtxYaml(orgNames);
+  let anchorPeers = [];
+  let networkData = networkExtConfig;
+  if (networkData) {
+    let orgData = networkData.organizations[orgName];
+    if (!orgData) {
+      let error_message = util.format('Failed to load Org %s from connection profile', orgName);
+      logger.error(error_message);
+      return [false, error_message];
+    }
+    // compose anchor peers
+    peers.forEach(function (peer) {
+      let anchorPeer = {
+        "host": networkData.peers[peer]['url-addr-container'],
+        "port": networkData.peers[peer]['url-port-container']
+      };
+      anchorPeers.push(anchorPeer);
+    });
+  }
 
-  // generate channel.tx file and return
-  let configtxgenExec = 'configtxgen';
-  let cmdStr = configtxgenExec + ' -profile GeneratedChannel'
-    + ' -configPath ' + tmpDir
-    + ' -channelID ' + channelName
-    + ' -outputAnchorPeersUpdate ' + tmpDir + '/anchorPeer.tx'
-    + ' -asOrg ' + orgMSPId;
+  return [true, anchorPeers];
+};
 
-  logger.debug('Generate anchorPeer.tx file by command: ' + cmdStr);
-  execSync(cmdStr, {stdio: []});
-  logger.debug('Successfully generate anchorPeer.tx file');
-
-  let txFile = fs.readFileSync(tmpDir + '/anchorPeer.tx');
-  fs.removeSync(tmpDir);
-
-  return [true, txFile];
+let mergeAnchorPeers = async function (array1, array2) {
+  return _.unionWith(array1, array2, _.isEqual)
 };
 
 // Generate configtx yaml file, and return the file path
@@ -273,22 +282,6 @@ let genConfigtxObj = async function (orgNames) {
         let error_message = util.format('Failed to load Org %s from connection profile', orgName);
         logger.error(error_message);
         return [false, error_message];
-      }
-      // compose anchor peers
-      let anchorPeers = [];
-      if (orgData.peers > 1) {
-        orgData.peers.forEach(function (peer) {
-          let anchorPeer = {
-            "Host": networkData.peers[peer]['url-addr-container'],
-            "Port": networkData.peers[peer]['url-port-container']
-          };
-          anchorPeers.push(anchorPeer);
-        });
-      } else {
-        anchorPeers.push({
-          "Host": networkData.peers[orgData.peers[0]]['url-addr-container'],
-          "Port": networkData.peers[orgData.peers[0]]['url-port-container']
-        })
       }
 
       // compose org object
@@ -402,7 +395,7 @@ let generateNewOrgJSON = async function (channelName, orgName) {
     let newOrgJSON = JSON.parse(newOrg.toString());
     logger.debug('Successfully load new org\'s json file');
 
-    return [true, orgData.mspid, newOrgJSON];
+    return [true, newOrgJSON];
   } else {
     let error_message = 'Missing configuration data';
     logger.error(error_message);
@@ -559,6 +552,167 @@ let isNodeChaincode = async function (chaincodePath) {
   return [false]
 };
 
+// fetch old channel config json from orderer, need a channel object which consist of orderer
+let fetchOldChannelConfig = async function (channel) {
+
+  // STEP 1: get old channel config from orderer
+  // peer channel fetch config config_block.pb -o orderer.example.com:7050 -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
+  let configEnvelope = await channel.getChannelConfigFromOrderer();
+  if (!configEnvelope) {
+    let errMsg = "Get old channel's config failed!";
+    logger.error(errMsg);
+    return [false, errMsg];
+  }
+
+
+  // STEP 2: Decode old channel config
+  // configtxlator proto_decode --input config_block.pb --type common.Block |
+  // ...  jq .data.data[0].payload.data.config > config.json
+  let oldChannelConfig = await superagent.post(configtxlatorAddr + '/protolator/decode/common.Config',
+    configEnvelope.config.toBuffer())
+    .then((res) => {
+      return res;
+    }).catch(err => {
+      if (err.response && err.response.text) {
+        logger.error(err.response.text);
+        throw err.response.text;
+      } else {
+        throw err
+      }
+    });
+  if (!oldChannelConfig) {
+    let errMsg = "Decode channel's config failed!";
+    logger.error(errMsg);
+    return [false, errMsg]
+  }
+  oldChannelConfig = JSON.parse(oldChannelConfig.text); // Convert string to JSON object
+  logger.debug("Fetch channel config json successfully: " + JSON.stringify(oldChannelConfig));
+
+  return [true, oldChannelConfig]
+};
+
+let generateNewChannelConfig = async function (channelName, oldChannelConfig, newChannelConfig) {
+  // STEP 1: Encode original channel config json to pb block
+  // configtxlator proto_encode --input config.json --type common.Config --output config.pb
+  let channelConfigPB = await superagent.post(configtxlatorAddr + '/protolator/encode/common.Config',
+    JSON.stringify(oldChannelConfig)).buffer()
+    .then((res) => {
+      return res.body;
+    }).catch(err => {
+      if (err.response && err.response.text) {
+        logger.error(err.response.text);
+        throw err.response.text;
+      } else {
+        throw err
+      }
+    });
+  if (!channelConfigPB) {
+    let errMsg = "Encode old channel's config failed!";
+    logger.error(errMsg);
+    return [false, errMsg]
+  }
+  logger.debug("Encode old channel's config successfully: " + channelConfigPB);
+
+
+  // STEP 2: Encode new channel config json to pb block
+  // configtxlator proto_encode --input modified_config.json --type common.Config --output modified_config.pb
+  let newChannelConfigPB = await superagent.post(configtxlatorAddr + '/protolator/encode/common.Config',
+    JSON.stringify(newChannelConfig)).buffer()
+    .then((res) => {
+      return res.body;
+    }).catch(err => {
+      if (err.response && err.response.text) {
+        logger.error(err.response.text);
+        throw err.response.text;
+      } else {
+        throw err
+      }
+    });
+  if (!newChannelConfigPB) {
+    let errMsg = "Encode new channel's config failed!";
+    logger.error(errMsg);
+    return [false, errMsg]
+  }
+  logger.debug("Encode new channel's config successfully: " + newChannelConfigPB);
+
+
+  // STEP 3: Finding delta between old and new channel config pb block
+  // configtxlator compute_update --channel_id $CHANNEL_NAME --original config.pb
+  // ...  --updated modified_config.pb --output org3_update.pb
+  let computeUpdatePB = await superagent.post(configtxlatorAddr + '/configtxlator/compute/update-from-configs')
+    .attach("original", new Buffer(channelConfigPB), "config.pb")
+    .attach("updated", new Buffer(newChannelConfigPB), "modified_config.pb")
+    .field("channel", channelName)
+    .buffer()
+    .then((res) => {
+      return res.body;
+    }).catch(err => {
+      if (err.response && err.response.text) {
+        logger.error(err.response.text);
+        throw err.response.text;
+      } else {
+        throw err
+      }
+    });
+  logger.debug("Compute update from configs successfully: " + computeUpdatePB);
+
+
+  // STEP 4: decode updatePB file to computeUpdate json
+  // configtxlator proto_decode --input org3_update.pb --type common.ConfigUpdate | jq . > org3_update.json
+  let computeUpdate = await superagent.post(configtxlatorAddr + '/protolator/decode/common.ConfigUpdate',
+    computeUpdatePB)
+    .then((res) => {
+      return JSON.parse(res.text);
+    }).catch(err => {
+      if (err.response && err.response.text) {
+        logger.error(err.response.text);
+        throw err.response.text;
+      } else {
+        throw err
+      }
+    });
+  logger.debug("Decoded update PB file to json successfully");
+
+
+  // STEP 5: envelop computeUpdate json to computeUpdateEnvelop json
+  // echo '{"payload":{"header":{"channel_header":{"channel_id":"mychannel", "type":2}},
+  // ...  "data":{"config_update":'$(cat org3_update.json)'}}}' | jq . > org3_update_in_envelope.json
+  let computeUpdateEnvelop = {
+    "payload": {
+      "header": {
+        "channel_header": {
+          "channel_id": channelName,
+          "type": 2
+        }
+      },
+      "data": {
+        "config_update": computeUpdate
+      }
+    }
+  };
+
+  // STEP 6: encode to computeUpdateEnvelop pb file
+  // configtxlator proto_encode --input org3_update_in_envelope.json
+  // ...  --type common.Envelope --output org3_update_in_envelope.pb
+  let computeUpdateEnvelopPB = await superagent.post(configtxlatorAddr + '/protolator/encode/common.Envelope',
+    JSON.stringify(computeUpdateEnvelop))
+    .buffer()
+    .then((res) => {
+      return res.body;
+    }).catch(err => {
+      if (err.response && err.response.text) {
+        logger.error(err.response.text);
+        throw err.response.text;
+      } else {
+        throw err
+      }
+    });
+
+  // STEP 7: extract the channel config bytes from the envelope to be signed
+  let channelConfig = client.extractChannelConfig(computeUpdateEnvelopPB);
+  return [true, channelConfig];
+};
+
 exports.initClient = initClient;
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
@@ -568,7 +722,8 @@ exports.writeFile = writeFile;
 exports.removeFile = removeFile;
 exports.getClientForOrg = getClientForOrg;
 exports.generateChannelTx = generateChannelTx;
-exports.generateUpdateAnchorTx = generateUpdateAnchorTx;
+exports.generateAnchorPeerList = generateAnchorPeerList;
+exports.mergeAnchorPeers = mergeAnchorPeers;
 exports.decodeEndorsementPolicy = decodeEndorsementPolicy;
 exports.loadCollection = loadCollection;
 exports.asLocalhost = asLocalhost;
@@ -577,3 +732,5 @@ exports.generateNewOrgJSON = generateNewOrgJSON;
 exports.loadGenesisOrgName = loadGenesisOrgName;
 exports.newOrgUpdateNetworkConfig = newOrgUpdateNetworkConfig;
 exports.isNodeChaincode = isNodeChaincode;
+exports.fetchOldChannelConfig = fetchOldChannelConfig;
+exports.generateNewChannelConfig = generateNewChannelConfig;

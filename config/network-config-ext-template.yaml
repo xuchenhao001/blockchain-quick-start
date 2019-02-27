@@ -24,6 +24,7 @@ organizations:
     mspDir:
       path: /var/crypto-config/peerOrganizations/org3.example.com/msp
 
+# These are useful for anchor peer address
 peers:
   peer0.org1.example.com:
     url-addr-container: peer0.org1.example.com
