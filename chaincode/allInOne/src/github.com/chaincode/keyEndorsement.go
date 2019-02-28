@@ -9,13 +9,18 @@ import (
 )
 
 func (s *SmartContract) kepAddOrgs(stub shim.ChaincodeStubInterface, args []string) sc.Response {
-	if len(args) < 2 {
-		return s.returnError("No orgs to add specified")
+	if len(args) < 3 {
+		return s.returnError("Wrong number of parameters, expect more than 2")
 	}
 
 	key := args[0]
 	logger.Debug("Got key-level endorsement policy key: " + key)
 	epKey := poPrefix + key
+
+	roleType := statebased.RoleType(args[1])
+	if roleType != statebased.RoleTypeMember && roleType != statebased.RoleTypePeer {
+		return s.returnError("Wrong role type specified (need 'MEMBER' or 'PEER'): " + args[1])
+	}
 
 	// get the endorsement policy for the key
 	epBytes, err := stub.GetStateValidationParameter(epKey)
@@ -27,8 +32,9 @@ func (s *SmartContract) kepAddOrgs(stub shim.ChaincodeStubInterface, args []stri
 		return s.returnError("Error generate new endorsement policy: " + err.Error())
 	}
 
+	logger.Debugf("Organizations to be set to key-level endorsement policy: %v", args[2:])
 	// add organizations to endorsement policy
-	err = ep.AddOrgs(statebased.RoleTypePeer, args[1:]...)
+	err = ep.AddOrgs(roleType, args[2:]...)
 	if err != nil {
 		return s.returnError("Error add organizations to endorsement policy: " + err.Error())
 	}
