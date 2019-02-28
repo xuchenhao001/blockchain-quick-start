@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-var poPrefix = "PO@"
+var poPrefix = ""
 
 type GoodsInfos struct {
 	UnitPrice        float32 `json:"unitPrice"`

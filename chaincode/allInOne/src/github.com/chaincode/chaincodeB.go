@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-var manifestPrefix = "Manifest@"
+var manifestPrefix = ""
 
 type Manifest struct {
 	Shipper           string `json:"shipper"`
