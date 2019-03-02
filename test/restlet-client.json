@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-03-01T09:18:03.228+08:00",
+      "lastModified": "2019-03-02T15:40:45.634+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -4376,7 +4376,7 @@
         "path": "/invoke/channel12/mycc"
       },
       "id": "b3edab77-d4b0-45ae-9c9c-677bbfa870ed",
-      "lastModified": "2019-02-03T20:00:42.223+08:00",
+      "lastModified": "2019-03-02T12:05:20.760+08:00",
       "name": "05. invokePO - Channel12",
       "headers": [
         {
@@ -6705,6 +6705,49 @@
       "parentId": "c46361e1-c551-4100-9fb3-3474cd9cbc3a"
     },
     {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyACLSignBy\": [\"Org1\", \"Org2\"],\n  \"resource\": \"peer/Propose\",\n  \"policy\": \"/Channel/Application/Writers\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/channel/modifyacl"
+      },
+      "id": "a7bf3969-8c10-40b9-9659-2e527be2b93b",
+      "lastModified": "2019-03-02T15:40:45.634+08:00",
+      "name": "02. modifyChannelACL",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "c46361e1-c551-4100-9fb3-3474cd9cbc3a"
+    },
+    {
       "type": "Service",
       "id": "dd8a4e4a-3cf9-4ec5-96ed-ee563f408b85",
       "lastModified": "2019-02-08T21:41:42.887+08:00",
@@ -6800,7 +6843,7 @@
     {
       "type": "Context",
       "id": "4a40be7d-c3a9-4445-923a-b461524912bc",
-      "lastModified": "2019-03-01T09:38:19.325+08:00",
+      "lastModified": "2019-03-01T17:06:50.438+08:00",
       "name": "URL",
       "variables": [
         {

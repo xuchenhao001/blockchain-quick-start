@@ -260,15 +260,34 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
     let response = await client.updateChannel(request);
     logger.debug('Response ::%j', response);
     if (response && response.status === 'SUCCESS') {
-      logger.debug('Successfully updated the channel.');
+      if (isRemove) {
+        logger.debug('Successfully delete org [' + targetOrg + '] from channel ' + channelName);
+      } else {
+        logger.debug('Successfully add org [' + targetOrg + '] to channel ' + channelName);
+      }
       return [true];
     } else {
-      let errMsg = util.format('Failed to modify new org the channel %s: %s', channelName, response.info);
-      return [false, errMsg];
+      let errMessage;
+      if (isRemove) {
+        errMessage = util.format('Failed to delete org [%s] from channel [%s] due to error: %s',
+          targetOrg, channelName, response.info);
+      } else {
+        errMessage = util.format('Failed to add org [%s] to channel [%s] due to error: %s',
+          targetOrg, channelName, response.info);
+      }
+      logger.error(errMessage);
+      return [false, errMessage];
     }
 
   } catch (err) {
-    let errMessage = util.format('Failed to modify new org the channel: ' + err);
+    let errMessage;
+    if (isRemove) {
+      errMessage = util.format('Failed to delete org [%s] from channel [%s] due to error: %s',
+        targetOrg, channelName, err);
+    } else {
+      errMessage = util.format('Failed to add org [%s] to channel [%s] due to error: %s',
+        targetOrg, channelName, err);
+    }
     logger.error(errMessage);
     return [false, errMessage];
   }
@@ -362,17 +381,92 @@ let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
     let response = await client.updateChannel(request);
     logger.debug(' response ::%j', response);
     if (response && response.status === 'SUCCESS') {
-      logger.debug('Successfully updated anchor peer');
+      logger.debug('Successfully updated anchor peer on channel ' + channelName);
       return [true];
     } else {
-      let errMessage = util.format('Failed to update anchor peer %s: %s', channelName, response.info);
-      logger.warn(errMessage);
+      let errMessage = util.format('Failed to update anchor peer on channel [%s] due to error: %s',
+        channelName, response.info);
+      logger.error(errMessage);
       return [false, errMessage];
     }
   } catch (error) {
-    let errMessage = util.format('Failed to update anchor peer due to error: ' + error);
+    let errMessage = util.format('Failed to update anchor peer on channel [%s] due to error: %s', channelName, error);
     logger.error(errMessage);
-    return [false, errMessage]
+    return [false, errMessage];
+  }
+};
+
+let modifyACL = async function (channelName, orderers, orgName, resource, policy, modifyACLSignBy) {
+  logger.debug('\n\n====== Modifying Channel \'' + channelName + '\' ACLs ======\n');
+  logger.debug('Resource [' + resource + '] to be changed with policy [' + policy + ']');
+
+  let client = await helper.getClientForOrg(orgName);
+
+  let channel = client.newChannel(channelName);
+  // assign orderer to channel
+  orderers.forEach(function (ordererName) {
+    channel.addOrderer(client.getOrderer(ordererName));
+  });
+
+  try {
+    // get old channel config from orderer
+    let fetchResult = await helper.fetchOldChannelConfig(channel);
+    if (!fetchResult[0]) {
+      return [false, fetchResult[1]];
+    }
+    let oldChannelConfig = fetchResult[1];
+
+    // generate new channel config json
+    let newChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig)); // Deep copy
+    if (!newChannelConfig.channel_group.groups.Application.values.ACLs){
+      // if ACLs object doesn't exist (formal version's channel config doesn't include this)
+      newChannelConfig.channel_group.groups.Application.values.ACLs = helper.generateDefaultACLs();
+    }
+    let acls = newChannelConfig.channel_group.groups.Application.values.ACLs.value.acls;
+    acls[resource] = {
+      "policy_ref": policy
+    };
+
+    logger.debug('Generate new acls: ' + JSON.stringify(acls));
+    // generate the channel config bytes from the envelope to be signed
+    let generateResult = await helper.generateNewChannelConfig(channelName, oldChannelConfig, newChannelConfig);
+    if (!generateResult[0]) {
+      return [false, generateResult[1]];
+    }
+    let channelConfig = generateResult[1];
+
+    // Signing the new channel config by client
+    let signatures = [];
+    for (let signerOrg of modifyACLSignBy) {
+      let signerClient = await helper.getClientForOrg(signerOrg);
+      signatures.push(signerClient.signChannelConfig(channelConfig));
+      logger.debug('New channel config signed by: ' + signerOrg)
+    }
+
+    // Making the request and send to orderer
+    let request = {
+      config: channelConfig,
+      signatures: signatures,
+      name: channelName,
+      txId: client.newTransactionID(true) // get an admin based transactionID
+    };
+
+    // send to orderer
+    let response = await client.updateChannel(request);
+    logger.debug(' response ::%j', response);
+    if (response && response.status === 'SUCCESS') {
+      logger.debug('Successfully updated acl on channel ' + channelName);
+      return [true];
+    } else {
+      let errMessage = util.format('Failed to update acl on channel [%s] due to error: %s', channelName, response.info);
+      logger.error(errMessage);
+      return [false, errMessage];
+    }
+
+  } catch (error) {
+    let errMessage = util.format('Failed to update acl on channel [%s] due to error: %s', channelName, error);
+    logger.error(errMessage);
+    return [false, errMessage];
   }
 };
 
@@ -380,3 +474,4 @@ exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
 exports.updateAnchorPeer = updateAnchorPeer;
 exports.modifyOrg = modifyOrg;
+exports.modifyACL = modifyACL;

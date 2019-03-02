@@ -60,6 +60,53 @@ router.post('/channel/create', async function (req, res) {
 
 });
 
+router.post('/channel/join', async function (req, res) {
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let peers = req.body.peers;
+  if (typeof peers === 'undefined') {
+    let errMessage = "Request Error, parameter \"peers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get peers names: \"" + peers + "\"");
+
+  let joinResult = await fabric.joinChannel(channelName, orderers, orgName, peers);
+  logger.debug(joinResult);
+  if (joinResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": joinResult[1]});
+  }
+
+});
+
 router.post('/channel/addorg', async function (req, res) {
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
@@ -172,7 +219,7 @@ router.post('/channel/delorg', async function (req, res) {
 
 });
 
-router.post('/channel/join', async function (req, res) {
+router.post('/channel/modifyacl', async function (req, res) {
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
     let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
@@ -200,21 +247,39 @@ router.post('/channel/join', async function (req, res) {
   }
   logger.debug("Get org name: \"" + orgName + "\"");
 
-  let peers = req.body.peers;
-  if (typeof peers === 'undefined') {
-    let errMessage = "Request Error, parameter \"peers\" doesn't exist";
+  let resource = req.body.resource;
+  if (typeof resource === 'undefined') {
+    let errMessage = "Request Error, parameter \"resource\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get peers names: \"" + peers + "\"");
+  logger.debug("Get resource: \"" + resource + "\"");
 
-  let joinResult = await fabric.joinChannel(channelName, orderers, orgName, peers);
-  logger.debug(joinResult);
-  if (joinResult[0]===true) {
+  let policy = req.body.policy;
+  if (typeof policy === 'undefined') {
+    let errMessage = "Request Error, parameter \"policy\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get policy: \"" + policy + "\"");
+
+  let modifyACLSignBy = req.body.modifyACLSignBy;
+  if (typeof modifyACLSignBy === 'undefined') {
+    let errMessage = "Request Error, parameter \"modifyACLSignBy\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get modify ACLs signers: \"" + modifyACLSignBy + "\"");
+
+  let modifyResult = await fabric.modifyACL(channelName, orderers, orgName, resource, policy, modifyACLSignBy);
+  logger.debug(modifyResult);
+  if (modifyResult[0]===true) {
     res.status(200).json({"result": "success"});
   } else {
-    res.status(500).json({"result": "failed", "error": joinResult[1]});
+    res.status(500).json({"result": "failed", "error": modifyResult[1]});
   }
 
 });

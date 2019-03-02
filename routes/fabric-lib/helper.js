@@ -302,6 +302,38 @@ let genConfigtxObj = async function (orgNames) {
         "Consortium": "SampleConsortium",
         "Application": {
           "Organizations": orgObjs,
+          "ACLs": {
+            "lscc/ChaincodeExists": "/Channel/Application/Readers",
+            "lscc/GetDeploymentSpec": "/Channel/Application/Readers",
+            "lscc/GetChaincodeData": "/Channel/Application/Readers",
+            "lscc/GetInstantiatedChaincodes": "/Channel/Application/Readers",
+            "qscc/GetChainInfo": "/Channel/Application/Readers",
+            "qscc/GetBlockByNumber": "/Channel/Application/Readers",
+            "qscc/GetBlockByHash": "/Channel/Application/Readers",
+            "qscc/GetTransactionByID": "/Channel/Application/Readers",
+            "qscc/GetBlockByTxID": "/Channel/Application/Readers",
+            "cscc/GetConfigBlock": "/Channel/Application/Readers",
+            "cscc/GetConfigTree": "/Channel/Application/Readers",
+            "cscc/SimulateConfigTreeUpdate": "/Channel/Application/Readers",
+            "peer/Propose": "/Channel/Application/MyPolicy",
+            "peer/ChaincodeToChaincode": "/Channel/Application/Readers",
+            "event/Block": "/Channel/Application/Readers",
+            "event/FilteredBlock": "/Channel/Application/Readers",
+          },
+          "Policies": {
+            "Readers": {
+              "Type": "ImplicitMeta",
+              "Rule": "ANY Readers",
+            },
+            "Writers": {
+              "Type": "ImplicitMeta",
+              "Rule": "ANY Writers",
+            },
+            "Admins": {
+              "Type": "ImplicitMeta",
+              "Rule": "MAJORITY Admins",
+            }
+          },
           "Capabilities": {"V1_3": true}
         }
       }
@@ -713,6 +745,65 @@ let generateNewChannelConfig = async function (channelName, oldChannelConfig, ne
   return [true, channelConfig];
 };
 
+let generateDefaultACLs = function () {
+  // refer: https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/configtx.yaml
+  return {
+    "mod_policy": "Admins",
+    "value": {
+      "acls": {
+        "cscc/GetConfigBlock": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "cscc/GetConfigTree": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "cscc/SimulateConfigTreeUpdate": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "event/Block": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "event/FilteredBlock": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "lscc/ChaincodeExists": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "lscc/GetChaincodeData": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "lscc/GetDeploymentSpec": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "lscc/GetInstantiatedChaincodes": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "peer/ChaincodeToChaincode": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "peer/Propose": {
+          "policy_ref": "/Channel/Application/Writers"
+        },
+        "qscc/GetBlockByHash": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "qscc/GetBlockByNumber": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "qscc/GetBlockByTxID": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "qscc/GetChainInfo": {
+          "policy_ref": "/Channel/Application/Readers"
+        },
+        "qscc/GetTransactionByID": {
+          "policy_ref": "/Channel/Application/Readers"
+        }
+      }
+    }
+  };
+};
+
 exports.initClient = initClient;
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
@@ -734,3 +825,4 @@ exports.newOrgUpdateNetworkConfig = newOrgUpdateNetworkConfig;
 exports.isNodeChaincode = isNodeChaincode;
 exports.fetchOldChannelConfig = fetchOldChannelConfig;
 exports.generateNewChannelConfig = generateNewChannelConfig;
+exports.generateDefaultACLs = generateDefaultACLs;
