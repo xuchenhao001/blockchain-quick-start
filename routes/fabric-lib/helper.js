@@ -315,7 +315,7 @@ let genConfigtxObj = async function (orgNames) {
             "cscc/GetConfigBlock": "/Channel/Application/Readers",
             "cscc/GetConfigTree": "/Channel/Application/Readers",
             "cscc/SimulateConfigTreeUpdate": "/Channel/Application/Readers",
-            "peer/Propose": "/Channel/Application/MyPolicy",
+            "peer/Propose": "/Channel/Application/Writers",
             "peer/ChaincodeToChaincode": "/Channel/Application/Readers",
             "event/Block": "/Channel/Application/Readers",
             "event/FilteredBlock": "/Channel/Application/Readers",
