@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-03-02T16:13:52.636+08:00",
+      "lastModified": "2019-03-02T16:57:35.836+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -6719,6 +6719,92 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyPolicySignBy\": [\"Org1\", \"Org2\"],\n  \"policyName\": \"MyPolicy\",\n  \"policyType\": 3,\n  \"policyValue\": {\n    \"rule\": \"MAJORITY\",\n    \"sub_policy\": \"Admins\"\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/channel/modifyacl"
+      },
+      "id": "1d9a46ef-9f9d-478d-bd9e-ae49658eaa32",
+      "lastModified": "2019-03-02T16:57:35.837+08:00",
+      "name": "02. modifyChannelPolicy - ImplicitMeta",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "c46361e1-c551-4100-9fb3-3474cd9cbc3a"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyPolicySignBy\": [\"Org1\", \"Org2\"],\n  \"policyName\": \"MyPolicy\",\n  \"policyType\": 1,\n  \"policyValue\": {\n    \"identities\": [\n      {\n        \"principal\": {\n          \"msp_identifier\": \"Org1MSP\",\n          \"role\": \"MEMBER\"\n        },\n        \"principal_classification\": \"ROLE\"\n      }\n    ],\n    \"rule\": {\n      \"n_out_of\": {\n        \"n\": 1,\n        \"rules\": [\n          {\n            \"signed_by\": 0\n          }\n        ]\n      }\n    }\n  }\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/channel/modifyacl"
+      },
+      "id": "09404f08-9810-43a3-b60a-63252db3b9dc",
+      "lastModified": "2019-03-02T16:57:12.183+08:00",
+      "name": "02. modifyChannelPolicy - Signature",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "c46361e1-c551-4100-9fb3-3474cd9cbc3a"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
         "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyACLSignBy\": [\"Org1\", \"Org2\"],\n  \"resource\": \"peer/Propose\",\n  \"policy\": \"/Channel/Application/Writers\"\n}"
       },
       "headersType": "Form",
@@ -6735,8 +6821,8 @@
         "path": "/channel/modifyacl"
       },
       "id": "a7bf3969-8c10-40b9-9659-2e527be2b93b",
-      "lastModified": "2019-03-02T15:40:45.634+08:00",
-      "name": "02. modifyChannelACL",
+      "lastModified": "2019-03-02T16:39:55.583+08:00",
+      "name": "03. modifyChannelACL",
       "headers": [
         {
           "enabled": true,

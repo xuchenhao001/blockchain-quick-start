@@ -219,6 +219,81 @@ router.post('/channel/delorg', async function (req, res) {
 
 });
 
+router.post('/channel/modifypolicy', async function (req, res) {
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let modifyPolicySignBy = req.body.modifyPolicySignBy;
+  if (typeof modifyPolicySignBy === 'undefined') {
+    let errMessage = "Request Error, parameter \"modifyPolicySignBy\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get modifyPolicySignBy: \"" + modifyPolicySignBy + "\"");
+
+  let policyName = req.body.policyName;
+  if (typeof policyName === 'undefined') {
+    let errMessage = "Request Error, parameter \"policyName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get policyName: \"" + policyName + "\"");
+
+  let policyType = req.body.policyType;
+  if (typeof policyType === 'undefined') {
+    let errMessage = "Request Error, parameter \"policyType\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get policyType: \"" + policyType + "\"");
+
+  let policyValue = req.body.policyValue;
+  if (typeof policyValue === 'undefined') {
+    let errMessage = "Request Error, parameter \"policyValue\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get policyValue: \"" + JSON.stringify(policyValue) + "\"");
+
+  let modifyResult = await fabric.modifyPolicy(channelName, orderers, orgName, modifyPolicySignBy, policyName,
+    policyType, policyValue);
+  logger.debug(modifyResult);
+  if (modifyResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": modifyResult[1]});
+  }
+
+});
+
 router.post('/channel/modifyacl', async function (req, res) {
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {

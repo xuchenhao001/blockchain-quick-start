@@ -26,6 +26,14 @@ let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
   return await channel.updateAnchorPeer(channelName, orderers, orgName, peers);
 };
 
+let modifyPolicy = async function (channelName, orderers, orgName, modifyPolicySignBy, policyName, policyType,
+                                   policyValue) {
+  logger.debug('==================== MODIFY CHANNEL Policy ==================');
+
+  return await channel.modifyPolicy(channelName, orderers, orgName, modifyPolicySignBy, policyName, policyType,
+    policyValue);
+};
+
 let modifyACL = async function (channelName, orderers, orgName, resource, policy, modifyACLSignBy) {
   logger.debug('==================== MODIFY CHANNEL ACLs ==================');
 
@@ -101,6 +109,7 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
 exports.updateAnchorPeer = updateAnchorPeer;
+exports.modifyPolicy = modifyPolicy;
 exports.modifyACL = modifyACL;
 exports.addOrgToChannelWithCerts = addOrgToChannelWithCerts;
 exports.addOrgToChannel = addOrgToChannel;

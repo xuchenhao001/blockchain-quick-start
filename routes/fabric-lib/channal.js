@@ -150,7 +150,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
 // add org or delete org from your exist fabric network channel's config
 // withCerts: boolean, indicate if request carrying certs, update network-config in memory.
 let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderers, orgName, isRemove,
-                                         withCerts) {
+                                withCerts) {
   logger.debug('\n\n====== modify Org of existing Channel \'' + channelName + '\' ======\n');
   try {
 
@@ -195,7 +195,7 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
 
     // STEP 1: get old channel config from orderer
     let fetchResult = await helper.fetchOldChannelConfig(channel);
-    if (!fetchResult[0]){
+    if (!fetchResult[0]) {
       return [false, fetchResult[1]];
     }
     let oldChannelConfig = fetchResult[1];
@@ -314,14 +314,14 @@ let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
   try {
     // get old channel config from orderer
     let fetchResult = await helper.fetchOldChannelConfig(channel);
-    if (!fetchResult[0]){
+    if (!fetchResult[0]) {
       return [false, fetchResult[1]];
     }
     let oldChannelConfig = fetchResult[1];
 
     // generate new channel config json with new anchor peers
     let newChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig)); // Deep copy
-    if (oldChannelConfig.channel_group.groups.Application.groups[genesisOrgName]){
+    if (oldChannelConfig.channel_group.groups.Application.groups[genesisOrgName]) {
       // extract old anchor peers config
       let oldAnchor = oldChannelConfig.channel_group.groups.Application.groups[genesisOrgName].values.AnchorPeers;
 
@@ -354,7 +354,7 @@ let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
         }
       }
     } else {
-      return [false, 'Channel [' + channelName + '] doesn\'t contain organization: ' + genesisOrgName ]
+      return [false, 'Channel [' + channelName + '] doesn\'t contain organization: ' + genesisOrgName]
     }
     logger.debug('Generate organization ' + genesisOrgName + '\'s new anchor peers config: ' + JSON.stringify(
       newChannelConfig.channel_group.groups.Application.groups[genesisOrgName].values.AnchorPeers));
@@ -397,6 +397,108 @@ let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
 };
 
 // refer: https://hyperledger-fabric.readthedocs.io/en/release-1.4/access_control.html
+let modifyPolicy = async function (channelName, orderers, orgName, modifyPolicySignBy,
+                                   policyName, policyType, policyValue) {
+  logger.debug('\n\n====== Modifying Policy of Channel \'' + channelName + '\' ======\n');
+  logger.debug('Policy [' + policyName + '] to be changed');
+
+  let client = await helper.getClientForOrg(orgName);
+
+  let channel = client.newChannel(channelName);
+  // assign orderer to channel
+  orderers.forEach(function (ordererName) {
+    channel.addOrderer(client.getOrderer(ordererName));
+  });
+
+  try {
+    // get old channel config from orderer
+    let fetchResult = await helper.fetchOldChannelConfig(channel);
+    if (!fetchResult[0]) {
+      return [false, fetchResult[1]];
+    }
+    let oldChannelConfig = fetchResult[1];
+
+    // generate new channel config json, Deep copy
+    let newChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig));
+    let policies = newChannelConfig.channel_group.groups.Application.policies;
+    if (policyType === 1) {
+      if (!policies[policyName]) {
+        // if target policy doesn't exist before
+        
+      }
+
+    } else if (policyType === 3) {
+      if (!policies[policyName]) {
+        // if target policy doesn't exist before
+        policies[policyName] = {
+          "mod_policy": "Admins",
+          "policy": {
+            "type": 3,
+            "value": policyValue
+          },
+          "version": "0"
+        };
+      } else {
+        // if target policy already exist
+        policies[policyName] = {
+          "mod_policy": "Admins",
+          "policy": {
+            "type": 3,
+            "value": policyValue
+          },
+          "version": policies[policyName].version
+        };
+      }
+
+    } else {
+      return [false, 'policyType error, require 1 or 3, but got: ' + policyType]
+    }
+
+
+    logger.debug('Generate new acls: ' + JSON.stringify(acls));
+    // generate the channel config bytes from the envelope to be signed
+    let generateResult = await helper.generateNewChannelConfig(channelName, oldChannelConfig, newChannelConfig);
+    if (!generateResult[0]) {
+      return [false, generateResult[1]];
+    }
+    let channelConfig = generateResult[1];
+
+    // Signing the new channel config by client
+    let signatures = [];
+    for (let signerOrg of modifyACLSignBy) {
+      let signerClient = await helper.getClientForOrg(signerOrg);
+      signatures.push(signerClient.signChannelConfig(channelConfig));
+      logger.debug('New channel config signed by: ' + signerOrg)
+    }
+
+    // Making the request and send to orderer
+    let request = {
+      config: channelConfig,
+      signatures: signatures,
+      name: channelName,
+      txId: client.newTransactionID(true) // get an admin based transactionID
+    };
+
+    // send to orderer
+    let response = await client.updateChannel(request);
+    logger.debug(' response ::%j', response);
+    if (response && response.status === 'SUCCESS') {
+      logger.debug('Successfully updated acl on channel ' + channelName);
+      return [true];
+    } else {
+      let errMessage = util.format('Failed to update acl on channel [%s] due to error: %s', channelName, response.info);
+      logger.error(errMessage);
+      return [false, errMessage];
+    }
+
+  } catch (error) {
+    let errMessage = util.format('Failed to update acl on channel [%s] due to error: %s', channelName, error);
+    logger.error(errMessage);
+    return [false, errMessage];
+  }
+};
+
+// refer: https://hyperledger-fabric.readthedocs.io/en/release-1.4/access_control.html
 let modifyACL = async function (channelName, orderers, orgName, resource, policy, modifyACLSignBy) {
   logger.debug('\n\n====== Modifying Channel \'' + channelName + '\' ACLs ======\n');
   logger.debug('Resource [' + resource + '] to be changed with policy [' + policy + ']');
@@ -419,7 +521,7 @@ let modifyACL = async function (channelName, orderers, orgName, resource, policy
 
     // generate new channel config json
     let newChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig)); // Deep copy
-    if (!newChannelConfig.channel_group.groups.Application.values.ACLs){
+    if (!newChannelConfig.channel_group.groups.Application.values.ACLs) {
       // if ACLs object doesn't exist (formal version's channel config doesn't include this)
       newChannelConfig.channel_group.groups.Application.values.ACLs = helper.generateDefaultACLs();
     }
@@ -475,4 +577,5 @@ exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
 exports.updateAnchorPeer = updateAnchorPeer;
 exports.modifyOrg = modifyOrg;
+exports.modifyPolicy = modifyPolicy;
 exports.modifyACL = modifyACL;
