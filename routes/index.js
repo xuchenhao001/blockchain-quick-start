@@ -446,20 +446,12 @@ router.post('/chaincode/instantiate', async function (req, res) {
   logger.debug("Get channel name: \"" + channelName + "\"");
 
   let functionName = req.body.functionName;
-  if (typeof functionName === 'undefined') {
-    logger.debug("Parameter \"functionName\" doesn't exist, set as null");
-    functionName = "";
-  } else {
-    logger.debug("Get function name: \"" + functionName + "\"");
-  }
+  functionName = (typeof functionName === 'undefined') ? "" : functionName;
+  logger.debug("Get function name: \"" + functionName + "\"");
 
   let args = req.body.args;
-  if (typeof args === 'undefined') {
-    logger.debug("Parameter \"args\" doesn't exist, set as null");
-    args = [];
-  } else {
-    logger.debug("Get args: \"" + args + "\"");
-  }
+  args = (typeof args === 'undefined') ? [] : args;
+  logger.debug("Get args: \"" + args + "\"");
 
   let orderers = req.body.orderers;
   if (typeof orderers === 'undefined') {
@@ -491,13 +483,21 @@ router.post('/chaincode/instantiate', async function (req, res) {
   // endorsementPolicy could be undefined (default is "any member of the organizations in the channel")
   let endorsementPolicy = req.body.endorsementPolicy;
   if (endorsementPolicy) {
-    logger.debug("Get endorsement policy: " + endorsementPolicy)
+    if (typeof endorsementPolicy === 'object') {
+      logger.debug("Get endorsement policy object: " + JSON.stringify(endorsementPolicy));
+    } else {
+      logger.debug("Get endorsement policy: " + endorsementPolicy);
+    }
   }
 
   // collection can be undefined
   let collection = req.body.collection;
   if (collection) {
-    logger.debug("Get collection: " + collection)
+    if (typeof collection === 'object') {
+      logger.debug("Get collection object: " + JSON.stringify(collection));
+    } else {
+      logger.debug("Get collection: " + collection);
+    }
   }
 
   let useDiscoverService = req.body.useDiscoverService;
@@ -510,7 +510,7 @@ router.post('/chaincode/instantiate', async function (req, res) {
   let instantiateResult = await fabric.instantiateChaincode(chaincodeName, chaincodeType, chaincodeVersion,
     channelName, functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
   logger.debug(instantiateResult);
-  if (instantiateResult[0]===true) {
+  if (instantiateResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": instantiateResult[1]});

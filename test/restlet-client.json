@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-03-02T15:40:45.634+08:00",
+      "lastModified": "2019-03-02T16:13:52.636+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -4317,7 +4317,7 @@
         "bodyType": "Text",
         "autoSetLength": true,
         "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"mycc\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"channel12\",\n  \"collection\": \"WwogIHsKICAgICJuYW1lIjogImNvbGxlY3Rpb25QTyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzJNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgICAgIH0KICAgICAgICBdCiAgICAgIH0KICAgIH0sCiAgICAicmVxdWlyZWRQZWVyQ291bnQiOiAxLAogICAgIm1heFBlZXJDb3VudCI6IDMsCiAgICAiYmxvY2tUb0xpdmUiOiAxMDAwMDAwCiAgfSwKICB7CiAgICAibmFtZSI6ICJjb2xsZWN0aW9uUE9Qcml2YXRlRGV0YWlscyIsCiAgICAicG9saWN5IjogewogICAgICAiaWRlbnRpdGllcyI6IFsKICAgICAgICB7CiAgICAgICAgICAicm9sZSI6IHsKICAgICAgICAgICAgIm5hbWUiOiAibWVtYmVyIiwKICAgICAgICAgICAgIm1zcElkIjogIk9yZzFNU1AiCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICBdLAogICAgICAicG9saWN5IjogewogICAgICAgICIxLW9mIjogWwogICAgICAgICAgewogICAgICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICAgICAgfQogICAgICAgIF0KICAgICAgfQogICAgfSwKICAgICJyZXF1aXJlZFBlZXJDb3VudCI6IDEsCiAgICAibWF4UGVlckNvdW50IjogMywKICAgICJibG9ja1RvTGl2ZSI6IDMKICB9Cl0K\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjEtb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n\t\"chaincodeName\": \"mycc\",\n\t\"chaincodeType\": \"golang\",\n\t\"chaincodeVersion\": \"v1.0\",\n\t\"channelName\": \"channel12\",\n\t\"collection\": [{\n\t\t\t\"name\": \"collectionPO\",\n\t\t\t\"policy\": {\n\t\t\t\t\"identities\": [{\n\t\t\t\t\t\t\"role\": {\n\t\t\t\t\t\t\t\"name\": \"member\",\n\t\t\t\t\t\t\t\"mspId\": \"Org1MSP\"\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"role\": {\n\t\t\t\t\t\t\t\"name\": \"member\",\n\t\t\t\t\t\t\t\"mspId\": \"Org2MSP\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"policy\": {\n\t\t\t\t\t\"1-of\": [{\n\t\t\t\t\t\t\t\"signed-by\": 0\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"signed-by\": 1\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"requiredPeerCount\": 1,\n\t\t\t\"maxPeerCount\": 3,\n\t\t\t\"blockToLive\": 1000000\n\t\t},\n\t\t{\n\t\t\t\"name\": \"collectionPOPrivateDetails\",\n\t\t\t\"policy\": {\n\t\t\t\t\"identities\": [{\n\t\t\t\t\t\"role\": {\n\t\t\t\t\t\t\"name\": \"member\",\n\t\t\t\t\t\t\"mspId\": \"Org1MSP\"\n\t\t\t\t\t}\n\t\t\t\t}],\n\t\t\t\t\"policy\": {\n\t\t\t\t\t\"1-of\": [{\n\t\t\t\t\t\t\"signed-by\": 0\n\t\t\t\t\t}]\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"requiredPeerCount\": 1,\n\t\t\t\"maxPeerCount\": 3,\n\t\t\t\"blockToLive\": 3\n\t\t}\n\t],\n\t\"endorsementPolicy\": {\n\t\t\"identities\": [{\n\t\t\t\t\"role\": {\n\t\t\t\t\t\"name\": \"member\",\n\t\t\t\t\t\"mspId\": \"Org1MSP\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"role\": {\n\t\t\t\t\t\"name\": \"member\",\n\t\t\t\t\t\"mspId\": \"Org2MSP\"\n\t\t\t\t}\n\t\t\t}\n\t\t],\n\t\t\"policy\": {\n\t\t\t\"1-of\": [{\n\t\t\t\t\t\"signed-by\": 0\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"signed-by\": 1\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t},\n\t\"functionName\": \"\",\n\t\"args\": [],\n\t\"orderers\": [\"orderer.example.com\"],\n\t\"orgName\": \"Org1\",\n\t\"peers\": [\"peer0.org1.example.com\", \"peer1.org1.example.com\", \"peer0.org2.example.com\", \"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -4333,7 +4333,7 @@
         "path": "/chaincode/instantiate"
       },
       "id": "5ed7031d-dfe9-4a7e-975b-028c6fb65b7c",
-      "lastModified": "2019-02-03T20:00:42.223+08:00",
+      "lastModified": "2019-03-02T16:13:52.636+08:00",
       "name": "04. initOnChannel12",
       "headers": [
         {

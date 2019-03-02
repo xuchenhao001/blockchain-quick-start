@@ -396,6 +396,7 @@ let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
   }
 };
 
+// refer: https://hyperledger-fabric.readthedocs.io/en/release-1.4/access_control.html
 let modifyACL = async function (channelName, orderers, orgName, resource, policy, modifyACLSignBy) {
   logger.debug('\n\n====== Modifying Channel \'' + channelName + '\' ACLs ======\n');
   logger.debug('Resource [' + resource + '] to be changed with policy [' + policy + ']');

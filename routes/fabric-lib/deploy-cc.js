@@ -184,7 +184,11 @@ let instantiateUpgradeChaincode = async function(chaincodeName, chaincodeType, c
 
     // load endorsement policy if exists
     if (endorsementPolicy) {
-      request['endorsement-policy'] = await helper.decodeEndorsementPolicy(endorsementPolicy);
+      if (typeof endorsementPolicy === 'object') {
+        request['endorsement-policy'] = endorsementPolicy;
+      } else {
+        request['endorsement-policy'] = await helper.decodeEndorsementPolicy(endorsementPolicy);
+      }
       logger.debug("Get endorsement policy, update init request: " + JSON.stringify(request));
     }
 

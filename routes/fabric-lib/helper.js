@@ -446,12 +446,19 @@ let decodeEndorsementPolicy = async function (endorsementPolicyBase64Encoded) {
 };
 
 
-let loadCollection = async function (collectionBase64Encoded) {
-  if (!isBase64(collectionBase64Encoded)) {
-    return [false, 'Collection is not a valid base64 string!']
+let loadCollection = async function (collection) {
+  let collectionContent;
+  if (typeof collection === 'object') {
+    // if collection is already an object
+    collectionContent = JSON.stringify(collection);
+  } else {
+    // if collection is base64 encoded object
+    if (!isBase64(collection)) {
+      return [false, 'Collection is not a valid base64 string!']
+    }
+    collectionContent = new Buffer(collection, 'base64');
   }
 
-  let collectionContent = new Buffer(collectionBase64Encoded, 'base64');
   let fileName = './_' + uuid.v4();
   fs.writeFileSync(fileName, collectionContent);
 
