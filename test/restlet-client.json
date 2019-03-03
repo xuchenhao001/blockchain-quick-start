@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-03-02T16:57:35.836+08:00",
+      "lastModified": "2019-03-03T15:59:33.821+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -6719,7 +6719,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyPolicySignBy\": [\"Org1\", \"Org2\"],\n  \"policyName\": \"MyPolicy\",\n  \"policyType\": 3,\n  \"policyValue\": {\n    \"rule\": \"MAJORITY\",\n    \"sub_policy\": \"Admins\"\n  }\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyPolicySignBy\": [\"Org1\", \"Org2\"],\n  \"policyName\": \"MyPolicy\",\n  \"policyType\": 3,\n  \"policyValue\": {\n    \"rule\": \"ANY\",\n    \"sub_policy\": \"Writers\"\n  }\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -6732,10 +6732,10 @@
           "version": "V11"
         },
         "host": "${\"host\"}:${\"port\"}",
-        "path": "/channel/modifyacl"
+        "path": "/channel/modifypolicy"
       },
       "id": "1d9a46ef-9f9d-478d-bd9e-ae49658eaa32",
-      "lastModified": "2019-03-02T16:57:35.837+08:00",
+      "lastModified": "2019-03-03T15:59:33.822+08:00",
       "name": "02. modifyChannelPolicy - ImplicitMeta",
       "headers": [
         {
@@ -6775,10 +6775,10 @@
           "version": "V11"
         },
         "host": "${\"host\"}:${\"port\"}",
-        "path": "/channel/modifyacl"
+        "path": "/channel/modifypolicy"
       },
       "id": "09404f08-9810-43a3-b60a-63252db3b9dc",
-      "lastModified": "2019-03-02T16:57:12.183+08:00",
+      "lastModified": "2019-03-03T15:52:51.824+08:00",
       "name": "02. modifyChannelPolicy - Signature",
       "headers": [
         {
@@ -6805,7 +6805,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyACLSignBy\": [\"Org1\", \"Org2\"],\n  \"resource\": \"peer/Propose\",\n  \"policy\": \"/Channel/Application/Writers\"\n}"
+        "textBody": "{\n  \"channelName\": \"mychannel\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"modifyACLSignBy\": [\"Org1\", \"Org2\"],\n  \"resource\": \"peer/Propose\",\n  \"policy\": \"/Channel/Application/MyPolicy\"\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -6821,7 +6821,7 @@
         "path": "/channel/modifyacl"
       },
       "id": "a7bf3969-8c10-40b9-9659-2e527be2b93b",
-      "lastModified": "2019-03-02T16:39:55.583+08:00",
+      "lastModified": "2019-03-03T15:55:33.777+08:00",
       "name": "03. modifyChannelACL",
       "headers": [
         {

@@ -424,8 +424,20 @@ let modifyPolicy = async function (channelName, orderers, orgName, modifyPolicyS
     if (policyType === 1) {
       if (!policies[policyName]) {
         // if target policy doesn't exist before
-        
+        policyValue.version = 0;
+      } else {
+        // if target policy already exist
+        policyValue.version = policies[policyName].policy.value.version;
+        policyValue.version = (policyValue.version) ? policyValue.version : 0;
       }
+      policies[policyName] = {
+        "mod_policy": "Admins",
+        "policy": {
+          "type": 1,
+          "value": policyValue
+        },
+        "version": "0"
+      };
 
     } else if (policyType === 3) {
       if (!policies[policyName]) {
@@ -454,8 +466,8 @@ let modifyPolicy = async function (channelName, orderers, orgName, modifyPolicyS
       return [false, 'policyType error, require 1 or 3, but got: ' + policyType]
     }
 
+    logger.debug('Generate new policy [' + policyName + ']: ' + JSON.stringify(policies[policyName]));
 
-    logger.debug('Generate new acls: ' + JSON.stringify(acls));
     // generate the channel config bytes from the envelope to be signed
     let generateResult = await helper.generateNewChannelConfig(channelName, oldChannelConfig, newChannelConfig);
     if (!generateResult[0]) {
@@ -465,7 +477,7 @@ let modifyPolicy = async function (channelName, orderers, orgName, modifyPolicyS
 
     // Signing the new channel config by client
     let signatures = [];
-    for (let signerOrg of modifyACLSignBy) {
+    for (let signerOrg of modifyPolicySignBy) {
       let signerClient = await helper.getClientForOrg(signerOrg);
       signatures.push(signerClient.signChannelConfig(channelConfig));
       logger.debug('New channel config signed by: ' + signerOrg)
@@ -483,16 +495,18 @@ let modifyPolicy = async function (channelName, orderers, orgName, modifyPolicyS
     let response = await client.updateChannel(request);
     logger.debug(' response ::%j', response);
     if (response && response.status === 'SUCCESS') {
-      logger.debug('Successfully updated acl on channel ' + channelName);
+      logger.debug('Successfully updated policy on channel ' + channelName);
       return [true];
     } else {
-      let errMessage = util.format('Failed to update acl on channel [%s] due to error: %s', channelName, response.info);
+      let errMessage = util.format('Failed to update policy on channel [%s] due to error: %s',
+        channelName, response.info);
       logger.error(errMessage);
       return [false, errMessage];
     }
 
   } catch (error) {
-    let errMessage = util.format('Failed to update acl on channel [%s] due to error: %s', channelName, error);
+    let errMessage = util.format('Failed to update policy on channel [%s] due to error: %s',
+      channelName, error);
     logger.error(errMessage);
     return [false, errMessage];
   }

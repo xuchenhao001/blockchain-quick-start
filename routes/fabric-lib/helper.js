@@ -650,7 +650,7 @@ let generateNewChannelConfig = async function (channelName, oldChannelConfig, ne
     logger.error(errMsg);
     return [false, errMsg]
   }
-  logger.debug("Encode old channel's config successfully: " + channelConfigPB);
+  logger.debug("Encode old channel's config successfully");
 
 
   // STEP 2: Encode new channel config json to pb block
@@ -672,7 +672,7 @@ let generateNewChannelConfig = async function (channelName, oldChannelConfig, ne
     logger.error(errMsg);
     return [false, errMsg]
   }
-  logger.debug("Encode new channel's config successfully: " + newChannelConfigPB);
+  logger.debug("Encode new channel's config successfully");
 
 
   // STEP 3: Finding delta between old and new channel config pb block
@@ -693,7 +693,7 @@ let generateNewChannelConfig = async function (channelName, oldChannelConfig, ne
         throw err
       }
     });
-  logger.debug("Compute update from configs successfully: " + computeUpdatePB);
+  logger.debug("Compute update from configs successfully");
 
 
   // STEP 4: decode updatePB file to computeUpdate json
