@@ -225,7 +225,8 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
       fcn: functionName,
       args: args,
       transientMap: transient,
-      txId: tx_id
+      txId: tx_id,
+      request_timeout: 600000
     };
     logger.debug("Make query");
     let response_payloads = await channel.queryByChaincode(request);
