@@ -73,6 +73,14 @@ organizations:
       pem: "ORG3_PRIVATE_KEY"
     signedCert:
       pem: "ORG3_SIGN_CERT"
+  Orderer:
+    mspid: OrdererMSP
+    peers:
+    - orderer.example.com
+    adminPrivateKey:
+      pem: "ORDERER_PRIVATE_KEY"
+    signedCert:
+      pem: "ORDERER_SIGN_CERT"
 
 #
 # List of orderers to send transaction and channel create/update requests to. For the time

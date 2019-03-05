@@ -226,11 +226,23 @@ let modifyOrg = async function (targetOrg, modifyOrgSignBy, channelName, orderer
     // jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups": {"Org3MSP":.[1]}}}}}'
     // ...  config.json ./channel-artifacts/org3.json > modified_config.json
     let modifiedChannelConfig = JSON.parse(JSON.stringify(oldChannelConfig)); // Deep copy
-    if (!isRemove) {
-      modifiedChannelConfig.channel_group.groups.Application.groups[targetOrgName] = newOrgJSON;
+    if (modifiedChannelConfig.channel_group.groups.Application) {
+      // if add/del org on application channel
+      if (!isRemove) {
+        modifiedChannelConfig.channel_group.groups.Application.groups[targetOrgName] = newOrgJSON;
+      } else {
+        delete modifiedChannelConfig.channel_group.groups.Application.groups[targetOrgName];
+      }
     } else {
-      delete modifiedChannelConfig.channel_group.groups.Application.groups[targetOrgName];
+      // or add/del org on system channel
+      if (!isRemove) {
+        modifiedChannelConfig.channel_group.groups.Consortiums.groups.SampleConsortium.groups[targetOrgName]
+          = newOrgJSON;
+      } else {
+        delete modifiedChannelConfig.channel_group.groups.Consortiums.groups.SampleConsortium.groups[targetOrgName];
+      }
     }
+
     logger.debug("After merge: " + JSON.stringify(modifiedChannelConfig));
 
 

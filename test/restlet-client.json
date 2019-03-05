@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "fd23622c-81f0-4525-b6cd-2834c0c205f9",
-      "lastModified": "2019-03-03T15:59:33.821+08:00",
+      "lastModified": "2019-03-05T09:58:51.776+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -6823,6 +6823,92 @@
       "id": "a7bf3969-8c10-40b9-9659-2e527be2b93b",
       "lastModified": "2019-03-03T15:55:33.777+08:00",
       "name": "03. modifyChannelACL",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "c46361e1-c551-4100-9fb3-3474cd9cbc3a"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"addOrg\": \"Org3\",\n  \"addOrgSignBy\": [\"Orderer\"],\n  \"channelName\": \"testchainid\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Orderer\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/channel/addorg"
+      },
+      "id": "9cc2daf7-01a3-4b5a-bdc3-b3dff4d619c3",
+      "lastModified": "2019-03-05T09:44:49.136+08:00",
+      "name": "04. addOrg3ToSystemChannel",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "c46361e1-c551-4100-9fb3-3474cd9cbc3a"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "formBody": {
+          "overrideContentType": true,
+          "encoding": "application/x-www-form-urlencoded",
+          "items": []
+        },
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"delOrg\": \"Org3\",\n  \"delOrgSignBy\": [\"Orderer\"],\n  \"channelName\": \"testchainid\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Orderer\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "query": {
+          "delimiter": "&",
+          "items": []
+        },
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "${\"host\"}:${\"port\"}",
+        "path": "/channel/delorg"
+      },
+      "id": "34c0fc52-6612-46d0-bc72-45cec2a17891",
+      "lastModified": "2019-03-05T09:58:51.776+08:00",
+      "name": "04. delOrg3FromSystemChannel",
       "headers": [
         {
           "enabled": true,

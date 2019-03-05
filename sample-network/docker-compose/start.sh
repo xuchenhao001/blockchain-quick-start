@@ -83,6 +83,12 @@ function prepareConnectionFileCerts() {
   ADMIN_CERT=$(getFileParse crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/signcerts/Admin@org3.example.com-cert.pem)
   sed -i "s/ORG3_SIGN_CERT/${ADMIN_CERT}/g" ../../config/network-config.yaml
 
+  # Orderer Admin
+  PRIV_KEY=$(getFileParse crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/keystore/*_sk)
+  sed -i "s/ORDERER_PRIVATE_KEY/${PRIV_KEY}/g" ../../config/network-config.yaml
+  ADMIN_CERT=$(getFileParse crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/Admin@example.com-cert.pem)
+  sed -i "s/ORDERER_SIGN_CERT/${ADMIN_CERT}/g" ../../config/network-config.yaml
+
   # Orderer tls CA
   ORDERER_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt)
   sed -i "s/ORDERER_TLS/$ORDERER_TLS/g" ../../config/network-config.yaml
