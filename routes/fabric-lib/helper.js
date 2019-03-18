@@ -812,24 +812,33 @@ let generateDefaultACLs = function () {
 };
 
 // convert buffer/buffer in object to string recursively
-const bufferToString = function (obj) {
-  if (_.isArray(obj)) {
-    return obj.map(innerObj => bufferToString(innerObj));
+const bufferToString = function (obj, charset) {
+  if (_.isBuffer(obj)) {
+    if (charset) {
+      return obj.toString(charset);
+    }
+    return obj.toString('hex');
+  }
+  else if (_.isArray(obj)) {
+    for (let index in obj) {
+      if (obj.hasOwnProperty(index)) {
+        obj[index] = bufferToString(obj[index], charset);
+      }
+    }
   }
   else if (_.isObject(obj)) {
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
-        // turn buffer to string
-        if (_.isBuffer(obj[key])) {
-          obj[key] = obj[key].toString('hex');
+        if (key === 'args') {
+          // args buffer need to be converted with utf8 instead of hex
+          obj[key] = bufferToString(obj[key], 'utf8');
         } else {
-          bufferToString(obj[key]);
+          obj[key] = bufferToString(obj[key], charset);
         }
       }
     }
-  } else {
-    return obj;
   }
+  return obj;
 };
 
 exports.initClient = initClient;
