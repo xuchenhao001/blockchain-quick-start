@@ -7,6 +7,7 @@ logger.level = 'DEBUG';
 let deployCC = require('./fabric-lib/deploy-cc');
 let channel = require('./fabric-lib/channal');
 let invokeCC = require('./fabric-lib/invoke-cc');
+let explorer = require('./fabric-lib/explorer');
 
 let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
   logger.debug('==================== CREATE CHANNEL ==================');
@@ -106,6 +107,24 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
     orderers, orgName, peers, transient, useDiscoverService);
 };
 
+let queryInfo = async function (channelName, orderers, orgName, peers) {
+  logger.debug('==================== QUERY INFO ==================');
+
+  return await explorer.queryInfo(channelName, orderers, orgName, peers);
+};
+
+let queryBlock = async function (channelName, orderers, orgName, peers, blockNumber) {
+  logger.debug('==================== QUERY Block ==================');
+
+  return await explorer.queryBlock(channelName, orderers, orgName, peers, blockNumber);
+};
+
+let queryTransaction = async function (channelName, orderers, orgName, peers, txId) {
+  logger.debug('==================== QUERY Transaction ==================');
+
+  return await explorer.queryTransaction(channelName, orderers, orgName, peers, txId);
+};
+
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
 exports.updateAnchorPeer = updateAnchorPeer;
@@ -119,3 +138,6 @@ exports.instantiateChaincode = instantiateChaincode;
 exports.upgradeChaincode = upgradeChaincode;
 exports.invokeChaincode = invokeChaincode;
 exports.queryChaincode = queryChaincode;
+exports.queryInfo = queryInfo;
+exports.queryBlock = queryBlock;
+exports.queryTransaction = queryTransaction;

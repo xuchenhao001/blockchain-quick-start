@@ -574,7 +574,7 @@ let genTmpDir = async function () {
 
 let isNodeChaincode = async function (chaincodePath) {
   let curPath = fs.readdirSync(chaincodePath);
-  for (let ele of curPath){
+  for (let ele of curPath) {
     let subPath = path.join(chaincodePath, ele);
     let stat = fs.statSync(subPath);
     if (stat.isDirectory()) {
@@ -811,6 +811,27 @@ let generateDefaultACLs = function () {
   };
 };
 
+// convert buffer/buffer in object to string recursively
+const bufferToString = function (obj) {
+  if (_.isArray(obj)) {
+    return obj.map(innerObj => bufferToString(innerObj));
+  }
+  else if (_.isObject(obj)) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        // turn buffer to string
+        if (_.isBuffer(obj[key])) {
+          obj[key] = obj[key].toString('hex');
+        } else {
+          bufferToString(obj[key]);
+        }
+      }
+    }
+  } else {
+    return obj;
+  }
+};
+
 exports.initClient = initClient;
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
@@ -833,3 +854,4 @@ exports.isNodeChaincode = isNodeChaincode;
 exports.fetchOldChannelConfig = fetchOldChannelConfig;
 exports.generateNewChannelConfig = generateNewChannelConfig;
 exports.generateDefaultACLs = generateDefaultACLs;
+exports.bufferToString = bufferToString;
