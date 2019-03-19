@@ -769,7 +769,7 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
     functionName, args, orderers, orgName, peers, transient, useDiscoverService);
   logger.debug(invokeResut);
   if (invokeResut[0]==='yes') {
-    res.status(200).json({"result": "success"});
+    res.status(200).json({"result": "success", "txId": invokeResut[1]});
   } else {
     res.status(500).json({"result": "failed", "error": invokeResut[1]});
   }
