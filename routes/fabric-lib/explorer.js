@@ -28,10 +28,11 @@ let queryInfo = async function (channelName, orderers, orgName, peers) {
     });
 
     let response_payloads = await channel.queryInfo(null, true);
+    logger.debug("Channel [" + channelName + "] query info result: " + JSON.stringify(response_payloads));
     let response = {
       height: Number(response_payloads.height),
-      currentBlockHash: helper.bufferToString(response_payloads.currentBlockHash),
-      previousBlockHash: helper.bufferToString(response_payloads.previousBlockHash)
+      currentBlockHash: helper.bufferToString(response_payloads.currentBlockHash.buffer),
+      previousBlockHash: helper.bufferToString(response_payloads.previousBlockHash.buffer)
     };
     logger.debug(JSON.stringify(response));
     return [true, response];
@@ -60,6 +61,9 @@ let queryBlock = async function (channelName, orderers, orgName, peers, blockNum
     });
 
     let response_payloads = await channel.queryBlock(blockNumber, null, true);
+    logger.debug("Channel [" + channelName + "] query block [" + blockNumber + "] result: " +
+      JSON.stringify(response_payloads));
+    helper.bufferToString(response_payloads);
     logger.debug(JSON.stringify(response_payloads));
     return [true, response_payloads];
 
@@ -87,6 +91,8 @@ let queryTransaction = async function (channelName, orderers, orgName, peers, tx
     });
 
     let response_payloads = await channel.queryTransaction(txId, null, true);
+    logger.debug("Channel [" + channelName + "] query transaction [" + txId + "] result: " +
+      JSON.stringify(response_payloads));
     helper.bufferToString(response_payloads);
     logger.debug(JSON.stringify(response_payloads));
     return [true, response_payloads];
