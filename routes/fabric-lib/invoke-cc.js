@@ -16,6 +16,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
   logger.debug('\n\n============ Invoke chaincode on org \'' + orgName + '\' ============\n');
   let error_message = '';
   let tx_id_string = null;
+  let response_payload = null;
 
   try {
     logger.debug("Load privateKey and signedCert");
@@ -81,10 +82,9 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 
     if (all_good) {
       logger.info(
-        'Successfully sent Proposal and received ProposalResponse: ' +
-        'Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
-        proposalResponses[0].response.status, proposalResponses[0].response.message,
-        proposalResponses[0].response.payload, proposalResponses[0].endorsement.signature);
+        'Successfully sent Proposal and received ProposalResponse: %s',
+        JSON.stringify(proposalResponses[0].response));
+      response_payload = helper.bufferToString(proposalResponses[0].response.payload, 'utf-8');
 
       // wait for the channel-based event hub to tell us
       // that the commit was good or bad on each peer in our organization
@@ -174,7 +174,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
   if (!error_message) {
     logger.info('Successfully invoked the chaincode \'%s\' to the channel \'%s\' for transaction ID: %s',
       chaincodeName, channelName, tx_id_string);
-    return ['yes', tx_id_string];
+    return ['yes', tx_id_string, response_payload];
   } else {
     let message = util.format('Failed to invoke chaincode. cause: %s', error_message);
     logger.error(message);
