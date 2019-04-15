@@ -54,6 +54,8 @@ services:
       - CORE_PEER_ID=peer0.org1.example.com
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_LISTENADDRESS=peer0.org1.example.com:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org1.example.com:8051
       - CORE_PEER_GOSSIP_ENDPOINT=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
@@ -73,6 +75,7 @@ services:
         - peer0.org1.example.com:/var/hyperledger/production
     ports:
       - 7051:7051
+      - 7052:7052
       - 7053:7053
 
   couchdb1:
@@ -97,6 +100,8 @@ services:
       - CORE_PEER_ID=peer1.org1.example.com
       - CORE_PEER_ADDRESS=peer1.org1.example.com:8051
       - CORE_PEER_LISTENADDRESS=peer1.org1.example.com:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.org1.example.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_ENDPOINT=peer1.org1.example.com:8051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:8051
@@ -116,6 +121,7 @@ services:
         - peer1.org1.example.com:/var/hyperledger/production
     ports:
       - 8051:8051
+      - 8052:8052
       - 8053:7053
 
   couchdb2:
@@ -140,6 +146,8 @@ services:
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_ADDRESS=peer0.org2.example.com:9051
       - CORE_PEER_LISTENADDRESS=peer0.org2.example.com:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org2.example.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:10051
       - CORE_PEER_GOSSIP_ENDPOINT=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:9051
@@ -159,6 +167,7 @@ services:
         - peer0.org2.example.com:/var/hyperledger/production
     ports:
       - 9051:9051
+      - 9052:9052
       - 9053:7053
 
   couchdb3:
@@ -183,6 +192,8 @@ services:
       - CORE_PEER_ID=peer1.org2.example.com
       - CORE_PEER_ADDRESS=peer1.org2.example.com:10051
       - CORE_PEER_LISTENADDRESS=peer1.org2.example.com:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.org2.example.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
       - CORE_PEER_GOSSIP_ENDPOINT=peer1.org2.example.com:10051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:10051
@@ -202,6 +213,7 @@ services:
         - peer1.org2.example.com:/var/hyperledger/production
     ports:
       - 10051:10051
+      - 10052:10052
       - 10053:7053
 
   couchdb4:
@@ -226,6 +238,8 @@ services:
       - CORE_PEER_ID=peer0.org3.example.com
       - CORE_PEER_ADDRESS=peer0.org3.example.com:11051
       - CORE_PEER_LISTENADDRESS=peer0.org3.example.com:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org3.example.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org3.example.com:12051
       - CORE_PEER_GOSSIP_ENDPOINT=peer0.org3.example.com:11051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org3.example.com:11051
@@ -245,6 +259,7 @@ services:
         - peer0.org3.example.com:/var/hyperledger/production
     ports:
       - 11051:11051
+      - 11052:11052
       - 11053:7053
 
   couchdb5:
@@ -269,6 +284,8 @@ services:
       - CORE_PEER_ID=peer1.org3.example.com
       - CORE_PEER_ADDRESS=peer1.org3.example.com:12051
       - CORE_PEER_LISTENADDRESS=peer1.org3.example.com:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.org3.example.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:11051
       - CORE_PEER_GOSSIP_ENDPOINT=peer1.org3.example.com:12051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org3.example.com:12051
@@ -288,4 +305,5 @@ services:
         - peer1.org3.example.com:/var/hyperledger/production
     ports:
       - 12051:12051
+      - 12052:12052
       - 12053:7053
