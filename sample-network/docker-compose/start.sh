@@ -7,11 +7,11 @@ function generateCerts (){
   echo
   echo "===== Generate certificates using cryptogen tool ========="
   echo
-  if [ -d "./crypto-config" ]; then
+  if [[ -d "./crypto-config" ]]; then
     rm -Rf ./crypto-config
   fi
   cryptogen generate --config=./crypto-config.yaml --output=./crypto-config
-  if [ "$?" -ne 0 ]; then
+  if [[ "$?" -ne 0 ]]; then
     echo "Failed to generate certificates..."
     exit 1
   fi
@@ -53,10 +53,10 @@ function prepareCAFile () {
 # Got a path parameter, and then return it's content parsed with '\n'
 function getFileParse() {
   local FILEPATH=$1
-  local CONTENT=$(cat -E $FILEPATH)
-  local CONTENT=$(echo $CONTENT | sed 's/\$ */\\\\n/g')
-  local CONTENT=$(echo $CONTENT | sed 's/\//\\\//g')
-  echo $CONTENT
+  local CONTENT=$(cat ${FILEPATH} | tr -d '\n')
+  local CONTENT=$(echo ${CONTENT} | sed 's/\$ */\\\\n/g')
+  local CONTENT=$(echo ${CONTENT} | sed 's/\//\\\//g')
+  echo ${CONTENT}
 }
 
 function prepareConnectionFileCerts() {
@@ -122,7 +122,7 @@ function prepareConnectionFileCerts() {
 # Generate orderer genesis block, channel configuration transaction and
 # anchor peer update transactions
 function generateGenesisBlock() {
-  if [ -d "./channel-artifacts" ]; then
+  if [[ -d "./channel-artifacts" ]]; then
     rm -Rf ./channel-artifacts
   fi
   mkdir -p ./channel-artifacts
@@ -132,10 +132,10 @@ function generateGenesisBlock() {
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
   set -x
-  configtxgen --configPath ./ -profile DefaultGenesis -outputBlock ./channel-artifacts/genesis.block
+  configtxgen --configPath ./ -profile DefaultGenesis -channelID testchainid -outputBlock ./channel-artifacts/genesis.block
   res=$?
   set +x
-  if [ $res -ne 0 ]; then
+  if [[ ${res} -ne 0 ]]; then
     echo "Failed to generate orderer genesis block..."
     exit 1
   fi
@@ -148,9 +148,9 @@ function prepareEnv() {
   echo
   # your running env is container or dev
   read -p "Rest server run in container? (Y/n): " RUN_ENV
-  if [[ $RUN_ENV = "N" || $RUN_ENV = "n" ]]; then
+  if [[ ${RUN_ENV} = "N" || ${RUN_ENV} = "n" ]]; then
     # in dev mode, reset certs' path
-    CURRENT_DIR=$(echo $DEV_PATH | sed "s/\//\\\\\//g")
+    CURRENT_DIR=$(echo ${DEV_PATH} | sed "s/\//\\\\\//g")
     sed -i "s/\/var/$CURRENT_DIR/g" ../../config/network-config-ext.yaml
 
     # in dev mode, reset url

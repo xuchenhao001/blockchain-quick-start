@@ -334,7 +334,12 @@ let genConfigtxObj = async function (orgNames) {
               "Rule": "MAJORITY Admins",
             }
           },
-          "Capabilities": {"V1_3": true}
+          "Capabilities": {
+            "V2_0": true,
+            "V1_3": false,
+            "V1_2": false,
+            "V1_1": false
+          }
         }
       }
     }
