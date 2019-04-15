@@ -98,7 +98,7 @@ let initClient = async function () {
   let done = false;
   while (!done) {
     try {
-      client = hfc.loadFromConfig(networkConfigPath);
+      client = await hfc.loadFromConfig(networkConfigPath);
       networkConfig = await loadNetConfig();
       networkExtConfig = await loadNetExtConfig();
       while (!networkExtConfig) {
@@ -154,7 +154,7 @@ let getClientForOrg = async function (orgName) {
   fs.writeFileSync(clientFile, orgClientYaml);
 
   // load it
-  client.loadFromConfig(clientFile);
+  await client.loadFromConfig(clientFile);
 
   // clean useless cache file
   fs.removeSync(tmpDir);
@@ -170,7 +170,7 @@ let getClientForOrg_normUsage = async function (org) {
 
   // build a client context and load it with a connection profile
   // lets only load the network settings and save the client for later
-  let client = hfc.loadFromConfig('config/network-config.yaml');
+  let client = await hfc.loadFromConfig('config/network-config.yaml');
 
   // This will load a connection profile over the top of the current one one
   // since the first one did not have a client section and the following one does
@@ -178,7 +178,7 @@ let getClientForOrg_normUsage = async function (org) {
   // This will also set an admin identity because the organization defined in the
   // client section has one defined
 
-  client.loadFromConfig('config/' + org + '.yaml');
+  await client.loadFromConfig('config/' + org + '.yaml');
 
   // this will create both the state store and the crypto store based
   // on the settings in the client section of the connection profile
@@ -300,6 +300,23 @@ let genConfigtxObj = async function (orgNames) {
     "Profiles": {
       "GeneratedChannel": {
         "Consortium": "SampleConsortium",
+        "Policies": {
+          "Readers": {
+            "Type": "ImplicitMeta",
+            "Rule": "ANY Readers"
+          },
+          "Writers": {
+            "Type": "ImplicitMeta",
+            "Rule": "ANY Writers"
+          },
+          "Admins": {
+            "Type": "ImplicitMeta",
+            "Rule": "MAJORITY Admins"
+          }
+        },
+        "Capabilities": {
+          "V1_3": true
+        },
         "Application": {
           "Organizations": orgObjs,
           "ACLs": {
@@ -323,15 +340,23 @@ let genConfigtxObj = async function (orgNames) {
           "Policies": {
             "Readers": {
               "Type": "ImplicitMeta",
-              "Rule": "ANY Readers",
+              "Rule": "ANY Readers"
             },
             "Writers": {
               "Type": "ImplicitMeta",
-              "Rule": "ANY Writers",
+              "Rule": "ANY Writers"
             },
             "Admins": {
               "Type": "ImplicitMeta",
-              "Rule": "MAJORITY Admins",
+              "Rule": "MAJORITY Admins"
+            },
+            "LifecycleEndorsement": {
+              "Type": "ImplicitMeta",
+              "Rule": "MAJORITY Endorsement"
+            },
+            "Endorsement": {
+              "Type": "ImplicitMeta",
+              "Rule": "MAJORITY Endorsement"
             }
           },
           "Capabilities": {
@@ -344,6 +369,31 @@ let genConfigtxObj = async function (orgNames) {
       }
     }
   };
+};
+
+let generateOrgPoliciesObj = function (orgMSPId) {
+  let ruleReaders = util.format("OR('%s.admin', '%s.peer', '%s.client')", orgMSPId, orgMSPId, orgMSPId);
+  let ruleWriters = util.format("OR('%s.admin', '%s.client')", orgMSPId, orgMSPId);
+  let ruleAdmins = util.format("OR('%s.admin')", orgMSPId);
+  let ruleEndorsement = util.format("OR('%s.peer')", orgMSPId);
+  return {
+    "Readers": {
+      "Type": "Signature",
+      "Rule": ruleReaders
+    },
+    "Writers": {
+      "Type": "Signature",
+      "Rule": ruleWriters
+    },
+    "Admins": {
+      "Type": "Signature",
+      "Rule": ruleAdmins
+    },
+    "Endorsement": {
+      "Type": "Signature",
+      "Rule": ruleEndorsement
+    }
+  }
 };
 
 let generateOrgObj = function (networkData, orgData) {
@@ -369,6 +419,7 @@ let generateOrgObj = function (networkData, orgData) {
     "Name": orgData.name,
     "ID": orgData.mspid,
     "MSPDir": orgData.mspDir.path,
+    "Policies": generateOrgPoliciesObj(orgData.mspid),
     "AnchorPeers": anchorPeers
   };
   return orgObj;
@@ -513,7 +564,7 @@ let newOrgUpdateNetworkConfig = async function (newOrgDetail) {
   fs.writeFileSync(networkConfigYamlFile, networkConfigYaml);
 
   // load new network config yaml to client
-  client.loadFromConfig(networkConfigYamlFile);
+  await client.loadFromConfig(networkConfigYamlFile);
 
   // prepare msp directory for create channel (extend network config), include admincerts, cacerts, and tlscacerts
   let admincertsFile = tmpDir + '/admincerts/admin.crt';

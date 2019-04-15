@@ -53,7 +53,7 @@ function prepareCAFile () {
 # Got a path parameter, and then return it's content parsed with '\n'
 function getFileParse() {
   local FILEPATH=$1
-  local CONTENT=$(cat ${FILEPATH} | tr -d '\n')
+  local CONTENT=$(cat -e ${FILEPATH})
   local CONTENT=$(echo ${CONTENT} | sed 's/\$ */\\\\n/g')
   local CONTENT=$(echo ${CONTENT} | sed 's/\//\\\//g')
   echo ${CONTENT}
