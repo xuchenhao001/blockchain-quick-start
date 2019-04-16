@@ -10,39 +10,39 @@ let invokeCC = require('./fabric-lib/invoke-cc');
 let explorer = require('./fabric-lib/explorer');
 
 let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
-  logger.debug('==================== CREATE CHANNEL ==================');
+  logger.info('==================== CREATE CHANNEL ==================');
 
   return await channel.createChannel(channelName, includeOrgNames, ordererName, orgName);
 };
 
 let joinChannel = async function (channelName, orderers, orgName, peers) {
-  logger.debug('==================== JOIN CHANNEL ==================');
+  logger.info('==================== JOIN CHANNEL ==================');
 
   return await channel.joinChannel(channelName, orderers, orgName, peers);
 };
 
 let updateAnchorPeer = async function (channelName, orderers, orgName, peers) {
-  logger.debug('==================== UPDATE CHANNEL ANCHOR PEER ==================');
+  logger.info('==================== UPDATE CHANNEL ANCHOR PEER ==================');
 
   return await channel.updateAnchorPeer(channelName, orderers, orgName, peers);
 };
 
 let modifyPolicy = async function (channelName, orderers, orgName, modifyPolicySignBy, policyName, policyType,
                                    policyValue) {
-  logger.debug('==================== MODIFY CHANNEL Policy ==================');
+  logger.info('==================== MODIFY CHANNEL Policy ==================');
 
   return await channel.modifyPolicy(channelName, orderers, orgName, modifyPolicySignBy, policyName, policyType,
     policyValue);
 };
 
 let modifyACL = async function (channelName, orderers, orgName, resource, policy, modifyACLSignBy) {
-  logger.debug('==================== MODIFY CHANNEL ACLs ==================');
+  logger.info('==================== MODIFY CHANNEL ACLs ==================');
 
   return await channel.modifyACL(channelName, orderers, orgName, resource, policy, modifyACLSignBy);
 };
 
 let addOrgToChannelWithCerts = async function (newOrgDetail, addOrgSignBy, channelName, orderers, orgName) {
-  logger.debug('==================== ADD ORG TO CHANNEL ==================');
+  logger.info('==================== ADD ORG TO CHANNEL ==================');
 
   let withCerts = true;
   let isRemove = false;
@@ -50,7 +50,7 @@ let addOrgToChannelWithCerts = async function (newOrgDetail, addOrgSignBy, chann
 };
 
 let addOrgToChannel = async function (newOrgDetail, addOrgSignBy, channelName, orderers, orgName) {
-  logger.debug('==================== ADD ORG TO CHANNEL ==================');
+  logger.info('==================== ADD ORG TO CHANNEL ==================');
 
   let withCerts = false;
   let isRemove = false;
@@ -58,25 +58,42 @@ let addOrgToChannel = async function (newOrgDetail, addOrgSignBy, channelName, o
 };
 
 let delOrgFromChannel = async function (delOrgName, delOrgSignBy, channelName, orderers, orgName) {
-  logger.debug('==================== DEL ORG TO CHANNEL ==================');
+  logger.info('==================== DEL ORG TO CHANNEL ==================');
 
   let withCerts = false;
   let isRemove = true;
   return await channel.modifyOrg(delOrgName, delOrgSignBy, channelName, orderers, orgName, isRemove, withCerts);
 };
 
-let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
-                                       chaincodeVersion, orgName, peers, localPath) {
-  logger.debug('==================== INSTALL CHAINCODE ==================');
+let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
+                                       chaincodeVersion, endorsementPolicy, collection, initRequired,
+                                       orgName, peers, localPath) {
+  logger.info('==================== INSTALL CHAINCODE ==================');
 
-  return await deployCC.installChaincode(chaincode, chaincodeName, chaincodePath, chaincodeType,
-    chaincodeVersion, orgName, peers, localPath);
+  return await deployCC.installChaincode(chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
+    chaincodeVersion, endorsementPolicy, collection, initRequired, orgName, peers, localPath);
+};
+
+let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
+                                       orgName, peers) {
+  logger.info('==================== APPROVE CHAINCODE ==================');
+
+  return await deployCC.approveChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
+    orgName, peers);
+};
+
+let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
+                                       orgName, peers) {
+  logger.info('==================== COMMIT CHAINCODE ==================');
+
+  return await deployCC.commitChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
+    orgName, peers);
 };
 
 let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
                                            args, orderers, orgName, peers, endorsementPolicy, collection,
                                            useDiscoverService) {
-  logger.debug('==================== INSTANTIATE CHAINCODE ==================');
+  logger.info('==================== INSTANTIATE CHAINCODE ==================');
 
   return await deployCC.instantiateUpgradeChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName,
     functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
@@ -85,7 +102,7 @@ let instantiateChaincode = async function (chaincodeName, chaincodeType, chainco
 let upgradeChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
                                            args, orderers, orgName, peers, endorsementPolicy, collection,
                                            useDiscoverService) {
-  logger.debug('==================== INSTANTIATE CHAINCODE ==================');
+  logger.info('==================== INSTANTIATE CHAINCODE ==================');
 
   return await deployCC.instantiateUpgradeChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName,
     functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService, true);
@@ -93,7 +110,7 @@ let upgradeChaincode = async function (chaincodeName, chaincodeType, chaincodeVe
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
                                       orderers, orgName, peers, transient, useDiscoverService) {
-  logger.debug('==================== INVOKE ON CHAINCODE ==================');
+  logger.info('==================== INVOKE ON CHAINCODE ==================');
 
   return await invokeCC.invokeChaincode(chaincodeName, channelName, functionName, args,
     orderers, orgName, peers, transient, useDiscoverService);
@@ -101,26 +118,26 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
                                      orderers, orgName, peers, transient, useDiscoverService) {
-  logger.debug('==================== QUERY BY CHAINCODE ==================');
+  logger.info('==================== QUERY BY CHAINCODE ==================');
 
   return await invokeCC.queryChaincode(chaincodeName, channelName, functionName, args,
     orderers, orgName, peers, transient, useDiscoverService);
 };
 
 let queryInfo = async function (channelName, orderers, orgName, peers) {
-  logger.debug('==================== QUERY INFO ==================');
+  logger.info('==================== QUERY INFO ==================');
 
   return await explorer.queryInfo(channelName, orderers, orgName, peers);
 };
 
 let queryBlock = async function (channelName, orderers, orgName, peers, blockNumber) {
-  logger.debug('==================== QUERY Block ==================');
+  logger.info('==================== QUERY Block ==================');
 
   return await explorer.queryBlock(channelName, orderers, orgName, peers, blockNumber);
 };
 
 let queryTransaction = async function (channelName, orderers, orgName, peers, txId) {
-  logger.debug('==================== QUERY Transaction ==================');
+  logger.info('==================== QUERY Transaction ==================');
 
   return await explorer.queryTransaction(channelName, orderers, orgName, peers, txId);
 };
@@ -134,6 +151,8 @@ exports.addOrgToChannelWithCerts = addOrgToChannelWithCerts;
 exports.addOrgToChannel = addOrgToChannel;
 exports.delOrgFromChannel = delOrgFromChannel;
 exports.installChaincode = installChaincode;
+exports.approveChaincode = approveChaincode;
+exports.commitChaincode = commitChaincode;
 exports.instantiateChaincode = instantiateChaincode;
 exports.upgradeChaincode = upgradeChaincode;
 exports.invokeChaincode = invokeChaincode;

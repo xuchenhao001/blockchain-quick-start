@@ -102,7 +102,7 @@ let initClient = async function () {
       networkConfig = await loadNetConfig();
       networkExtConfig = await loadNetExtConfig();
       while (!networkExtConfig) {
-        let error_message = 'Missing extended network configuration data. Retry after 1 minutes...';
+        let error_message = 'Missing extended network configuration data. Retry after 30 seconds...';
         logger.error(error_message);
         await sleep(30000);
       }
@@ -110,7 +110,7 @@ let initClient = async function () {
       logger.info("Configurations successfully loaded. Start to serve requests.")
     } catch (e) {
       logger.error(e.toString());
-      logger.error('Retry after 1 minutes...');
+      logger.error('Retry after 30 seconds...');
       await sleep(30000);
     }
   }

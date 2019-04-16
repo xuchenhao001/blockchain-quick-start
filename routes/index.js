@@ -407,14 +407,14 @@ router.post('/channel/updateAnchorPeer', async function (req, res) {
 });
 
 router.post('/chaincode/install', async function (req, res) {
-  let chaincode = req.body.chaincode;
-  if (typeof chaincode === 'undefined') {
-    let errMessage = "Request Error, parameter \"chaincode\" doesn't exist";
+  let chaincodeContent = req.body.chaincodeContent;
+  if (typeof chaincodeContent === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeContent\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode base64 string: \"" + chaincode + "\"");
+  logger.debug("Get chaincodeContent base64 string: \"" + chaincodeContent + "\"");
 
   let chaincodeName = req.body.chaincodeName;
   if (typeof chaincodeName === 'undefined') {
@@ -437,7 +437,7 @@ router.post('/chaincode/install', async function (req, res) {
     logger.debug("Get chaincode type: \"" + chaincodeType + "\"");
   } else {
     chaincodeType = 'golang';
-    logger.debug("Didn't get chaincode type, default set to golang");
+    logger.debug("Doesn't get chaincode type, default set to golang");
   }
 
   let chaincodeVersion = req.body.chaincodeVersion;
@@ -448,6 +448,39 @@ router.post('/chaincode/install', async function (req, res) {
     return;
   }
   logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+
+  // endorsementPolicy could be undefined (default is "any member of the organizations in the channel")
+  let endorsementPolicy = req.body.endorsementPolicy;
+  if (endorsementPolicy) {
+    if (typeof endorsementPolicy === 'object') {
+      logger.debug("Get endorsement policy object: " + JSON.stringify(endorsementPolicy));
+    } else {
+      logger.debug("Get endorsement policy: " + endorsementPolicy);
+    }
+  } else {
+    logger.debug("Doesn't get endorsementPolicy, default set to null");
+  }
+
+  // collection can be undefined
+  let collection = req.body.collection;
+  if (collection) {
+    if (typeof collection === 'object') {
+      logger.debug("Get collection object: " + JSON.stringify(collection));
+    } else {
+      logger.debug("Get collection: " + collection);
+    }
+  } else {
+    logger.debug("Doesn't get collection, default set to null");
+  }
+
+  // initRequired can be undefined
+  let initRequired = req.body.initRequired;
+  if (initRequired) {
+    logger.debug("Get initRequired: " + initRequired);
+  } else {
+    initRequired = false;
+    logger.debug("Doesn't get initRequired, default set to false");
+  }
 
   let orgName = req.body.orgName;
   if (typeof orgName === 'undefined') {
@@ -472,13 +505,90 @@ router.post('/chaincode/install', async function (req, res) {
     logger.debug('Detected localPath, install from local path: ' + localPath);
   }
 
-  let installResult = await fabric.installChaincode(chaincode, chaincodeName, chaincodePath, chaincodeType,
-    chaincodeVersion, orgName, peers, localPath);
+  let installResult = await fabric.installChaincode(chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
+    chaincodeVersion, endorsementPolicy, collection, initRequired, orgName, peers, localPath);
   logger.debug(installResult);
   if (installResult[0]===true) {
-    res.status(200).json({"result": "success"});
+    res.status(200).json({"result": "success", "chaincodeInfo": installResult[1]});
   } else {
     res.status(500).json({"result": "failed", "error": installResult[1]});
+  }
+
+});
+
+
+router.post('/chaincode/approve', async function (req, res) {
+  let chaincodeName = req.body.chaincodeName;
+  if (typeof chaincodeName === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
+
+  let chaincodeVersion = req.body.chaincodeVersion;
+  if (typeof chaincodeVersion === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+
+  // chaincodeSequence
+  let chaincodeSequence = req.body.chaincodeSequence;
+  if (typeof chaincodeSequence === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeSequence\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode sequence: \"" + chaincodeSequence + "\"");
+
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let peers = req.body.peers;
+  if (typeof peers === 'undefined') {
+    let errMessage = "Request Error, parameter \"peers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get peers names: \"" + peers + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let approveResult = await fabric.approveChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
+    orderers, orgName, peers);
+  logger.debug(approveResult);
+  if (approveResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": approveResult[1]});
   }
 
 });

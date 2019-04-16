@@ -12,133 +12,259 @@ const path = require('path');
 
 hfc.setLogger(logger);
 
-let installChaincode = async function (chaincode, chaincodeName, chaincodePath, chaincodeType,
-                                       chaincodeVersion, orgName, peers, localPath) {
+let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
+                                       chaincodeVersion, endorsementPolicy, collection, initRequired,
+                                       orgName, peers, localPath) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
-  let error_message = null;
-  let chaincodeInstallRequest;
 
-  // check if this kind of chaincode supported
-  // default we handle golang type chaincode
-  process.env.GOPATH = path.join('./');
-
-  // if it's already under local path, just ignore chaincode buffer
-  if (!localPath) {
-
-    process.env.GOPATH = path.join(process.env.GOPATH, uuid.v4());
-
-    // check if the chaincode is valid
-    if (!helper.isBase64(chaincode)) {
-      return [false, 'Chaincode is not a valid base64 string!'];
-    }
-    let chaincodeBuffer = new Buffer(chaincode, 'base64');
-
-    // check if the chaincode is tar.gz package
-    if (helper.isGzip(chaincodeBuffer)) {
-
-      logger.info('Got chaincode tar.gz package, decompress it');
-      let tarballName = uuid.v4();
-      helper.writeFile(tarballName, chaincodeBuffer);
-      await helper.decompressTarGz(tarballName, process.env.GOPATH);
-      helper.removeFile(tarballName);
-
-      // while in tar.gz format, judge chaincode language, default is golang
-      logger.debug("Judge chaincode language type in dir: " + process.env.GOPATH);
-      // node js chaincode type support
-      let isNodeChaincodeFlag = await helper.isNodeChaincode(process.env.GOPATH);
-      if (isNodeChaincodeFlag[0]) {
-        chaincodeType = 'node';
-        let chaincodeNodePath = isNodeChaincodeFlag[1];
-        logger.debug("Got node js chaincode type! chaincode path: " + chaincodeNodePath);
-        // node js chaincode install request compose
-        chaincodeInstallRequest = {
-          targets: peers,
-          chaincodePath: chaincodeNodePath,
-          chaincodeId: chaincodeName,
-          chaincodeVersion: chaincodeVersion,
-          chaincodeType: chaincodeType
-        };
-      }
-
-    } else {
-      logger.info('Got chaincode single file buffer');
-      helper.writeFile(path.join(process.env.GOPATH, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer)
-    }
-  } else {
-    process.env.GOPATH = path.join(process.env.GOPATH, localPath);
-  }
+  let chaincode = null;
 
   try {
-    // install chaincode for each org
-    logger.info('Calling peers in organization "%s" to join the channel', orgName);
+    // =============
+    // Step 1: Setup
+    // =============
+
     // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
-
-    // default golang chaincode install request compose
-    if (!chaincodeInstallRequest) {
-      chaincodeInstallRequest = {
-        targets: peers,
-        chaincodePath: chaincodePath,
-        chaincodeId: chaincodeName,
-        chaincodeVersion: chaincodeVersion,
-        chaincodeType: chaincodeType
-      };
+    // get the chaincode instance associated with the client
+    chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    // The endorsement policy
+    chaincode.setEndorsementPolicyDefinition(endorsementPolicy);
+    // The collection configuration - optional.
+    if (collection) {
+      chaincode.setCollectionConfigPackageDefinition(collection);
     }
-    let results = await client.installChaincode(chaincodeInstallRequest);
-    // the returned object has both the endorsement results (results[0])
-    // and the actual proposal (results[1])
-    let proposalResponses = results[0];
+    if (initRequired) {
+      chaincode.setInitRequired(true);
+    }
+    // set the sequence (modification) number - default is 1
+    chaincode.setSequence(1); // must increment for each definition change
 
-    // lets have a look at the responses to see if they are
-    // all good, if good they will also include signatures
-    // required to be committed
-    let all_good = true;
-    for (let i in proposalResponses) {
-      if (proposalResponses.hasOwnProperty(i)) {
-        let one_good = false;
-        if (proposalResponses && proposalResponses[i].response &&
-          proposalResponses[i].response.status === 200) {
-          one_good = true;
-          logger.info('install proposal was good');
-        } else {
-          error_message = util.format('install proposal was bad %s', proposalResponses.toString());
-          logger.error(error_message);
-        }
-        all_good = all_good && one_good;
+    // ===============
+    // Step 2: Package
+    // language judge priority: localpath, chaincodeType, file extension in tar.gz
+    // ===============
+
+    // For local golang chaincode encapsulated in project image
+    if (localPath) {
+      let gopath = path.join('./', localPath);
+      // package the source code
+      let package_request = {
+        chaincodeType: 'golang',
+        goPath: gopath,
+        chaincodePath: 'github.com/chaincode'
+      };
+      let cc_package = await chaincode.package(package_request);
+      // use an existing package
+      chaincode.setPackage(cc_package);
+    }
+
+    // check if the chaincode is valid
+    else if (!helper.isBase64(chaincodeContent)) {
+      return [false, 'Chaincode is not a valid base64 string!'];
+    }
+
+    // For golang type chaincode
+    else if (chaincodeType === 'golang') {
+      let gopath = path.join('./', uuid.v4());
+      let chaincodeBuffer = new Buffer(chaincodeContent, 'base64');
+
+      // check if the chaincode is tar.gz package
+      if (helper.isGzip(chaincodeBuffer)) {
+        logger.info('Got chaincode tar.gz package, decompress it');
+        let tarballName = uuid.v4();
+        await helper.writeFile(tarballName, chaincodeBuffer);
+        await helper.decompressTarGz(tarballName, gopath);
+        await helper.removeFile(tarballName);
+      } else {
+        logger.info('Got chaincode single file buffer');
+        await helper.writeFile(path.join(gopath, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer);
+      }
+      // package the source code
+      let package_request = {
+        chaincodeType: 'golang',
+        goPath: gopath,
+        chaincodePath: chaincodePath
+      };
+      let cc_package = await chaincode.package(package_request);
+      // use an existing package
+      chaincode.setPackage(cc_package);
+      // remove useless chaincode directory
+      if (!localPath) {
+        await helper.removeFile(gopath);
       }
     }
-    if (all_good) {
-      logger.info('Successfully sent install Proposal and received ProposalResponse');
-    } else {
-      logger.error(error_message);
+
+    // For unknown type chaincode in tar.gz
+    // Now support nodejs
+    else {
+      let tmpDir = path.join('./_', uuid.v4());
+      let chaincodeBuffer = new Buffer(chaincodeContent, 'base64');
+      // check if the chaincode is tar.gz package
+      if (helper.isGzip(chaincodeBuffer)) {
+        logger.info('Got chaincode tar.gz package, decompress it');
+        let tarballName = path.join('./_', uuid.v4());
+        await helper.writeFile(tarballName, chaincodeBuffer);
+        await helper.decompressTarGz(tarballName, tmpDir);
+        await helper.removeFile(tarballName);
+
+        // while in tar.gz format, judge chaincode language, default is golang
+        logger.debug("Judge chaincode language type in dir: " + tmpDir);
+        // node js chaincode type support
+        let isNodeChaincodeFlag = await helper.isNodeChaincode(tmpDir);
+        if (isNodeChaincodeFlag[0]) {
+          let chaincodeNodePath = isNodeChaincodeFlag[1];
+          logger.debug("Got node js chaincode type! chaincode path: " + chaincodeNodePath);
+          // node js chaincode install request compose
+          let package_request = {
+            chaincodeType: 'node',
+            chaincodePath: chaincodeNodePath
+          };
+          let cc_package = await chaincode.package(package_request);
+          // use an existing package
+          chaincode.setPackage(cc_package);
+        }
+      } else {
+        return [false, 'Got chaincode single file with unknown chaincode language type'];
+      }
     }
-  }
-  catch (error) {
-    logger.error('Failed to install due to error: ' + error.stack ? error.stack : error);
-    error_message = error.toString();
+
+    // ===============
+    // Step 3: Install
+    // ===============
+    for (let peerName of peers) {
+      let peer = client.getPeer(peerName);
+      let install_request = {
+        target: peer,
+        request_timeout: 20000 // give the peers some extra time
+      };
+      let package_id = await chaincode.install(install_request);
+      logger.info('chaincode has been successfully installed on peers: ' + peerName
+        + ' with chaincode package id: ' + package_id);
+    }
+  } catch (e) {
+    let err_msg = 'Install chaincode failed: ' + e;
+    logger.error(err_msg);
+    return [false, err_msg]
   }
 
-  // remove useless chaincode directory
-  if (!localPath) {
-    await helper.removeFile(process.env.GOPATH);
-  }
+  // dump chaincode key features to base64 string
+  let chaincodeToDump = {
+    name: chaincode.getName(),
+    version: chaincode.getVersion(),
+    sequence: chaincode.getSequence().toNumber()
+  };
+  let chaincodeString = JSON.stringify(chaincodeToDump);
+  logger.debug("Succesfully installed chaincode: " + chaincodeString);
+  return [true, chaincodeToDump];
+};
 
-  if (!error_message) {
-    let message = util.format('Successfully install chaincode');
-    logger.info(message);
-    return [true, message];
-  } else {
-    let message = util.format('Failed to install due to:%s', error_message);
-    logger.error(message);
-    return [false, message];
+let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
+                                       orgName, peers) {
+  logger.debug('\n\n============ Approve chaincode on organizations ============\n');
+
+  // first setup the client for this org
+  let client = await helper.getClientForOrg(orgName);
+  logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
+
+  try {
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
+
+    // construct a new chaincode object for approve
+    let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    chaincode.setSequence(chaincodeSequence);
+
+    // =====================================
+    // Step 4: Approve for your organization
+    // =====================================
+
+    // send a approve chaincode for organization transaction
+    let tx_id = client.newTransactionID(true);
+    let request = {
+      // @2.0.0-snapshot.221 targets for now are required
+      targets: peers,
+      chaincode: chaincode, // The chaincode instance fully populated
+      txId: tx_id
+    };
+    // send to the peer to be endorsed
+    let approveResponse = await channel.approveChaincodeForOrg(request);
+    let orderer_request = {
+      proposalResponses: approveResponse.proposalResponses,
+      proposal: approveResponse.proposal
+    };
+    // send to the orderer to be committed
+    let results = await channel.sendTransaction(orderer_request);
+    logger.info('Approve chaincode result: ' + JSON.stringify(results));
+    return [true];
+  } catch (e) {
+    let err_msg = 'Approve chaincode failed: ' + e;
+    logger.error(err_msg);
+    return [false, err_msg];
   }
 };
 
+let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
+                                      orgName, peers) {
+  logger.debug('\n\n============ Approve chaincode on organizations ============\n');
 
-let instantiateUpgradeChaincode = async function(chaincodeName, chaincodeType, chaincodeVersion, channelName,
-                                                 functionName, args, orderers, orgName, peers, endorsementPolicy,
-                                                 collection, useDiscoverService, isUpgrade) {
+  // first setup the client for this org
+  let client = await helper.getClientForOrg(orgName);
+  logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
+
+  try {
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
+
+    // construct a new chaincode object for approve
+    let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    chaincode.setSequence(chaincodeSequence);
+
+    // ========================================
+    // Step 5: Commit definition to the channel
+    // ========================================
+
+    // send a commit chaincode for channel transaction
+    let tx_id = client.newTransactionID(true);
+    let request = {
+      chaincode: chaincode,
+      txId: tx_id
+    };
+    // send to the peers to be endorsed
+    let commitChaincodeResponse = await channel.commitChaincode(request);
+    let orderer_request = {
+      proposalResponses: commitChaincodeResponse.proposalResponses,
+      proposal: commitChaincodeResponse.proposal
+    };
+    // send to the orderer to be committed
+    let results = await channel.sendTransaction(orderer_request);
+    logger.info('Commit definition result: ' + JSON.stringify(results));
+    return [true];
+  } catch (e) {
+    let err_msg = 'Commit chaincode failed: ' + e;
+    logger.error(err_msg);
+    return [false, err_msg]
+  }
+};
+
+let instantiateUpgradeChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName,
+                                                  functionName, args, orderers, orgName, peers, endorsementPolicy,
+                                                  collection, useDiscoverService, isUpgrade) {
   logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
     ' ============\n');
   let error_message = '';
@@ -255,7 +381,7 @@ let instantiateUpgradeChaincode = async function(chaincodeName, chaincodeType, c
       // instantiate transaction was committed on the peer
       let promises = [];
       let event_hubs = channel.getChannelEventHubsForOrg();
-      logger.debug('found %s eventhubs for this organization %s',event_hubs.length, orgName);
+      logger.debug('found %s eventhubs for this organization %s', event_hubs.length, orgName);
       event_hubs.forEach((eh) => {
         let instantiateEventPromise = new Promise((resolve, reject) => {
           logger.debug('instantiateEventPromise - setting up event');
@@ -266,12 +392,12 @@ let instantiateUpgradeChaincode = async function(chaincodeName, chaincodeType, c
             return [false, message];
           }, 600000);
           eh.registerTxEvent(deployId, (tx, code, block_num) => {
-              logger.info('The chaincode instantiate transaction has been committed on peer %s',eh.getPeerAddr());
+              logger.info('The chaincode instantiate transaction has been committed on peer %s', eh.getPeerAddr());
               logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
               clearTimeout(event_timeout);
 
               if (code !== 'VALID') {
-                let message = util.format('The chaincode instantiate transaction was invalid, code:%s',code);
+                let message = util.format('The chaincode instantiate transaction was invalid, code:%s', code);
                 logger.error(message);
                 reject(new Error(message));
               } else {
@@ -314,19 +440,19 @@ let instantiateUpgradeChaincode = async function(chaincodeName, chaincodeType, c
       if (response.status === 'SUCCESS') {
         logger.info('Successfully sent transaction to the orderer.');
       } else {
-        error_message = util.format('Failed to order the transaction. Error code: %s',response.status);
+        error_message = util.format('Failed to order the transaction. Error code: %s', response.status);
         logger.debug(error_message);
       }
 
       // now see what each of the event hubs reported
-      for(let i in results) {
+      for (let i in results) {
         let event_hub_result = results[i];
         let event_hub = event_hubs[i];
-        logger.debug('Event results for event hub :%s',event_hub.getPeerAddr());
-        if(typeof event_hub_result === 'string') {
+        logger.debug('Event results for event hub :%s', event_hub.getPeerAddr());
+        if (typeof event_hub_result === 'string') {
           logger.debug(event_hub_result);
         } else {
-          if(!error_message) error_message = event_hub_result.toString();
+          if (!error_message) error_message = event_hub_result.toString();
           logger.debug(event_hub_result.toString());
         }
       }
@@ -349,11 +475,13 @@ let instantiateUpgradeChaincode = async function(chaincodeName, chaincodeType, c
     // build a response to send back to the REST caller
     return [true, message];
   } else {
-    let message = util.format('Failed to instantiate. cause: %s',error_message);
+    let message = util.format('Failed to instantiate. cause: %s', error_message);
     logger.error(message);
     return [false, message]
   }
 };
 
 exports.installChaincode = installChaincode;
+exports.approveChaincode = approveChaincode;
+exports.commitChaincode = commitChaincode;
 exports.instantiateUpgradeChaincode = instantiateUpgradeChaincode;
