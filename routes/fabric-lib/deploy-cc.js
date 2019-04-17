@@ -161,6 +161,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
   return [true, chaincodeToDump];
 };
 
+// Approve chaincode for your organization
 let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
                                        orgName, peers) {
   logger.debug('\n\n============ Approve chaincode on organizations ============\n');
@@ -220,6 +221,7 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
   }
 };
 
+// Commit definition to the channel
 let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
                                       orgName, peers) {
   logger.debug('\n\n============ Approve chaincode on organizations ============\n');

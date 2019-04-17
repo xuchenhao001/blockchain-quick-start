@@ -174,12 +174,12 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
             return [false, message];
           }, 600000);
           eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
-              logger.info('The chaincode invoke transaction has been committed on peer %s', eh.getPeerAddr());
-              logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
+              logger.info(util.format('The chaincode invoke transaction has been committed on peer %s', eh.getPeerAddr()));
+              logger.info(util.format('Transaction %s has status of %s in block %s', tx, code, block_num));
               clearTimeout(event_timeout);
 
               if (code !== 'VALID') {
-                error_message = util.format('The invoke chaincode transaction was invalid, code:%s', code);
+                error_message = util.format('The invoke chaincode transaction was invalid, code: %s', code);
                 logger.error(error_message);
                 reject(new Error(error_message));
               } else {
@@ -213,7 +213,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       // are ready for the orderering and committing
       promises.push(sendPromise);
       let results = await Promise.all(promises);
-      logger.debug('------->>> R E S P O N S E : %j', results);
+      logger.debug('Invoke response: %j', results);
       let response = results.pop(); //  orderer results are last in the results
       if (response.status === 'SUCCESS') {
         logger.info('Successfully sent transaction to the orderer.');
