@@ -899,7 +899,10 @@ const bufferToString = function (obj, charset) {
   return obj;
 };
 
-let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_request) {
+let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_request, timeout) {
+  if (!timeout) {
+    timeout = 10000; // default set to 10s for normal invoke
+  }
   // wait for the channel-based event hub to tell us
   // that the commit was good or bad on each peer in our organization
   let promises = [];
@@ -912,7 +915,7 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
         logger.error(message);
         eh.disconnect();
         return [false, message];
-      }, 600000);
+      }, timeout);
       eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
           logger.debug(util.format('The chaincode invoke transaction has been committed on peer %s',
             eh.getPeerAddr()));
@@ -954,7 +957,7 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
   for (let i in results) {
     let event_hub_result = results[i];
     let event_hub = event_hubs[i];
-    logger.debug('Event results for event hub [%s] is [%s]', event_hub.getPeerAddr(), event_hub_result);
+    logger.debug('Event results for event hub [%j] is [%s]', event_hub, event_hub_result);
   }
 
   return results;
