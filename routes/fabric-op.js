@@ -1,7 +1,7 @@
 'use strict';
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('fabricOprator');
+let logger = log4js.getLogger('FabricOprator');
 logger.level = 'DEBUG';
 
 let deployCC = require('./fabric-lib/deploy-cc');

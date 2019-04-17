@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('blockchainQuickStart');
+let logger = log4js.getLogger('BlockchainQuickStart');
 logger.level = 'DEBUG';
 
 let fabric = require('./fabric-op');

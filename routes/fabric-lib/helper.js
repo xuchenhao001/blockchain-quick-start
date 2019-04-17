@@ -18,6 +18,8 @@ const _ = require('lodash');
 const path = require('path');
 const superagent = require('superagent');
 
+hfc.setLogger(logger);
+
 const configtxlatorAddr = 'http://127.0.0.1:7059';
 
 const networkConfigPath = 'config/network-config.yaml';
