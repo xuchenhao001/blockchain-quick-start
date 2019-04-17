@@ -593,6 +593,82 @@ router.post('/chaincode/approve', async function (req, res) {
 
 });
 
+router.post('/chaincode/commit', async function (req, res) {
+  let chaincodeName = req.body.chaincodeName;
+  if (typeof chaincodeName === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
+
+  let chaincodeVersion = req.body.chaincodeVersion;
+  if (typeof chaincodeVersion === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+
+  // chaincodeSequence
+  let chaincodeSequence = req.body.chaincodeSequence;
+  if (typeof chaincodeSequence === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeSequence\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode sequence: \"" + chaincodeSequence + "\"");
+
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let peers = req.body.peers;
+  if (typeof peers === 'undefined') {
+    let errMessage = "Request Error, parameter \"peers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get peers names: \"" + peers + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let commitResult = await fabric.commitChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
+    orderers, orgName, peers);
+  logger.debug(commitResult);
+  if (commitResult[0]===true) {
+    res.status(200).json({"result": "success"});
+  } else {
+    res.status(500).json({"result": "failed", "error": commitResult[1]});
+  }
+
+});
+
 router.post('/chaincode/instantiate', async function (req, res) {
   let chaincodeName = req.body.chaincodeName;
   if (typeof chaincodeName === 'undefined') {

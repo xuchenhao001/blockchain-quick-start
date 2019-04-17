@@ -197,11 +197,14 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
     };
     // send to the peer to be endorsed
     let approveResponse = await channel.approveChaincodeForOrg(request);
+
+    // send to the orderer to be committed
+    tx_id = client.newTransactionID(true);
     let orderer_request = {
       proposalResponses: approveResponse.proposalResponses,
-      proposal: approveResponse.proposal
+      proposal: approveResponse.proposal,
+      txId: tx_id
     };
-    // send to the orderer to be committed
     let results = await channel.sendTransaction(orderer_request);
     logger.info('Approve chaincode result: ' + JSON.stringify(results));
     return [true];
@@ -242,16 +245,20 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
     // send a commit chaincode for channel transaction
     let tx_id = client.newTransactionID(true);
     let request = {
+      // @2.0.0-snapshot.221 targets for now are required
+      targets: peers,
       chaincode: chaincode,
       txId: tx_id
     };
     // send to the peers to be endorsed
     let commitChaincodeResponse = await channel.commitChaincode(request);
+    // send to the orderer to be committed
+    tx_id = client.newTransactionID(true);
     let orderer_request = {
       proposalResponses: commitChaincodeResponse.proposalResponses,
-      proposal: commitChaincodeResponse.proposal
+      proposal: commitChaincodeResponse.proposal,
+      txId: tx_id
     };
-    // send to the orderer to be committed
     let results = await channel.sendTransaction(orderer_request);
     logger.info('Commit definition result: ' + JSON.stringify(results));
     return [true];
