@@ -10,10 +10,54 @@ let util = require('util');
 
 hfc.setLogger(logger);
 
+let instantiateChaincode = async function (chaincodeName, channelName, args, orderers, orgName, peers) {
+  logger.debug('\n\n============ Instantiate chaincode from org \'' + orgName + '\' ============\n');
+
+  try {
+    // first setup the client for this org
+    let client = await helper.getClientForOrg(orgName);
+    logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
+
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
+
+    let tx_id = client.newTransactionID(true);
+    let request = {
+      chaincodeId : chaincodeName,
+      fcn: 'Init',
+      args: args,
+      txId: tx_id,
+      is_init: true
+    };
+    let init_results = await channel.sendTransactionProposal(request, 600000);
+    let orderer_request = {
+      proposalResponses: init_results[0],
+      proposal: init_results[1],
+      txId: tx_id
+    };
+    let results = await channel.sendTransaction(orderer_request);
+    if (results.status === 'SUCCESS') {
+      return [true];
+    } else {
+      return [false, results.info];
+    }
+  } catch (e) {
+    let err_msg = 'Instantiate chaincode failed: ' + e;
+    logger.error(err_msg);
+    return [false, err_msg];
+  }
+};
 
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
                                       orderers, orgName, peers, transient, useDiscoverService) {
-  logger.debug('\n\n============ Invoke chaincode on org \'' + orgName + '\' ============\n');
+  logger.debug('\n\n============ Invoke chaincode from org \'' + orgName + '\' ============\n');
   let error_message = '';
   let tx_id_string = null;
   let response_payload = null;
@@ -184,7 +228,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
                                      orderers, orgName, peers, transient, useDiscoverService) {
-  logger.debug('\n\n============ Query chaincode on org \'' + orgName + '\' ============\n');
+  logger.debug('\n\n============ Query chaincode from org \'' + orgName + '\' ============\n');
   try {
     logger.debug("Load privateKey and signedCert");
     // first setup the client for this org
@@ -251,5 +295,6 @@ let queryChaincode = async function (chaincodeName, channelName, functionName, a
   }
 };
 
+exports.instantiateChaincode = instantiateChaincode;
 exports.invokeChaincode = invokeChaincode;
 exports.queryChaincode = queryChaincode;

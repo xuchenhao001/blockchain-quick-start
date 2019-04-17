@@ -90,13 +90,10 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
     orgName, peers);
 };
 
-let instantiateChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
-                                           args, orderers, orgName, peers, endorsementPolicy, collection,
-                                           useDiscoverService) {
+let instantiateChaincode = async function (chaincodeName, channelName, args, orderers, orgName, peers) {
   logger.info('==================== INSTANTIATE CHAINCODE ==================');
 
-  return await deployCC.instantiateUpgradeChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName,
-    functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
+  return await invokeCC.instantiateChaincode(chaincodeName, channelName, args, orderers, orgName, peers);
 };
 
 let upgradeChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,

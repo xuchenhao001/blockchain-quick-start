@@ -679,24 +679,6 @@ router.post('/chaincode/instantiate', async function (req, res) {
   }
   logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
 
-  let chaincodeType = req.body.chaincodeType;
-  if (typeof chaincodeType === 'undefined') {
-    let errMessage = "Request Error, parameter \"chaincodeType\" doesn't exist";
-    logger.error(errMessage);
-    res.status(400).json({"result": "failed", "error": errMessage});
-    return;
-  }
-  logger.debug("Get chaincode type: \"" + chaincodeType + "\"");
-
-  let chaincodeVersion = req.body.chaincodeVersion;
-  if (typeof chaincodeVersion === 'undefined') {
-    let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
-    logger.error(errMessage);
-    res.status(400).json({"result": "failed", "error": errMessage});
-    return;
-  }
-  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
-
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
     let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
@@ -705,10 +687,6 @@ router.post('/chaincode/instantiate', async function (req, res) {
     return;
   }
   logger.debug("Get channel name: \"" + channelName + "\"");
-
-  let functionName = req.body.functionName;
-  functionName = (typeof functionName === 'undefined') ? "" : functionName;
-  logger.debug("Get function name: \"" + functionName + "\"");
 
   let args = req.body.args;
   args = (typeof args === 'undefined') ? [] : args;
@@ -741,35 +719,7 @@ router.post('/chaincode/instantiate', async function (req, res) {
   }
   logger.debug("Get peers names: \"" + peers + "\"");
 
-  // endorsementPolicy could be undefined (default is "any member of the organizations in the channel")
-  let endorsementPolicy = req.body.endorsementPolicy;
-  if (endorsementPolicy) {
-    if (typeof endorsementPolicy === 'object') {
-      logger.debug("Get endorsement policy object: " + JSON.stringify(endorsementPolicy));
-    } else {
-      logger.debug("Get endorsement policy: " + endorsementPolicy);
-    }
-  }
-
-  // collection can be undefined
-  let collection = req.body.collection;
-  if (collection) {
-    if (typeof collection === 'object') {
-      logger.debug("Get collection object: " + JSON.stringify(collection));
-    } else {
-      logger.debug("Get collection: " + collection);
-    }
-  }
-
-  let useDiscoverService = req.body.useDiscoverService;
-  if (useDiscoverService) {
-    logger.debug("Get 'useDiscoverService', do request with discovery service")
-  } else {
-    logger.debug("Does not get parameter 'useDiscoverService', do request without discovery service")
-  }
-
-  let instantiateResult = await fabric.instantiateChaincode(chaincodeName, chaincodeType, chaincodeVersion,
-    channelName, functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
+  let instantiateResult = await fabric.instantiateChaincode(chaincodeName, channelName, args, orderers, orgName, peers);
   logger.debug(instantiateResult);
   if (instantiateResult[0] === true) {
     res.status(200).json({"result": "success"});
