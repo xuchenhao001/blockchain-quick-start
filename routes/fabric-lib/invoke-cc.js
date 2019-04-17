@@ -12,7 +12,7 @@ hfc.setLogger(logger);
 
 let instantiateChaincode = async function (chaincodeName, channelName, args, orderers, orgName, peers) {
   logger.debug('\n\n============ Instantiate chaincode from org \'' + orgName + '\' ============\n');
-  let error_message = null;
+  let error_message = '';
 
   try {
     // first setup the client for this org

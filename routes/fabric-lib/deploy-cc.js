@@ -138,10 +138,10 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       let peer = client.getPeer(peerName);
       let install_request = {
         target: peer,
-        request_timeout: 20000 // give the peers some extra time
+        request_timeout: 10000 // give the peers some extra time
       };
       let package_id = await chaincode.install(install_request);
-      logger.info('chaincode has been successfully installed on peers: ' + peerName
+      logger.info('chaincode has been successfully installed on peer: ' + peerName
         + ' with chaincode package id: ' + package_id);
     }
   } catch (e) {
