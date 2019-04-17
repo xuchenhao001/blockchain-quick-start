@@ -155,84 +155,24 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
     }
 
     if (all_good) {
-      logger.info(
-        'Successfully sent Proposal and received ProposalResponse: ' +
+      logger.info('Successfully sent Proposal and received ProposalResponse: ' +
         JSON.stringify(proposalResponses[0].response));
       response_payload = helper.bufferToString(proposalResponses[0].response.payload, 'utf-8');
-
-      // wait for the channel-based event hub to tell us
-      // that the commit was good or bad on each peer in our organization
-      let promises = [];
-      let event_hubs = channel.getChannelEventHubsForOrg();
-      event_hubs.forEach((eh) => {
-        logger.debug('invokeEventPromise - setting up event');
-        let invokeEventPromise = new Promise((resolve, reject) => {
-          let event_timeout = setTimeout(() => {
-            let message = 'REQUEST_TIMEOUT:' + eh.getPeerAddr();
-            logger.error(message);
-            eh.disconnect();
-            return [false, message];
-          }, 600000);
-          eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
-              logger.info(util.format('The chaincode invoke transaction has been committed on peer %s', eh.getPeerAddr()));
-              logger.info(util.format('Transaction %s has status of %s in block %s', tx, code, block_num));
-              clearTimeout(event_timeout);
-
-              if (code !== 'VALID') {
-                error_message = util.format('The invoke chaincode transaction was invalid, code: %s', code);
-                logger.error(error_message);
-                reject(new Error(error_message));
-              } else {
-                let message = 'The invoke chaincode transaction was valid.';
-                logger.info(message);
-                resolve(message);
-              }
-            }, (err) => {
-              clearTimeout(event_timeout);
-              logger.error(err);
-              reject(err);
-            },
-            // the default for 'unregister' is true for transaction listeners
-            // so no real need to set here, however for 'disconnect'
-            // the default is false as most event hubs are long running
-            // in this use case we are using it only once
-            {unregister: true, disconnect: true}
-          );
-          eh.connect();
-        });
-        promises.push(invokeEventPromise);
-      });
 
       let orderer_request = {
         txId: tx_id,
         proposalResponses: proposalResponses,
         proposal: proposal
       };
-      let sendPromise = channel.sendTransaction(orderer_request);
-      // put the send to the orderer last so that the events get registered and
-      // are ready for the orderering and committing
-      promises.push(sendPromise);
-      let results = await Promise.all(promises);
+      let results = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
+
       logger.debug('Invoke response: %j', results);
-      let response = results.pop(); //  orderer results are last in the results
+      let response = results.pop();
       if (response.status === 'SUCCESS') {
         logger.info('Successfully sent transaction to the orderer.');
       } else {
         error_message = util.format('Failed to order the transaction. Error code: %s', response.status);
         logger.debug(error_message);
-      }
-
-      // now see what each of the event hubs reported
-      for (let i in results) {
-        let event_hub_result = results[i];
-        let event_hub = event_hubs[i];
-        logger.debug('Event results for event hub :%s', event_hub.getPeerAddr());
-        if (typeof event_hub_result === 'string') {
-          logger.debug(event_hub_result);
-        } else {
-          if (!error_message) error_message = event_hub_result.toString();
-          logger.debug(event_hub_result.toString());
-        }
       }
     } else {
       if (!error_message) {

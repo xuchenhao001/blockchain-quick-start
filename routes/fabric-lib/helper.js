@@ -899,6 +899,67 @@ const bufferToString = function (obj, charset) {
   return obj;
 };
 
+let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_request) {
+  // wait for the channel-based event hub to tell us
+  // that the commit was good or bad on each peer in our organization
+  let promises = [];
+  let event_hubs = channel.getChannelEventHubsForOrg();
+  event_hubs.forEach((eh) => {
+    logger.debug('invokeEventPromise - setting up event');
+    let invokeEventPromise = new Promise((resolve, reject) => {
+      let event_timeout = setTimeout(() => {
+        let message = 'REQUEST_TIMEOUT:' + eh.getPeerAddr();
+        logger.error(message);
+        eh.disconnect();
+        return [false, message];
+      }, 600000);
+      eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
+          logger.debug(util.format('The chaincode invoke transaction has been committed on peer %s',
+            eh.getPeerAddr()));
+          logger.debug(util.format('Transaction %s has status of %s in block %s', tx, code, block_num));
+          clearTimeout(event_timeout);
+
+          if (code !== 'VALID') {
+            let errMsg = util.format('The invoke chaincode transaction was invalid, code: %s', code);
+            logger.error(errMsg);
+            reject(new Error(errMsg));
+          } else {
+            let message = 'The invoke chaincode transaction was valid.';
+            logger.info(message);
+            resolve(message);
+          }
+        }, (err) => {
+          clearTimeout(event_timeout);
+          logger.error(err);
+          reject(err);
+        },
+        // the default for 'unregister' is true for transaction listeners
+        // so no real need to set here, however for 'disconnect'
+        // the default is false as most event hubs are long running
+        // in this use case we are using it only once
+        {unregister: true, disconnect: true}
+      );
+      eh.connect();
+    });
+    promises.push(invokeEventPromise);
+  });
+
+  let sendPromise = channel.sendTransaction(orderer_request);
+  // put the send to the orderer last so that the events get registered and
+  // are ready for the orderering and committing
+  promises.push(sendPromise);
+  let results = await Promise.all(promises);
+
+  // now see what each of the event hubs reported
+  for (let i in results) {
+    let event_hub_result = results[i];
+    let event_hub = event_hubs[i];
+    logger.debug('Event results for event hub [%s] is [%s]', event_hub.getPeerAddr(), event_hub_result);
+  }
+
+  return results;
+};
+
 exports.initClient = initClient;
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
@@ -922,3 +983,4 @@ exports.fetchOldChannelConfig = fetchOldChannelConfig;
 exports.generateNewChannelConfig = generateNewChannelConfig;
 exports.generateDefaultACLs = generateDefaultACLs;
 exports.bufferToString = bufferToString;
+exports.sendTransactionWithEventHub = sendTransactionWithEventHub;
