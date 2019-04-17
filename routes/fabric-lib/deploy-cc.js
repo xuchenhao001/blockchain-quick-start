@@ -209,11 +209,11 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
       txId: tx_id
     };
     let results = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
-    logger.info('Approve chaincode result: ' + JSON.stringify(results));
-    if (results.status === 'SUCCESS') {
+    let result = results.pop();
+    if (result.status === 'SUCCESS') {
       return [true];
     } else {
-      return [false, results.info];
+      return [false, result.info];
     }
   } catch (e) {
     let err_msg = 'Approve chaincode failed: ' + e;
@@ -269,11 +269,11 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
       txId: tx_id
     };
     let results = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
-    logger.info('Commit definition result: ' + JSON.stringify(results));
-    if (results.status === 'SUCCESS') {
+    let result = results.pop();
+    if (result.status === 'SUCCESS') {
       return [true];
     } else {
-      return [false, results.info];
+      return [false, result.info];
     }
   } catch (e) {
     let err_msg = 'Commit chaincode failed: ' + e;
