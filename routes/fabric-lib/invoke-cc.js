@@ -12,6 +12,7 @@ hfc.setLogger(logger);
 
 let instantiateChaincode = async function (chaincodeName, channelName, args, orderers, orgName, peers) {
   logger.debug('\n\n============ Instantiate chaincode from org \'' + orgName + '\' ============\n');
+  let error_message = null;
 
   try {
     // first setup the client for this org
@@ -28,6 +29,7 @@ let instantiateChaincode = async function (chaincodeName, channelName, args, ord
       channel.addPeer(client.getPeer(peerName));
     });
 
+    // send transaction to all of the peers
     let tx_id = client.newTransactionID(true);
     let request = {
       chaincodeId : chaincodeName,
@@ -37,16 +39,44 @@ let instantiateChaincode = async function (chaincodeName, channelName, args, ord
       is_init: true
     };
     let init_results = await channel.sendTransactionProposal(request, 600000);
-    let orderer_request = {
-      proposalResponses: init_results[0],
-      proposal: init_results[1],
-      txId: tx_id
-    };
-    let results = await channel.sendTransaction(orderer_request);
-    if (results.status === 'SUCCESS') {
-      return [true];
+    let proposalResponses = init_results[0];
+    let all_good = true;
+    for (let i in proposalResponses) {
+      let one_good = false;
+      if (proposalResponses && proposalResponses[i].response &&
+        proposalResponses[i].response.status === 200) {
+        one_good = true;
+        logger.info('invoke success');
+      } else {
+        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        logger.error(err_detail);
+        error_message = error_message + err_detail;
+      }
+      all_good = all_good && one_good;
+    }
+
+    if (all_good) {
+      logger.info('Successfully sent Proposal and received ProposalResponse: ' +
+        JSON.stringify(proposalResponses[0].response));
+
+      // send transaction to orderer
+      let orderer_request = {
+        proposalResponses: init_results[0],
+        proposal: init_results[1],
+        txId: tx_id
+      };
+      let results = await channel.sendTransaction(orderer_request);
+      if (results.status === 'SUCCESS') {
+        return [true];
+      } else {
+        return [false, results.info];
+      }
     } else {
-      return [false, results.info];
+      if (!error_message) {
+        error_message = util.format('Failed to send Proposal and receive all good ProposalResponse');
+      }
+      logger.error(error_message);
+      return [false, error_message];
     }
   } catch (e) {
     let err_msg = 'Instantiate chaincode failed: ' + e;
@@ -126,7 +156,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
 
     if (all_good) {
       logger.info(
-        'Successfully sent Proposal and received ProposalResponse: %s',
+        'Successfully sent Proposal and received ProposalResponse: ' +
         JSON.stringify(proposalResponses[0].response));
       response_payload = helper.bufferToString(proposalResponses[0].response.payload, 'utf-8');
 
@@ -208,7 +238,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       if (!error_message) {
         error_message = util.format('Failed to send Proposal and receive all good ProposalResponse');
       }
-      logger.debug(error_message);
+      logger.error(error_message);
     }
   } catch (error) {
     error_message = util.format('Failed to invoke due to error: ' + error.stack ? error.stack : error);

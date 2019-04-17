@@ -198,6 +198,7 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
     };
     // send to the peer to be endorsed
     let approveResponse = await channel.approveChaincodeForOrg(request);
+    logger.debug('Approve chaincode response: ' + JSON.stringify(approveResponse));
 
     // send to the orderer to be committed
     let orderer_request = {
@@ -256,6 +257,7 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
     };
     // send to the peers to be endorsed
     let commitChaincodeResponse = await channel.commitChaincode(request);
+    logger.debug('Commit chaincode response: ' + JSON.stringify(commitChaincodeResponse));
     // send to the orderer to be committed
     let orderer_request = {
       proposalResponses: commitChaincodeResponse.proposalResponses,
