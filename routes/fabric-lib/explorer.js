@@ -5,10 +5,6 @@ const logger = log4js.getLogger('Explorer');
 logger.level = 'DEBUG';
 
 const helper = require('./helper');
-const hfc = require('fabric-client');
-
-hfc.setLogger(logger);
-
 
 let queryInfo = async function (channelName, orderers, orgName, peers) {
   logger.debug('\n\n============ Query blockchain info from org \'' + orgName + '\' ============\n');

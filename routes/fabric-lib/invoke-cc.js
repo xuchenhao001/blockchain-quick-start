@@ -5,10 +5,7 @@ let logger = log4js.getLogger('InvokeCC');
 logger.level = 'DEBUG';
 
 let helper = require('./helper');
-let hfc = require('fabric-client');
 let util = require('util');
-
-hfc.setLogger(logger);
 
 let instantiateChaincode = async function (chaincodeName, channelName, args, orderers, orgName, peers) {
   logger.debug('\n\n============ Instantiate chaincode from org \'' + orgName + '\' ============\n');

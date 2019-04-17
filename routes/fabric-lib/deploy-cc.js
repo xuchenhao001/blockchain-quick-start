@@ -5,12 +5,8 @@ const logger = log4js.getLogger('DeployCC');
 logger.level = 'DEBUG';
 
 const helper = require('./helper');
-const hfc = require('fabric-client');
-const util = require('util');
 const uuid = require('uuid');
 const path = require('path');
-
-hfc.setLogger(logger);
 
 let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
                                        chaincodeVersion, endorsementPolicy, collection, initRequired,
@@ -151,6 +147,10 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
   }
 
   // dump chaincode key features to base64 string
+  chaincode._client = null;
+  let hackChaincodeString = JSON.stringify(chaincode);
+  logger.warn(hackChaincodeString);
+
   let chaincodeToDump = {
     name: chaincode.getName(),
     version: chaincode.getVersion(),

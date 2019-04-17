@@ -18,8 +18,6 @@ const _ = require('lodash');
 const path = require('path');
 const superagent = require('superagent');
 
-hfc.setLogger(logger);
-
 const configtxlatorAddr = 'http://127.0.0.1:7059';
 
 const networkConfigPath = 'config/network-config.yaml';
@@ -85,7 +83,12 @@ let removeFile = async function (fileName) {
   fs.removeSync(fileName)
 };
 
-let initClient = async function () {
+let initFabric = async function () {
+  logger.debug('Init sdk logger...');
+  const sdkLogger = log4js.getLogger('FabricSDK');
+  sdkLogger.level = 'DEBUG';
+  hfc.setLogger(sdkLogger);
+
   logger.debug('Init client with network config...');
 
   // clean tmp directories
@@ -661,7 +664,6 @@ let fetchOldChannelConfig = async function (channel) {
     return [false, errMsg];
   }
 
-
   // STEP 2: Decode old channel config
   // configtxlator proto_decode --input config_block.pb --type common.Block |
   // ...  jq .data.data[0].payload.data.config > config.json
@@ -963,7 +965,7 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
   return results;
 };
 
-exports.initClient = initClient;
+exports.initFabric = initFabric;
 exports.isBase64 = isBase64;
 exports.isGzip = isGzip;
 exports.generateTarGz = generateTarGz;

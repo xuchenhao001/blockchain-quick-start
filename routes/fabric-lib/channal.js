@@ -5,11 +5,7 @@ const logger = log4js.getLogger('Channel');
 logger.level = 'DEBUG';
 
 const helper = require('./helper');
-const hfc = require('fabric-client');
 const util = require('util');
-
-hfc.setLogger(logger);
-
 
 let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
   logger.debug('\n\n====== Creating Channel \'' + channelName + '\' ======\n');

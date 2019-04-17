@@ -8,7 +8,7 @@ logger.level = 'DEBUG';
 let fabric = require('./fabric-op');
 let helper = require('./fabric-lib/helper');
 
-helper.initClient();
+helper.initFabric();
 
 /* GET home page. */
 router.get('/', express.static('public'));
