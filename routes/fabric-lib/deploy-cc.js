@@ -150,6 +150,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
   let chaincodeToDump = {
     name: chaincode.getName(),
     version: chaincode.getVersion(),
+    packageId: chaincode.getPackageId(),
     sequence: chaincode.getSequence().toNumber()
   };
   let chaincodeString = JSON.stringify(chaincodeToDump);
@@ -158,8 +159,8 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
 };
 
 // Approve chaincode for your organization
-let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
-                                       orgName, peers) {
+let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodePackageId, chaincodeSequence,
+                                       channelName, orderers, orgName, peers) {
   logger.debug('\n\n============ Approve chaincode on organizations ============\n');
 
   // first setup the client for this org
@@ -179,6 +180,7 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
 
     // construct a new chaincode object for approve
     let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    chaincode.setPackageId(chaincodePackageId);
     chaincode.setSequence(chaincodeSequence);
 
     // =====================================

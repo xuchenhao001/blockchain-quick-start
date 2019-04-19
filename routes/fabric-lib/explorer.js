@@ -117,6 +117,45 @@ let queryInstalledChaincodes = async function (orgName, peerName) {
   }
 };
 
+let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
+                                                   orderers, orgName, peerName) {
+  logger.debug('\n\n============ Query Chaincode Approval status from org \'' + orgName + '\' ============\n');
+  try {
+    logger.debug("Load privateKey and signedCert");
+    // first setup the client for this org
+    let client = await helper.getClientForOrg(orgName);
+
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    channel.addPeer(client.getPeer(peerName));
+
+    // construct a new chaincode object
+    let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    chaincode.setSequence(chaincodeSequence);
+
+    let tx_id = client.newTransactionID(true);
+    let request = {
+      target: peerName,
+      chaincode: chaincode,
+      txId: tx_id
+    };
+
+    let response_payloads = await channel.queryApprovalStatus(request);
+    logger.debug("Channel [" + channelName + "] query chaincode approval status from peer [" + peerName + "] result: " +
+      JSON.stringify(response_payloads));
+    helper.bufferToString(response_payloads);
+    logger.debug(JSON.stringify(response_payloads));
+    return [true, response_payloads];
+  } catch (error) {
+    logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
+    return [false, error.toString()];
+  }
+};
+
 let queryChaincodeDefinition = async function (channelName, chaincodeName, orderers, orgName, peerName) {
   logger.debug('\n\n============ Query Chaincode Definition info from org \'' + orgName + '\' ============\n');
   try {
@@ -155,4 +194,5 @@ exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;
 exports.queryTransaction = queryTransaction;
 exports.queryInstalledChaincodes = queryInstalledChaincodes;
+exports.queryChaincodeApprovalStatus = queryChaincodeApprovalStatus;
 exports.queryChaincodeDefinition = queryChaincodeDefinition;

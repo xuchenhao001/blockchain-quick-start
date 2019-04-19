@@ -536,7 +536,15 @@ router.post('/chaincode/approve', async function (req, res) {
   }
   logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
 
-  // chaincodeSequence
+  let chaincodePackageId = req.body.chaincodePackageId;
+  if (typeof chaincodePackageId === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodePackageId\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode package id: \"" + chaincodePackageId + "\"");
+
   let chaincodeSequence = req.body.chaincodeSequence;
   if (typeof chaincodeSequence === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeSequence\" doesn't exist";
@@ -582,8 +590,8 @@ router.post('/chaincode/approve', async function (req, res) {
   }
   logger.debug("Get orderers names: \"" + orderers + "\"");
 
-  let approveResult = await fabric.approveChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
-    orderers, orgName, peers);
+  let approveResult = await fabric.approveChaincode(chaincodeName, chaincodeVersion, chaincodePackageId,
+    chaincodeSequence, channelName, orderers, orgName, peers);
   logger.debug(approveResult);
   if (approveResult[0]===true) {
     res.status(200).json({"result": "success"});
@@ -1283,6 +1291,84 @@ router.post('/explorer/queryinstalledchaincodes', async function (req, res) {
   logger.debug("Get peer name: \"" + peer + "\"");
 
   let queryResult = await fabric.queryInstalledChaincodes(orgName, peer);
+  logger.debug(JSON.stringify(queryResult));
+  if (queryResult[0]===true) {
+    res.status(200).json(
+      {"result": "success",
+        "detail": queryResult[1]});
+  } else {
+    res.status(500).json({"result": "failed", "error": queryResult[1]});
+  }
+
+});
+
+router.post('/explorer/querychaincodeapprovalstatus', async function (req, res) {
+
+  let chaincodeName = req.body.chaincodeName;
+  if (typeof chaincodeName === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
+
+  let chaincodeVersion = req.body.chaincodeVersion;
+  if (typeof chaincodeVersion === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
+
+  let chaincodeSequence = req.body.chaincodeSequence;
+  if (typeof chaincodeSequence === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeSequence\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode sequence: \"" + chaincodeSequence + "\"");
+
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let peer = req.body.peer;
+  if (typeof peer === 'undefined') {
+    let errMessage = "Request Error, parameter \"peer\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get peer name: \"" + peer + "\"");
+
+  let queryResult = await fabric.queryChaincodeApprovalStatus(chaincodeName, chaincodeVersion, chaincodeSequence,
+    channelName, orderers, orgName, peer);
   logger.debug(JSON.stringify(queryResult));
   if (queryResult[0]===true) {
     res.status(200).json(

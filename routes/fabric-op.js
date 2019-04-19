@@ -74,12 +74,12 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
     chaincodeVersion, endorsementPolicy, collection, initRequired, orgName, peers, localPath);
 };
 
-let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
-                                       orgName, peers) {
+let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodePackageId, chaincodeSequence,
+                                       channelName, orderers, orgName, peers) {
   logger.info('==================== APPROVE CHAINCODE ==================');
 
-  return await deployCC.approveChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
-    orgName, peers);
+  return await deployCC.approveChaincode(chaincodeName, chaincodeVersion, chaincodePackageId, chaincodeSequence,
+    channelName, orderers, orgName, peers);
 };
 
 let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
@@ -145,6 +145,14 @@ let queryInstalledChaincodes = async function (orgName, peer) {
   return await explorer.queryInstalledChaincodes(orgName, peer);
 };
 
+let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
+                                                   orderers, orgName, peer) {
+  logger.info('==================== QUERY Chaincode Approval Status ==================');
+
+  return await explorer.queryChaincodeApprovalStatus(chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
+    orderers, orgName, peer);
+};
+
 let queryChaincodeDefinition = async function (channelName, chaincodeName, orderers, orgName, peer) {
   logger.info('==================== QUERY Chaincode Definition ==================');
 
@@ -170,4 +178,5 @@ exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;
 exports.queryTransaction = queryTransaction;
 exports.queryInstalledChaincodes = queryInstalledChaincodes;
+exports.queryChaincodeApprovalStatus = queryChaincodeApprovalStatus;
 exports.queryChaincodeDefinition = queryChaincodeDefinition;
