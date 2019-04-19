@@ -139,6 +139,18 @@ let queryTransaction = async function (channelName, orderers, orgName, peers, tx
   return await explorer.queryTransaction(channelName, orderers, orgName, peers, txId);
 };
 
+let queryInstalledChaincodes = async function (orgName, peer) {
+  logger.info('==================== QUERY Installed Chaindoes ==================');
+
+  return await explorer.queryInstalledChaincodes(orgName, peer);
+};
+
+let queryChaincodeDefinition = async function (channelName, chaincodeName, orderers, orgName, peer) {
+  logger.info('==================== QUERY Chaincode Definition ==================');
+
+  return await explorer.queryChaincodeDefinition(channelName, chaincodeName, orderers, orgName, peer);
+};
+
 exports.createChannel = createChannel;
 exports.joinChannel = joinChannel;
 exports.updateAnchorPeer = updateAnchorPeer;
@@ -157,3 +169,5 @@ exports.queryChaincode = queryChaincode;
 exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;
 exports.queryTransaction = queryTransaction;
+exports.queryInstalledChaincodes = queryInstalledChaincodes;
+exports.queryChaincodeDefinition = queryChaincodeDefinition;

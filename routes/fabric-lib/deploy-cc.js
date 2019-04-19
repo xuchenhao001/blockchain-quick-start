@@ -137,7 +137,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
         request_timeout: 10000 // give the peers some extra time
       };
       let package_id = await chaincode.install(install_request);
-      logger.info('chaincode has been successfully installed on peer: ' + peerName
+      logger.info('Chaincode has been successfully installed on peer: ' + peerName
         + ' with chaincode package id: ' + package_id);
     }
   } catch (e) {
@@ -147,10 +147,6 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
   }
 
   // dump chaincode key features to base64 string
-  chaincode._client = null;
-  let hackChaincodeString = JSON.stringify(chaincode);
-  logger.warn(hackChaincodeString);
-
   let chaincodeToDump = {
     name: chaincode.getName(),
     version: chaincode.getVersion(),

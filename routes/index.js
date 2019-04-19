@@ -1203,7 +1203,7 @@ router.post('/explorer/queryblock', async function (req, res) {
 
 });
 
-router.post('/explorer/queryTransaction', async function (req, res) {
+router.post('/explorer/querytransaction', async function (req, res) {
 
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
@@ -1251,6 +1251,97 @@ router.post('/explorer/queryTransaction', async function (req, res) {
   logger.debug("Get transaction id: \"" + txId + "\"");
 
   let queryResult = await fabric.queryTransaction(channelName, orderers, orgName, peers, txId);
+  logger.debug(JSON.stringify(queryResult));
+  if (queryResult[0]===true) {
+    res.status(200).json(
+      {"result": "success",
+        "detail": queryResult[1]});
+  } else {
+    res.status(500).json({"result": "failed", "error": queryResult[1]});
+  }
+
+});
+
+router.post('/explorer/queryinstalledchaincodes', async function (req, res) {
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let peer = req.body.peer;
+  if (typeof peer === 'undefined') {
+    let errMessage = "Request Error, parameter \"peer\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get peer name: \"" + peer + "\"");
+
+  let queryResult = await fabric.queryInstalledChaincodes(orgName, peer);
+  logger.debug(JSON.stringify(queryResult));
+  if (queryResult[0]===true) {
+    res.status(200).json(
+      {"result": "success",
+        "detail": queryResult[1]});
+  } else {
+    res.status(500).json({"result": "failed", "error": queryResult[1]});
+  }
+
+});
+
+router.post('/explorer/querychaincodedefinition', async function (req, res) {
+
+  let channelName = req.body.channelName;
+  if (typeof channelName === 'undefined') {
+    let errMessage = "Request Error, parameter \"channelName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get channel name: \"" + channelName + "\"");
+
+  let chaincodeName = req.body.chaincodeName;
+  if (typeof chaincodeName === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
+
+  let orderers = req.body.orderers;
+  if (typeof orderers === 'undefined') {
+    let errMessage = "Request Error, parameter \"orderers\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get orderers names: \"" + orderers + "\"");
+
+  let orgName = req.body.orgName;
+  if (typeof orgName === 'undefined') {
+    let errMessage = "Request Error, parameter \"orgName\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get org name: \"" + orgName + "\"");
+
+  let peer = req.body.peer;
+  if (typeof peer === 'undefined') {
+    let errMessage = "Request Error, parameter \"peer\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get peer name: \"" + peer + "\"");
+
+  let queryResult = await fabric.queryChaincodeDefinition(channelName, chaincodeName, orderers, orgName, peer);
   logger.debug(JSON.stringify(queryResult));
   if (queryResult[0]===true) {
     res.status(200).json(

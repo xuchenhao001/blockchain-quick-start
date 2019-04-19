@@ -98,7 +98,61 @@ let queryTransaction = async function (channelName, orderers, orgName, peers, tx
   }
 };
 
+let queryInstalledChaincodes = async function (orgName, peerName) {
+  logger.debug('\n\n============ Query Installed Chaincodes from org \'' + orgName + '\' ============\n');
+  try {
+    logger.debug("Load privateKey and signedCert");
+    // first setup the client for this org
+    let client = await helper.getClientForOrg(orgName);
+
+    let response_payloads = await client.queryInstalledChaincodes(client.getPeer(peerName), true);
+    logger.debug("Peer [" + peerName + "] query installed chaincodes result: " +
+      JSON.stringify(response_payloads));
+    helper.bufferToString(response_payloads);
+    logger.debug(JSON.stringify(response_payloads));
+    return [true, response_payloads];
+  } catch (error) {
+    logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
+    return [false, error.toString()];
+  }
+};
+
+let queryChaincodeDefinition = async function (channelName, chaincodeName, orderers, orgName, peerName) {
+  logger.debug('\n\n============ Query Chaincode Definition info from org \'' + orgName + '\' ============\n');
+  try {
+    logger.debug("Load privateKey and signedCert");
+    // first setup the client for this org
+    let client = await helper.getClientForOrg(orgName);
+
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    channel.addPeer(client.getPeer(peerName));
+
+    let tx_id = client.newTransactionID(true);
+    let request = {
+      target: peerName,
+      chaincodeId: chaincodeName,
+      txId: tx_id
+    };
+
+    let response_payloads = await channel.queryChaincodeDefinition(request);
+    logger.debug("Channel [" + channelName + "] query chaincode definition [" + chaincodeName + "] result: " +
+      JSON.stringify(response_payloads));
+    helper.bufferToString(response_payloads);
+    logger.debug(JSON.stringify(response_payloads));
+    return [true, response_payloads];
+  } catch (error) {
+    logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
+    return [false, error.toString()];
+  }
+};
 
 exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;
 exports.queryTransaction = queryTransaction;
+exports.queryInstalledChaincodes = queryInstalledChaincodes;
+exports.queryChaincodeDefinition = queryChaincodeDefinition;
