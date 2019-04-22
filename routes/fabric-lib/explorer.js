@@ -117,8 +117,9 @@ let queryInstalledChaincodes = async function (orgName, peerName) {
   }
 };
 
-let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
-                                                   orderers, orgName, peerName) {
+let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy,
+                                                   chaincodeCollection, chaincodeInitRequired, chaincodePackageId,
+                                                   chaincodeSequence, channelName, orderers, orgName, peerName) {
   logger.debug('\n\n============ Query Chaincode Approval status from org \'' + orgName + '\' ============\n');
   try {
     logger.debug("Load privateKey and signedCert");
@@ -136,16 +137,16 @@ let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersi
 
     // construct a new chaincode object
     let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
-    // if (typeof chaincodeEndorsementPolicy !== 'undefined' && chaincodeEndorsementPolicy) {
-    //   chaincode.setEndorsementPolicyDefinition(chaincodeEndorsementPolicy);
-    // }
-    // if (typeof chaincodeCollection !== 'undefined' && chaincodeCollection) {
-    //   chaincode.setCollectionConfigPackageDefinition(chaincodeCollection);
-    // }
-    // if (typeof chaincodeInitRequired !== 'undefined' && chaincodeInitRequired) {
-    //   chaincode.setInitRequired(chaincodeInitRequired);
-    // }
-    // chaincode.setPackageId(chaincodePackageId);
+    if (typeof chaincodeEndorsementPolicy !== 'undefined' && chaincodeEndorsementPolicy) {
+      chaincode.setEndorsementPolicyDefinition(chaincodeEndorsementPolicy);
+    }
+    if (typeof chaincodeCollection !== 'undefined' && chaincodeCollection) {
+      chaincode.setCollectionConfigPackageDefinition(chaincodeCollection);
+    }
+    if (typeof chaincodeInitRequired !== 'undefined' && chaincodeInitRequired) {
+      chaincode.setInitRequired(chaincodeInitRequired);
+    }
+    chaincode.setPackageId(chaincodePackageId);
     chaincode.setSequence(chaincodeSequence);
 
     let tx_id = client.newTransactionID(true);

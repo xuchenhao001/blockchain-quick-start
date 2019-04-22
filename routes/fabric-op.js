@@ -149,12 +149,14 @@ let queryInstalledChaincodes = async function (orgName, peer) {
   return await explorer.queryInstalledChaincodes(orgName, peer);
 };
 
-let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
-                                                   orderers, orgName, peer) {
+let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy,
+                                                   chaincodeCollection, chaincodeInitRequired, chaincodePackageId,
+                                                   chaincodeSequence, channelName, orderers, orgName, peer) {
   logger.info('==================== QUERY Chaincode Approval Status ==================');
 
-  return await explorer.queryChaincodeApprovalStatus(chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
-    orderers, orgName, peer);
+  return await explorer.queryChaincodeApprovalStatus(chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy,
+    chaincodeCollection, chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName, orderers, orgName,
+    peer);
 };
 
 let queryChaincodeDefinition = async function (channelName, chaincodeName, orderers, orgName, peer) {

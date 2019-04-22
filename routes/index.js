@@ -1333,32 +1333,46 @@ router.post('/explorer/queryinstalledchaincodes', async function (req, res) {
 
 router.post('/explorer/querychaincodeapprovalstatus', async function (req, res) {
 
-  let chaincodeName = req.body.chaincodeName;
+  let chaincodeInfo = req.body.chaincodeInfo;
+  if (typeof chaincodeInfo === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeInfo\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincodeInfo: \"" + JSON.stringify(chaincodeInfo) + "\"");
+
+  let chaincodeName = chaincodeInfo.name;
   if (typeof chaincodeName === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
-
-  let chaincodeVersion = req.body.chaincodeVersion;
+  let chaincodeVersion = chaincodeInfo.version;
   if (typeof chaincodeVersion === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
-
-  let chaincodeSequence = req.body.chaincodeSequence;
+  let chaincodeEndorsementPolicy = chaincodeInfo.endorsementPolicy;
+  let chaincodeCollection = chaincodeInfo.collection;
+  let chaincodeInitRequired = chaincodeInfo.initRequired;
+  let chaincodePackageId = chaincodeInfo.packageId;
+  if (typeof chaincodePackageId === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodePackageId\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  let chaincodeSequence = chaincodeInfo.sequence;
   if (typeof chaincodeSequence === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeSequence\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode sequence: \"" + chaincodeSequence + "\"");
 
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
@@ -1396,7 +1410,8 @@ router.post('/explorer/querychaincodeapprovalstatus', async function (req, res) 
   }
   logger.debug("Get peer name: \"" + peer + "\"");
 
-  let queryResult = await fabric.queryChaincodeApprovalStatus(chaincodeName, chaincodeVersion, chaincodeSequence,
+  let queryResult = await fabric.queryChaincodeApprovalStatus(chaincodeName, chaincodeVersion,
+    chaincodeEndorsementPolicy, chaincodeCollection, chaincodeInitRequired, chaincodePackageId, chaincodeSequence,
     channelName, orderers, orgName, peer);
   logger.debug(JSON.stringify(queryResult));
   if (queryResult[0] === true) {
