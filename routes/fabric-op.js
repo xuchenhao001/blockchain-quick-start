@@ -74,20 +74,24 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
     chaincodeVersion, endorsementPolicy, collection, initRequired, orgName, peers, localPath);
 };
 
-let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodePackageId, chaincodeSequence,
-                                       channelName, orderers, orgName, peers) {
+let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy, chaincodeCollection,
+                                       chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName,
+                                       orderers, orgName, peers) {
   logger.info('==================== APPROVE CHAINCODE ==================');
 
-  return await deployCC.approveChaincode(chaincodeName, chaincodeVersion, chaincodePackageId, chaincodeSequence,
-    channelName, orderers, orgName, peers);
+  return await deployCC.approveChaincode(chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy,
+    chaincodeCollection, chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName, orderers, orgName,
+    peers);
 };
 
-let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
-                                       orgName, peers) {
+let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy, chaincodeCollection,
+                                      chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName,
+                                      orderers, orgName, peers) {
   logger.info('==================== COMMIT CHAINCODE ==================');
 
-  return await deployCC.commitChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
-    orgName, peers);
+  return await deployCC.commitChaincode(chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy,
+    chaincodeCollection, chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName, orderers, orgName,
+    peers);
 };
 
 let instantiateChaincode = async function (chaincodeName, channelName, args, orderers, orgName, peers) {

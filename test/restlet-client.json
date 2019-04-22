@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "7b42a64c-aeb2-4813-ab5a-57a516d57b80",
-      "lastModified": "2019-04-19T17:53:52.121+08:00",
+      "lastModified": "2019-04-22T15:14:25.596+08:00",
       "name": "BlockchainQuickStart"
     },
     {
@@ -7553,7 +7553,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"examplecc\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"chaincodePackageId\": \"examplecc:v1.0:7d9d39f879b466ecfdf9e947ad410c77363dafd67b1a93ad18b3885be28ce3ef\",\n  \"chaincodeSequence\": 1,\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeInfo\": {\n    \"name\": \"examplecc\",\n    \"version\": \"v1.0\",\n    \"endorsementPolicy\": {\n      \"identities\": [\n        {\"role\":{\"name\": \"member\", \"mspId\": \"Org1MSP\" }},\n        {\"role\":{\"name\": \"member\", \"mspId\": \"Org2MSP\" }}\n      ],\n      \"policy\": {\n        \"1-of\": [{\"signed-by\": 0 }, {\"signed-by\": 1 }]\n      }\n    },\n    \"collection\": null,\n    \"initRequired\": true,\n    \"packageId\": \"examplecc:v1.0:7d9d39f879b466ecfdf9e947ad410c77363dafd67b1a93ad18b3885be28ce3ef\",\n    \"sequence\": 1\n  },\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -7569,7 +7569,7 @@
         "path": "/chaincode/approve"
       },
       "id": "e39967bf-9b82-4178-b5a1-647e57e18378",
-      "lastModified": "2019-04-19T17:52:55.577+08:00",
+      "lastModified": "2019-04-22T14:45:05.965+08:00",
       "name": "04. approveChaincode - Org1",
       "headers": [
         {
@@ -7596,7 +7596,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"examplecc\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"chaincodePackageId\": \"examplecc:v1.0:7d9d39f879b466ecfdf9e947ad410c77363dafd67b1a93ad18b3885be28ce3ef\",\n  \"chaincodeSequence\": 1,\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org2\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeInfo\": {\n    \"name\": \"examplecc\",\n    \"version\": \"v1.0\",\n    \"endorsementPolicy\": {\n      \"identities\": [\n        {\"role\":{\"name\": \"member\", \"mspId\": \"Org1MSP\" }},\n        {\"role\":{\"name\": \"member\", \"mspId\": \"Org2MSP\" }}\n      ],\n      \"policy\": {\n        \"1-of\": [{\"signed-by\": 0 }, {\"signed-by\": 1 }]\n      }\n    },\n    \"collection\": null,\n    \"initRequired\": true,\n    \"packageId\": \"examplecc:v1.0:7d9d39f879b466ecfdf9e947ad410c77363dafd67b1a93ad18b3885be28ce3ef\",\n    \"sequence\": 1\n  },\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org2\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -7612,7 +7612,7 @@
         "path": "/chaincode/approve"
       },
       "id": "18a1eedf-5ea6-4c69-9900-2006e7afb916",
-      "lastModified": "2019-04-19T17:53:07.440+08:00",
+      "lastModified": "2019-04-22T10:29:48.430+08:00",
       "name": "04. approveChaincode - Org2",
       "headers": [
         {
@@ -7639,7 +7639,7 @@
         },
         "bodyType": "Text",
         "autoSetLength": true,
-        "textBody": "{\n  \"chaincodeName\": \"examplecc\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"chaincodeSequence\": 1,\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+        "textBody": "{\n  \"chaincodeInfo\": {\n    \"name\": \"examplecc\",\n    \"version\": \"v1.0\",\n    \"endorsementPolicy\": {\n      \"identities\": [\n        {\"role\":{\"name\": \"member\", \"mspId\": \"Org1MSP\" }},\n        {\"role\":{\"name\": \"member\", \"mspId\": \"Org2MSP\" }}\n      ],\n      \"policy\": {\n        \"1-of\": [{\"signed-by\": 0 }, {\"signed-by\": 1 }]\n      }\n    },\n    \"collection\": null,\n    \"initRequired\": true,\n    \"packageId\": \"examplecc:v1.0:7d9d39f879b466ecfdf9e947ad410c77363dafd67b1a93ad18b3885be28ce3ef\",\n    \"sequence\": 1\n  },\n  \"channelName\": \"mychannel\",\n  \"orgName\": \"Org1\",\n  \"orderers\": [\"orderer.example.com\"],\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
       },
       "headersType": "Form",
       "uri": {
@@ -7655,7 +7655,7 @@
         "path": "/chaincode/commit"
       },
       "id": "9320dcb3-2cf1-4372-a658-d2cbc47b575d",
-      "lastModified": "2019-04-17T17:33:55.803+08:00",
+      "lastModified": "2019-04-22T15:14:25.596+08:00",
       "name": "05. commitChaincode",
       "headers": [
         {
@@ -7701,92 +7701,6 @@
       "id": "4a2654bc-c34e-4ced-86c6-9eb935c62a3f",
       "lastModified": "2019-04-17T11:12:41.797+08:00",
       "name": "06. instantiateChaincode",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"chaincode\": \"H4sIAEXtCFwAA+1VUW/aMBDmlfyKW6RJYUJAIFAJiYdu66Y+rELr+oR4COECUYmd2U4ntva/72xCm0Jb2o122uZPAkfx+fPd992BFFGz8sxoEQ66XbMSNlfz7HeCVtvv9YKgXWn5rU7QrUD3uRPTyKUKBUBFcK4eitu1/5dCkv+zRM3zSSPi6fO0wpP873XI/3bQOrD+vwQ2/I/mYcIiPsV9dsKT/D/Q8x902oH1/yVwr//XT40Z/807tMH0w36f/x2/F9z47+v573V7NP+tvVS4A/+5/1kYnYczhJTcdpwkzbhQ4DlVN06V69Baao75MkOxwOkMRTMOJyKJmhEXpVZpynmSuk41m8COc5ngistmhihcp+Y4zSZ8ESGTMYp3azZ4j3HCEK7pHUVEd8RJJfJIwQ/nyhAdMSWWwOPSwThnkSnRq1FYFYWA/gB0to1Tsl95DL95W8S1mlNNYtDRrwbAkoU+WyVhGkORMBV77pEQXIDuIJWwGaiC4ebmPryWbl1TENfVKsFjlijQX0m4SL7jZpqegjfbqZgDnlT5ZJX29c4pvTpmCkUcRhSWTRqfUWacSaRsnapAlQtWlJpHEUrpUSW1QqtjdsHPEZLV8thMdPCTc6lqTpVwVodQzKQxgOIbH1F9KHYO2XQYijBFopDeSv31KRgMwM1y5RoTirJUI5xOP3GGS5POilkrDbigSzePz3Dz+NccxfIugtvKGZ8994zJPNMTglPg1NOhZm7AcIEh3ZbTh9K56QJDDlNcUD2uUfwhWW9V8pCwhX6jMfU9dd2WzlT1AplnKtGN2y6XXC7nhCtAxvPZXDPmKTIl63CCVF27r8sR9VRn5K4E0S8YmaOd0+Sj1tipXoSL3LwZjSdLhebWkT+u6R1hRgf1ZauZKxwf5oqmjoLXjHUwNHeO23beFFA81badWvd4QbhL9A3/9ym7/wuy+304KzQpRDcGHMq3pK00vyPluVmpWHixpd7lJZRP6wl4vKh7tKKchJmCP/2fZ2FhYWFhYWFhYWFhYWFhYWFhYWFhYWFh8S/jJ5O89GQAKAAA\",\n  \"chaincodeName\": \"myccpkg\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/chaincode/install"
-      },
-      "id": "d07f9ec8-b5f5-408b-b5b8-b42554530a55",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "07. installChaincodePkg - Org1",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"chaincode\": \"H4sIAEXtCFwAA+1VUW/aMBDmlfyKW6RJYUJAIFAJiYdu66Y+rELr+oR4COECUYmd2U4ntva/72xCm0Jb2o122uZPAkfx+fPd992BFFGz8sxoEQ66XbMSNlfz7HeCVtvv9YKgXWn5rU7QrUD3uRPTyKUKBUBFcK4eitu1/5dCkv+zRM3zSSPi6fO0wpP873XI/3bQOrD+vwQ2/I/mYcIiPsV9dsKT/D/Q8x902oH1/yVwr//XT40Z/807tMH0w36f/x2/F9z47+v573V7NP+tvVS4A/+5/1kYnYczhJTcdpwkzbhQ4DlVN06V69Baao75MkOxwOkMRTMOJyKJmhEXpVZpynmSuk41m8COc5ngistmhihcp+Y4zSZ8ESGTMYp3azZ4j3HCEK7pHUVEd8RJJfJIwQ/nyhAdMSWWwOPSwThnkSnRq1FYFYWA/gB0to1Tsl95DL95W8S1mlNNYtDRrwbAkoU+WyVhGkORMBV77pEQXIDuIJWwGaiC4ebmPryWbl1TENfVKsFjlijQX0m4SL7jZpqegjfbqZgDnlT5ZJX29c4pvTpmCkUcRhSWTRqfUWacSaRsnapAlQtWlJpHEUrpUSW1QqtjdsHPEZLV8thMdPCTc6lqTpVwVodQzKQxgOIbH1F9KHYO2XQYijBFopDeSv31KRgMwM1y5RoTirJUI5xOP3GGS5POilkrDbigSzePz3Dz+NccxfIugtvKGZ8994zJPNMTglPg1NOhZm7AcIEh3ZbTh9K56QJDDlNcUD2uUfwhWW9V8pCwhX6jMfU9dd2WzlT1AplnKtGN2y6XXC7nhCtAxvPZXDPmKTIl63CCVF27r8sR9VRn5K4E0S8YmaOd0+Sj1tipXoSL3LwZjSdLhebWkT+u6R1hRgf1ZauZKxwf5oqmjoLXjHUwNHeO23beFFA81badWvd4QbhL9A3/9ym7/wuy+304KzQpRDcGHMq3pK00vyPluVmpWHixpd7lJZRP6wl4vKh7tKKchJmCP/2fZ2FhYWFhYWFhYWFhYWFhYWFhYWFhYWFh8S/jJ5O89GQAKAAA\",\n  \"chaincodeName\": \"myccpkg\",\n  \"chaincodePath\": \"github.com/chaincode\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/chaincode/install"
-      },
-      "id": "5dde6453-ef1b-4cc9-8452-5f07bc18a86e",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "07. installChaincodePkg - Org2",
       "headers": [
         {
           "enabled": true,
@@ -7873,353 +7787,6 @@
       "id": "678b4c81-1cbd-48a2-b948-4003492eccef",
       "lastModified": "2019-04-17T10:47:44.469+08:00",
       "name": "07. query",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"myccpkg\",\n  \"chaincodeType\": \"golang\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"functionName\": \"\",\n  \"args\": [],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/chaincode/instantiate"
-      },
-      "id": "73136df9-6444-439a-81e7-4136633521fa",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "08. initCCPkg",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"put\",\n  \"args\": [\"user\", \"detail\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/invoke/mychannel/myccpkg"
-      },
-      "id": "29346c5b-dcd1-47c5-af8f-13098bc194e4",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "09. invoke",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"get\",\n  \"args\": [\"user\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/query/mychannel/myccpkg"
-      },
-      "id": "a579d6cf-a979-4f13-9fc4-6bd132f160a6",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "10. query",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"chaincode\": \"H4sIAEi4dFwAA+1YW2/bNhTOa/UrTjMUkttYsWM7GVpkgN3LkGGXrnnYgG4YFIm22cqkSlJpvTb77TuHEmXJcdwWcFMM03mwbPJcvnMl5XgecRHLhHUFfhzufQnqIZ2MRvaJtP603/uD4WCEH72T/l6vfzTsj/Zg9EXQrFGuTaQA9pSUZhvfx/b/oxQ3859F8etoxsJXWoqd2aAEHw+HN+Z/eDIs83/UG/SOMf/Dk95wD3o7Q7CF/uf5f+/d2RfRgu0/hH32LlpkKfsrjvcPcPmSKc2loJ1+2At7djFhOlY8M+UGFU33lYaSF+QUnJbeUTiTUNWXlWZixgXTKIl271hp0vLd6bfhsDCAi9miWBuFA1zz7lyRZGG1kqSkGQcAVsCxcJ1EYaurjeIxsRqVM1pPecyEtnbHWO5z1j2qfMuYSJiI+QriNLpA+a6ec4vqn74D5V15Xzt3u6C1/m9Eclc2PtL/xyfHg7L/+zgL8Jzoj+gYaPv/FujwvvcNPJbZUvHZ3MDZ5Cf8pbIQxmkKL2hNwwummbpkSeh9g8znz5/83v2xaKLuGbaL4VPO1ENYdZN3/9DzYim0AWocOAXF3uRcscCv9ZPfeVQy5YandSb6TbveJabmsatQ5IjTSGtsTA/g8BDOBDc8SvnfDMycrUYN7kZ6KWLLEGiTX3RQBpDInExZyMVUBv6pIzdAekdWBKoNAkFyKTOIDjeAtIUzZp7lIqYhOBbJ80jhADU4AYOSvWEG5WpaIjXT1lUTZiSniy30hpfeaAZSpEvgUxhCVunGr1pTDogd9wLSFKY45cwc7p7C0PkIpDxXwoY+ZEpJFfhnGBilWGxA5IsLpmhQo4J8genTITx9l+EeFzMYOpevvArzGAGTtZe9P1eOTNziUW1xfBmlbr1fZ66tD3C9csIsM4ZQ0E3NzoQJSEEH3TkFvwDqw4cPsM41uca11fmVd1wYNkPvUT5nMJUKKKgG5jJNcH/Nd6OWldrobYSFYbOf5ebcRIYF4wOY5NMpU+FUyUWBvdTQFN4sPmmKTxriTUd0HsdMV/WFCCGOTDyHAF3s1Oxc954YKinvZtltkiRnY+La6lK+Zo3G2l2DIONcJqjIzLl+SX0yjUVZSlQxdwuGFXCnK5WzwBfSKcB6oXvNQx8eQKkFv/mY9FwkfhWSLVG+ulYEhC+LlqmMCGCR08KcDcZBra23Gih1ODsb81F3q57Dz8gTX+XpwPae075hfAxWls1cybcg2Ft4+pnDY/DZw6Nfz+yYev3uZAuSRrfCAs9uENLABV4BF5lZrpnHofo9stPZoKnjgPrM/kxZgmOgMbYulobpKquuistG79RROuYtOJ9FHE2AkYA6SuMUtAo+BnHsN+qsNj4b09CaCo08x3usmAU0IRpjdRvuSR33ZEe4JxuSPFkDPtkMvEzKc6Zw9BaZYO9YnNOcWJ2QC+xQU9dWHjM1Z8oDoWTdfBBcc27rMVBoQsexloyKhI5wMCuWrDlbZsg+uqVUwVCGwD4eNHYaw46uNiF5H5nAL7XdSw6c+L3kD+EfWP3FWpVvjNtvihu2KmcNF/i2TpjXSvoTz6p6bkovP/GYWpN0UwchPmGYQkQWCaCLoVkWPWfxVnMpsUyfNpf6u5hL/Y/NJRfhAr6N52u2XM2LohO4uCHKhUP1WeHi8SZneH7EUZraXCmWKbxMC4uKFBf7hHvD9dVu3mKY6LykTQKW4WmN7/NYXBaF31mPH/1DhC8GGYbx/dWj7WG9nSnsEBXHIirZOM6o2+lOMH50Q7x+OP/l51Db8ubTZeC0dpolVBmzQTt16qrlaoptmuEb5oL/q60EksVlvLZsYqqwFHvlVaCyUBQeJsMrbhv0H0lAjlWvUHYKf+1XzpZaaqmlllpqqaWWWmqppZZaaqmllm6R/gXHkklJACgAAA==\",\n  \"chaincodeName\": \"myccnode\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/chaincode/install"
-      },
-      "id": "6f01b949-5a39-4389-8ca2-a514b2610b96",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "11. installChaincodeNode - Org1",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBodyEditorHeight": 231,
-        "textBody": "{\n  \"chaincode\": \"H4sIAEi4dFwAA+1YW2/bNhTOa/UrTjMUkttYsWM7GVpkgN3LkGGXrnnYgG4YFIm22cqkSlJpvTb77TuHEmXJcdwWcFMM03mwbPJcvnMl5XgecRHLhHUFfhzufQnqIZ2MRvaJtP603/uD4WCEH72T/l6vfzTsj/Zg9EXQrFGuTaQA9pSUZhvfx/b/oxQ3859F8etoxsJXWoqd2aAEHw+HN+Z/eDIs83/UG/SOMf/Dk95wD3o7Q7CF/uf5f+/d2RfRgu0/hH32LlpkKfsrjvcPcPmSKc2loJ1+2At7djFhOlY8M+UGFU33lYaSF+QUnJbeUTiTUNWXlWZixgXTKIl271hp0vLd6bfhsDCAi9miWBuFA1zz7lyRZGG1kqSkGQcAVsCxcJ1EYaurjeIxsRqVM1pPecyEtnbHWO5z1j2qfMuYSJiI+QriNLpA+a6ec4vqn74D5V15Xzt3u6C1/m9Eclc2PtL/xyfHg7L/+zgL8Jzoj+gYaPv/FujwvvcNPJbZUvHZ3MDZ5Cf8pbIQxmkKL2hNwwummbpkSeh9g8znz5/83v2xaKLuGbaL4VPO1ENYdZN3/9DzYim0AWocOAXF3uRcscCv9ZPfeVQy5YandSb6TbveJabmsatQ5IjTSGtsTA/g8BDOBDc8SvnfDMycrUYN7kZ6KWLLEGiTX3RQBpDInExZyMVUBv6pIzdAekdWBKoNAkFyKTOIDjeAtIUzZp7lIqYhOBbJ80jhADU4AYOSvWEG5WpaIjXT1lUTZiSniy30hpfeaAZSpEvgUxhCVunGr1pTDogd9wLSFKY45cwc7p7C0PkIpDxXwoY+ZEpJFfhnGBilWGxA5IsLpmhQo4J8genTITx9l+EeFzMYOpevvArzGAGTtZe9P1eOTNziUW1xfBmlbr1fZ66tD3C9csIsM4ZQ0E3NzoQJSEEH3TkFvwDqw4cPsM41uca11fmVd1wYNkPvUT5nMJUKKKgG5jJNcH/Nd6OWldrobYSFYbOf5ebcRIYF4wOY5NMpU+FUyUWBvdTQFN4sPmmKTxriTUd0HsdMV/WFCCGOTDyHAF3s1Oxc954YKinvZtltkiRnY+La6lK+Zo3G2l2DIONcJqjIzLl+SX0yjUVZSlQxdwuGFXCnK5WzwBfSKcB6oXvNQx8eQKkFv/mY9FwkfhWSLVG+ulYEhC+LlqmMCGCR08KcDcZBra23Gih1ODsb81F3q57Dz8gTX+XpwPae075hfAxWls1cybcg2Ft4+pnDY/DZw6Nfz+yYev3uZAuSRrfCAs9uENLABV4BF5lZrpnHofo9stPZoKnjgPrM/kxZgmOgMbYulobpKquuistG79RROuYtOJ9FHE2AkYA6SuMUtAo+BnHsN+qsNj4b09CaCo08x3usmAU0IRpjdRvuSR33ZEe4JxuSPFkDPtkMvEzKc6Zw9BaZYO9YnNOcWJ2QC+xQU9dWHjM1Z8oDoWTdfBBcc27rMVBoQsexloyKhI5wMCuWrDlbZsg+uqVUwVCGwD4eNHYaw46uNiF5H5nAL7XdSw6c+L3kD+EfWP3FWpVvjNtvihu2KmcNF/i2TpjXSvoTz6p6bkovP/GYWpN0UwchPmGYQkQWCaCLoVkWPWfxVnMpsUyfNpf6u5hL/Y/NJRfhAr6N52u2XM2LohO4uCHKhUP1WeHi8SZneH7EUZraXCmWKbxMC4uKFBf7hHvD9dVu3mKY6LykTQKW4WmN7/NYXBaF31mPH/1DhC8GGYbx/dWj7WG9nSnsEBXHIirZOM6o2+lOMH50Q7x+OP/l51Db8ubTZeC0dpolVBmzQTt16qrlaoptmuEb5oL/q60EksVlvLZsYqqwFHvlVaCyUBQeJsMrbhv0H0lAjlWvUHYKf+1XzpZaaqmlllpqqaWWWmqppZZaaqmllm6R/gXHkklJACgAAA==\",\n  \"chaincodeName\": \"myccnode\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"orgName\": \"Org2\",\n  \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/chaincode/install"
-      },
-      "id": "54fa012f-851b-412b-8d0c-8781f804d90c",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "11. installChaincodeNode - Org2",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBodyEditorHeight": 221,
-        "textBody": "{\n  \"chaincodeName\": \"myccnode\",\n  \"chaincodeType\": \"node\",\n  \"chaincodeVersion\": \"v1.0\",\n  \"channelName\": \"mychannel\",\n  \"endorsementPolicy\": \"ewogICJpZGVudGl0aWVzIjogWwogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcxTVNQIgogICAgICB9CiAgICB9LAogICAgewogICAgICAicm9sZSI6IHsKICAgICAgICAibmFtZSI6ICJtZW1iZXIiLAogICAgICAgICJtc3BJZCI6ICJPcmcyTVNQIgogICAgICB9CiAgICB9CiAgXSwKICAicG9saWN5IjogewogICAgIjItb2YiOiBbCiAgICAgIHsKICAgICAgICAic2lnbmVkLWJ5IjogMAogICAgICB9LAogICAgICB7CiAgICAgICAgInNpZ25lZC1ieSI6IDEKICAgICAgfQogICAgXQogIH0KfQ==\",\n  \"functionName\": \"\",\n  \"args\": [\"a\",\"1000\",\"b\",\"2000\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/chaincode/instantiate"
-      },
-      "id": "9b36b1e4-a9c0-4703-b374-2482c6824e1a",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "12. instantiateChaincodeNode",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"invoke\",\n  \"args\": [\"a\", \"b\", \"100\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/invoke/mychannel/myccnode"
-      },
-      "id": "97b70555-6be8-4563-ab8f-9e99ab7454ca",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "13. invoke",
-      "headers": [
-        {
-          "enabled": true,
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "metaInfo": {},
-      "parentId": "64c2a42a-3139-43f6-ab30-33cfc3d307eb"
-    },
-    {
-      "type": "Request",
-      "method": {
-        "requestBody": true,
-        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
-        "name": "POST"
-      },
-      "body": {
-        "formBody": {
-          "overrideContentType": true,
-          "encoding": "application/x-www-form-urlencoded",
-          "items": []
-        },
-        "bodyType": "Text",
-        "autoSetLength": true,
-        "textBody": "{\n  \"functionName\": \"query\",\n  \"args\": [\"a\"],\n  \"orderers\": [\"orderer.example.com\"],\n  \"orgName\": \"Org1\",\n  \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\", \"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
-      },
-      "headersType": "Form",
-      "uri": {
-        "query": {
-          "delimiter": "&",
-          "items": []
-        },
-        "scheme": {
-          "name": "http",
-          "version": "V11"
-        },
-        "host": "${\"host\"}:${\"port\"}",
-        "path": "/query/mychannel/mycc"
-      },
-      "id": "0ae78786-c92d-4b34-9f84-1c43ae22c048",
-      "lastModified": "2019-04-16T19:55:05.727+08:00",
-      "name": "14. query",
       "headers": [
         {
           "enabled": true,

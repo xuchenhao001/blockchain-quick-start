@@ -150,6 +150,9 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
   let chaincodeToDump = {
     name: chaincode.getName(),
     version: chaincode.getVersion(),
+    endorsementPolicy: chaincode.getEndorsementPolicyDefinition(),
+    collection: chaincode.getCollectionConfigPackageDefinition(),
+    initRequired: chaincode.getInitRequired(),
     packageId: chaincode.getPackageId(),
     sequence: chaincode.getSequence().toNumber()
   };
@@ -159,8 +162,9 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
 };
 
 // Approve chaincode for your organization
-let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodePackageId, chaincodeSequence,
-                                       channelName, orderers, orgName, peers) {
+let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy, chaincodeCollection,
+                                       chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName,
+                                       orderers, orgName, peers) {
   logger.debug('\n\n============ Approve chaincode on organizations ============\n');
 
   // first setup the client for this org
@@ -180,6 +184,15 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
 
     // construct a new chaincode object for approve
     let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    if (typeof chaincodeEndorsementPolicy !== 'undefined' && chaincodeEndorsementPolicy) {
+      chaincode.setEndorsementPolicyDefinition(chaincodeEndorsementPolicy);
+    }
+    if (typeof chaincodeCollection !== 'undefined' && chaincodeCollection) {
+      chaincode.setCollectionConfigPackageDefinition(chaincodeCollection);
+    }
+    if (typeof chaincodeInitRequired !== 'undefined' && chaincodeInitRequired) {
+      chaincode.setInitRequired(chaincodeInitRequired);
+    }
     chaincode.setPackageId(chaincodePackageId);
     chaincode.setSequence(chaincodeSequence);
 
@@ -221,8 +234,9 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
 };
 
 // Commit definition to the channel
-let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName, orderers,
-                                      orgName, peers) {
+let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy, chaincodeCollection,
+                                      chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName,
+                                      orderers, orgName, peers) {
   logger.debug('\n\n============ Approve chaincode on organizations ============\n');
 
   // first setup the client for this org
@@ -242,6 +256,15 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
 
     // construct a new chaincode object for approve
     let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    if (typeof chaincodeEndorsementPolicy !== 'undefined' && chaincodeEndorsementPolicy) {
+      chaincode.setEndorsementPolicyDefinition(chaincodeEndorsementPolicy);
+    }
+    if (typeof chaincodeCollection !== 'undefined' && chaincodeCollection) {
+      chaincode.setCollectionConfigPackageDefinition(chaincodeCollection);
+    }
+    if (typeof chaincodeInitRequired !== 'undefined' && chaincodeInitRequired) {
+      chaincode.setInitRequired(chaincodeInitRequired);
+    }
     chaincode.setSequence(chaincodeSequence);
 
     // ========================================

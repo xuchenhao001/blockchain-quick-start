@@ -52,7 +52,7 @@ router.post('/channel/create', async function (req, res) {
 
   let createResult = await fabric.createChannel(channelName, includeOrgNames, ordererName, orgName);
   logger.debug(createResult);
-  if (createResult[0]===true) {
+  if (createResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": createResult[1]});
@@ -99,7 +99,7 @@ router.post('/channel/join', async function (req, res) {
 
   let joinResult = await fabric.joinChannel(channelName, orderers, orgName, peers);
   logger.debug(joinResult);
-  if (joinResult[0]===true) {
+  if (joinResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": joinResult[1]});
@@ -155,7 +155,7 @@ router.post('/channel/addorg', async function (req, res) {
 
   let createResult = await fabric.addOrgToChannel(addOrg, addOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
-  if (createResult[0]===true) {
+  if (createResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": createResult[1]});
@@ -211,7 +211,7 @@ router.post('/channel/delorg', async function (req, res) {
 
   let createResult = await fabric.delOrgFromChannel(delOrg, delOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
-  if (createResult[0]===true) {
+  if (createResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": createResult[1]});
@@ -286,7 +286,7 @@ router.post('/channel/modifypolicy', async function (req, res) {
   let modifyResult = await fabric.modifyPolicy(channelName, orderers, orgName, modifyPolicySignBy, policyName,
     policyType, policyValue);
   logger.debug(modifyResult);
-  if (modifyResult[0]===true) {
+  if (modifyResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": modifyResult[1]});
@@ -351,7 +351,7 @@ router.post('/channel/modifyacl', async function (req, res) {
 
   let modifyResult = await fabric.modifyACL(channelName, orderers, orgName, resource, policy, modifyACLSignBy);
   logger.debug(modifyResult);
-  if (modifyResult[0]===true) {
+  if (modifyResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": modifyResult[1]});
@@ -398,7 +398,7 @@ router.post('/channel/updateAnchorPeer', async function (req, res) {
 
   let updateResult = await fabric.updateAnchorPeer(channelName, orderers, orgName, peers);
   logger.debug(updateResult);
-  if (updateResult[0]===true) {
+  if (updateResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": updateResult[1]});
@@ -508,7 +508,7 @@ router.post('/chaincode/install', async function (req, res) {
   let installResult = await fabric.installChaincode(chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
     chaincodeVersion, endorsementPolicy, collection, initRequired, orgName, peers, localPath);
   logger.debug(installResult);
-  if (installResult[0]===true) {
+  if (installResult[0] === true) {
     res.status(200).json({"result": "success", "chaincodeInfo": installResult[1]});
   } else {
     res.status(500).json({"result": "failed", "error": installResult[1]});
@@ -516,43 +516,48 @@ router.post('/chaincode/install', async function (req, res) {
 
 });
 
+router.post('/chaincode/approve', async function (req, res, next) {
 
-router.post('/chaincode/approve', async function (req, res) {
-  let chaincodeName = req.body.chaincodeName;
+  let chaincodeInfo = req.body.chaincodeInfo;
+  if (typeof chaincodeInfo === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeInfo\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincodeInfo: \"" + JSON.stringify(chaincodeInfo) + "\"");
+
+  let chaincodeName = chaincodeInfo.name;
   if (typeof chaincodeName === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
-
-  let chaincodeVersion = req.body.chaincodeVersion;
+  let chaincodeVersion = chaincodeInfo.version;
   if (typeof chaincodeVersion === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
-
-  let chaincodePackageId = req.body.chaincodePackageId;
+  let chaincodeEndorsementPolicy = chaincodeInfo.endorsementPolicy;
+  let chaincodeCollection = chaincodeInfo.collection;
+  let chaincodeInitRequired = chaincodeInfo.initRequired;
+  let chaincodePackageId = chaincodeInfo.packageId;
   if (typeof chaincodePackageId === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodePackageId\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode package id: \"" + chaincodePackageId + "\"");
-
-  let chaincodeSequence = req.body.chaincodeSequence;
+  let chaincodeSequence = chaincodeInfo.sequence;
   if (typeof chaincodeSequence === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeSequence\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode sequence: \"" + chaincodeSequence + "\"");
 
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
@@ -590,10 +595,11 @@ router.post('/chaincode/approve', async function (req, res) {
   }
   logger.debug("Get orderers names: \"" + orderers + "\"");
 
-  let approveResult = await fabric.approveChaincode(chaincodeName, chaincodeVersion, chaincodePackageId,
-    chaincodeSequence, channelName, orderers, orgName, peers);
+  let approveResult = await fabric.approveChaincode(chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy,
+    chaincodeCollection, chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName, orderers, orgName,
+    peers);
   logger.debug(approveResult);
-  if (approveResult[0]===true) {
+  if (approveResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": approveResult[1]});
@@ -602,33 +608,47 @@ router.post('/chaincode/approve', async function (req, res) {
 });
 
 router.post('/chaincode/commit', async function (req, res) {
-  let chaincodeName = req.body.chaincodeName;
+
+  let chaincodeInfo = req.body.chaincodeInfo;
+  if (typeof chaincodeInfo === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodeInfo\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  logger.debug("Get chaincodeInfo: \"" + JSON.stringify(chaincodeInfo) + "\"");
+
+  let chaincodeName = chaincodeInfo.name;
   if (typeof chaincodeName === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeName\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode name: \"" + chaincodeName + "\"");
-
-  let chaincodeVersion = req.body.chaincodeVersion;
+  let chaincodeVersion = chaincodeInfo.version;
   if (typeof chaincodeVersion === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeVersion\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode version: \"" + chaincodeVersion + "\"");
-
-  // chaincodeSequence
-  let chaincodeSequence = req.body.chaincodeSequence;
+  let chaincodeEndorsementPolicy = chaincodeInfo.endorsementPolicy;
+  let chaincodeCollection = chaincodeInfo.collection;
+  let chaincodeInitRequired = chaincodeInfo.initRequired;
+  let chaincodePackageId = chaincodeInfo.packageId;
+  if (typeof chaincodePackageId === 'undefined') {
+    let errMessage = "Request Error, parameter \"chaincodePackageId\" doesn't exist";
+    logger.error(errMessage);
+    res.status(400).json({"result": "failed", "error": errMessage});
+    return;
+  }
+  let chaincodeSequence = chaincodeInfo.sequence;
   if (typeof chaincodeSequence === 'undefined') {
     let errMessage = "Request Error, parameter \"chaincodeSequence\" doesn't exist";
     logger.error(errMessage);
     res.status(400).json({"result": "failed", "error": errMessage});
     return;
   }
-  logger.debug("Get chaincode sequence: \"" + chaincodeSequence + "\"");
 
   let channelName = req.body.channelName;
   if (typeof channelName === 'undefined') {
@@ -666,10 +686,11 @@ router.post('/chaincode/commit', async function (req, res) {
   }
   logger.debug("Get orderers names: \"" + orderers + "\"");
 
-  let commitResult = await fabric.commitChaincode(chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
-    orderers, orgName, peers);
+  let commitResult = await fabric.commitChaincode(chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy,
+    chaincodeCollection, chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName, orderers, orgName,
+    peers);
   logger.debug(commitResult);
-  if (commitResult[0]===true) {
+  if (commitResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": commitResult[1]});
@@ -839,7 +860,7 @@ router.post('/chaincode/upgrade', async function (req, res) {
   let instantiateResult = await fabric.upgradeChaincode(chaincodeName, chaincodeType, chaincodeVersion,
     channelName, functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService);
   logger.debug(instantiateResult);
-  if (instantiateResult[0]===true) {
+  if (instantiateResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": instantiateResult[1]});
@@ -912,7 +933,7 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
   let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName,
     functionName, args, orderers, orgName, peers, transient, useDiscoverService);
   logger.debug(invokeResut);
-  if (invokeResut[0]==='yes') {
+  if (invokeResut[0] === 'yes') {
     res.status(200).json({"result": "success", "txId": invokeResut[1], "payload": invokeResut[2]});
   } else {
     res.status(500).json({"result": "failed", "error": invokeResut[1]});
@@ -982,7 +1003,7 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
   let queryResult = await fabric.queryChaincode(chaincodeName, channelName,
     functionName, args, orderers, orgName, peers, transient, useDiscoverService);
   logger.debug(queryResult);
-  if (queryResult[0]===true) {
+  if (queryResult[0] === true) {
     res.status(200).json({"result": queryResult[1]});
   } else {
     res.status(500).json({"result": "failed", "error": queryResult[1]});
@@ -1038,7 +1059,7 @@ router.post('/api/v1.1/channel/addorg', async function (req, res) {
 
   let createResult = await fabric.addOrgToChannelWithCerts(newOrgDetail, addOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
-  if (createResult[0]===true) {
+  if (createResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": createResult[1]});
@@ -1094,7 +1115,7 @@ router.post('/api/v1.1/channel/delorg', async function (req, res) {
 
   let createResult = await fabric.delOrgFromChannel(delOrgName, delOrgSignBy, channelName, orderers, orgName);
   logger.debug(createResult);
-  if (createResult[0]===true) {
+  if (createResult[0] === true) {
     res.status(200).json({"result": "success"});
   } else {
     res.status(500).json({"result": "failed", "error": createResult[1]});
@@ -1142,10 +1163,12 @@ router.post('/explorer/queryinfo', async function (req, res) {
 
   let queryResult = await fabric.queryInfo(channelName, orderers, orgName, peers);
   logger.debug(JSON.stringify(queryResult));
-  if (queryResult[0]===true) {
+  if (queryResult[0] === true) {
     res.status(200).json(
-      {"result": "success",
-        "detail": queryResult[1]});
+      {
+        "result": "success",
+        "detail": queryResult[1]
+      });
   } else {
     res.status(500).json({"result": "failed", "error": queryResult[1]});
   }
@@ -1201,10 +1224,12 @@ router.post('/explorer/queryblock', async function (req, res) {
 
   let queryResult = await fabric.queryBlock(channelName, orderers, orgName, peers, blockNumber);
   logger.debug(JSON.stringify(queryResult));
-  if (queryResult[0]===true) {
+  if (queryResult[0] === true) {
     res.status(200).json(
-      {"result": "success",
-        "detail": queryResult[1]});
+      {
+        "result": "success",
+        "detail": queryResult[1]
+      });
   } else {
     res.status(500).json({"result": "failed", "error": queryResult[1]});
   }
@@ -1260,10 +1285,12 @@ router.post('/explorer/querytransaction', async function (req, res) {
 
   let queryResult = await fabric.queryTransaction(channelName, orderers, orgName, peers, txId);
   logger.debug(JSON.stringify(queryResult));
-  if (queryResult[0]===true) {
+  if (queryResult[0] === true) {
     res.status(200).json(
-      {"result": "success",
-        "detail": queryResult[1]});
+      {
+        "result": "success",
+        "detail": queryResult[1]
+      });
   } else {
     res.status(500).json({"result": "failed", "error": queryResult[1]});
   }
@@ -1292,10 +1319,12 @@ router.post('/explorer/queryinstalledchaincodes', async function (req, res) {
 
   let queryResult = await fabric.queryInstalledChaincodes(orgName, peer);
   logger.debug(JSON.stringify(queryResult));
-  if (queryResult[0]===true) {
+  if (queryResult[0] === true) {
     res.status(200).json(
-      {"result": "success",
-        "detail": queryResult[1]});
+      {
+        "result": "success",
+        "detail": queryResult[1]
+      });
   } else {
     res.status(500).json({"result": "failed", "error": queryResult[1]});
   }
@@ -1370,10 +1399,12 @@ router.post('/explorer/querychaincodeapprovalstatus', async function (req, res) 
   let queryResult = await fabric.queryChaincodeApprovalStatus(chaincodeName, chaincodeVersion, chaincodeSequence,
     channelName, orderers, orgName, peer);
   logger.debug(JSON.stringify(queryResult));
-  if (queryResult[0]===true) {
+  if (queryResult[0] === true) {
     res.status(200).json(
-      {"result": "success",
-        "detail": queryResult[1]});
+      {
+        "result": "success",
+        "detail": queryResult[1]
+      });
   } else {
     res.status(500).json({"result": "failed", "error": queryResult[1]});
   }
@@ -1429,10 +1460,12 @@ router.post('/explorer/querychaincodedefinition', async function (req, res) {
 
   let queryResult = await fabric.queryChaincodeDefinition(channelName, chaincodeName, orderers, orgName, peer);
   logger.debug(JSON.stringify(queryResult));
-  if (queryResult[0]===true) {
+  if (queryResult[0] === true) {
     res.status(200).json(
-      {"result": "success",
-        "detail": queryResult[1]});
+      {
+        "result": "success",
+        "detail": queryResult[1]
+      });
   } else {
     res.status(500).json({"result": "failed", "error": queryResult[1]});
   }

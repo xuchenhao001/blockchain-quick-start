@@ -117,8 +117,7 @@ let queryInstalledChaincodes = async function (orgName, peerName) {
   }
 };
 
-let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
-                                                   orderers, orgName, peerName) {
+let queryChaincodeApprovalStatus = async function (chaincodeInfo, channelName, orderers, orgName, peerName) {
   logger.debug('\n\n============ Query Chaincode Approval status from org \'' + orgName + '\' ============\n');
   try {
     logger.debug("Load privateKey and signedCert");
@@ -134,7 +133,7 @@ let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersi
     channel.addPeer(client.getPeer(peerName));
 
     // construct a new chaincode object
-    let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    let chaincode = client.newChaincode(chaincodeInfo.chaincodeName, chaincodeVersion);
     chaincode.setSequence(chaincodeSequence);
 
     let tx_id = client.newTransactionID(true);
