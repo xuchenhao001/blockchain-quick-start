@@ -146,7 +146,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
     return [false, err_msg]
   }
 
-  // dump chaincode key features to base64 string
+  // dump chaincode key features
   let chaincodeToDump = {
     name: chaincode.getName(),
     version: chaincode.getVersion(),

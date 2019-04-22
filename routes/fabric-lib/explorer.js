@@ -117,7 +117,8 @@ let queryInstalledChaincodes = async function (orgName, peerName) {
   }
 };
 
-let queryChaincodeApprovalStatus = async function (chaincodeInfo, channelName, orderers, orgName, peerName) {
+let queryChaincodeApprovalStatus = async function (chaincodeName, chaincodeVersion, chaincodeSequence, channelName,
+                                                   orderers, orgName, peerName) {
   logger.debug('\n\n============ Query Chaincode Approval status from org \'' + orgName + '\' ============\n');
   try {
     logger.debug("Load privateKey and signedCert");
@@ -126,6 +127,7 @@ let queryChaincodeApprovalStatus = async function (chaincodeInfo, channelName, o
 
     let channel = client.newChannel(channelName);
     // assign orderer to channel
+    logger.debug(orderers);
     orderers.forEach(function (ordererName) {
       channel.addOrderer(client.getOrderer(ordererName));
     });
@@ -133,7 +135,17 @@ let queryChaincodeApprovalStatus = async function (chaincodeInfo, channelName, o
     channel.addPeer(client.getPeer(peerName));
 
     // construct a new chaincode object
-    let chaincode = client.newChaincode(chaincodeInfo.chaincodeName, chaincodeVersion);
+    let chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    // if (typeof chaincodeEndorsementPolicy !== 'undefined' && chaincodeEndorsementPolicy) {
+    //   chaincode.setEndorsementPolicyDefinition(chaincodeEndorsementPolicy);
+    // }
+    // if (typeof chaincodeCollection !== 'undefined' && chaincodeCollection) {
+    //   chaincode.setCollectionConfigPackageDefinition(chaincodeCollection);
+    // }
+    // if (typeof chaincodeInitRequired !== 'undefined' && chaincodeInitRequired) {
+    //   chaincode.setInitRequired(chaincodeInitRequired);
+    // }
+    // chaincode.setPackageId(chaincodePackageId);
     chaincode.setSequence(chaincodeSequence);
 
     let tx_id = client.newTransactionID(true);
@@ -177,12 +189,20 @@ let queryChaincodeDefinition = async function (channelName, chaincodeName, order
       txId: tx_id
     };
 
-    let response_payloads = await channel.queryChaincodeDefinition(request);
+    let chaincodeDefinition = await channel.queryChaincodeDefinition(request);
+    // dump chaincode key features
+    let chaincodeToDump = {
+      name: chaincodeDefinition.getName(),
+      version: chaincodeDefinition.getVersion(),
+      endorsementPolicy: chaincodeDefinition.getEndorsementPolicyDefinition(),
+      collection: chaincodeDefinition.getCollectionConfigPackageDefinition(),
+      initRequired: chaincodeDefinition.getInitRequired(),
+      packageId: chaincodeDefinition.getPackageId(),
+      sequence: chaincodeDefinition.getSequence().toNumber()
+    };
     logger.debug("Channel [" + channelName + "] query chaincode definition [" + chaincodeName + "] result: " +
-      JSON.stringify(response_payloads));
-    helper.bufferToString(response_payloads);
-    logger.debug(JSON.stringify(response_payloads));
-    return [true, response_payloads];
+      JSON.stringify(chaincodeToDump));
+    return [true, chaincodeToDump];
   } catch (error) {
     logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
     return [false, error.toString()];
