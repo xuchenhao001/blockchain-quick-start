@@ -144,7 +144,7 @@ router.post('/channel/updateAnchorPeer', async function (req, res) {
 router.post('/chaincode/install', async function (req, res) {
 
   let checkResult = checkParameters(req.body, 'chaincodeContent', 'chaincodeName', 'chaincodeType',
-    'chaincodeVersion', 'orgName', 'peers');
+    'chaincodeVersion', 'chaincodeSequence', 'orgName', 'peers');
   if (!checkResult[0]) {
     res.status(400).json({"result": "failed", "error": checkResult[1]});
     return;
@@ -196,8 +196,8 @@ router.post('/chaincode/install', async function (req, res) {
   }
 
   let installResult = await fabric.installChaincode(req.body.chaincodeContent, req.body.chaincodeName, chaincodePath,
-    req.body.chaincodeType, req.body.chaincodeVersion, endorsementPolicy, collection, initRequired, req.body.orgName,
-    req.body.peers, localPath);
+    req.body.chaincodeType, req.body.chaincodeVersion, req.body.chaincodeSequence, endorsementPolicy, collection,
+    initRequired, req.body.orgName, req.body.peers, localPath);
   logger.debug(installResult);
   if (installResult[0] === true) {
     res.status(200).json({"result": "success", "chaincodeInfo": installResult[1]});

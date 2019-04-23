@@ -8,9 +8,9 @@ const helper = require('./helper');
 const uuid = require('uuid');
 const path = require('path');
 
-let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
-                                       chaincodeVersion, endorsementPolicy, collection, initRequired,
-                                       orgName, peers, localPath) {
+let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType, chaincodeVersion,
+                                       chaincodeSequence, endorsementPolicy, collection, initRequired, orgName, peers,
+                                       localPath) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
 
   let chaincode = null;
@@ -36,7 +36,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       chaincode.setInitRequired(true);
     }
     // set the sequence (modification) number - default is 1
-    chaincode.setSequence(1); // must increment for each definition change
+    chaincode.setSequence(chaincodeSequence); // must increment for each definition change
 
     // ===============
     // Step 2: Package
