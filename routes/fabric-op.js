@@ -100,15 +100,6 @@ let instantiateChaincode = async function (chaincodeName, channelName, args, ord
   return await invokeCC.instantiateChaincode(chaincodeName, channelName, args, orderers, orgName, peers);
 };
 
-let upgradeChaincode = async function (chaincodeName, chaincodeType, chaincodeVersion, channelName, functionName,
-                                           args, orderers, orgName, peers, endorsementPolicy, collection,
-                                           useDiscoverService) {
-  logger.info('==================== INSTANTIATE CHAINCODE ==================');
-
-  return await deployCC.instantiateUpgradeChaincode(chaincodeName, chaincodeType, chaincodeVersion, channelName,
-    functionName, args, orderers, orgName, peers, endorsementPolicy, collection, useDiscoverService, true);
-};
-
 let invokeChaincode = async function (chaincodeName, channelName, functionName, args,
                                       orderers, orgName, peers, transient, useDiscoverService) {
   logger.info('==================== INVOKE ON CHAINCODE ==================');
@@ -177,7 +168,6 @@ exports.installChaincode = installChaincode;
 exports.approveChaincode = approveChaincode;
 exports.commitChaincode = commitChaincode;
 exports.instantiateChaincode = instantiateChaincode;
-exports.upgradeChaincode = upgradeChaincode;
 exports.invokeChaincode = invokeChaincode;
 exports.queryChaincode = queryChaincode;
 exports.queryInfo = queryInfo;

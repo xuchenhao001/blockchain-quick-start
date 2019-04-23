@@ -280,45 +280,6 @@ router.post('/chaincode/instantiate', async function (req, res) {
   }
 });
 
-router.post('/chaincode/upgrade', async function (req, res) {
-
-  let checkResult = checkParameters(req.body, 'chaincodeName', 'chaincodeType', 'chaincodeVersion',
-    'channelName', 'functionName', 'args', 'orderers', 'orgName', 'peers');
-  if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
-    return;
-  }
-
-  // endorsementPolicy could be undefined (default is "any member of the organizations in the channel")
-  let endorsementPolicy = req.body.endorsementPolicy;
-  if (endorsementPolicy) {
-    logger.debug("Get endorsement policy: " + JSON.stringify(endorsementPolicy));
-  }
-
-  // collection can be undefined
-  let collection = req.body.collection;
-  if (collection) {
-    logger.debug("Get collection: " + JSON.stringify(collection));
-  }
-
-  let useDiscoverService = req.body.useDiscoverService;
-  if (useDiscoverService) {
-    logger.debug("Get 'useDiscoverService', do request with discovery service");
-  } else {
-    logger.debug("Does not get parameter 'useDiscoverService', do request without discovery service");
-  }
-
-  let instantiateResult = await fabric.upgradeChaincode(req.body.chaincodeName, req.body.chaincodeType,
-    req.body.chaincodeVersion, req.body.channelName, req.body.functionName, req.body.args, req.body.orderers,
-    req.body.orgName, req.body.peers, endorsementPolicy, collection, useDiscoverService);
-  logger.debug(instantiateResult);
-  if (instantiateResult[0] === true) {
-    res.status(200).json({"result": "success"});
-  } else {
-    res.status(500).json({"result": "failed", "error": instantiateResult[1]});
-  }
-});
-
 router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
   let channelName = req.params.channelName;
   let chaincodeName = req.params.chaincodeName;
