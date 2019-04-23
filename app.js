@@ -26,8 +26,12 @@ if (process.env.AUTHORIZATION) {
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function(req, res) {
+  res.status(404).json(
+    {
+      'result': 'failed',
+      'detail': 'no such endpoint: [' + req.method + '] ' + req.url
+    });
 });
 
 // error handler
