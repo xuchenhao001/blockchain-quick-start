@@ -15,7 +15,7 @@ router.post('/chaincode/instantiate', async function (req, res) {
   let checkResult = common.checkParameters(req.body, 'chaincodeName', 'channelName', 'orderers', 'orgName',
     'peers');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
@@ -23,13 +23,13 @@ router.post('/chaincode/instantiate', async function (req, res) {
   args = (typeof args === 'undefined') ? [] : args;
   logger.debug("Get args: " + JSON.stringify(args));
 
-  let instantiateResult = await fabric.instantiateChaincode(req.body.chaincodeName, req.body.channelName, args,
-    req.body.orderers, req.body.orgName, req.body.peers);
-  logger.debug(instantiateResult);
-  if (instantiateResult[0] === true) {
-    res.status(200).json({"result": "success"});
+  let result = await fabric.instantiateChaincode(req.body.chaincodeName, req.body.channelName, args, req.body.orderers,
+    req.body.orgName, req.body.peers);
+  logger.debug(result);
+  if (result[0] === true) {
+    common.responseSuccess(res, {});
   } else {
-    res.status(500).json({"result": "failed", "error": instantiateResult[1]});
+    common.responseInternalError(res, result[1]);
   }
 });
 
@@ -39,7 +39,7 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
 
   let checkResult = common.checkParameters(req.body, 'args', 'functionName', 'orderers', 'orgName', 'peers');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
@@ -56,13 +56,13 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
     logger.debug("Does not get parameter 'useDiscoverService', do request without discovery service")
   }
 
-  let invokeResut = await fabric.invokeChaincode(chaincodeName, channelName, req.body.functionName, req.body.args,
+  let resut = await fabric.invokeChaincode(chaincodeName, channelName, req.body.functionName, req.body.args,
     req.body.orderers, req.body.orgName, req.body.peers, transient, useDiscoverService);
-  logger.debug(invokeResut);
-  if (invokeResut[0] === 'yes') {
-    res.status(200).json({"result": "success", "txId": invokeResut[1], "payload": invokeResut[2]});
+  logger.debug(resut);
+  if (resut[0] === 'yes') {
+    common.responseSuccess(res, {"txId": resut[1], "payload": resut[2]});
   } else {
-    res.status(500).json({"result": "failed", "error": invokeResut[1]});
+    common.responseInternalError(res, resut[1]);
   }
 });
 
@@ -72,7 +72,7 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
 
   let checkResult = common.checkParameters(req.body, 'args', 'functionName', 'orderers', 'orgName', 'peers');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
@@ -86,13 +86,13 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
     logger.debug("Does not get parameter 'useDiscoverService', do request without discovery service")
   }
 
-  let queryResult = await fabric.queryChaincode(chaincodeName, channelName, req.body.functionName, req.body.args,
+  let result = await fabric.queryChaincode(chaincodeName, channelName, req.body.functionName, req.body.args,
     req.body.orderers, req.body.orgName, req.body.peers, transient, useDiscoverService);
-  logger.debug(queryResult);
-  if (queryResult[0] === true) {
-    res.status(200).json({"result": queryResult[1]});
+  logger.debug(result);
+  if (result[0] === true) {
+    common.responseSuccess(res, result[1]);
   } else {
-    res.status(500).json({"result": "failed", "error": queryResult[1]});
+    common.responseInternalError(res, result[1]);
   }
 });
 

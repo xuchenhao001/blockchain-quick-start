@@ -85,7 +85,7 @@ let removeFile = async function (fileName) {
 
 let initFabric = async function () {
   logger.debug('Init sdk logger...');
-  const sdkLogger = log4js.getLogger('FabricSDK');
+  const sdkLogger = log4js.getLogger('HFC');
   sdkLogger.level = 'DEBUG';
   hfc.setLogger(sdkLogger);
 

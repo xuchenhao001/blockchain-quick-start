@@ -15,7 +15,7 @@ router.post('/chaincode/install', async function (req, res) {
   let checkResult = common.checkParameters(req.body, 'chaincodeContent', 'chaincodeName', 'chaincodeType',
     'chaincodeVersion', 'chaincodeSequence', 'orgName', 'peers');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
@@ -64,14 +64,14 @@ router.post('/chaincode/install', async function (req, res) {
     logger.debug('Detected localPath, install from local path: ' + localPath);
   }
 
-  let installResult = await fabric.installChaincode(req.body.chaincodeContent, req.body.chaincodeName, chaincodePath,
+  let result = await fabric.installChaincode(req.body.chaincodeContent, req.body.chaincodeName, chaincodePath,
     req.body.chaincodeType, req.body.chaincodeVersion, req.body.chaincodeSequence, endorsementPolicy, collection,
     initRequired, req.body.orgName, req.body.peers, localPath);
-  logger.debug(installResult);
-  if (installResult[0] === true) {
-    res.status(200).json({"result": "success", "chaincodeInfo": installResult[1]});
+  logger.debug(result);
+  if (result[0] === true) {
+    common.responseSuccess(res, result[1]);
   } else {
-    res.status(500).json({"result": "failed", "error": installResult[1]});
+    common.responseInternalError(res, result[1]);
   }
 });
 
@@ -80,25 +80,25 @@ router.post('/chaincode/approve', async function (req, res) {
   let checkResult = common.checkParameters(req.body, 'chaincodeInfo', 'channelName', 'orderers', 'orgName',
     'peers');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
   checkResult = common.checkParameters(req.body.chaincodeInfo, 'name', 'version', 'packageId', 'sequence');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
-  let approveResult = await fabric.approveChaincode(req.body.chaincodeInfo.name, req.body.chaincodeInfo.version,
+  let result = await fabric.approveChaincode(req.body.chaincodeInfo.name, req.body.chaincodeInfo.version,
     req.body.chaincodeInfo.endorsementPolicy, req.body.chaincodeInfo.collection, req.body.chaincodeInfo.initRequired,
     req.body.chaincodeInfo.packageId, req.body.chaincodeInfo.sequence, req.body.channelName, req.body.orderers,
     req.body.orgName, req.body.peers);
-  logger.debug(approveResult);
-  if (approveResult[0] === true) {
-    res.status(200).json({"result": "success"});
+  logger.debug(result);
+  if (result[0] === true) {
+    common.responseSuccess(res, {});
   } else {
-    res.status(500).json({"result": "failed", "error": approveResult[1]});
+    common.responseInternalError(res, result[1]);
   }
 });
 
@@ -107,25 +107,25 @@ router.post('/chaincode/commit', async function (req, res) {
   let checkResult = common.checkParameters(req.body, 'chaincodeInfo', 'channelName', 'orderers', 'orgName',
     'peers');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
   checkResult = common.checkParameters(req.body.chaincodeInfo, 'name', 'version', 'packageId', 'sequence');
   if (!checkResult[0]) {
-    res.status(400).json({"result": "failed", "error": checkResult[1]});
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
-  let commitResult = await fabric.commitChaincode(req.body.chaincodeInfo.name, req.body.chaincodeInfo.version,
+  let result = await fabric.commitChaincode(req.body.chaincodeInfo.name, req.body.chaincodeInfo.version,
     req.body.chaincodeInfo.endorsementPolicy, req.body.chaincodeInfo.collection, req.body.chaincodeInfo.initRequired,
     req.body.chaincodeInfo.packageId, req.body.chaincodeInfo.sequence, req.body.channelName, req.body.orderers,
     req.body.orgName, req.body.peers);
-  logger.debug(commitResult);
-  if (commitResult[0] === true) {
-    res.status(200).json({"result": "success"});
+  logger.debug(result);
+  if (result[0] === true) {
+    common.responseSuccess(res, {});
   } else {
-    res.status(500).json({"result": "failed", "error": commitResult[1]});
+    common.responseInternalError(res, result[1]);
   }
 });
 

@@ -6,15 +6,11 @@ logger.level = 'DEBUG';
 
 const helper = require('./helper');
 
-// Issue token to the user with args [type, quantity]
-// It uses "admin" to issue tokens, but other users can also issue tokens as long as they have the permission.
+// Issue tokens from user [issuer] to the user [issueTo]
 let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, channelName, orderers, peers, orgName) {
   logger.debug('\n\n============ Issue tokens from org \'' + orgName + '\' ============\n');
-
   try {
-    // first setup the client for this org
     let client = await helper.getClientForOrg(orgName);
-
     let channel = client.newChannel(channelName);
     // assign orderer to channel
     orderers.forEach(function (ordererName) {
@@ -54,6 +50,37 @@ let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, c
     } else {
       return [false, results.info];
     }
+  } catch (e) {
+    let errMsg = 'Issue token failed: ' + e;
+    logger.error(errMsg);
+    return [false, errMsg];
+  }
+};
+
+// List tokens of user [owner]
+let listFabtoken = async function (owner, channelName, orderers, peers, orgName) {
+  logger.debug('\n\n============ List tokens from org \'' + orgName + '\' ============\n');
+  try {
+    let client = await helper.getClientForOrg(orgName);
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
+
+    let ownerUser = await helper.createUser(owner.username, owner.orgMSPId, owner.privateKeyPEM,
+      owner.signedCertPEM);
+    await client.setUserContext(ownerUser, true);
+    logger.debug('Set client with owner: ' + owner.username);
+
+    const tokenClient = client.newTokenClient(channel);
+
+    let results = await tokenClient.list();
+    logger.debug('List token response: %j', results);
     return [true, results];
   } catch (e) {
     let errMsg = 'Issue token failed: ' + e;
@@ -63,3 +90,4 @@ let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, c
 };
 
 exports.issueFabtoken = issueFabtoken;
+exports.listFabtoken = listFabtoken;

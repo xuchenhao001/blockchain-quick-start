@@ -115,6 +115,12 @@ let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, c
   return await fabtoken.issueFabtoken(issuer, issueTo, issueType, issueQuantity, channelName, orderers, peers, orgName);
 };
 
+let listFabtoken = async function (owner, channelName, orderers, peers, orgName) {
+  logger.info('==================== LIST FABTOKEN ==================');
+
+  return await fabtoken.listFabtoken(owner, channelName, orderers, peers, orgName);
+};
+
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
                                      orderers, orgName, peers, transient, useDiscoverService) {
   logger.info('==================== QUERY BY CHAINCODE ==================');
@@ -177,6 +183,7 @@ exports.commitChaincode = commitChaincode;
 exports.instantiateChaincode = instantiateChaincode;
 exports.invokeChaincode = invokeChaincode;
 exports.issueFabtoken = issueFabtoken;
+exports.listFabtoken = listFabtoken;
 exports.queryChaincode = queryChaincode;
 exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;
