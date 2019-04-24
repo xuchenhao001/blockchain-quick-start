@@ -2,7 +2,7 @@
 
 set -e
 
-read -p "Start a network with docker-compose [Y/n]?" RUN_METHOD
+# read -p "Start a network with docker-compose [Y/n]?" RUN_METHOD
 if [[ ${RUN_METHOD} = "N" || ${RUN_METHOD} = "n" ]]; then
 
   # in k8s mode
@@ -27,7 +27,7 @@ else
   version=$(cat ./.env | grep "IMAGE_TAG" |  cut -d "=" -f2)
   docker run -ti --rm -e DEV_PATH=$PWD -v $PWD/../../:/blockchain-quick-start hyperledger/fabric-tools:${version} bash -c "cd /blockchain-quick-start/sample-network/docker-compose && ./start.sh ${START_RAFT_ORDERER}"
 
-  if [[ START_RAFT_ORDERER ]]; then
+  if [[ ${START_RAFT_ORDERER} ]]; then
     docker-compose -f docker-compose-e2e.yaml -f docker-compose-e2e-etcdraft.yaml up -d 2>&1
   else
     docker-compose -f docker-compose-e2e.yaml up -d 2>&1
