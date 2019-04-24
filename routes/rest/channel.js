@@ -21,7 +21,6 @@ router.post('/channel/create', async function (req, res) {
 
   let result = await fabric.createChannel(req.body.channelName, req.body.includeOrgNames, req.body.ordererName,
     req.body.orgName);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -38,7 +37,6 @@ router.post('/channel/join', async function (req, res) {
   }
 
   let result = await fabric.joinChannel(req.body.channelName, req.body.orderers, req.body.orgName, req.body.peers);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -57,7 +55,6 @@ router.post('/channel/addorg', async function (req, res) {
 
   let result = await fabric.addOrgToChannel(req.body.addOrg, req.body.addOrgSignBy, req.body.channelName,
     req.body.orderers, req.body.orgName);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -76,7 +73,6 @@ router.post('/channel/delorg', async function (req, res) {
 
   let result = await fabric.delOrgFromChannel(req.body.delOrg, req.body.delOrgSignBy, req.body.channelName,
     req.body.orderers, req.body.orgName);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -95,7 +91,6 @@ router.post('/channel/modifypolicy', async function (req, res) {
 
   let result = await fabric.modifyPolicy(req.body.channelName, req.body.orderers, req.body.orgName,
     req.body.modifyPolicySignBy, req.body.policyName, req.body.policyType, req.body.policyValue);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -114,7 +109,6 @@ router.post('/channel/modifyacl', async function (req, res) {
 
   let result = await fabric.modifyACL(req.body.channelName, req.body.orderers, req.body.orgName,
     req.body.resource, req.body.policy, req.body.modifyACLSignBy);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -133,7 +127,6 @@ router.post('/channel/updateAnchorPeer', async function (req, res) {
 
   let result = await fabric.updateAnchorPeer(req.body.channelName, req.body.orderers, req.body.orgName,
     req.body.peers);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -153,7 +146,6 @@ router.post('/api/v1.1/channel/addorg', async function (req, res) {
 
   let result = await fabric.addOrgToChannelWithCerts(req.body.newOrgDetail, req.body.addOrgSignBy,
     req.body.channelName, req.body.orderers, req.body.orgName);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -172,7 +164,6 @@ router.post('/api/v1.1/channel/delorg', async function (req, res) {
 
   let result = await fabric.delOrgFromChannel(req.body.delOrgName, req.body.delOrgSignBy, req.body.channelName,
     req.body.orderers, req.body.orgName);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {

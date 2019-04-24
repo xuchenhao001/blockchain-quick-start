@@ -35,7 +35,6 @@ router.post('/fabtoken/issue', async function (req, res) {
 
   let result = await fabric.issueFabtoken(req.body.issuer, req.body.issueTo, req.body.issueType,
     req.body.issueQuantity, req.body.channelName, req.body.orderers, req.body.peers, req.body.orgName);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -60,7 +59,6 @@ router.post('/fabtoken/list', async function (req, res) {
 
   let result = await fabric.listFabtoken(req.body.owner, req.body.channelName, req.body.orderers, req.body.peers,
     req.body.orgName);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {

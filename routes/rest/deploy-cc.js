@@ -67,7 +67,6 @@ router.post('/chaincode/install', async function (req, res) {
   let result = await fabric.installChaincode(req.body.chaincodeContent, req.body.chaincodeName, chaincodePath,
     req.body.chaincodeType, req.body.chaincodeVersion, req.body.chaincodeSequence, endorsementPolicy, collection,
     initRequired, req.body.orgName, req.body.peers, localPath);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {
@@ -94,7 +93,6 @@ router.post('/chaincode/approve', async function (req, res) {
     req.body.chaincodeInfo.endorsementPolicy, req.body.chaincodeInfo.collection, req.body.chaincodeInfo.initRequired,
     req.body.chaincodeInfo.packageId, req.body.chaincodeInfo.sequence, req.body.channelName, req.body.orderers,
     req.body.orgName, req.body.peers);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -121,7 +119,6 @@ router.post('/chaincode/commit', async function (req, res) {
     req.body.chaincodeInfo.endorsementPolicy, req.body.chaincodeInfo.collection, req.body.chaincodeInfo.initRequired,
     req.body.chaincodeInfo.packageId, req.body.chaincodeInfo.sequence, req.body.channelName, req.body.orderers,
     req.body.orgName, req.body.peers);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {

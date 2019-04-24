@@ -25,7 +25,6 @@ router.post('/chaincode/instantiate', async function (req, res) {
 
   let result = await fabric.instantiateChaincode(req.body.chaincodeName, req.body.channelName, args, req.body.orderers,
     req.body.orgName, req.body.peers);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
@@ -58,7 +57,6 @@ router.post('/invoke/:channelName/:chaincodeName', async function (req, res) {
 
   let resut = await fabric.invokeChaincode(chaincodeName, channelName, req.body.functionName, req.body.args,
     req.body.orderers, req.body.orgName, req.body.peers, transient, useDiscoverService);
-  logger.debug(resut);
   if (resut[0] === 'yes') {
     common.responseSuccess(res, {"txId": resut[1], "payload": resut[2]});
   } else {
@@ -88,7 +86,6 @@ router.post('/query/:channelName/:chaincodeName', async function (req, res) {
 
   let result = await fabric.queryChaincode(chaincodeName, channelName, req.body.functionName, req.body.args,
     req.body.orderers, req.body.orgName, req.body.peers, transient, useDiscoverService);
-  logger.debug(result);
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {

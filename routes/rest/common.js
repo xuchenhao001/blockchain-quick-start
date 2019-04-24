@@ -19,15 +19,21 @@ let checkParameters = function(reqBody, ...parameters) {
 
 /* Response handle*/
 let responseSuccess = function (responseObj, detail) {
-  responseObj.status(200).json({"status": "SUCCESS", "detail": detail});
+  let response = {"status": "SUCCESS", "detail": detail};
+  logger.info("%j", response);
+  responseObj.status(200).json(response);
 };
 
 let responseBadRequestError = function (responseObj, errorDetail) {
-  responseObj.status(400).json({"status": "BAD_REQUEST", "error": errorDetail});
+  let response = {"status": "BAD_REQUEST", "error": errorDetail};
+  logger.error("%j", response);
+  responseObj.status(400).json(response);
 };
 
 let responseInternalError = function (responseObj, errorDetail) {
-  responseObj.status(500).json({"status": "INTERNAL_SERVER_ERROR", "error": errorDetail});
+  let response = {"status": "INTERNAL_SERVER_ERROR", "error": errorDetail};
+  logger.error("%j", response);
+  responseObj.status(500).json(response);
 };
 
 exports.checkParameters = checkParameters;

@@ -19,7 +19,6 @@ router.post('/explorer/queryinfo', async function (req, res) {
   }
 
   let result = await fabric.queryInfo(req.body.channelName, req.body.orderers, req.body.orgName, req.body.peers);
-  logger.debug(JSON.stringify(result));
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {
@@ -38,7 +37,6 @@ router.post('/explorer/queryblock', async function (req, res) {
 
   let result = await fabric.queryBlock(req.body.channelName, req.body.orderers, req.body.orgName, req.body.peers,
     req.body.blockNumber);
-  logger.debug(JSON.stringify(result));
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {
@@ -56,7 +54,6 @@ router.post('/explorer/querytransaction', async function (req, res) {
 
   let result = await fabric.queryTransaction(req.body.channelName, req.body.orderers, req.body.orgName,
     req.body.peers, req.body.txId);
-  logger.debug(JSON.stringify(result));
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {
@@ -73,7 +70,6 @@ router.post('/explorer/queryinstalledchaincodes', async function (req, res) {
   }
 
   let result = await fabric.queryInstalledChaincodes(req.body.orgName, req.body.peer);
-  logger.debug(JSON.stringify(result));
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {
@@ -100,7 +96,6 @@ router.post('/explorer/querychaincodeapprovalstatus', async function (req, res) 
     req.body.chaincodeInfo.version, req.body.chaincodeInfo.endorsementPolicy, req.body.chaincodeInfo.collection,
     req.body.chaincodeInfo.initRequired, req.body.chaincodeInfo.packageId, req.body.chaincodeInfo.sequence,
     req.body.channelName, req.body.orderers, req.body.orgName, req.body.peer);
-  logger.debug(JSON.stringify(result));
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {
@@ -119,7 +114,6 @@ router.post('/explorer/querychaincodedefinition', async function (req, res) {
 
   let result = await fabric.queryChaincodeDefinition(req.body.channelName, req.body.chaincodeName,
     req.body.orderers, req.body.orgName, req.body.peer);
-  logger.debug(JSON.stringify(result));
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
   } else {
