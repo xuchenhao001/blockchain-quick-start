@@ -32,7 +32,7 @@ function networkDown() {
   cd sample-network/docker-compose/
   # stop containers
   if [[ -f docker-compose-e2e.yaml ]]; then
-    docker-compose -f docker-compose-e2e.yaml down --volumes --remove-orphans
+    docker-compose -f docker-compose-e2e.yaml -f docker-compose-e2e-etcdraft.yaml down --volumes --remove-orphans
   fi
   # Bring down the network, deleting the volumes
   #Cleanup the chaincode containers

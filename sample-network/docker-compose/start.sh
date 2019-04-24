@@ -2,6 +2,8 @@
 
 set -e
 
+START_RAFT_ORDERER=$1
+
 # Generates Org certs using cryptogen tool
 function generateCerts (){
   echo
@@ -92,6 +94,16 @@ function prepareConnectionFileCerts() {
   # Orderer tls CA
   ORDERER_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt)
   sed -i "s/ORDERER_TLS/$ORDERER_TLS/g" ../../config/network-config.yaml
+  if [[ ${START_RAFT_ORDERER} ]]; then
+    ORDERER2_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt)
+    sed -i "s/ORDERER2_TLS/$ORDERER2_TLS/g" ../../config/network-config.yaml
+    ORDERER3_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/ca.crt)
+    sed -i "s/ORDERER3_TLS/$ORDERER3_TLS/g" ../../config/network-config.yaml
+    ORDERER4_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/ca.crt)
+    sed -i "s/ORDERER4_TLS/$ORDERER4_TLS/g" ../../config/network-config.yaml
+    ORDERER5_TLS=$(getFileParse crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/ca.crt)
+    sed -i "s/ORDERER5_TLS/$ORDERER5_TLS/g" ../../config/network-config.yaml
+  fi
 
   # peers' tls CA
   PEER0_ORG1_TLS=$(getFileParse crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt)
@@ -132,7 +144,11 @@ function generateGenesisBlock() {
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
   set -x
-  configtxgen --configPath ./ -profile DefaultGenesis -channelID testchainid -outputBlock ./channel-artifacts/genesis.block
+  if [[ ${START_RAFT_ORDERER} ]]; then
+    configtxgen --configPath ./ -profile SampleMultiNodeEtcdRaft -channelID testchainid -outputBlock ./channel-artifacts/genesis.block
+  else
+    configtxgen --configPath ./ -profile DefaultGenesis -channelID testchainid -outputBlock ./channel-artifacts/genesis.block
+  fi
   res=$?
   set +x
   if [[ ${res} -ne 0 ]]; then
@@ -147,7 +163,7 @@ function prepareEnv() {
   echo "===== Prepare Rest Server container/dev environment ========="
   echo
   # your running env is container or dev
-  read -p "Rest server run in container? (Y/n): " RUN_ENV
+  read -p "Rest server run in container? [Y/n]: " RUN_ENV
   if [[ ${RUN_ENV} = "N" || ${RUN_ENV} = "n" ]]; then
     # in dev mode, reset certs' path
     CURRENT_DIR=$(echo ${DEV_PATH} | sed "s/\//\\\\\//g")
@@ -155,6 +171,12 @@ function prepareEnv() {
 
     # in dev mode, reset url
     sed -i "s/orderer.example.com:7050/localhost:7050/g" ../../config/network-config.yaml
+    if [[ ${START_RAFT_ORDERER} ]]; then
+      sed -i "s/orderer2.example.com:7050/localhost:8050/g" ../../config/network-config.yaml
+      sed -i "s/orderer3.example.com:7050/localhost:9050/g" ../../config/network-config.yaml
+      sed -i "s/orderer4.example.com:7050/localhost:10050/g" ../../config/network-config.yaml
+      sed -i "s/orderer5.example.com:7050/localhost:11050/g" ../../config/network-config.yaml
+    fi
     sed -i "s/peer0.org1.example.com:7051/localhost:7051/g" ../../config/network-config.yaml
     sed -i "s/peer0.org1.example.com:7053/localhost:7053/g" ../../config/network-config.yaml
     sed -i "s/peer1.org1.example.com:8051/localhost:8051/g" ../../config/network-config.yaml

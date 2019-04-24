@@ -77,6 +77,10 @@ organizations:
     mspid: OrdererMSP
     peers:
     - orderer.example.com
+    - orderer2.example.com
+    - orderer3.example.com
+    - orderer4.example.com
+    - orderer5.example.com
     adminPrivateKey:
       pem: "ORDERER_PRIVATE_KEY"
     signedCert:
@@ -100,6 +104,37 @@ orderers:
     tlsCACerts:
       pem: "ORDERER_TLS"
 
+  orderer2.example.com:
+    url: grpcs://orderer2.example.com:7050
+    grpcOptions:
+      ssl-target-name-override: orderer2.example.com
+      hostnameOverride: orderer2.example.com
+    tlsCACerts:
+      pem: "ORDERER2_TLS"
+
+  orderer3.example.com:
+    url: grpcs://orderer3.example.com:7050
+    grpcOptions:
+      ssl-target-name-override: orderer3.example.com
+      hostnameOverride: orderer3.example.com
+    tlsCACerts:
+      pem: "ORDERER3_TLS"
+
+  orderer4.example.com:
+    url: grpcs://orderer4.example.com:7050
+    grpcOptions:
+      ssl-target-name-override: orderer4.example.com
+      hostnameOverride: orderer4.example.com
+    tlsCACerts:
+      pem: "ORDERER4_TLS"
+
+  orderer5.example.com:
+    url: grpcs://orderer5.example.com:7050
+    grpcOptions:
+      ssl-target-name-override: orderer5.example.com
+      hostnameOverride: orderer5.example.com
+    tlsCACerts:
+      pem: "ORDERER5_TLS"
 #
 # List of peers to send various requests to, including endorsement, query
 # and event listener registration.
