@@ -4,7 +4,7 @@ let express = require('express');
 let router = express.Router();
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('Rest');
+let logger = log4js.getLogger('REST');
 logger.level = 'DEBUG';
 
 let fabric = require('../fabric-op');

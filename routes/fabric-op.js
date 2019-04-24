@@ -1,12 +1,13 @@
 'use strict';
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('FabricOprator');
+let logger = log4js.getLogger('OPERATOR');
 logger.level = 'DEBUG';
 
 let deployCC = require('./fabric-lib/deploy-cc');
 let channel = require('./fabric-lib/channal');
 let invokeCC = require('./fabric-lib/invoke-cc');
+let fabtoken = require('./fabric-lib/fabtoken');
 let explorer = require('./fabric-lib/explorer');
 
 let createChannel = async function (channelName, includeOrgNames, ordererName, orgName) {
@@ -108,6 +109,12 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
     orderers, orgName, peers, transient, useDiscoverService);
 };
 
+let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, channelName, orderers, peers, orgName) {
+  logger.info('==================== ISSUE FABTOKEN ==================');
+
+  return await fabtoken.issueFabtoken(issuer, issueTo, issueType, issueQuantity, channelName, orderers, peers, orgName);
+};
+
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
                                      orderers, orgName, peers, transient, useDiscoverService) {
   logger.info('==================== QUERY BY CHAINCODE ==================');
@@ -169,6 +176,7 @@ exports.approveChaincode = approveChaincode;
 exports.commitChaincode = commitChaincode;
 exports.instantiateChaincode = instantiateChaincode;
 exports.invokeChaincode = invokeChaincode;
+exports.issueFabtoken = issueFabtoken;
 exports.queryChaincode = queryChaincode;
 exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;

@@ -1,7 +1,7 @@
 'use strict';
 
 const log4js = require('log4js');
-const logger = log4js.getLogger('Helper');
+const logger = log4js.getLogger('HELPER');
 logger.level = 'DEBUG';
 
 const fs = require('fs-extra');
@@ -208,6 +208,28 @@ let getClientForOrg_normUsage = async function (org) {
   }
 
   return client;
+};
+
+// create a user for client
+let createUser = async function (username, orgMSPId, privateKeyPEM, signedCertPEM) {
+  if (!/-----BEGIN PRIVATE KEY-----\n.*?/.test(privateKeyPEM)) {
+    throw new Error('Private key pem verify failed! Can not create user for you');
+  }
+  if (!/-----BEGIN CERTIFICATE-----\n.*?/.test(signedCertPEM)) {
+    throw new Error('Signed cert pem verify failed! Can not create user for you');
+  }
+
+  let client = new hfc();
+  let user_opts = {
+    username: username,
+    mspid: orgMSPId,
+    skipPersistence: true,
+    cryptoContent: {
+      privateKeyPEM: privateKeyPEM,
+      signedCertPEM: signedCertPEM
+    }
+  };
+  return await client.createUser(user_opts);
 };
 
 // generate channel.tx file with channel name and org names included in this channel
@@ -973,6 +995,7 @@ exports.decompressTarGz = decompressTarGz;
 exports.writeFile = writeFile;
 exports.removeFile = removeFile;
 exports.getClientForOrg = getClientForOrg;
+exports.createUser = createUser;
 exports.generateChannelTx = generateChannelTx;
 exports.generateAnchorPeerList = generateAnchorPeerList;
 exports.mergeAnchorPeers = mergeAnchorPeers;

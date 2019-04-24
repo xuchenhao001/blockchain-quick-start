@@ -1,7 +1,7 @@
 'use strict';
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('InvokeCC');
+let logger = log4js.getLogger('INVOKE');
 logger.level = 'DEBUG';
 
 let helper = require('./helper');

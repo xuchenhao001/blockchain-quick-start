@@ -1,7 +1,7 @@
 let request = require('request');
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('Auth');
+let logger = log4js.getLogger('AUTH');
 logger.level = 'DEBUG';
 
 let auth = function(req, res, next) {

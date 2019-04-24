@@ -2,12 +2,13 @@ let express = require('express');
 let router = express.Router();
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('BlockchainQuickStart');
+let logger = log4js.getLogger('REST');
 logger.level = 'DEBUG';
 
 let channelRest = require('./rest/channel');
 let deployCCRest = require('./rest/deploy-cc');
 let invokeRest = require('./rest/invoke-cc');
+let fabtokenRest = require('./rest/fabtoken');
 let explorerRest = require('./rest/explorer');
 
 let helper = require('./fabric-lib/helper');
@@ -20,6 +21,7 @@ router.get('/', express.static('public'));
 router.stack = router.stack.concat(channelRest.stack);
 router.stack = router.stack.concat(deployCCRest.stack);
 router.stack = router.stack.concat(invokeRest.stack);
+router.stack = router.stack.concat(fabtokenRest.stack);
 router.stack = router.stack.concat(explorerRest.stack);
 
 module.exports = router;
