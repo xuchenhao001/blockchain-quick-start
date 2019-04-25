@@ -12,8 +12,8 @@ let common = require('./common');
 
 router.post('/chaincode/install', async function (req, res) {
 
-  let checkResult = common.checkParameters(req.body, 'chaincodeContent', 'chaincodeName', 'chaincodeType',
-    'chaincodeVersion', 'chaincodeSequence', 'orgName', 'peers');
+  let checkResult = common.checkParameters(req.body, 'chaincodeName', 'chaincodeType', 'chaincodeVersion',
+    'chaincodeSequence', 'orgName', 'peers');
   if (!checkResult[0]) {
     common.responseBadRequestError(res, checkResult[1]);
     return;

@@ -12,7 +12,6 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
                                        chaincodeSequence, endorsementPolicy, collection, initRequired, orgName, peers,
                                        localPath) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
-
   let chaincode = null;
 
   try {
@@ -166,7 +165,6 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
                                        chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName,
                                        orderers, orgName, peers) {
   logger.debug('\n\n============ Approve chaincode on organizations ============\n');
-
   // first setup the client for this org
   let client = await helper.getClientForOrg(orgName);
   logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
@@ -219,12 +217,11 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
       proposal: approveResponse.proposal,
       txId: tx_id
     };
-    let results = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
-    let result = results.pop();
-    if (result.status === 'SUCCESS') {
+    let result = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
+    if (result[0] && result[1].status === 'SUCCESS') {
       return [true];
     } else {
-      return [false, result.info];
+      return [false, result[1]];
     }
   } catch (e) {
     let err_msg = 'Approve chaincode failed: ' + e;
@@ -237,7 +234,7 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
 let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincodeEndorsementPolicy, chaincodeCollection,
                                       chaincodeInitRequired, chaincodePackageId, chaincodeSequence, channelName,
                                       orderers, orgName, peers) {
-  logger.debug('\n\n============ Approve chaincode on organizations ============\n');
+  logger.debug('\n\n============ Commit chaincode on organizations ============\n');
 
   // first setup the client for this org
   let client = await helper.getClientForOrg(orgName);
@@ -289,12 +286,11 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
       proposal: commitChaincodeResponse.proposal,
       txId: tx_id
     };
-    let results = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
-    let result = results.pop();
-    if (result.status === 'SUCCESS') {
+    let result = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
+    if (result[0] && result[1].status === 'SUCCESS') {
       return [true];
     } else {
-      return [false, result.info];
+      return [false, result[1]];
     }
   } catch (e) {
     let err_msg = 'Commit chaincode failed: ' + e;

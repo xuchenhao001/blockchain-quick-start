@@ -989,16 +989,27 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
 
   let results = await Promise.all(promises);
 
+  let ordererResponse; // ordererResponse prepared for the response from orderer
+  if (orderer_request) {
+    ordererResponse = results.pop(); // orderer results are last in the results
+  }
+
   // now see what each of the event hubs reported
   for (let i in results) {
     let event_hub_result = results[i];
     let event_hub = event_hubs[i];
-    logger.debug('Event results for event hub [%j] is [%s]', event_hub.getPeerAddr(), event_hub_result);
+    if(typeof event_hub_result === 'string') {
+      logger.debug('Event results for event hub [%s] is [%s]', event_hub.getPeerAddr(), event_hub_result);
+    } else {
+      let error_message = event_hub_result.toString();
+      logger.error(error_message);
+      return [false, error_message];
+    }
   }
 
   if (orderer_request) {
     // if do sendTransaction() to orderer, return the response
-    return results;
+    return [true, ordererResponse];
   } else {
     // if just wait for event hub, return a true status
     return [true];

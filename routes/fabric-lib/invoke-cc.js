@@ -161,15 +161,12 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
         proposalResponses: proposalResponses,
         proposal: proposal
       };
-      let results = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
-
-      logger.debug('Invoke response: %j', results);
-      let response = results.pop();
-      if (response.status === 'SUCCESS') {
+      let result = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
+      if (result[0] && result[1].status === 'SUCCESS') {
         logger.info('Successfully sent transaction to the orderer.');
       } else {
-        error_message = util.format('Failed to order the transaction. Error code: %s', response.status);
-        logger.debug(error_message);
+        error_message = util.format('Failed to order the transaction. Error code: %s', result.status);
+        logger.error(error_message);
       }
     } else {
       if (!error_message) {
