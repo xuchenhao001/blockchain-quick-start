@@ -93,7 +93,7 @@ let listFabtoken = async function (owner, channelName, orderers, peers) {
 };
 
 // Transfer tokens from user [owner] to the user [recipient]
-let transferFabtoken = async function (owner, recipient, txId, index, type, quantity, channelName, orderers, peers) {
+let transferFabtoken = async function (owner, recipient, txId, index, quantity, channelName, orderers, peers) {
   try {
     let client = await helper.getClient();
     let channel = client.newChannel(channelName);
@@ -122,7 +122,6 @@ let transferFabtoken = async function (owner, recipient, txId, index, type, quan
     let tx_id_string = tx_id.getTransactionID();
     let param = {
       owner: recipientUser.getIdentity().serialize(),
-      type: type,
       quantity: quantity,
     };
     let request = {

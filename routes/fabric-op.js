@@ -121,10 +121,10 @@ let listFabtoken = async function (owner, channelName, orderers, peers) {
   return await fabtoken.listFabtoken(owner, channelName, orderers, peers);
 };
 
-let transferFabtoken = async function (owner, recipient, txId, index, type, quantity, channelName, orderers, peers) {
+let transferFabtoken = async function (owner, recipient, txId, index, quantity, channelName, orderers, peers) {
   logger.info('==================== TRANSFER FABTOKEN ==================');
 
-  return await fabtoken.transferFabtoken(owner, recipient, txId, index, type, quantity, channelName, orderers, peers);
+  return await fabtoken.transferFabtoken(owner, recipient, txId, index, quantity, channelName, orderers, peers);
 };
 
 let redeemFabtoken = async function (owner, txId, index, quantity, channelName, orderers, peers) {

@@ -67,8 +67,8 @@ router.post('/fabtoken/list', async function (req, res) {
 
 router.post('/fabtoken/transfer', async function (req, res) {
 
-  let checkResult = common.checkParameters(req.body, 'owner', 'recipient', 'txId', 'index', 'type',
-    'quantity', 'channelName', 'orderers', 'peers');
+  let checkResult = common.checkParameters(req.body, 'owner', 'recipient', 'txId', 'index', 'quantity',
+    'channelName', 'orderers', 'peers');
   if (!checkResult[0]) {
     common.responseBadRequestError(res, checkResult[1]);
     return;
@@ -89,8 +89,7 @@ router.post('/fabtoken/transfer', async function (req, res) {
   }
 
   let result = await fabric.transferFabtoken(req.body.owner, req.body.recipient, req.body.txId, req.body.index,
-    req.body.type, req.body.quantity, req.body.channelName, req.body.orderers, req.body.peers);
-
+    req.body.quantity, req.body.channelName, req.body.orderers, req.body.peers);
 
   if (result[0] === true) {
     common.responseSuccess(res, {});
