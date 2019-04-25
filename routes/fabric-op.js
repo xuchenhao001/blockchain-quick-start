@@ -109,16 +109,24 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
     orderers, orgName, peers, transient, useDiscoverService);
 };
 
-let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, channelName, orderers, peers, orgName) {
+let issueFabtoken = async function (issuer, recipient, type, quantity, channelName, orderers, peers, orgName) {
   logger.info('==================== ISSUE FABTOKEN ==================');
 
-  return await fabtoken.issueFabtoken(issuer, issueTo, issueType, issueQuantity, channelName, orderers, peers, orgName);
+  return await fabtoken.issueFabtoken(issuer, recipient, type, quantity, channelName, orderers, peers, orgName);
 };
 
 let listFabtoken = async function (owner, channelName, orderers, peers, orgName) {
   logger.info('==================== LIST FABTOKEN ==================');
 
   return await fabtoken.listFabtoken(owner, channelName, orderers, peers, orgName);
+};
+
+let transferFabtoken = async function (owner, recipient, txId, index, type, quantity, channelName, orderers, peers,
+                                       orgName) {
+  logger.info('==================== TRANSFER FABTOKEN ==================');
+
+  return await fabtoken.transferFabtoken(owner, recipient, txId, index, type, quantity, channelName, orderers, peers,
+    orgName);
 };
 
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
@@ -184,6 +192,7 @@ exports.instantiateChaincode = instantiateChaincode;
 exports.invokeChaincode = invokeChaincode;
 exports.issueFabtoken = issueFabtoken;
 exports.listFabtoken = listFabtoken;
+exports.transferFabtoken = transferFabtoken;
 exports.queryChaincode = queryChaincode;
 exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;

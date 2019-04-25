@@ -19,17 +19,17 @@ router.post('/fabtoken/issue', async function (req, res) {
     return;
   }
 
-  let checkIssuerResult = common.checkParameters(req.body.issuer, 'username', 'orgMSPId', 'privateKeyPEM',
+  checkResult = common.checkParameters(req.body.issuer, 'username', 'orgMSPId', 'privateKeyPEM',
     'signedCertPEM');
-  if (!checkIssuerResult[0]) {
-    common.responseBadRequestError(res, checkIssuerResult[1]);
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
-  let checkIssueToResult = common.checkParameters(req.body.issueTo, 'username', 'orgMSPId', 'privateKeyPEM',
+  checkResult = common.checkParameters(req.body.issueTo, 'username', 'orgMSPId', 'privateKeyPEM',
     'signedCertPEM');
-  if (!checkIssueToResult[0]) {
-    common.responseBadRequestError(res, checkIssueToResult[1]);
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
@@ -38,7 +38,7 @@ router.post('/fabtoken/issue', async function (req, res) {
   if (result[0] === true) {
     common.responseSuccess(res, {});
   } else {
-    common.responseInternalError(result[1]);
+    common.responseInternalError(res, result[1]);
   }
 });
 
@@ -50,10 +50,10 @@ router.post('/fabtoken/list', async function (req, res) {
     return;
   }
 
-  let checkIssuerResult = common.checkParameters(req.body.owner, 'username', 'orgMSPId', 'privateKeyPEM',
+  checkResult = common.checkParameters(req.body.owner, 'username', 'orgMSPId', 'privateKeyPEM',
     'signedCertPEM');
-  if (!checkIssuerResult[0]) {
-    common.responseBadRequestError(res, checkIssuerResult[1]);
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
     return;
   }
 
@@ -61,6 +61,40 @@ router.post('/fabtoken/list', async function (req, res) {
     req.body.orgName);
   if (result[0] === true) {
     common.responseSuccess(res, result[1]);
+  } else {
+    common.responseInternalError(res, result[1]);
+  }
+});
+
+router.post('/fabtoken/transfer', async function (req, res) {
+
+  let checkResult = common.checkParameters(req.body, 'owner', 'recipient', 'txId', 'index', 'type',
+    'quantity', 'channelName', 'orderers', 'peers', 'orgName');
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
+    return;
+  }
+
+  checkResult = common.checkParameters(req.body.owner, 'username', 'orgMSPId', 'privateKeyPEM',
+    'signedCertPEM');
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
+    return;
+  }
+
+  checkResult = common.checkParameters(req.body.recipient, 'username', 'orgMSPId', 'privateKeyPEM',
+    'signedCertPEM');
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
+    return;
+  }
+
+  let result = await fabric.transferFabtoken(req.body.owner, req.body.recipient, req.body.txId, req.body.index,
+    req.body.type, req.body.quantity, req.body.channelName, req.body.orderers, req.body.peers, req.body.orgName);
+
+
+  if (result[0] === true) {
+    common.responseSuccess(res, {});
   } else {
     common.responseInternalError(res, result[1]);
   }

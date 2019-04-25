@@ -923,6 +923,7 @@ const bufferToString = function (obj, charset) {
   return obj;
 };
 
+// Send orderer transaction with eventhub. If orderer_request doesn't exist, just wait for channel event hub result.
 let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_request, timeout) {
   if (!timeout) {
     timeout = 10000; // default set to 10s for normal invoke
@@ -951,7 +952,7 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
             logger.error(errMsg);
             reject(new Error(errMsg));
           } else {
-            let message = 'The invoke chaincode transaction was valid.';
+            let message = 'The invoke chaincode transaction was valid in block ' + block_num;
             logger.info(message);
             resolve(message);
           }
@@ -971,20 +972,29 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
     promises.push(invokeEventPromise);
   });
 
-  let sendPromise = channel.sendTransaction(orderer_request);
-  // put the send to the orderer last so that the events get registered and
-  // are ready for the orderering and committing
-  promises.push(sendPromise);
+  if (orderer_request) {
+    // if orderer_request exist, put the send to the orderer last so that the events get registered and
+    // are ready for the orderering and committing
+    let sendPromise = channel.sendTransaction(orderer_request);
+    promises.push(sendPromise);
+  }
+
   let results = await Promise.all(promises);
 
   // now see what each of the event hubs reported
   for (let i in results) {
     let event_hub_result = results[i];
     let event_hub = event_hubs[i];
-    logger.debug('Event results for event hub [%j] is [%s]', event_hub, event_hub_result);
+    logger.debug('Event results for event hub [%j] is [%s]', event_hub.getPeerAddr(), event_hub_result);
   }
 
-  return results;
+  if (orderer_request) {
+    // if do sendTransaction() to orderer, return the response
+    return results;
+  } else {
+    // if just wait for event hub, return a true status
+    return [true];
+  }
 };
 
 exports.initFabric = initFabric;

@@ -6,8 +6,9 @@ logger.level = 'DEBUG';
 
 const helper = require('./helper');
 
-// Issue tokens from user [issuer] to the user [issueTo]
-let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, channelName, orderers, peers, orgName) {
+// Issue tokens from user [issuer] to the user [recipient]
+let issueFabtoken = async function (issuer, recipient, type, quantity, channelName, orderers, peers,
+                                    orgName) {
   logger.debug('\n\n============ Issue tokens from org \'' + orgName + '\' ============\n');
   try {
     let client = await helper.getClientForOrg(orgName);
@@ -24,31 +25,37 @@ let issueFabtoken = async function (issuer, issueTo, issueType, issueQuantity, c
     let issuerUser = await helper.createUser(issuer.username, issuer.orgMSPId, issuer.privateKeyPEM,
       issuer.signedCertPEM);
     await client.setUserContext(issuerUser, true);
-    logger.debug('Set client with issuer: ' + issuer.username);
+    logger.debug('Set token issuer to: ' + issuer.username);
 
-    let issueToUser = await helper.createUser(issueTo.username, issueTo.orgMSPId, issueTo.privateKeyPEM,
-      issueTo.signedCertPEM);
-    logger.debug('Set token owner with issueTo: ' + issueTo.username);
+    let recipientUser = await helper.createUser(recipient.username, recipient.orgMSPId, recipient.privateKeyPEM,
+      recipient.signedCertPEM);
+    logger.debug('Set token recipient to: ' + recipient.username);
 
-    const tokenClient = client.newTokenClient(channel);
+    let tokenClient = client.newTokenClient(channel);
 
     // build the request to issue tokens to the user
-    const txId = client.newTransactionID();
-    const param = {
-      owner: issueToUser.getIdentity().serialize(),
-      type: issueType,
-      quantity: issueQuantity
+    let tx_id = client.newTransactionID();
+    let tx_id_string = tx_id.getTransactionID();
+    let param = {
+      owner: recipientUser.getIdentity().serialize(),
+      type: type,
+      quantity: quantity
     };
-    const request = {
+    let request = {
       params: [param],
-      txId: txId,
+      txId: tx_id,
     };
 
     let results = await tokenClient.issue(request);
-    if (results.status === 'SUCCESS') {
+    if (results.status !== 'SUCCESS') {
+      return [false, results];
+    }
+    results = await helper.sendTransactionWithEventHub(channel, tx_id_string);
+
+    if (results[0] === true) {
       return [true];
     } else {
-      return [false, results.info];
+      return [false, results];
     }
   } catch (e) {
     let errMsg = 'Issue token failed: ' + e;
@@ -75,15 +82,73 @@ let listFabtoken = async function (owner, channelName, orderers, peers, orgName)
     let ownerUser = await helper.createUser(owner.username, owner.orgMSPId, owner.privateKeyPEM,
       owner.signedCertPEM);
     await client.setUserContext(ownerUser, true);
-    logger.debug('Set client with owner: ' + owner.username);
+    logger.debug('Set owner to: ' + owner.username);
 
-    const tokenClient = client.newTokenClient(channel);
+    let tokenClient = client.newTokenClient(channel);
 
     let results = await tokenClient.list();
-    logger.debug('List token response: %j', results);
     return [true, results];
   } catch (e) {
-    let errMsg = 'Issue token failed: ' + e;
+    let errMsg = 'List token failed: ' + e;
+    logger.error(errMsg);
+    return [false, errMsg];
+  }
+};
+
+// Transfer tokens from user [owner] to the user [recipient]
+let transferFabtoken = async function (owner, recipient, txId, index, type, quantity, channelName, orderers, peers,
+                                       orgName) {
+  logger.debug('\n\n============ Issue tokens from org \'' + orgName + '\' ============\n');
+  try {
+    let client = await helper.getClientForOrg(orgName);
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
+
+    let ownerUser = await helper.createUser(owner.username, owner.orgMSPId, owner.privateKeyPEM,
+      owner.signedCertPEM);
+    await client.setUserContext(ownerUser, true);
+    logger.debug('Set token owner to: ' + owner.username);
+
+    let recipientUser = await helper.createUser(recipient.username, recipient.orgMSPId, recipient.privateKeyPEM,
+      recipient.signedCertPEM);
+    logger.debug('Set token recipient to: ' + recipient.username);
+
+    let tokenClient = client.newTokenClient(channel);
+
+    // build the request to issue tokens to the user
+    let tx_id = client.newTransactionID();
+    let tx_id_string = tx_id.getTransactionID();
+    let param = {
+      owner: recipientUser.getIdentity().serialize(),
+      type: type,
+      quantity: quantity,
+    };
+    let request = {
+      tokenIds: [{tx_id: txId, index: parseInt(index)}],
+      params: [param],
+      txId: tx_id,
+    };
+
+    let results = await tokenClient.transfer(request);
+    if (results.status !== 'SUCCESS') {
+      return [false, results];
+    }
+    results = await helper.sendTransactionWithEventHub(channel, tx_id_string);
+
+    if (results[0] === true) {
+      return [true];
+    } else {
+      return [false, results];
+    }
+  } catch (e) {
+    let errMsg = 'Transfer token failed: ' + e;
     logger.error(errMsg);
     return [false, errMsg];
   }
@@ -91,3 +156,4 @@ let listFabtoken = async function (owner, channelName, orderers, peers, orgName)
 
 exports.issueFabtoken = issueFabtoken;
 exports.listFabtoken = listFabtoken;
+exports.transferFabtoken = transferFabtoken;
