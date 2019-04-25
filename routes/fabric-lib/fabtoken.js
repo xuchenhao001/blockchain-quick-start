@@ -7,10 +7,9 @@ logger.level = 'DEBUG';
 const helper = require('./helper');
 
 // Issue tokens from user [issuer] to the user [recipient]
-let issueFabtoken = async function (issuer, recipient, type, quantity, channelName, orderers, peers,
-                                    orgName) {
+let issueFabtoken = async function (issuer, recipient, type, quantity, channelName, orderers, peers) {
   try {
-    let client = await helper.getClientForOrg(orgName);
+    let client = await helper.getClient();
     let channel = client.newChannel(channelName);
     // assign orderer to channel
     orderers.forEach(function (ordererName) {
@@ -64,9 +63,9 @@ let issueFabtoken = async function (issuer, recipient, type, quantity, channelNa
 };
 
 // List tokens of user [owner]
-let listFabtoken = async function (owner, channelName, orderers, peers, orgName) {
+let listFabtoken = async function (owner, channelName, orderers, peers) {
   try {
-    let client = await helper.getClientForOrg(orgName);
+    let client = await helper.getClient();
     let channel = client.newChannel(channelName);
     // assign orderer to channel
     orderers.forEach(function (ordererName) {
@@ -94,10 +93,9 @@ let listFabtoken = async function (owner, channelName, orderers, peers, orgName)
 };
 
 // Transfer tokens from user [owner] to the user [recipient]
-let transferFabtoken = async function (owner, recipient, txId, index, type, quantity, channelName, orderers, peers,
-                                       orgName) {
+let transferFabtoken = async function (owner, recipient, txId, index, type, quantity, channelName, orderers, peers) {
   try {
-    let client = await helper.getClientForOrg(orgName);
+    let client = await helper.getClient();
     let channel = client.newChannel(channelName);
     // assign orderer to channel
     orderers.forEach(function (ordererName) {
