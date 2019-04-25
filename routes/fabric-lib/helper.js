@@ -168,6 +168,14 @@ let getClientForOrg = async function (orgName) {
   return _.cloneDeep(client);
 };
 
+// get client without org, just consist with admin User identity
+let getClient = async function () {
+  logger.debug('get admin client without org');
+
+  // return a deep clone of client;
+  return _.cloneDeep(client);
+};
+
 // get client for org. This is a standard usage for client. Normally call
 // setUserContext() to sign a normal user identity and then do invoke/query calling.
 let getClientForOrg_normUsage = async function (org) {
@@ -1005,6 +1013,7 @@ exports.decompressTarGz = decompressTarGz;
 exports.writeFile = writeFile;
 exports.removeFile = removeFile;
 exports.getClientForOrg = getClientForOrg;
+exports.getClient = getClient;
 exports.createUser = createUser;
 exports.generateChannelTx = generateChannelTx;
 exports.generateAnchorPeerList = generateAnchorPeerList;

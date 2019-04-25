@@ -9,7 +9,6 @@ const helper = require('./helper');
 // Issue tokens from user [issuer] to the user [recipient]
 let issueFabtoken = async function (issuer, recipient, type, quantity, channelName, orderers, peers,
                                     orgName) {
-  logger.debug('\n\n============ Issue tokens from org \'' + orgName + '\' ============\n');
   try {
     let client = await helper.getClientForOrg(orgName);
     let channel = client.newChannel(channelName);
@@ -66,7 +65,6 @@ let issueFabtoken = async function (issuer, recipient, type, quantity, channelNa
 
 // List tokens of user [owner]
 let listFabtoken = async function (owner, channelName, orderers, peers, orgName) {
-  logger.debug('\n\n============ List tokens from org \'' + orgName + '\' ============\n');
   try {
     let client = await helper.getClientForOrg(orgName);
     let channel = client.newChannel(channelName);
@@ -98,7 +96,6 @@ let listFabtoken = async function (owner, channelName, orderers, peers, orgName)
 // Transfer tokens from user [owner] to the user [recipient]
 let transferFabtoken = async function (owner, recipient, txId, index, type, quantity, channelName, orderers, peers,
                                        orgName) {
-  logger.debug('\n\n============ Issue tokens from org \'' + orgName + '\' ============\n');
   try {
     let client = await helper.getClientForOrg(orgName);
     let channel = client.newChannel(channelName);
@@ -154,6 +151,58 @@ let transferFabtoken = async function (owner, recipient, txId, index, type, quan
   }
 };
 
+// Redeem tokens from user [owner]
+let redeemFabtoken = async function (owner, txId, index, quantity, channelName, orderers, peers) {
+  try {
+    let client = await helper.getClient();
+    let channel = client.newChannel(channelName);
+    // assign orderer to channel
+    orderers.forEach(function (ordererName) {
+      channel.addOrderer(client.getOrderer(ordererName));
+    });
+    // assign peers to channel
+    peers.forEach(function (peerName) {
+      channel.addPeer(client.getPeer(peerName));
+    });
+
+    let ownerUser = await helper.createUser(owner.username, owner.orgMSPId, owner.privateKeyPEM,
+      owner.signedCertPEM);
+    await client.setUserContext(ownerUser, true);
+    logger.debug('Set token owner to: ' + owner.username);
+
+    let tokenClient = client.newTokenClient(channel);
+
+    // build the request to issue tokens to the user
+    let tx_id = client.newTransactionID();
+    let tx_id_string = tx_id.getTransactionID();
+    let param = {
+      quantity: quantity,
+    };
+    let request = {
+      tokenIds: [{tx_id: txId, index: parseInt(index)}],
+      params: [param],
+      txId: tx_id,
+    };
+
+    let results = await tokenClient.redeem(request);
+    if (results.status !== 'SUCCESS') {
+      return [false, results];
+    }
+    results = await helper.sendTransactionWithEventHub(channel, tx_id_string);
+
+    if (results[0] === true) {
+      return [true];
+    } else {
+      return [false, results];
+    }
+  } catch (e) {
+    let errMsg = 'Redeem token failed: ' + e;
+    logger.error(errMsg);
+    return [false, errMsg];
+  }
+};
+
 exports.issueFabtoken = issueFabtoken;
 exports.listFabtoken = listFabtoken;
 exports.transferFabtoken = transferFabtoken;
+exports.redeemFabtoken = redeemFabtoken;

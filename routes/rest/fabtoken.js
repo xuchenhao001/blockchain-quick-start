@@ -100,4 +100,31 @@ router.post('/fabtoken/transfer', async function (req, res) {
   }
 });
 
+
+router.post('/fabtoken/redeem', async function (req, res) {
+
+  let checkResult = common.checkParameters(req.body, 'owner', 'txId', 'index', 'quantity', 'channelName',
+    'orderers', 'peers');
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
+    return;
+  }
+
+  checkResult = common.checkParameters(req.body.owner, 'username', 'orgMSPId', 'privateKeyPEM',
+    'signedCertPEM');
+  if (!checkResult[0]) {
+    common.responseBadRequestError(res, checkResult[1]);
+    return;
+  }
+
+  let result = await fabric.redeemFabtoken(req.body.owner, req.body.txId, req.body.index, req.body.quantity,
+    req.body.channelName, req.body.orderers, req.body.peers);
+
+  if (result[0] === true) {
+    common.responseSuccess(res, {});
+  } else {
+    common.responseInternalError(res, result[1]);
+  }
+});
+
 module.exports = router;

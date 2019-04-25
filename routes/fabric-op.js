@@ -129,6 +129,12 @@ let transferFabtoken = async function (owner, recipient, txId, index, type, quan
     orgName);
 };
 
+let redeemFabtoken = async function (owner, txId, index, quantity, channelName, orderers, peers) {
+  logger.info('==================== REDEEM FABTOKEN ==================');
+
+  return await fabtoken.redeemFabtoken(owner, txId, index, quantity, channelName, orderers, peers)
+};
+
 let queryChaincode = async function (chaincodeName, channelName, functionName, args,
                                      orderers, orgName, peers, transient, useDiscoverService) {
   logger.info('==================== QUERY BY CHAINCODE ==================');
@@ -193,6 +199,7 @@ exports.invokeChaincode = invokeChaincode;
 exports.issueFabtoken = issueFabtoken;
 exports.listFabtoken = listFabtoken;
 exports.transferFabtoken = transferFabtoken;
+exports.redeemFabtoken = redeemFabtoken;
 exports.queryChaincode = queryChaincode;
 exports.queryInfo = queryInfo;
 exports.queryBlock = queryBlock;
