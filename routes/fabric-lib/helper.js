@@ -908,15 +908,13 @@ const bufferToString = function (obj, charset) {
       return obj.toString(charset);
     }
     return obj.toString('hex');
-  }
-  else if (_.isArray(obj)) {
+  } else if (_.isArray(obj)) {
     for (let index in obj) {
       if (obj.hasOwnProperty(index)) {
         obj[index] = bufferToString(obj[index], charset);
       }
     }
-  }
-  else if (_.isObject(obj)) {
+  } else if (_.isObject(obj)) {
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
         if (key === 'args') {
@@ -932,7 +930,7 @@ const bufferToString = function (obj, charset) {
 };
 
 // Send orderer transaction with eventhub. If orderer_request doesn't exist, just wait for channel event hub result.
-let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_request, timeout) {
+let sendTransactionWithEventHub = async function (channel, tx_id_string, orderer_request, timeout) {
   if (!timeout) {
     timeout = 10000; // default set to 10s for normal invoke
   }
@@ -944,10 +942,11 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
     logger.debug('invokeEventPromise - setting up event');
     let invokeEventPromise = new Promise((resolve, reject) => {
       let event_timeout = setTimeout(() => {
-        let message = 'REQUEST_TIMEOUT:' + eh.getPeerAddr();
-        logger.error(message);
-        eh.disconnect();
-        return [false, message];
+        // do the housekeeping when there is a problem
+        eh.unregisterTxEvent(tx_id_string);
+        let errMsg = 'Timeout - Failed to receive the transaction event from event hub';
+        logger.error(errMsg);
+        reject(new Error(errMsg));
       }, timeout);
       eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
           logger.debug(util.format('The chaincode invoke transaction has been committed on peer %s',
@@ -998,7 +997,7 @@ let sendTransactionWithEventHub = async function(channel, tx_id_string, orderer_
   for (let i in results) {
     let event_hub_result = results[i];
     let event_hub = event_hubs[i];
-    if(typeof event_hub_result === 'string') {
+    if (typeof event_hub_result === 'string') {
       logger.debug('Event results for event hub [%s] is [%s]', event_hub.getPeerAddr(), event_hub_result);
     } else {
       let error_message = event_hub_result.toString();
