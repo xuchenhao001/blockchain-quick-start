@@ -208,13 +208,31 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
       txId: tx_id
     };
     // send to the peer to be endorsed
-    let approveResponse = await channel.approveChaincodeForOrg(request);
-    logger.debug('Approve chaincode response: ' + JSON.stringify(approveResponse));
+    let {proposalResponses, proposal} = await channel.approveChaincodeForOrg(request);
+    // check proposal response
+    let all_good = true;
+    let error_message = '';
+    for (let i in proposalResponses) {
+      let one_good = false;
+      if (proposalResponses && proposalResponses[i].response &&
+        proposalResponses[i].response.status === 200) {
+        one_good = true;
+        logger.info('invoke success');
+      } else {
+        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        logger.error(err_detail);
+        error_message = error_message + err_detail;
+      }
+      all_good = all_good && one_good;
+    }
+    if (!all_good) {
+      return [false, error_message];
+    }
 
     // send to the orderer to be committed
     let orderer_request = {
-      proposalResponses: approveResponse.proposalResponses,
-      proposal: approveResponse.proposal,
+      proposalResponses: proposalResponses,
+      proposal: proposal,
       txId: tx_id
     };
     let result = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
@@ -278,12 +296,31 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
       txId: tx_id
     };
     // send to the peers to be endorsed
-    let commitChaincodeResponse = await channel.commitChaincode(request);
-    logger.debug('Commit chaincode response: ' + JSON.stringify(commitChaincodeResponse));
+    let {proposalResponses, proposal} = await channel.commitChaincode(request);
+    // check proposal response
+    let all_good = true;
+    let error_message = '';
+    for (let i in proposalResponses) {
+      let one_good = false;
+      if (proposalResponses && proposalResponses[i].response &&
+        proposalResponses[i].response.status === 200) {
+        one_good = true;
+        logger.info('invoke success');
+      } else {
+        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        logger.error(err_detail);
+        error_message = error_message + err_detail;
+      }
+      all_good = all_good && one_good;
+    }
+    if (!all_good) {
+      return [false, error_message];
+    }
+
     // send to the orderer to be committed
     let orderer_request = {
-      proposalResponses: commitChaincodeResponse.proposalResponses,
-      proposal: commitChaincodeResponse.proposal,
+      proposalResponses: proposalResponses,
+      proposal: proposal,
       txId: tx_id
     };
     let result = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
