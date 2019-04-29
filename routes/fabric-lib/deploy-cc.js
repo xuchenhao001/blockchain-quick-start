@@ -217,9 +217,9 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('invoke success');
+        logger.info('invoke success: [%j]', proposalResponses[i].response);
       } else {
-        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
         logger.error(err_detail);
         error_message = error_message + err_detail;
       }
@@ -305,9 +305,9 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('invoke success');
+        logger.info('invoke success: [%j]', proposalResponses[i].response);
       } else {
-        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
         logger.error(err_detail);
         error_message = error_message + err_detail;
       }
