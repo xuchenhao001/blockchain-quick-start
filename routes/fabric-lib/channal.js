@@ -64,7 +64,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
 
   try {
     // first setup the client for this org
-    logger.info('Calling peers in organization "%s" to join the channel', orgName);
+    logger.debug('Calling peers in organization "%s" to join the channel', orgName);
     client = await helper.getClientForOrg(orgName);
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
@@ -105,7 +105,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
       if (peers_results.hasOwnProperty(i)) {
         let peer_result = peers_results[i];
         if (peer_result.response && peer_result.response.status === 200) {
-          logger.info('Successfully joined peers of %s to the channel %s', orgName, channelName);
+          logger.debug('Successfully joined peers of %s to the channel %s', orgName, channelName);
         } else {
           error_message = util.format('Failed to joined peers of %s to the channel %s',
             orgName, channelName);
@@ -120,7 +120,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
 
   if (!error_message) {
     let messageJoinChannel = util.format('Successfully joined peers to the channel: %s', channelName);
-    logger.info(messageJoinChannel);
+    logger.debug(messageJoinChannel);
 
     // update anchor peer
     let messageUpdateAnchor;
@@ -132,7 +132,7 @@ let joinChannel = async function (channelName, orderers, orgName, peers) {
       // return [false, updateAnchorResult[1]]
     } else {
       messageUpdateAnchor = util.format('Successfully updated anchor peer(s): %s', JSON.stringify(peers));
-      logger.info(messageUpdateAnchor);
+      logger.debug(messageUpdateAnchor);
     }
 
     return [true, messageJoinChannel + '; ' + messageUpdateAnchor];

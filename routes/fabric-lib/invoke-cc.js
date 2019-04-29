@@ -43,9 +43,9 @@ let instantiateChaincode = async function (chaincodeName, channelName, args, ord
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('invoke success');
+        logger.debug('invoke success: [%j]', proposalResponses[i].response);
       } else {
-        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
         logger.error(err_detail);
         error_message = error_message + err_detail;
       }
@@ -53,7 +53,7 @@ let instantiateChaincode = async function (chaincodeName, channelName, args, ord
     }
 
     if (all_good) {
-      logger.info('Successfully sent Proposal and received ProposalResponse: ' +
+      logger.debug('Successfully sent Proposal and received ProposalResponse: ' +
         JSON.stringify(proposalResponses[0].response));
 
       // send transaction to orderer
@@ -142,9 +142,9 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('invoke success');
+        logger.debug('invoke success: [%j]', proposalResponses[i].response);
       } else {
-        let err_detail = 'invoke failed: ' + proposalResponses[i];
+        let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
         logger.error(err_detail);
         error_message = error_message + err_detail;
       }
@@ -152,7 +152,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
     }
 
     if (all_good) {
-      logger.info('Successfully sent Proposal and received ProposalResponse: ' +
+      logger.debug('Successfully sent Proposal and received ProposalResponse: ' +
         JSON.stringify(proposalResponses[0].response));
       response_payload = helper.bufferToString(proposalResponses[0].response.payload, 'utf-8');
 
@@ -163,7 +163,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
       };
       let result = await helper.sendTransactionWithEventHub(channel, tx_id_string, orderer_request);
       if (result[0] && result[1].status === 'SUCCESS') {
-        logger.info('Successfully sent transaction to the orderer.');
+        logger.debug('Successfully sent transaction to the orderer.');
       } else {
         error_message = util.format('Failed to order the transaction. Error code: %s', result.status);
         logger.error(error_message);

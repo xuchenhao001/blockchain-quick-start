@@ -960,7 +960,7 @@ let sendTransactionWithEventHub = async function (channel, tx_id_string, orderer
             reject(new Error(errMsg));
           } else {
             let message = 'The invoke chaincode transaction was valid in block ' + block_num;
-            logger.info(message);
+            logger.debug(message);
             resolve(message);
           }
         }, (err) => {

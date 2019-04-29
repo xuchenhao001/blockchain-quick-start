@@ -68,13 +68,13 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
 
       // check if the chaincode is tar.gz package
       if (helper.isGzip(chaincodeBuffer)) {
-        logger.info('Got chaincode tar.gz package, decompress it');
+        logger.debug('Got chaincode tar.gz package, decompress it');
         let tarballName = uuid.v4();
         await helper.writeFile(tarballName, chaincodeBuffer);
         await helper.decompressTarGz(tarballName, gopath);
         await helper.removeFile(tarballName);
       } else {
-        logger.info('Got chaincode single file buffer');
+        logger.debug('Got chaincode single file buffer');
         await helper.writeFile(path.join(gopath, 'src', chaincodePath, 'chaincode.go'), chaincodeBuffer);
       }
       // package the source code
@@ -99,7 +99,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       let chaincodeBuffer = new Buffer(chaincodeContent, 'base64');
       // check if the chaincode is tar.gz package
       if (helper.isGzip(chaincodeBuffer)) {
-        logger.info('Got chaincode tar.gz package, decompress it');
+        logger.debug('Got chaincode tar.gz package, decompress it');
         let tarballName = path.join('./_', uuid.v4());
         await helper.writeFile(tarballName, chaincodeBuffer);
         await helper.decompressTarGz(tarballName, tmpDir);
@@ -136,7 +136,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
         request_timeout: 10000 // give the peers some extra time
       };
       let package_id = await chaincode.install(install_request);
-      logger.info('Chaincode has been successfully installed on peer: ' + peerName
+      logger.debug('Chaincode has been successfully installed on peer: ' + peerName
         + ' with chaincode package id: ' + package_id);
     }
   } catch (e) {
@@ -217,7 +217,7 @@ let approveChaincode = async function (chaincodeName, chaincodeVersion, chaincod
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('invoke success: [%j]', proposalResponses[i].response);
+        logger.debug('invoke success: [%j]', proposalResponses[i].response);
       } else {
         let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
         logger.error(err_detail);
@@ -305,7 +305,7 @@ let commitChaincode = async function (chaincodeName, chaincodeVersion, chaincode
       if (proposalResponses && proposalResponses[i].response &&
         proposalResponses[i].response.status === 200) {
         one_good = true;
-        logger.info('invoke success: [%j]', proposalResponses[i].response);
+        logger.debug('invoke success: [%j]', proposalResponses[i].response);
       } else {
         let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
         logger.error(err_detail);
