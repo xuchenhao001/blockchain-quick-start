@@ -25,7 +25,9 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
     // get the chaincode instance associated with the client
     chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
     // The endorsement policy
-    chaincode.setEndorsementPolicyDefinition(endorsementPolicy);
+    if (endorsementPolicy) {
+      chaincode.setEndorsementPolicyDefinition(endorsementPolicy);
+    }
     // The collection configuration - optional.
     if (collection) {
       chaincode.setCollectionConfigPackageDefinition(collection);
