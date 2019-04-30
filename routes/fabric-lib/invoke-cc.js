@@ -45,7 +45,7 @@ let instantiateChaincode = async function (chaincodeName, channelName, args, ord
         one_good = true;
         logger.debug('invoke success: [%j]', proposalResponses[i].response);
       } else {
-        let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
+        let err_detail = 'invoke failed: ' + proposalResponses[i];
         logger.error(err_detail);
         error_message = error_message + err_detail;
       }
@@ -144,7 +144,7 @@ let invokeChaincode = async function (chaincodeName, channelName, functionName, 
         one_good = true;
         logger.debug('invoke success: [%j]', proposalResponses[i].response);
       } else {
-        let err_detail = 'invoke failed: ' + JSON.stringify(proposalResponses[i]);
+        let err_detail = 'invoke failed: ' + proposalResponses[i];
         logger.error(err_detail);
         error_message = error_message + err_detail;
       }
