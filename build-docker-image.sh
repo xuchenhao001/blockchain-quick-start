@@ -5,7 +5,8 @@ set -x
 rm -rf ./tmp
 
 # Prepare binary
-docker run --rm -v $PWD/tmp/:/var/tmp/ hyperledger/fabric-tools:1.3.0 bash -c "cp /usr/local/bin/configtx* /var/tmp/"
+VERSION=$(cat ./.env | grep "IMAGE_TAG" |  cut -d "=" -f2)
+docker run --rm -v $PWD/tmp/:/var/tmp/ hyperledger/fabric-tools:${VERSION} bash -c "cp /usr/local/bin/configtx* /var/tmp/"
 
 # Prepare git hash
 GITHASH=$(git rev-parse --short HEAD)
