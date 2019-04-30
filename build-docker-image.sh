@@ -5,7 +5,7 @@ set -x
 rm -rf ./tmp
 
 # Prepare binary
-VERSION=$(cat ./.env | grep "IMAGE_TAG" |  cut -d "=" -f2)
+VERSION=$(cat sample-network/docker-compose/.env | grep "IMAGE_TAG" |  cut -d "=" -f2)
 docker run --rm -v $PWD/tmp/:/var/tmp/ hyperledger/fabric-tools:${VERSION} bash -c "cp /usr/local/bin/configtx* /var/tmp/"
 
 # Prepare git hash
