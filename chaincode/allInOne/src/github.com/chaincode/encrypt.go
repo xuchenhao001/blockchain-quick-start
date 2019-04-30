@@ -130,7 +130,7 @@ func (s *SmartContract) uploadEncryptBatch(APIstub shim.ChaincodeStubInterface, 
 	encKey, signOrIV []byte) sc.Response {
 
 	for _, arg := range args {
-		var batchData BatchData
+		var batchData Data
 		json.Unmarshal([]byte(arg), &batchData)
 		key := batchData.Key
 		valueAsByte := []byte(batchData.Value)
@@ -147,14 +147,14 @@ func (s *SmartContract) uploadEncryptBatch(APIstub shim.ChaincodeStubInterface, 
 func (s *SmartContract) queryDecryptBatch(APIstub shim.ChaincodeStubInterface, args []string,
 	decKey, signOrIV []byte) sc.Response {
 
-	var batch []BatchData
+	var batch []Data
 	for _, key := range args {
 		logger.Debug("Query common on chain: " + key)
 		valueAsByte, err := s.readChainDecryptAll(APIstub, key, decKey, signOrIV)
 		if err != nil {
 			return s.returnError("Data decrypt and query failed: " + err.Error())
 		}
-		var batchData BatchData
+		var batchData Data
 		batchData.Key = key
 		batchData.Value = string(valueAsByte)
 		batch = append(batch, batchData)

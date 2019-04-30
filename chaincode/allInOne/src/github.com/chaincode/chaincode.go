@@ -77,6 +77,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.batchUploadCommon(APIstub, args)
 	} else if function == "batchQueryCommon" {
 		return s.batchQueryCommon(APIstub, args)
+	} else if function == "queryCommonByRange" {
+		return s.queryCommonByRange(APIstub, args)
 	} else
 
 	// chaincode Encrypt

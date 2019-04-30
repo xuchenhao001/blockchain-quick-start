@@ -10,7 +10,7 @@ import (
 
 var commonPrefix = ""
 
-type BatchData struct {
+type Data struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
@@ -65,7 +65,7 @@ func (s *SmartContract) batchUploadCommon(APIstub shim.ChaincodeStubInterface, a
 	logger.Debugf("Got %d args for bach upload.", len(args))
 
 	for _, arg := range args {
-		var batchData BatchData
+		var batchData Data
 		json.Unmarshal([]byte(arg), &batchData)
 		key := batchData.Key
 		valueAsByte := []byte(batchData.Value)
@@ -83,14 +83,14 @@ func (s *SmartContract) batchQueryCommon(APIstub shim.ChaincodeStubInterface, ar
 
 	logger.Debugf("Got %d args for bach query.", len(args))
 
-	var batch []BatchData
+	var batch []Data
 	for _, key := range args {
 		logger.Debug("Query common on chain: " + key)
 		valueAsByte, err := APIstub.GetState(key)
 		if err != nil {
 			return s.returnError("Query failed: " + err.Error())
 		}
-		var batchData BatchData
+		var batchData Data
 		batchData.Key = key
 		batchData.Value = string(valueAsByte)
 		batch = append(batch, batchData)
@@ -188,4 +188,45 @@ func (s *SmartContract) queryHistoryAsset(stub shim.ChaincodeStubInterface, key 
 	logger.Debugf("getHistory returning:\n%s\n", string(historyAsByte))
 
 	return historyAsByte, nil
+}
+
+
+func (s *SmartContract) queryCommonByRange(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	if len(args) != 2 {
+		return s.returnError("Wrong number of parameters, need start startKey and end startKey for query")
+	}
+
+	logger.Debugf("Got query parameter: [start key] %s, [end key] %s" + args[0], args[1])
+
+	startKey := args[0]
+	endKey := args[1]
+
+	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
+	defer resultsIterator.Close()
+	if err != nil {
+		return s.returnError("Query failed: " + err.Error())
+	}
+
+	var queryResultArray []Data
+	for resultsIterator.HasNext() {
+		queryResultItem, err := resultsIterator.Next()
+		if err != nil {
+			return s.returnError("Fetch next result failed: " + err.Error())
+		}
+
+		var queryResult Data
+		queryResult.Key = queryResultItem.Key
+		queryResult.Value = string(queryResultItem.Value)
+		queryResultArray = append(queryResultArray, queryResult)
+	}
+
+	queryResultBytes, err := json.Marshal(queryResultArray)
+	if err != nil {
+		return s.returnError("Marshal final result to array failed: " + err.Error())
+	}
+
+	logger.Debugf("Data range queried successfully: [start key] %s, [end key] %s, [value] %s",
+		startKey, endKey, string(queryResultBytes))
+
+	return shim.Success(queryResultBytes)
 }
