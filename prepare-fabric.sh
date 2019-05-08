@@ -6,11 +6,11 @@
 #
 
 # if version not passed in, default to latest released version
-export VERSION=1.4.0
+export VERSION=2.0.0-alpha
 # if ca version not passed in, default to latest released version
-export CA_VERSION=$VERSION
+export CA_VERSION=${VERSION}
 # current version of thirdparty images (couchdb, kafka and zookeeper) released
-export THIRDPARTY_IMAGE_VERSION=0.4.14
+export THIRDPARTY_IMAGE_VERSION=0.4.15
 export ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')")
 export MARCH=$(uname -m)
 
@@ -31,8 +31,8 @@ dockerFabricPull() {
   for IMAGES in peer orderer ccenv javaenv tools; do
       echo "==> FABRIC IMAGE: $IMAGES"
       echo
-      docker pull hyperledger/fabric-$IMAGES:$FABRIC_TAG
-      docker tag hyperledger/fabric-$IMAGES:$FABRIC_TAG hyperledger/fabric-$IMAGES
+      docker pull hyperledger/fabric-${IMAGES}:${FABRIC_TAG}
+      docker tag hyperledger/fabric-${IMAGES}:${FABRIC_TAG} hyperledger/fabric-${IMAGES}
   done
 }
 
@@ -41,8 +41,8 @@ dockerThirdPartyImagesPull() {
   for IMAGES in couchdb kafka zookeeper; do
       echo "==> THIRDPARTY DOCKER IMAGE: $IMAGES"
       echo
-      docker pull hyperledger/fabric-$IMAGES:$THIRDPARTY_TAG
-      docker tag hyperledger/fabric-$IMAGES:$THIRDPARTY_TAG hyperledger/fabric-$IMAGES
+      docker pull hyperledger/fabric-${IMAGES}:${THIRDPARTY_TAG}
+      docker tag hyperledger/fabric-${IMAGES}:${THIRDPARTY_TAG} hyperledger/fabric-${IMAGES}
   done
 }
 
@@ -50,8 +50,8 @@ dockerCaPull() {
       local CA_TAG=$1
       echo "==> FABRIC CA IMAGE"
       echo
-      docker pull hyperledger/fabric-ca:$CA_TAG
-      docker tag hyperledger/fabric-ca:$CA_TAG hyperledger/fabric-ca
+      docker pull hyperledger/fabric-ca:${CA_TAG}
+      docker tag hyperledger/fabric-ca:${CA_TAG} hyperledger/fabric-ca
 }
 
 # Incrementally downloads the .tar.gz file locally first, only decompressing it
@@ -65,16 +65,16 @@ binaryIncrementalDownload() {
       # curl returns 33 when there's a resume attempt with no more bytes to download
       # curl returns 2 after finishing a resumed download
       # with -f curl returns 22 on a 404
-      if [ "$rc" = 22 ]; then
+      if [[ "$rc" = 22 ]]; then
 	  # looks like the requested file doesn't actually exist so stop here
 	  return 22
       fi
-      if [ -z "$rc" ] || [ $rc -eq 33 ] || [ $rc -eq 2 ]; then
+      if [[ -z "$rc" ]] || [[ ${rc} -eq 33 ]] || [[ ${rc} -eq 2 ]]; then
           # The checksum validates that RC 33 or 2 are not real failures
           echo "==> File downloaded. Verifying the md5sum..."
           localMd5sum=$(md5sum ${BINARY_FILE} | awk '{print $1}')
           remoteMd5sum=$(curl -s ${URL}.md5)
-          if [ "$localMd5sum" == "$remoteMd5sum" ]; then
+          if [[ "$localMd5sum" == "$remoteMd5sum" ]]; then
               echo "==> Extracting ${BINARY_FILE}..."
               tar xzf ./${BINARY_FILE} --overwrite
 	      echo "==> Done."
@@ -98,12 +98,12 @@ binaryDownload() {
       local URL=$2
       echo "===> Downloading: " ${URL}
       # Check if a previous failure occurred and the file was partially downloaded
-      if [ -e ${BINARY_FILE} ]; then
+      if [[ -e ${BINARY_FILE} ]]; then
           echo "==> Partial binary file found. Resuming download..."
           binaryIncrementalDownload ${BINARY_FILE} ${URL}
       else
           curl ${URL} | tar xz || rc=$?
-          if [ ! -z "$rc" ]; then
+          if [[ ! -z "$rc" ]]; then
               echo "==> There was an error downloading the binary file. Switching to incremental download."
               echo "==> Downloading file..."
               binaryIncrementalDownload ${BINARY_FILE} ${URL}
@@ -117,7 +117,7 @@ binariesInstall() {
   mkdir -p binaries && cd binaries
   echo "===> Downloading version ${FABRIC_TAG} platform specific fabric binaries"
   binaryDownload ${BINARY_FILE} https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/${ARCH}-${VERSION}/${BINARY_FILE}
-  if [ $? -eq 22 ]; then
+  if [[ $? -eq 22 ]]; then
      echo
      echo "------> ${FABRIC_TAG} platform specific fabric binary is not available to download <----"
      echo
@@ -125,7 +125,7 @@ binariesInstall() {
 
   echo "===> Downloading version ${CA_TAG} platform specific fabric-ca-client binary"
   binaryDownload ${CA_BINARY_FILE} https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca/${ARCH}-${CA_VERSION}/${CA_BINARY_FILE}
-  if [ $? -eq 22 ]; then
+  if [[ $? -eq 22 ]]; then
      echo
      echo "------> ${CA_TAG} fabric-ca-client binary is not available to download  (Available from 1.1.0-rc1) <----"
      echo
@@ -135,7 +135,7 @@ binariesInstall() {
 dockerInstall() {
   which docker >& /dev/null
   NODOCKER=$?
-  if [ "${NODOCKER}" == 0 ]; then
+  if [[ "${NODOCKER}" == 0 ]]; then
 	  echo "===> Pulling fabric Images"
 	  dockerFabricPull ${FABRIC_TAG}
 	  echo "===> Pulling fabric ca Image"
@@ -153,22 +153,22 @@ dockerInstall() {
 }
 
 DOCKER=true
-BINARIES=true
+BINARIES=false
 
 # Parse commandline args pull out
 # version and/or ca-version strings first
-if [ ! -z $1 -a ${1:0:1} != "-" ]; then
+if [[ ! -z $1 && ${1:0:1} != "-" ]]; then
   VERSION=$1;shift
-  if [ ! -z $1  -a ${1:0:1} != "-" ]; then
+  if [[ ! -z $1  && ${1:0:1} != "-" ]]; then
     CA_VERSION=$1;shift
-    if [ ! -z $1  -a ${1:0:1} != "-" ]; then
+    if [[ ! -z $1  && ${1:0:1} != "-" ]]; then
       THIRDPARTY_IMAGE_VERSION=$1;shift
     fi
   fi
 fi
 
 # prior to 1.2.0 architecture was determined by uname -m
-if [[ $VERSION =~ ^1\.[0-1]\.* ]]; then
+if [[ ${VERSION} =~ ^1\.[0-1]\.* ]]; then
   export FABRIC_TAG=${MARCH}-${VERSION}
   export CA_TAG=${MARCH}-${CA_VERSION}
   export THIRDPARTY_TAG=${MARCH}-${THIRDPARTY_IMAGE_VERSION}
@@ -196,13 +196,13 @@ while getopts "h?dsb" opt; do
   esac
 done
 
-if [ "$BINARIES" == "true" ]; then
+if [[ "$BINARIES" == "true" ]]; then
   echo
   echo "Installing Hyperledger Fabric binaries"
   echo
   binariesInstall
 fi
-if [ "$DOCKER" == "true" ]; then
+if [[ "$DOCKER" == "true" ]]; then
   echo
   echo "Installing Hyperledger Fabric docker images"
   echo
