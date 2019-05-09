@@ -65,6 +65,7 @@ services:
       - 7051:7051
       - 7052:7052
       - 7053:7053
+      - 7443:7443
 
   couchdb1:
     container_name: couchdb1
@@ -111,6 +112,7 @@ services:
       - 8051:8051
       - 8052:8052
       - 8053:7053
+      - 8443:7443
 
   couchdb2:
     container_name: couchdb2
@@ -157,6 +159,7 @@ services:
       - 9051:9051
       - 9052:9052
       - 9053:7053
+      - 9443:7443
 
   couchdb3:
     container_name: couchdb3
@@ -203,6 +206,7 @@ services:
       - 10051:10051
       - 10052:10052
       - 10053:7053
+      - 10443:7443
 
   couchdb4:
     container_name: couchdb4
@@ -249,6 +253,7 @@ services:
       - 11051:11051
       - 11052:11052
       - 11053:7053
+      - 11443:7443
 
   couchdb5:
     container_name: couchdb5
@@ -295,3 +300,4 @@ services:
       - 12051:12051
       - 12052:12052
       - 12053:7053
+      - 12443:7443
