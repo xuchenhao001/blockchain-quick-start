@@ -30,6 +30,7 @@ services:
         - orderer2.example.com:/var/hyperledger/production/orderer
     ports:
     - 8050:7050
+    - 8442:7442
 
   orderer3.example.com:
     extends:
@@ -45,6 +46,7 @@ services:
         - orderer3.example.com:/var/hyperledger/production/orderer
     ports:
     - 9050:7050
+    - 9442:7442
 
   orderer4.example.com:
     extends:
@@ -60,6 +62,7 @@ services:
         - orderer4.example.com:/var/hyperledger/production/orderer
     ports:
     - 10050:7050
+    - 10442:7442
 
   orderer5.example.com:
     extends:
@@ -75,4 +78,5 @@ services:
         - orderer5.example.com:/var/hyperledger/production/orderer
     ports:
     - 11050:7050
+    - 11442:7442
 

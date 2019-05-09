@@ -19,6 +19,7 @@ services:
         - orderer.example.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
+      - 7442:7442
 
   couchdb0:
     container_name: couchdb0
