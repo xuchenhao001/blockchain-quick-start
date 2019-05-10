@@ -6,7 +6,7 @@ networks:
 services:
   blockchain-rest-server:
     container_name: blockchain-rest-server
-    image: blockchain-rest-server:1.0.0
+    image: blockchain-rest-server:2.0.0
     restart: always
     networks:
       - byfn

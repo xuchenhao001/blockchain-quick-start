@@ -98,3 +98,36 @@ cd blockchain-quick-start/
 ./delete-network.sh
 ```
 
+## Known issue
+
+```
+[2019-05-10T02:09:09.461] [ERROR] CHANNEL - Error: Command failed: configtxgen -profile GeneratedChannel -configPath ./_1b7b7b15-070a-4209-b601-7bf507d56403 -channelID mychannel -outputCreateChannelTx ./_1b7b7b15-070a-4209-b601-7bf507d56403/channel.tx
+/bin/sh: 1: configtxgen: not found
+
+    at checkExecSyncError (child_process.js:601:13)
+    at execSync (child_process.js:641:13)
+    at Object.generateChannelTx (/blockchain-quick-start/routes/fabric-lib/helper.js:256:3)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+```
+
+That's because of the configtxgen & configtxlator require a dynamic library `libc.musl-x86_64.so.1` doesn't exist in `node:10.15.3`:
+
+```bash
+root@dfbeda99259b:/usr/local/bin# ldd configtxgen 
+	linux-vdso.so.1 (0x00007ffc2d1e4000)
+	libc.musl-x86_64.so.1 => not found
+root@dfbeda99259b:/usr/local/bin# ldd configtxlator 
+	linux-vdso.so.1 (0x00007ffdacd6e000)
+	libc.musl-x86_64.so.1 => not found
+```
+
+So now I tried to build these two binaries myself:
+
+```bash
+git clone https://github.com/hyperledger/fabric.git
+cd fabric
+git checkout v2.0.0-alpha
+CGO_ENABLED=0 make configtxgen
+CGO_ENABLED=0 make configtxlator
+```
