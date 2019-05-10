@@ -8,9 +8,7 @@ RUN set -ex \
     && mv configtx* /usr/local/bin/ \
     # for chinese users
     # && npm config set registry https://r.cnpmjs.org \
-    && npm install --build-from-source \
-    # bug fix for java ca integration
-    && cp ./patch/fabric-client/lib/impl/ecdsa/key.js ./node_modules/fabric-client/lib/impl/ecdsa/key.js
+    && npm install --build-from-source
 
 EXPOSE 3414
 ENTRYPOINT ["docker-entrypoint.sh"]
