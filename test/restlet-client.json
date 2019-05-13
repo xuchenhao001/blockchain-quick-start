@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "5949f28f-bc5b-499d-b1d5-1e6ec968f246",
-      "lastModified": "2019-05-13T10:15:52.364+08:00",
+      "lastModified": "2019-05-13T10:18:16.557+08:00",
       "name": "BlockchainQuickStart-v2.0"
     },
     {
@@ -1126,8 +1126,8 @@
         "path": "/channel/join"
       },
       "id": "b1fba101-7a54-485e-ba0f-5ce4a8dbfb66",
-      "lastModified": "2019-04-26T09:27:48.373+08:00",
-      "name": "32. joinChannel12 - Org3",
+      "lastModified": "2019-05-13T10:18:09.460+08:00",
+      "name": "32. joinChannel - Org3",
       "headers": [
         {
           "enabled": true,
@@ -1473,8 +1473,8 @@
         "path": "/channel/delorg"
       },
       "id": "d45e8835-288d-405b-bd8f-fecc076af539",
-      "lastModified": "2019-05-13T10:13:09.025+08:00",
-      "name": "37. delOrg3FromChannel12",
+      "lastModified": "2019-05-13T10:18:16.558+08:00",
+      "name": "37. delOrg3FromChannel",
       "headers": [
         {
           "enabled": true,
