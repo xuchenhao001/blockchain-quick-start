@@ -25,7 +25,7 @@ else
   fi
 
   VERSION=$(cat ./.env | grep "IMAGE_TAG" |  cut -d "=" -f2)
-  docker run -ti --rm -e DEV_PATH=$PWD -v $PWD/../../:/blockchain-quick-start hyperledger/fabric-tools:${VERSION} bash -c "cd /blockchain-quick-start/sample-network/docker-compose && ./start.sh ${START_RAFT_ORDERER}"
+  docker run -ti --rm --user 1000:1000 -e DEV_PATH=$PWD -v $PWD/../../:/blockchain-quick-start hyperledger/fabric-tools:${VERSION} bash -c "cd /blockchain-quick-start/sample-network/docker-compose && ./start.sh ${START_RAFT_ORDERER}"
 
   if [[ ${START_RAFT_ORDERER} ]]; then
     docker-compose -f docker-compose-e2e.yaml -f docker-compose-e2e-etcdraft.yaml up -d 2>&1
