@@ -140,7 +140,7 @@ Capabilities:
         # prior releases.
         # Prior to enabling V1.3 channel capabilities, ensure that all
         # orderers and peers on a channel are at v1.3.0 or later.
-        V1_3: true
+        V2_0: true
 
     # Orderer capabilities apply only to the orderers, and may be safely
     # used with prior release peers.
@@ -151,7 +151,7 @@ Capabilities:
         # level, but which would be incompatible with orderers from prior releases.
         # Prior to enabling V1.1 orderer capabilities, ensure that all
         # orderers on a channel are at v1.1.0 or later.
-        V1_1: true
+        V2_0: true
 
     # Application capabilities apply only to the peer network, and may be safely
     # used with prior release orderers.
@@ -160,18 +160,6 @@ Capabilities:
         # V2.0 for Application enables the new non-backwards compatible
         # features and fixes of fabric v2.0.
         V2_0: true
-        # V1.3 for Application enables the new non-backwards compatible
-        # features and fixes of fabric v1.3 (note, this need not be set if
-        # later version capabilities are set)
-        V1_3: false
-        # V1.2 for Application enables the new non-backwards compatible
-        # features and fixes of fabric v1.2 (note, this need not be set if
-        # later version capabilities are set)
-        V1_2: false
-        # V1.1 for Application enables the new non-backwards compatible
-        # features and fixes of fabric v1.1 (note, this need not be set if
-        # later version capabilities are set).
-        V1_1: false
 
 ################################################################################
 #

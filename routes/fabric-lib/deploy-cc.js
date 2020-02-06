@@ -7,7 +7,7 @@ logger.level = 'DEBUG';
 const helper = require('./helper');
 const uuid = require('uuid');
 const path = require('path');
-
+const fs = require('fs');
 let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType, chaincodeVersion,
                                        chaincodeSequence, endorsementPolicy, collection, initRequired, orgName, peers,
                                        localPath) {
@@ -24,8 +24,9 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
     // get the chaincode instance associated with the client
     chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
+    chaincode.setLabel(chaincodeName+chaincodeVersion)
     // The endorsement policy
-    if (endorsementPolicy) {
+    /**if (endorsementPolicy) {
       chaincode.setEndorsementPolicyDefinition(endorsementPolicy);
     }
     // The collection configuration - optional.
@@ -35,7 +36,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
     if (initRequired) {
       logger.debug('Got [initRequired], you need to init your chaincode before invoke it');
       chaincode.setInitRequired(true);
-    }
+    }**/
     // set the sequence (modification) number - default is 1
     chaincode.setSequence(chaincodeSequence); // must increment for each definition change
 
@@ -50,10 +51,19 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       // package the source code
       let package_request = {
         chaincodeType: 'golang',
+        label: chaincodeName+chaincodeVersion,
         goPath: gopath,
         chaincodePath: 'github.com/chaincode'
       };
       let cc_package = await chaincode.package(package_request);
+      
+      fs.writeFile('data.tar.gz',cc_package,function(error){
+        if(error){
+          logger.info('写入成功');
+        }else{
+          logger.info('写入成功');
+        }
+      });
       // use an existing package
       chaincode.setPackage(cc_package);
     }
@@ -82,6 +92,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       // package the source code
       let package_request = {
         chaincodeType: 'golang',
+        label: chaincodeName+chaincodeVersion,
         goPath: gopath,
         chaincodePath: chaincodePath
       };
@@ -117,6 +128,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
           // node js chaincode install request compose
           let package_request = {
             chaincodeType: 'node',
+            label: chaincodeName+chaincodeVersion,
             chaincodePath: chaincodeNodePath
           };
           let cc_package = await chaincode.package(package_request);
@@ -135,7 +147,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       let peer = client.getPeer(peerName);
       let install_request = {
         target: peer,
-        request_timeout: 10000 // give the peers some extra time
+        request_timeout: 300000 // give the peers some extra time
       };
       let package_id = await chaincode.install(install_request);
       logger.debug('Chaincode has been successfully installed on peer: ' + peerName
