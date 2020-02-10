@@ -66,12 +66,12 @@ let delOrgFromChannel = async function (delOrgName, delOrgSignBy, channelName, o
   return await channel.modifyOrg(delOrgName, delOrgSignBy, channelName, orderers, orgName, isRemove, withCerts);
 };
 
-let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
+let installChaincode = async function (chaincodeContent, chaincodeName,chaincodeLabel, chaincodePath, chaincodeType,
                                        chaincodeVersion, chaincodeSequence, endorsementPolicy, collection, initRequired,
                                        orgName, peers, localPath) {
   logger.info('==================== INSTALL CHAINCODE ==================');
 
-  return await deployCC.installChaincode(chaincodeContent, chaincodeName, chaincodePath, chaincodeType,
+  return await deployCC.installChaincode(chaincodeContent, chaincodeName,chaincodeLabel, chaincodePath, chaincodeType,
     chaincodeVersion, chaincodeSequence, endorsementPolicy, collection, initRequired, orgName, peers, localPath);
 };
 

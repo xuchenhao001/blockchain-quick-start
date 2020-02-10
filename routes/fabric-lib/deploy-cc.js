@@ -8,7 +8,7 @@ const helper = require('./helper');
 const uuid = require('uuid');
 const path = require('path');
 const fs = require('fs');
-let installChaincode = async function (chaincodeContent, chaincodeName, chaincodePath, chaincodeType, chaincodeVersion,
+let installChaincode = async function (chaincodeContent, chaincodeName, chaincodeLabel,chaincodePath, chaincodeType, chaincodeVersion,
                                        chaincodeSequence, endorsementPolicy, collection, initRequired, orgName, peers,
                                        localPath) {
   logger.debug('\n\n============ Install chaincode on organizations ============\n');
@@ -24,7 +24,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
     logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
     // get the chaincode instance associated with the client
     chaincode = client.newChaincode(chaincodeName, chaincodeVersion);
-    chaincode.setLabel(chaincodeName+chaincodeVersion)
+    chaincode.setLabel(chaincodeLabel);
     // The endorsement policy
     /**if (endorsementPolicy) {
       chaincode.setEndorsementPolicyDefinition(endorsementPolicy);
@@ -51,7 +51,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       // package the source code
       let package_request = {
         chaincodeType: 'golang',
-        label: chaincodeName+chaincodeVersion,
+        label: chaincodeLabel,
         goPath: gopath,
         chaincodePath: 'github.com/chaincode'
       };
@@ -92,7 +92,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
       // package the source code
       let package_request = {
         chaincodeType: 'golang',
-        label: chaincodeName+chaincodeVersion,
+        label: chaincodeLabel,
         goPath: gopath,
         chaincodePath: chaincodePath
       };
@@ -128,7 +128,7 @@ let installChaincode = async function (chaincodeContent, chaincodeName, chaincod
           // node js chaincode install request compose
           let package_request = {
             chaincodeType: 'node',
-            label: chaincodeName+chaincodeVersion,
+            label: chaincodeLabel,
             chaincodePath: chaincodeNodePath
           };
           let cc_package = await chaincode.package(package_request);

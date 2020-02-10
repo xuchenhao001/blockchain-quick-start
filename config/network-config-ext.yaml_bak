@@ -1,0 +1,54 @@
+organizations:
+  Org1:
+    name: Org1
+    mspid: Org1MSP
+    peers:
+    - peer0.org1.example.com
+    - peer1.org1.example.com
+    mspDir:
+      path: /crypto-config/peerOrganizations/org1.example.com/msp
+  Org2:
+    name: Org2
+    mspid: Org2MSP
+    peers:
+    - peer0.org2.example.com
+    - peer1.org2.example.com
+    mspDir:
+      path: /crypto-config/peerOrganizations/org2.example.com/msp
+  Org3:
+    name: Org3
+    mspid: Org3MSP
+    peers:
+    - peer0.org3.example.com
+    - peer1.org3.example.com
+    mspDir:
+      path: /crypto-config/peerOrganizations/org3.example.com/msp
+
+# These are useful for anchor peer address
+peers:
+  peer0.org1.example.com:
+    url-addr-container: peer0.org1.example.com
+    url-port-container: 7051
+
+  peer1.org1.example.com:
+    url-addr-container: peer1.org1.example.com
+    url-port-container: 8051
+
+  peer0.org2.example.com:
+    url-addr-container: peer0.org2.example.com
+    url-port-container: 9051
+
+  peer1.org2.example.com:
+    url-addr-container: peer1.org2.example.com
+    url-port-container: 10051
+
+  peer0.org3.example.com:
+    url-addr-container: peer0.org3.example.com
+    url-port-container: 11051
+
+  peer1.org3.example.com:
+    url-addr-container: peer1.org3.example.com
+    url-port-container: 12051
+
+serviceDiscovery:
+  asLocalhost: false
