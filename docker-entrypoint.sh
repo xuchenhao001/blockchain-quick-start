@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export CONTAINER_ENV=true
 

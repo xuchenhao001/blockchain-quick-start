@@ -350,7 +350,7 @@ let genConfigtxObj = async function (orgNames) {
           }
         },
         "Capabilities": {
-          "V1_3": true
+          "V2_0": true
         },
         "Application": {
           "Organizations": orgObjs,
@@ -395,10 +395,7 @@ let genConfigtxObj = async function (orgNames) {
             }
           },
           "Capabilities": {
-            "V2_0": true,
-            "V1_3": false,
-            "V1_2": false,
-            "V1_1": false
+            "V2_0": true
           }
         }
       }
