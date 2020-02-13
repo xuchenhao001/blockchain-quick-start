@@ -16,4 +16,5 @@ GITHASH=$(git rev-parse --short HEAD)
 cp -r app.js bin docker-entrypoint.sh Dockerfile package.json package-lock.json public routes chaincode patch ./tmp
 docker build -t blockchain-rest-server:$GITHASH ./tmp
 rm -rf ./tmp
-
+docker tag blockchain-rest-server:$GITHASH blockchain-rest-server:2.0.0
+docker save blockchain-rest-server:2.0.0 -o blockchain-rest-server_2.0.0.tar.gz
